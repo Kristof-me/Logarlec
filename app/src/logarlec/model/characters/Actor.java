@@ -31,5 +31,7 @@ public abstract class Actor implements IHasLocation {
 
     protected void PickUp() {}
 
-    protected void Move() {}
+    public void Move(Room destination, boolean forced) {
+        //if it's forced and the room is full, kill the actor
+    }
 }

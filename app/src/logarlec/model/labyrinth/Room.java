@@ -47,16 +47,17 @@ public class Room implements IHasLocation {
 
     public void Tick() {}
 
-    public boolean Move(Professor professor) {
-        if (actorCount() == capacity) {
+    public boolean Move(Professor professor, boolean forced) {
+        if (actorCount() == capacity && !forced) {
             return false;
         }
+        //Ha meg forced volt akkor meg adjuk hozzá és öljük meg xd
 
         professors.add(professor);
         return true;
     }
 
-    public boolean Move(Student student) {
+    public boolean Move(Student student, boolean forced) {
         if (actorCount() == capacity) {
             return false;
         }
@@ -68,6 +69,22 @@ public class Room implements IHasLocation {
     @Override
     public Room getLocation() {
         return this;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public List<Professor> getProfessors() {
+        return professors;
+    }
+
+    public void moveOut(Professor professor) {
+        professors.remove(professor);
+    }
+
+    public void moveOut(Student student) {
+        students.remove(student);
     }
 }
 

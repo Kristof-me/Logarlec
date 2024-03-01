@@ -48,4 +48,10 @@ public class InventoryManager extends Inventory {
 
         return false;
     }
+
+    public void Use(int index) {
+        if (index < items.size()) {
+            items.get(index).use(owner, Event.CONTROLLER_ACTIVATED); //vagy valami hasonló
+        }
+    }
 }
