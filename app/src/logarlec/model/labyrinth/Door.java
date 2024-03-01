@@ -20,6 +20,4 @@ public class Door {
     public void hide(int duration) {
         this.remainingInvisibility = duration;
     }
-
-
 }

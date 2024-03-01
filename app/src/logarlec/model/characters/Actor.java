@@ -1,13 +1,25 @@
 package logarlec.model.characters;
 
-import logarlec.model.items.Item;
 import logarlec.model.labyrinth.Room;
+import logarlec.model.labyrinth.IHasLocation;
 
-public abstract class Actor {
-    private Item[] items = new Item[5];
-    private boolean isAlive = true;
-    private int stunRemaining = 0;
-    // private Room room;
+public abstract class Actor implements IHasLocation {
+    protected InventoryManager inventoryManager;
+    protected boolean isAlive;
+    protected int stunRemaining;
+    protected Room room;
+
+    protected Actor(Room spawnRoom) {
+        room = spawnRoom;
+        inventoryManager = new InventoryManager(this);
+
+        isAlive = true;
+        stunRemaining = 0;
+    }
+
+    public Room getLocation() {
+        return room;
+    }
 
     public void Step() {}
 
