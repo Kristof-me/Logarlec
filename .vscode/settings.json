@@ -1,0 +1,12 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+    "editor.formatOnSave": true,
+    "java.format.enabled": true,
+    "java.format.settings.url": "./utils/eclipse-java-google-style.xml",
+    "java.project.sourcePaths": [
+        "app/src"
+    ],
+    "java.project.outputPath": "app/bin"
+}
