@@ -1,6 +1,5 @@
 package logarlec.model.labyrinth;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import logarlec.model.characters.Inventory;
@@ -11,7 +10,7 @@ import logarlec.model.items.Item;
 
 public class Room implements IHasLocation {
     private List<Door> doors;
-    private Inventory items;
+    private List<Item> items;
     private List<Student> students;
     private List<Professor> professors;
     private int capacity;
@@ -47,7 +46,8 @@ public class Room implements IHasLocation {
         return professors.size() + students.size();
     }
 
-    public void Tick() {}
+    public void Tick() {
+    }
 
     public boolean Move(Professor professor, boolean forced) {
         if (actorCount() == capacity && !forced) {
@@ -107,4 +107,3 @@ public class Room implements IHasLocation {
         }
     }
 }
-
