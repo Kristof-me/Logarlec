@@ -4,7 +4,7 @@ public class Door {
     private int remainingInvisibility;
     private boolean isOneway;
 
-    private Room[] rooms;
+    private Room[] rooms; // [0] = from, [1] = to
 
     public Door(Room from, Room to, boolean isOneway) {
         this.remainingInvisibility = 0;
@@ -19,5 +19,13 @@ public class Door {
 
     public void hide(int duration) {
         this.remainingInvisibility = duration;
+    }
+
+    public boolean getIsOneWay() {
+        return isOneway;
+    }
+
+    public Room[] getRooms() {
+        return rooms;
     }
 }

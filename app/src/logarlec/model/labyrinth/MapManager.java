@@ -13,7 +13,13 @@ public class MapManager {
 
     private void generate() {}
 
-    public void hideDoors() {}
+    public void hideDoors() {
+        // get the doors like this
+        rooms.get(0).getDoors().get(0);
+        // calculate the doors to disappear, but all the rooms should be still in one component
+        Integer[] idxs = {0, 1};
+        rooms.get(0).hideDoors(idxs);
+    }
 
     public void merge() {}
 

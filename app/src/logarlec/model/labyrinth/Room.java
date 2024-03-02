@@ -96,5 +96,15 @@ public class Room implements IHasLocation {
     public void moveOut(Student student) {
         students.remove(student);
     }
+
+    public List<Door> getDoors() {
+        return doors;
+    }
+
+    public void hideDoors(Integer[] idxs) {
+        for (Integer idx : idxs) {
+            doors.get(idx).hide(10); // set custom duration
+        }
+    }
 }
 
