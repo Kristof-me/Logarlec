@@ -1,5 +1,5 @@
 package logarlec.model.enums;
 
 public enum ActorEffect {
-    BEER, STUN
-}
+    BEER, STUN, COCKTAIL
+};

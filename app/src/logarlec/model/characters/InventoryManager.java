@@ -9,7 +9,8 @@ import logarlec.model.items.impl.Transistor;
 public class InventoryManager extends Inventory {
     Actor owner;
 
-    public InventoryManager(Actor owner) {
+    public InventoryManager(Actor owner, int size) {
+        super(size);
         this.owner = owner;
     }
 
@@ -25,7 +26,7 @@ public class InventoryManager extends Inventory {
         }
 
         for (Integer idx : orderedByUseIdx) {
-            if (items.get(idx).use(owner, Event.CONTROLLER_ACTIVATED)) {
+            if (get(idx).use(owner, Event.CONTROLLER_ACTIVATED)) {
                 return true;
             }
         }
@@ -49,8 +50,8 @@ public class InventoryManager extends Inventory {
     }
 
     public void Use(int index) {
-        if (0 <= index && index < items.size()) {
-            items.get(index).use(owner, Event.CONTROLLER_ACTIVATED); // vagy valami hasonló
+        if (0 <= index && index < items.length) {
+            get(index).use(owner, Event.CONTROLLER_ACTIVATED); // vagy valami hasonló
         }
     }
 }

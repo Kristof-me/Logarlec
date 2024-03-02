@@ -25,16 +25,15 @@ public class Inventory {
         return false;
     }
 
-    public boolean removeItem(Item item) {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == item) {
-                items[i] = null;
-                taken--;
-                return true;
-            }
+    public Item removeItem(int index) {
+        Item removed = items[index];
+
+        if (removed != null) {
+            items[i] = null;
+            taken--;
         }
 
-        return false;
+        return removed;
     }
 
     public Item[] getItems() {
@@ -43,5 +42,9 @@ public class Inventory {
 
     public int size() {
         return items.length;
+    }
+
+    public Item get(int index) {
+        return items[index];
     }
 }

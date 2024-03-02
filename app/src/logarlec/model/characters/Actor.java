@@ -2,7 +2,11 @@ package logarlec.model.characters;
 
 import logarlec.model.labyrinth.Room;
 import logarlec.model.labyrinth.IHasLocation;
+
+import java.util.List;
+
 import logarlec.model.enums.ActorEffect;
+import logarlec.model.items.Item;
 
 public abstract class Actor implements IHasLocation {
     protected InventoryManager inventoryManager;
@@ -21,15 +25,32 @@ public abstract class Actor implements IHasLocation {
         return room;
     }
 
-    public void Step() {}
+    public void Step() {
+    }
 
-    protected void Use() {}
+    protected void Use(int index) {
+        inventoryManager.Use(index);
+    }
 
-    protected void Drop() {}
+    protected void Drop(int index) {
+        Item dropped = inventoryManager.removeItem(item);
 
-    protected void Search() {}
+        if (dropped != null) {
+            room.droppedItem(item);
+        }
+    }
 
-    protected void PickUp() {}
+    protected void Search() {
+        List<Item> items = room.getItems();
+    }
+
+    protected void PickUp(Item item) {
+        if (room.takeItem(item)) { // ha sikerül elvenni
+            if (!inventoryManager.addItem(item)) { // ha nem sikerül eltenni
+                room.droppedItem(item); // akkor adjuk vissza
+            }
+        }
+    }
 
     public void Move(Room destination, boolean forced) {
         // if it's forced and the room is full, Kill() the actor
@@ -39,7 +60,8 @@ public abstract class Actor implements IHasLocation {
         // Add the effect
     }
 
-    private void Kill() {
+    public void Kill() {
+        // public, mert a room manager is meg tudja hívni
         isAlive = false;
     }
 }
