@@ -4,19 +4,22 @@ import logarlec.model.labyrinth.Room;
 import logarlec.model.labyrinth.IHasLocation;
 
 import java.util.List;
-
+import javax.lang.model.element.Element;
+import logarlec.model.characters.visitor.*;
 import logarlec.model.enums.ActorEffect;
+import logarlec.model.enums.RoomEffect;
 import logarlec.model.items.Item;
 
-public abstract class Actor implements IHasLocation {
+public abstract class Actor implements IHasLocation, IElement {
     protected InventoryManager inventoryManager;
     protected boolean isAlive;
     protected Room room;
     // protected List<Pair<ActorEffect, Integer>> effects;
 
-    protected Actor(Room spawnRoom) {
+    protected Actor(Room spawnRoom, int inventorySize) {
         room = spawnRoom;
-        inventoryManager = new InventoryManager(this);
+        spawnRoom.Move(this, false);
+        inventoryManager = new InventoryManager(this, inventorySize);
 
         isAlive = true;
     }
@@ -25,18 +28,17 @@ public abstract class Actor implements IHasLocation {
         return room;
     }
 
-    public void Step() {
-    }
+    public void Step() {}
 
     protected void Use(int index) {
         inventoryManager.Use(index);
     }
 
     protected void Drop(int index) {
-        Item dropped = inventoryManager.removeItem(item);
+        Item dropped = inventoryManager.removeItem(index);
 
         if (dropped != null) {
-            room.droppedItem(item);
+            room.droppedItem(dropped);
         }
     }
 
@@ -45,12 +47,16 @@ public abstract class Actor implements IHasLocation {
     }
 
     protected void PickUp(Item item) {
-        if (room.takeItem(item)) { // ha sikerül elvenni
+        Item got = room.takeItem(item);
+
+        if (got != null) { // ha sikerül elvenni
             if (!inventoryManager.addItem(item)) { // ha nem sikerül eltenni
                 room.droppedItem(item); // akkor adjuk vissza
             }
         }
     }
+
+    public abstract void accepts(IVisitor v);
 
     public void Move(Room destination, boolean forced) {
         // if it's forced and the room is full, Kill() the actor
@@ -60,8 +66,14 @@ public abstract class Actor implements IHasLocation {
         // Add the effect
     }
 
+    public void HandleRoomEffect(RoomEffect effect) {}
+
     public void Kill() {
         // public, mert a room manager is meg tudja hívni
         isAlive = false;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 }

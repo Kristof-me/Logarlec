@@ -29,7 +29,7 @@ public class Inventory {
         Item removed = items[index];
 
         if (removed != null) {
-            items[i] = null;
+            items[index] = null;
             taken--;
         }
 

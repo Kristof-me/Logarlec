@@ -1,37 +1,43 @@
 package logarlec.model.labyrinth;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import logarlec.model.characters.Inventory;
-import logarlec.model.characters.Professor;
-import logarlec.model.characters.Student;
+
+import logarlec.model.characters.Actor;
 import logarlec.model.enums.*;
 import logarlec.model.items.Item;
 
 public class Room implements IHasLocation {
     private List<Door> doors;
     private List<Item> items;
-    private List<Student> students;
-    private List<Professor> professors;
+
     private int capacity;
-    // private List<Pair<RoomEffect, Integer>> effects;
+    private HashMap<RoomEffect, Integer> effects;
+    public List<Actor> actors;
+
+    // private List<Student> students;
+    // private List<Professor> professors;
 
     public Room(int capacity) {
         this.capacity = capacity;
-        items = new Inventory();
+        items = new ArrayList();
         doors = new ArrayList<>();
+
+        effects = new HashMap<>();
+        actors = new ArrayList<>();
     }
 
     public void droppedItem(Item item) {
-        items.addItem(item);
+        items.add(item);
     }
 
     public List<Item> getItems() {
-        return items.getItems();
+        return items;
     }
 
     public Item takeItem(Item item) {
-        if (items.removeItem(item)) {
+        if (items.remove(item)) {
             return item;
         }
 
@@ -43,33 +49,37 @@ public class Room implements IHasLocation {
     }
 
     public int actorCount() {
-        return professors.size() + students.size();
+        int n = 0;
+        for (Actor actor : actors) {
+            if (actor.isAlive()) {
+                n++;
+            }
+        }
+
+        return n;
     }
 
-    public void Tick() {
-    }
+    public void Tick() {}
 
-    public boolean Move(Professor professor, boolean forced) {
+    public boolean Move(Actor actor, boolean forced) {
         if (actorCount() == capacity && !forced) {
             return false;
         }
         // Ha meg forced volt akkor meg adjuk hozzá és öljük meg xd
-
-        professors.add(professor);
-        return true;
-    }
-
-    public boolean Move(Student student, boolean forced) {
-        if (actorCount() == capacity) {
-            return false;
-        }
-
-        students.add(student);
+        // TODO - szerintem ez a Room manager dolga. Nem a szoba feladata megölni
+        actors.add(actor);
         return true;
     }
 
     public void AddEffect(RoomEffect effect, Integer time) {
         // Add the effect
+        effects.put(effect, time);
+
+        for (Actor actor : actors) {
+            // notify the actors
+            // TODO - ezt tudnom kéne, hogy hogyan kezeli az actor
+            actor.HandleRoomEffect(effect);
+        }
     }
 
     public Boolean AreStudensInvincible() {
@@ -81,21 +91,10 @@ public class Room implements IHasLocation {
         return this;
     }
 
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public List<Professor> getProfessors() {
-        return professors;
-    }
-
-    public void moveOut(Professor professor) {
-        professors.remove(professor);
-    }
-
-    public void moveOut(Student student) {
-        students.remove(student);
-    }
+    /*
+     * public List<Stud return students; } public List<Profes return professors; } public void moveOut(Professor
+     * professors.remove(professor); } public void moveOut(Stude students.remove(student); }
+     */
 
     public List<Door> getDoors() {
         return doors;
