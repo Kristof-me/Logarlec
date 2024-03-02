@@ -1,7 +1,7 @@
 package logarlec.model.items.impl;
 
 import logarlec.model.characters.Actor;
-import logarlec.model.effects.Event;
+import logarlec.model.enums.Event;
 import logarlec.model.items.Item;
 
 public class Sponge extends Item {

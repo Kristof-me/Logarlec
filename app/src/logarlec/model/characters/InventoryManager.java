@@ -2,9 +2,9 @@ package logarlec.model.characters;
 
 import java.util.List;
 import java.util.ArrayList;
+import logarlec.model.enums.Event;
 import logarlec.model.items.Item;
 import logarlec.model.items.impl.Transistor;
-import logarlec.model.effects.Event;
 
 public class InventoryManager extends Inventory {
     Actor owner;
@@ -41,7 +41,6 @@ public class InventoryManager extends Inventory {
         for (Item item : items) {
             if (item.use(transistor, Event.TRANSISTOR_PAIR_REQUEST)) {
                 transistor.setPair(item);
-                // transistorToPairWith.setPair((Transistor) item); // xd
                 return true;
             }
         }
@@ -50,8 +49,8 @@ public class InventoryManager extends Inventory {
     }
 
     public void Use(int index) {
-        if (index < items.size()) {
-            items.get(index).use(owner, Event.CONTROLLER_ACTIVATED); //vagy valami hasonló
+        if (0 <= index && index < items.size()) {
+            items.get(index).use(owner, Event.CONTROLLER_ACTIVATED); // vagy valami hasonló
         }
     }
 }

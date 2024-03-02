@@ -1,8 +1,8 @@
 package logarlec.model.items;
 
-import logarlec.model.effects.Event;
 import logarlec.model.labyrinth.Room;
 import logarlec.model.characters.Actor;
+import logarlec.model.enums.Event;
 
 public abstract class Item {
     public boolean use(Actor invoker, Event event) {

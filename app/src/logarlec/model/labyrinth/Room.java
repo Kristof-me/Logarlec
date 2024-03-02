@@ -1,10 +1,12 @@
 package logarlec.model.labyrinth;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import logarlec.model.characters.Inventory;
 import logarlec.model.characters.Professor;
 import logarlec.model.characters.Student;
+import logarlec.model.enums.*;
 import logarlec.model.items.Item;
 
 public class Room implements IHasLocation {
@@ -13,7 +15,7 @@ public class Room implements IHasLocation {
     private List<Student> students;
     private List<Professor> professors;
     private int capacity;
-    // private List<Pair<Effects, int>> effects;
+    // private List<Pair<RoomEffect, Integer>> effects;
 
     public Room(int capacity) {
         this.capacity = capacity;
@@ -51,7 +53,7 @@ public class Room implements IHasLocation {
         if (actorCount() == capacity && !forced) {
             return false;
         }
-        //Ha meg forced volt akkor meg adjuk hozzá és öljük meg xd
+        // Ha meg forced volt akkor meg adjuk hozzá és öljük meg xd
 
         professors.add(professor);
         return true;
@@ -64,6 +66,14 @@ public class Room implements IHasLocation {
 
         students.add(student);
         return true;
+    }
+
+    public void AddEffect(RoomEffect effect, Integer time) {
+        // Add the effect
+    }
+
+    public Boolean AreStudensInvincible() {
+        return false; // true if room is WET
     }
 
     @Override

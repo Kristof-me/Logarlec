@@ -2,7 +2,7 @@ package logarlec.model.items.impl;
 
 import logarlec.model.items.Item;
 import logarlec.model.characters.Actor;
-import logarlec.model.effects.Event;
+import logarlec.model.enums.Event;
 
 public class SlideRule extends Item {
     @Override

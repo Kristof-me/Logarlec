@@ -1,7 +1,7 @@
 package logarlec.model.items.impl;
 
 import logarlec.model.characters.Actor;
-import logarlec.model.effects.Event;
+import logarlec.model.enums.Event;
 import logarlec.model.items.Item;
 import logarlec.model.labyrinth.IHasLocation;
 import logarlec.model.labyrinth.Room;
