@@ -3,45 +3,47 @@ package logarlec.model.characters;
 import java.util.List;
 import java.util.ArrayList;
 import logarlec.model.enums.Event;
-import logarlec.model.items.Item;
+import logarlec.model.items.IItem;
 import logarlec.model.items.impl.Transistor;
 
+/**
+ * Egy karakter tárgyainak kezelésére szolgáló osztály
+ */
 public class InventoryManager extends Inventory {
     Actor owner;
+    int size;
 
     public InventoryManager(Actor owner, int size) {
-        super(size);
+        super();
         this.owner = owner;
+        this.size = size;
     }
 
-    public Boolean useGasMask() {
-        List<Integer> orderedByUseIdx = new ArrayList<>();
+    /**
+     * Megpróbál találni egy tárgyat, amely megvéd az adott eseménytől
+     */
+    public boolean autoUse(Event event) {
+        List<Integer> orderedMasks = new ArrayList<>();
 
         Integer i = 0;
-        for (Item item : items) {
-            Integer uses = item.getUsesLeft(Event.GAS);
-            /*
-             * Order the indexes by the uses left then call use on them in that order
-             */
-        }
 
-        for (Integer idx : orderedByUseIdx) {
-            if (get(idx).use(owner, Event.CONTROLLER_ACTIVATED)) {
+        for (IItem item : items) {
+            if (item.use(owner, event)) {
                 return true;
             }
+            // Order the indexes by the uses left
         }
 
         return false;
     }
 
-    public boolean useTvsz() {
-        return false; // Almost same as GasMask case
-    }
-
+    /**
+     * Megpróbálja megtalálni a tranzisztor párját
+     */
     public boolean getPair(Transistor transistor) {
-        for (Item item : items) {
+        for (IItem item : items) {
             if (item.use(transistor, Event.TRANSISTOR_PAIR_REQUEST)) {
-                transistor.setPair(item);
+                transistor.use(item, Event.TRANSISTOR_PAIR_REQUEST);
                 return true;
             }
         }
@@ -49,9 +51,19 @@ public class InventoryManager extends Inventory {
         return false;
     }
 
-    public void Use(int index) {
-        if (0 <= index && index < items.length) {
-            get(index).use(owner, Event.CONTROLLER_ACTIVATED); // vagy valami hasonló
+    /**
+     * Megpróbálja használni a tárgyat
+     */
+    public boolean use(int index) {
+        if (0 <= index && index < size) {
+            return get(index).use(owner, Event.CONTROLLER_ACTIVATED); // vagy valami hasonló
         }
+
+        return false;
+    }
+
+    @Override
+    public boolean isFull() {
+        return items.size() >= size;
     }
 }

@@ -2,49 +2,69 @@ package logarlec.model.characters;
 
 import java.util.ArrayList;
 import java.util.List;
-import logarlec.model.items.Item;
+import logarlec.model.items.IItem;
 
+/**
+ * Egy szoba vagy karakter tárgyait tároló segédosztály
+ */
 public class Inventory {
-    protected Item[] items;
-    private int taken;
+    protected List<IItem> items;
 
-    public Inventory(int size) {
-        items = new Item[size];
-        taken = 0;
+    public Inventory() {
+        items = new ArrayList<>();
     }
 
-    public boolean addItem(Item item) {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == null) {
-                items[i] = item;
-                taken++;
-                return true;
-            }
+    /**
+     * Beletesz egy tárgyat a tárolóba
+     */
+    public boolean addItem(IItem item) {
+        if (isFull()) {
+            return false;
         }
 
-        return false;
+        items.add(item);
+        return true;
     }
 
-    public Item removeItem(int index) {
-        Item removed = items[index];
-
-        if (removed != null) {
-            items[index] = null;
-            taken--;
-        }
-
-        return removed;
+    /**
+     * Kivesz egy tárgyat a tárolóból
+     */
+    public IItem removeItem(int index) {
+        return items.remove(index);
     }
 
-    public Item[] getItems() {
+    /**
+     * Kivesz egy tárgyat a tárolóból
+     */
+    public void deleteItem(IItem item) {
+        items.remove(item);
+    }
+
+    /**
+     * Visszaadja a tárolóban tárolt tárgyakat
+     */
+    public List<IItem> getItems() {
         return items;
     }
 
+    /**
+     * Visszaadja a tárolóban tárolt tárgyak számát
+     */
     public int size() {
-        return items.length;
+        return items.size();
     }
 
-    public Item get(int index) {
-        return items[index];
+    /**
+     * Visszaad egy tárgyat a tárolóból
+     */
+    public IItem get(int index) {
+        return items.get(index);
+    }
+
+    /**
+     * Visszaadja, hogy a tároló tele van-e (by default nincs limit)
+     */
+    public boolean isFull() {
+        return false;
     }
 }
