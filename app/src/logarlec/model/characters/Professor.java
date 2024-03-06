@@ -2,6 +2,7 @@ package logarlec.model.characters;
 
 import java.util.Map;
 import logarlec.model.characters.visitor.IActorVisitor;
+import logarlec.model.enums.ActorEffect;
 import logarlec.model.enums.RoomEffect;
 import logarlec.model.labyrinth.Room;
 
@@ -28,5 +29,6 @@ public class Professor extends Actor {
     @Override
     public void handleRoomEffects(Map<RoomEffect, Integer> effects) {
         // Handle the effects
+        this.addEffect(ActorEffect.STUN, 10);
     }
 }

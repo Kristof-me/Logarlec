@@ -1,6 +1,7 @@
 package logarlec.model.items.impl;
 
 import logarlec.model.characters.Actor;
+import logarlec.model.enums.ActorEffect;
 import logarlec.model.enums.Event;
 import logarlec.model.items.IItem;
 
@@ -20,6 +21,7 @@ public class Tvsz implements IItem {
         if (event == Event.CONTROLLER_ACTIVATED) {
             // ? lehet ez nem az az event
             invoker.deleteItem(this);
+            invoker.addEffect(ActorEffect.TVSZ_ACTIVE, 1);
             usesLeft--;
             return true;
         }

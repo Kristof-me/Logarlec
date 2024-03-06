@@ -1,0 +1,112 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+'Items ----------------------------------------------------
+abstract class Item {
+
+}
+
+'Inventory ------------------------------------------------
+class Inventory {
+- size : int
+# isFull(): boolean
++ addItem(Item item): boolean
++ removeItem(Item item): Item
++ deleteItem(Item item): void
+}
+
+Inventory o-- Item
+
+Actor o-- Inventory
+Room o-- Inventory
+
+'Character ------------------------------------------------
+
+class Actor {
+
+}
+
+class Student {
+
+}
+
+class Professor {
+
+}
+
+Actor <|--Student
+Actor <|--Professor
+
+'Room ------------------------------------------------------
+
+class Room {
+    
+}
+
+'HasLocation ------------------------------------------------
+interface IHasLocation {
+    + getLocation(): Room
+}
+
+IHasLocation <|.. Actor
+IHasLocation <|.. Room
+
+'Effect ----------------------------------------------------
+
+abstract class Effect {
+- timeLeft: int
+}
+
+Effect <|-- RoomEffect
+abstract class RoomEffect {
+    + applyEffect(IModifieableBehaviour actor): void
+}
+
+Effect <|-- ActorEffect
+abstract class ActorEffect {
+    - wrappee: IModifieableBehaviour
+    
+}
+
+' Room effects
+RoomEffect <|-- WetEffect
+class WetEffect {
++ applyEffect(IModifieableBehaviour actor): void
+}
+
+'Strategy pattern --------
+
+RoomEffect <|-- GasEffect
+class GasEffect {
+
+}
+
+' Actor effects
+ActorEffect <|-- BeerEffect
+ActorEffect ..|> IModifieableBehaviour
+class BeerEffect {
+    
+}
+
+ActorEffect <|-- StunEffect
+class StunEffect {
+
+}
+
+interface IModifieableBehaviour{
+
+}
+
+Actor ..|> IModifieableBehaviour
+
+abstract class Strategy {
+    - previous : Strategy
+    + execute() : void
+    + tick() : void
+    + addToList() 
+}
+
+'add to list egyedi módon lesz implementálva, ezért jó sorrendben lesznek
+'default-ba lesz a tvsz használat
+
+@enduml

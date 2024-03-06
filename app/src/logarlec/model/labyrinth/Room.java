@@ -156,6 +156,14 @@ public class Room implements IHasLocation {
         }
     }
 
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
     @Override
     public Room getLocation() {
         return this;
@@ -167,6 +175,10 @@ public class Room implements IHasLocation {
 
     public List<Door> getDoors() {
         return doors;
+    }
+
+    public Room copyRoom() {
+        return null;
     }
 
     public void hideDoor(int index) {
