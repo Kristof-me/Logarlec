@@ -3,8 +3,42 @@ skinparam classAttributeIconSize 0
 
 'Items ----------------------------------------------------
 abstract class Item {
+    +use()
+    +onPickup()
+    +onDrop(Room room)
+}
+
+class Sponge {}
+
+class Tvsz {}
+
+class SlideRule {}
+
+class Beer {}
+
+class Cocktail {
 
 }
+
+class GasMask {
+
+}
+
+class Transistor {
+- pair: Transistor
+- location: IHasLocation
+}
+
+class Camembert {}
+
+Item <|-- Sponge
+Item <|-- Tvsz
+Item <|-- SlideRule
+Item <|-- Beer
+Item <|-- Cocktail
+Item <|-- GasMask
+Item <|-- Transistor
+Item <|-- Camembert
 
 'Inventory ------------------------------------------------
 class Inventory {
@@ -13,6 +47,7 @@ class Inventory {
 + addItem(Item item): boolean
 + removeItem(Item item): Item
 + deleteItem(Item item): void
++ dropAll(Room target): void
 }
 
 Inventory o-- Item
@@ -23,7 +58,21 @@ Room o-- Inventory
 'Character ------------------------------------------------
 
 class Actor {
+    - alive : boolean
+    - location : Room
+    - stepStrategy : StepStrategy
+    - defenseStrategy : DefenseStrategy
 
+    + SetStepStrategy(StepStrategy strategy) : void
+    + SetDefenseStrategy(DefenseStrategy strategy) : void
+    + Attacked() : void
+    + Step() : void
+    + Drop(Item item) : boolean
+    + DropAll() : void
+    + PickUp(Item item) : boolean
+    + Move(Room room) : boolean
+    + isAlive() : boolean
+    + revive() : boolean
 }
 
 class Student {
@@ -40,7 +89,18 @@ Actor <|--Professor
 'Room ------------------------------------------------------
 
 class Room {
-    
+    - doors : Door[]
+    - effects : RoomEffect[]
+    + attack(Professor attacker)
+    + split() : void
+    + merge(Room room) : void
+
+}
+
+Room -- Door
+
+class Door {
+
 }
 
 'HasLocation ------------------------------------------------
@@ -52,61 +112,53 @@ IHasLocation <|.. Actor
 IHasLocation <|.. Room
 
 'Effect ----------------------------------------------------
-
-abstract class Effect {
-- timeLeft: int
-}
-
-Effect <|-- RoomEffect
 abstract class RoomEffect {
-    + applyEffect(IModifieableBehaviour actor): void
+    - timeLeft : int
+    + tick(): void
+    + {abstract} applyEffect(Actor actor): void
 }
 
-Effect <|-- ActorEffect
-abstract class ActorEffect {
-    - wrappee: IModifieableBehaviour
-    
-}
-
-' Room effects
 RoomEffect <|-- WetEffect
-class WetEffect {
-+ applyEffect(IModifieableBehaviour actor): void
-}
-
-'Strategy pattern --------
-
 RoomEffect <|-- GasEffect
+
+class WetEffect {
++ applyEffect(Actor actor): void
+}
+
 class GasEffect {
-
++ applyEffect(Actor actor): void
 }
 
-' Actor effects
-ActorEffect <|-- BeerEffect
-ActorEffect ..|> IModifieableBehaviour
-class BeerEffect {
-    
-}
-
-ActorEffect <|-- StunEffect
-class StunEffect {
-
-}
-
-interface IModifieableBehaviour{
-
-}
-
-Actor ..|> IModifieableBehaviour
 
 abstract class Strategy {
     - previous : Strategy
-    + execute() : void
+    - timeLeft : int
     + tick() : void
-    + addToList() 
+    + addToList(Strategy other) : Strategy
 }
 
-'add to list egyedi módon lesz implementálva, ezért jó sorrendben lesznek
-'default-ba lesz a tvsz használat
+abstract class StepStrategy {
+    - previous : StepStrategy
+    + addToList(StepStrategy other) : StepStrategy
+    + step() : void
+}
+
+class DefaultStep {}
+class StunnedStep {}
+Strategy <|-- StepStrategy
+StepStrategy <|-- DefaultStep
+StepStrategy <|-- StunnedStep
+
+abstract class DefenseStrategy {
+    - previous : DefenseStrategy
+    + addToList(DefenseStrategy other) : DefenseStrategy
+    + defend(Professor attacker) : void
+}
+
+class DefaultDefense {}
+class BeerDefense {}
+Strategy <|-- DefenseStrategy
+DefenseStrategy <|-- DefaultDefense
+DefenseStrategy <|-- BeerDefense
 
 @enduml
