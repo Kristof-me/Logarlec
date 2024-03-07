@@ -1,11 +1,11 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-'Items ----------------------------------------------------
+'Items --------------------------------------------
 abstract class Item {
-    +use()
-    +onPickup()
-    +onDrop(Room room)
+    + use()
+    + onPickup(Actor actor)
+    + onDrop(Room room)
 }
 
 class Sponge {}
@@ -40,22 +40,31 @@ Item <|-- GasMask
 Item <|-- Transistor
 Item <|-- Camembert
 
-'Inventory ------------------------------------------------
+'Inventory ----------------------------------------
 class Inventory {
-- size : int
-# isFull(): boolean
-+ addItem(Item item): boolean
-+ removeItem(Item item): Item
-+ deleteItem(Item item): void
-+ dropAll(Room target): void
+    - size : int
+
+    - isFull(): boolean
+    + addItem(Item item): boolean
+    + removeItem(Item item): Item
+    + deleteItem(Item item): void
+    + dropAll(Room target): void
+    + getSize() : int
 }
 
-Inventory o-- Item
+/' 
+itt a remove és a delete összevonható lenne egy 
+removeItem(Item item, boolean shouldDelete)-re
+'/
+
+Inventory "1" -- "0..*" Item
+
+' azért asszociáció, mivel ettől még az item-nek van egyedi léte
 
 Actor o-- Inventory
 Room o-- Inventory
 
-'Character ------------------------------------------------
+'Character ----------------------------------------
 
 class Actor {
     - alive : boolean
@@ -63,55 +72,110 @@ class Actor {
     - stepStrategy : StepStrategy
     - defenseStrategy : DefenseStrategy
 
-    + SetStepStrategy(StepStrategy strategy) : void
-    + SetDefenseStrategy(DefenseStrategy strategy) : void
-    + Attacked() : void
-    + Step() : void
-    + Drop(Item item) : boolean
-    + DropAll() : void
-    + PickUp(Item item) : boolean
-    + Move(Room room) : boolean
+    + step() : void
+    + {abstract} attacked() : void
+    + move(Room room) : boolean
+
+    + setStepStrategy(StepStrategy strategy) : void
+    + setDefenseStrategy(DefenseStrategy strategy) : void
+
+    + pickUp(Item item) : boolean
+    + drop(Item item) : void
+    + dropAll() : void
+
     + isAlive() : boolean
+    + {abstract} revive() : boolean
+}
+
+' itt a move elbizonytalanított
+
+class Student {
+    + attacked() : void
     + revive() : boolean
 }
 
-class Student {
-
-}
-
 class Professor {
+    + attacked() : void
+    + revive() : boolean
+}
+
+Actor <|-- Student
+Actor <|-- Professor
+
+'ez egy kísérleti dolog - szedd ki, ha nem tetszik
+interface IHasInventory {
+    + pickUp(Item item) : boolean
+    + discard(Item item) : void
+    + dropAllTo(Room room) : void
 
 }
 
-Actor <|--Student
-Actor <|--Professor
+IHasInventory <|.. Actor
+IHasInventory <|.. Room
 
-'Room ------------------------------------------------------
+'Room ---------------------------------------------
 
 class Room {
+    - capacity : int
     - doors : Door[]
     - effects : RoomEffect[]
-    + attack(Professor attacker)
+
     + split() : void
     + merge(Room room) : void
+    + attack(Professor attacker)
+    
+    - isFull() : boolean
+    + enter(Actor actor) : boolean
+    + leave(Actor actor) : void
 
+    + takeItem(Item item) : boolean
+    + putItem(Item item) : boolean
+    + tick() : void
 }
 
-Room -- Door
+/'
+az egyirányú ajtók merge-nél eltűnnek, ha a két szoba 
+között voltak?
+ezt elég később lekezelni, de erre nem gondoltam még
+'/
+
+/' 
+hogyan is fogjuk értesíteni a bennlévő professort, ha 
+egy hallgató belép?
+
+lehet ez egy merész gondolat, de mi lenne, ha mi az ajtót
+kérnénk, hogy engedjen át minket?
+
+és akkor a szoba enter-je tudna értesíteni minden bennlévőt
+a belépésről
+'/
 
 class Door {
+    - remainingInvisibility : int
+    - isOnewy : boolean
+    - rooms : Room[]
 
+    + hide(int duration) : void
+    + leadsTo(Room from) : Room
+    + move(Actor actor, Room target) : boolean
+    + tick() : void
 }
 
-'HasLocation ------------------------------------------------
+Room "1" -- "0..*" Actor 
+' lehet itt a * helyett kapacitás kéne, de valójában nem, mert halottak is vannak
+Actor "1" -- "1" Room
+Room "1" -- "0..*" Door
+Door "1" -- "2" Room
+
+
 interface IHasLocation {
     + getLocation(): Room
 }
 
-IHasLocation <|.. Actor
 IHasLocation <|.. Room
+IHasLocation <|.. Actor
 
-'Effect ----------------------------------------------------
+'Effect -------------------------------------------
 abstract class RoomEffect {
     - timeLeft : int
     + tick(): void
@@ -160,5 +224,17 @@ class BeerDefense {}
 Strategy <|-- DefenseStrategy
 DefenseStrategy <|-- DefaultDefense
 DefenseStrategy <|-- BeerDefense
+
+'Visitors ----------------------------------------
+interface ItemVisitor {
+    + visit(Sponge sponge) : void
+    + visit(Tvsz tvsz) : void
+    + visit(SlideRule slideRule) : void
+    + visit(Beer beer) : void
+    + visit(Cocktail cocktail) : void
+    + visit(GasMask gasMask) : void
+    + visit(Transistor transistor) : void
+    + visit(Camembert camembert) : void
+}
 
 @enduml
