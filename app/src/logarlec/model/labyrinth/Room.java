@@ -1,79 +1,167 @@
 package logarlec.model.labyrinth;
 
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import logarlec.model.characters.Inventory;
-import logarlec.model.characters.Professor;
-import logarlec.model.characters.Student;
-import logarlec.model.enums.*;
-import logarlec.model.items.Item;
 
+import logarlec.model.characters.Actor;
+import logarlec.model.characters.Inventory;
+import logarlec.model.characters.visitor.InteractionVisitor;
+import logarlec.model.characters.visitor.ReviveVisitor;
+import logarlec.model.enums.*;
+import logarlec.model.items.IItem;
+
+/**
+ * A labirintus egy szobáját reprezentáló osztály
+ */
 public class Room implements IHasLocation {
     private List<Door> doors;
     private Inventory items;
-    private List<Student> students;
-    private List<Professor> professors;
+
     private int capacity;
-    // private List<Pair<RoomEffect, Integer>> effects;
+    private HashMap<RoomEffect, Integer> effects;
+    private List<Actor> actors;
 
     public Room(int capacity) {
         this.capacity = capacity;
         items = new Inventory();
         doors = new ArrayList<>();
+
+        effects = new HashMap<>();
+        actors = new ArrayList<>();
     }
 
-    public void droppedItem(Item item) {
+    /**
+     * Hozzáad egy eldobott tárgyat a szoba tárgyaihoz
+     */
+    public void onDroppedItem(IItem item) {
         items.addItem(item);
     }
 
-    public List<Item> getItems() {
+    /**
+     * Visszaadja a szoba tárgyait
+     */
+    public List<IItem> getItems() {
         return items.getItems();
     }
 
-    public Item takeItem(Item item) {
-        if (items.removeItem(item)) {
-            return item;
-        }
-
-        return null;
+    /**
+     * Kivesz egy tárgyat a szoba tárgyai közül
+     */
+    public IItem takeItem(int index) {
+        return items.removeItem(index);
     }
 
+    /**
+     * Visszaadja a szoba tárgyainak számát
+     */
     public int itemCount() {
         return items.size();
     }
 
-    public int actorCount() {
-        return professors.size() + students.size();
+    /**
+     * Visszaadja a szobában található élő karakterek számát
+     */
+    public int liveCount() {
+        int n = 0;
+        for (Actor actor : actors) {
+            if (actor.isAlive()) {
+                n++;
+            }
+        }
+        return n;
     }
 
-    public void Tick() {}
+    /**
+     * Visszaadja a szobában található halott karakterek számát
+     */
+    public int deadCount() {
+        int n = 0;
+        for (Actor actor : actors) {
+            if (!actor.isAlive()) {
+                n++;
+            }
+        }
+        return n;
+    }
 
-    public boolean Move(Professor professor, boolean forced) {
-        if (actorCount() == capacity && !forced) {
+    /**
+     * Eltelik egy időegység
+     */
+    public void tick() {
+        // az effektek idejét csökkenti
+        // door-ok ideje is telik
+        //
+        interact();
+    }
+
+    /**
+     * Egy karakter próbál a szobába lépni, visszaadja, hogy sikerült-e
+     */
+    public boolean move(Actor actor) {
+        if (liveCount() == capacity && actor.isAlive()) {
             return false;
         }
-        // Ha meg forced volt akkor meg adjuk hozzá és öljük meg xd
 
-        professors.add(professor);
+        actors.add(actor);
+        actor.handleRoomEffects(effects);
+        interact();
+
         return true;
     }
 
-    public boolean Move(Student student, boolean forced) {
-        if (actorCount() == capacity) {
+    private void interact() {
+        InteractionVisitor visitor = new InteractionVisitor();
+
+        for (Actor entity : actors) {
+            entity.accepts(visitor);
+        }
+
+        visitor.interact();
+    }
+
+    public boolean tryMoveTo(Room destination, Actor actor) {
+        if (!actors.contains(actor)) {
             return false;
         }
 
-        students.add(student);
+        Door neighbourDoor = null;
+
+        for (Door door : doors) {
+            if (door.getOtherRoom(this) == destination && door.isVisible()) {
+                neighbourDoor = door;
+                break;
+            }
+        }
+
+        if (neighbourDoor == null) {
+            return false;
+        }
+
+        leave(actor);
         return true;
     }
 
-    public void AddEffect(RoomEffect effect, Integer time) {
+    public void leave(Actor actor) {
+        actors.remove(actor);
+    }
+
+    public void addEffect(RoomEffect effect, Integer time) {
         // Add the effect
+        effects.put(effect, time);
+
+        // notify the actors
+        for (Actor actor : actors) {
+            actor.handleRoomEffects(effects);
+        }
     }
 
-    public Boolean AreStudensInvincible() {
-        return false; // true if room is WET
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public int getCapacity() {
+        return capacity;
     }
 
     @Override
@@ -81,30 +169,31 @@ public class Room implements IHasLocation {
         return this;
     }
 
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public List<Professor> getProfessors() {
-        return professors;
-    }
-
-    public void moveOut(Professor professor) {
-        professors.remove(professor);
-    }
-
-    public void moveOut(Student student) {
-        students.remove(student);
+    public void setDoors(List<Door> doors) {
+        this.doors = doors;
     }
 
     public List<Door> getDoors() {
         return doors;
     }
 
-    public void hideDoors(Integer[] idxs) {
-        for (Integer idx : idxs) {
-            doors.get(idx).hide(10); // set custom duration
+    public Room copyRoom() {
+        return null;
+    }
+
+    public void hideDoor(int index) {
+        doors.get(index).hide(10); // set custom duration
+    }
+
+    public void revive() {
+        if (liveCount() == capacity) {
+            return;
+        }
+
+        ReviveVisitor visitor = new ReviveVisitor();
+
+        for (Actor actor : actors) {
+            actor.accepts(visitor);
         }
     }
 }
-

@@ -1,28 +1,31 @@
 package logarlec.model.items.impl;
 
+import logarlec.model.characters.Actor;
+import logarlec.model.enums.ActorEffect;
 import logarlec.model.enums.Event;
-import logarlec.model.items.Item;
+import logarlec.model.items.IItem;
 
-public class Tvsz extends Item {
+public class Tvsz implements IItem {
     private int usesLeft = 3;
 
     @Override
-    public Integer getUsesLeft(Event event) {
-        if (event == Event.ATTACK) {
-            return usesLeft;
-        }
-
-        return super.getUsesLeft(event);
+    public int getUsesLeft() {
+        return usesLeft;
     }
 
-    @Override
-    public boolean use(Item invoker, Event event) {
+    public boolean use(IItem invoker, Event event) {
+        return false;
+    }
+
+    public boolean use(Actor invoker, Event event) {
         if (event == Event.CONTROLLER_ACTIVATED) {
             // ? lehet ez nem az az event
+            invoker.deleteItem(this);
+            invoker.addEffect(ActorEffect.TVSZ_ACTIVE, 1);
             usesLeft--;
             return true;
         }
 
-        return super.use(invoker, event);
+        return false;
     }
 }

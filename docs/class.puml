@@ -1,0 +1,164 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+'Items ----------------------------------------------------
+abstract class Item {
+    +use()
+    +onPickup()
+    +onDrop(Room room)
+}
+
+class Sponge {}
+
+class Tvsz {}
+
+class SlideRule {}
+
+class Beer {}
+
+class Cocktail {
+
+}
+
+class GasMask {
+
+}
+
+class Transistor {
+- pair: Transistor
+- location: IHasLocation
+}
+
+class Camembert {}
+
+Item <|-- Sponge
+Item <|-- Tvsz
+Item <|-- SlideRule
+Item <|-- Beer
+Item <|-- Cocktail
+Item <|-- GasMask
+Item <|-- Transistor
+Item <|-- Camembert
+
+'Inventory ------------------------------------------------
+class Inventory {
+- size : int
+# isFull(): boolean
++ addItem(Item item): boolean
++ removeItem(Item item): Item
++ deleteItem(Item item): void
++ dropAll(Room target): void
+}
+
+Inventory o-- Item
+
+Actor o-- Inventory
+Room o-- Inventory
+
+'Character ------------------------------------------------
+
+class Actor {
+    - alive : boolean
+    - location : Room
+    - stepStrategy : StepStrategy
+    - defenseStrategy : DefenseStrategy
+
+    + SetStepStrategy(StepStrategy strategy) : void
+    + SetDefenseStrategy(DefenseStrategy strategy) : void
+    + Attacked() : void
+    + Step() : void
+    + Drop(Item item) : boolean
+    + DropAll() : void
+    + PickUp(Item item) : boolean
+    + Move(Room room) : boolean
+    + isAlive() : boolean
+    + revive() : boolean
+}
+
+class Student {
+
+}
+
+class Professor {
+
+}
+
+Actor <|--Student
+Actor <|--Professor
+
+'Room ------------------------------------------------------
+
+class Room {
+    - doors : Door[]
+    - effects : RoomEffect[]
+    + attack(Professor attacker)
+    + split() : void
+    + merge(Room room) : void
+
+}
+
+Room -- Door
+
+class Door {
+
+}
+
+'HasLocation ------------------------------------------------
+interface IHasLocation {
+    + getLocation(): Room
+}
+
+IHasLocation <|.. Actor
+IHasLocation <|.. Room
+
+'Effect ----------------------------------------------------
+abstract class RoomEffect {
+    - timeLeft : int
+    + tick(): void
+    + {abstract} applyEffect(Actor actor): void
+}
+
+RoomEffect <|-- WetEffect
+RoomEffect <|-- GasEffect
+
+class WetEffect {
++ applyEffect(Actor actor): void
+}
+
+class GasEffect {
++ applyEffect(Actor actor): void
+}
+
+
+abstract class Strategy {
+    - previous : Strategy
+    - timeLeft : int
+    + tick() : void
+    + addToList(Strategy other) : Strategy
+}
+
+abstract class StepStrategy {
+    - previous : StepStrategy
+    + addToList(StepStrategy other) : StepStrategy
+    + step() : void
+}
+
+class DefaultStep {}
+class StunnedStep {}
+Strategy <|-- StepStrategy
+StepStrategy <|-- DefaultStep
+StepStrategy <|-- StunnedStep
+
+abstract class DefenseStrategy {
+    - previous : DefenseStrategy
+    + addToList(DefenseStrategy other) : DefenseStrategy
+    + defend(Professor attacker) : void
+}
+
+class DefaultDefense {}
+class BeerDefense {}
+Strategy <|-- DefenseStrategy
+DefenseStrategy <|-- DefaultDefense
+DefenseStrategy <|-- BeerDefense
+
+@enduml

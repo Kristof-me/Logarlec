@@ -2,16 +2,15 @@ package logarlec.model.items.impl;
 
 import logarlec.model.characters.Actor;
 import logarlec.model.enums.Event;
-import logarlec.model.items.Item;
+import logarlec.model.items.IItem;
 import logarlec.model.labyrinth.IHasLocation;
 import logarlec.model.labyrinth.Room;
 
-public class Transistor extends Item {
-    private Item pair; // The item that this is paired with
-    private IHasLocation location;
+public class Transistor implements IItem {
+    private IItem pair; // The item that this is paired with
+    private IHasLocation locationReference;
 
-    @Override
-    public boolean use(Item invoker, Event event) {
+    public boolean use(IItem invoker, Event event) {
         if (event == Event.TRANSISTOR_PAIR_REQUEST && pair == null) {
             setPair(invoker);
             return true;
@@ -20,17 +19,37 @@ public class Transistor extends Item {
         return false;
     }
 
+    public boolean use(Actor invoker, Event event) {
+        if (pair == null && event == Event.CONTROLLER_ACTIVATED) {
+            return invoker.getInventoryManager().getPair(this);
+        } else if (event == Event.CONTROLLER_ACTIVATED) {
+            if (pair.use(invoker, Event.TRANSISTOR_TELEPORT)) {
+                pair = null;
+                return true;
+            }
+            return false;
+        } else if (event == Event.TRANSISTOR_TELEPORT) {
+            if (invoker.teleport(locationReference.getLocation())) {
+                pair = null;
+                return true;
+            }
+            return false;
+        }
+
+        return false;
+    }
+
     @Override
     public void onPickup(Actor newOwner) {
-        location = newOwner;
+        locationReference = newOwner;
     }
 
     @Override
     public void onDrop(Room inRoom) {
-        location = inRoom;
+        locationReference = inRoom;
     }
 
-    public void setPair(Item pair) {
+    public void setPair(IItem pair) {
         this.pair = pair;
     }
 }
