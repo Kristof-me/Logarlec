@@ -1,0 +1,50 @@
+@startuml
+hide footbox
+
+' lehet előre deklarálni résztvevőket '
+actor A as "a : Aladár"
+participant B as "b : Béla"
+
+' de utólag is '
+B -> C : foo()
+
+' lehet aktiválni és leállítani '
+B -> C ++ : bar()
+return val
+
+' vagy automatizálni'
+autoactivate on
+
+' nyíl típusok '
+B -> C : sync()
+C ->> B : async()
+return returnA
+return returnS
+
+A -> A  -- :  kill()
+
+create D
+B -->> D : create()
+
+
+B -> D -- : delete()
+destroy D
+
+autoactivate off
+' viselkedés dolgok '
+
+alt guard
+C -> B -- : hello
+else else
+C -> B -- : hi
+end
+
+opt opt
+C -> B -- : hello
+end
+
+note left of A
+  GL HF
+end note
+
+@enduml
