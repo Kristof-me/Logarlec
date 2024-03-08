@@ -7,9 +7,9 @@ abstract class Item {
     - usesLeft : int
     + use(invoker: Actor): void
     + getUsesLeft() : int
-    + onPickup(Actor actor)
-    + onDrop(Room room)
-    + accept(ItemVisitor visitor)
+    + onPickup(actor: Actor)
+    + onDrop(room: Room)
+    + accept(visitor: ItemVisitor)
 }
 
 class Sponge {
@@ -21,7 +21,7 @@ class Tvsz {
 }
 
 class SlideRule {
-    + onPickup(Actor actor)
+    + onPickup(actor: Actor)
 }
 
 class Beer {
@@ -40,6 +40,7 @@ class Transistor {
     - pair: Transistor
     - location: IHasLocation
     + use(invoker: Actor): void
+    + onDrop(room: Room)
 }
 
 class Camembert {
@@ -60,11 +61,11 @@ class Inventory {
     - size : int
 
     - isFull(): boolean
-    + addItem(Item item): boolean
-    + removeItem(Item item): Item
-    + acceptVisitor(ItemVisitor visitor): void
-    + deleteItem(Item item): void
-    + dropAll(Room target): void
+    + addItem(item: Item): boolean
+    + removeItem(item: Item): Item
+    + acceptVisitor(visitor: ItemVisitor): void
+    + deleteItem(item: Item): void
+    + dropAll(target: Room): void
     + getSize() : int
 }
 
@@ -78,46 +79,37 @@ Inventory "1" -- "0..*" Item
 ' azért asszociáció, mivel ettől még az item-nek van egyedi léte
 
 Actor *--"1" Inventory
-Room o-- Inventory
+Room *-- "1" Inventory
 
 'Character ----------------------------------------
 
-class Actor {
+abstract class Actor {
     - alive : boolean
     - location : Room
-    - defenseStrategy : DefenseStrategy
 
     + {abstract} attacked() : void
     + {abstract} revive() : boolean
     + {abstract} acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
 
-    + setActionState(ActionState state) : void
-    + setDefaultActionState() : void
-    + setDefenseStrategy(DefenseStrategy defenseStrategy) : void
+    + {abstract}setDefaultActionState() : void
+    + setActionState(state: ActionState) : void
+    + setDefenseStrategy(defenseStrategy: DefenseStrategy) : void
 
-    + dropAllTo(Room room) : void
+    + dropAllTo(room: Room) : void
     + tick() : void
 
     + getInventory() : Inventory
 }
 
-Actor "1" -- "1" ActionState
-Actor "1" -- "1..*" DefenseStrategy
+Actor -- "1" ActionState
+Actor -- "1" DefenseStrategy
 
 class Student {
-    + acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
-    + attacked() : void
-    + revive() : boolean
-    + setDefaultActionState() : void
 }
 
 Actor <|-- Student
 
 class Professor {
-    + acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
-    + attacked() : void
-    + revive() : boolean
-    + setDefaultActionState() : void
 }
 
 Actor <|-- Professor
@@ -131,19 +123,18 @@ class Room {
     - effects : RoomEffect[]
 
     + split() : void
-    + merge(Room room) : void
-    + attack(Professor attacker)
+    + merge(room: Room) : void
+    + attack(attacker: Professor)
     
     - isFull() : boolean
-    + enter(Actor actor) : boolean
-    + leave(Actor actor) : void
+    + enter(actor: Actor) : boolean
+    + leave(actor: Actor) : void
     + revive(): boolean
 
-    + addItem(Item item) : void
-    + removeItem(Item item) : Item
-    + dropAllTo(Room room) : void
+    + addItem(item: Item) : void
+    + removeItem(item: Item) : Item
 
-    + addEffect(RoomEffect effect) : void
+    + addEffect(effect: RoomEffect) : void
 
     + tick() : void
 }
@@ -170,9 +161,9 @@ class Door {
     - isOneway : boolean
     - rooms : Room[]
 
-    + hide(int duration) : void
-    + leadsTo(Room from) : Room
-    + move(Actor actor, Room target) : boolean
+    + hide(duration: int) : void
+    + leadsTo(from: Room) : Room
+    + move(actor: Actor, target: Room) : boolean
     + tick() : void
 }
 
@@ -193,8 +184,8 @@ abstract class RoomEffect {
     - unlessHas : List<ItemFinder>
     + tick(): boolean
     + addEffect(Actor actor, List<ItemFinder> unlessHas) : void
-    + {abstract} applyEffect(Professor professor) : void
-    + {abstract} applyEffect(Student student) : void
+    + {abstract} applyEffect(professor: Professor) : void
+    + {abstract} applyEffect(student: Student) : void
 }
 ' tick returns false when the effect expires
 
@@ -202,13 +193,9 @@ RoomEffect <|-- WetEffect
 RoomEffect <|-- GasEffect
 
 class WetEffect {
-    + applyEffect(Professor professor) : void
-    + applyEffect(Student student) : void
 }
 
 class GasEffect {
-    + applyEffect(Professor professor) : void
-    + applyEffect(Student student) : void
 }
 
 'State --------------------------------------------
@@ -228,24 +215,25 @@ abstract class ActionState {
     - inventory : Inventory
     - room : Room
     + tick() : void
+    + attack() : void
+    + move(door: Door) : boolean
+    + use(item: Item) : void
+    + pickUp(item: Item) : boolean
+    + drop(item: Item) : void
 }
 
 class StudentActions {
     + attack() : void
-    + move(Door door) : boolean
-    + use(Item item) : void
-    + pickUp(Item item) : boolean
-    + drop(Item item) : void
+    + move(door: Door) : boolean
+    + pickUp(item: Item) : boolean
 }
 
 StudentActions --|> ActionState
 
 class ProfessorActions {
     + attack() : void
-    + move(Door door) : boolean
-    + use(Item item) : void
-    + pickUp(Item item) : boolean
-    + drop(Item item) : void
+    + move(door: Door) : boolean
+    + pickUp(item: Item) : boolean
 }
 
 ProfessorActions --|> ActionState
@@ -254,10 +242,10 @@ class StunnedStep {
     - remainingTime : int
 
     + attack() : void
-    + move(Door door) : boolean
-    + use(Item item) : void
-    + pickUp(Item item) : boolean
-    + drop(Item item) : void
+    + move(door: Door) : boolean
+    + use(item: Item) : void
+    + pickUp(item: Item) : boolean
+    + drop(item: Item) : void
     + tick() : void
 }
 
@@ -283,35 +271,35 @@ DefenseStrategy <|-- BeerDefense
 
 'Visitors ----------------------------------------
 abstract class ItemVisitor {
-    + visit(Sponge sponge) : void
-    + visit(Tvsz tvsz) : void
-    + visit(SlideRule slideRule) : void
-    + visit(Beer beer) : void
-    + visit(Cocktail cocktail) : void
-    + visit(GasMask gasMask) : void
-    + visit(Transistor transistor) : void
-    + visit(Camembert camembert) : void
+    + visit(sponge: Sponge) : void
+    + visit(tvsz: Tvsz) : void
+    + visit(slideRule: SlideRule) : void
+    + visit(beer: Beer) : void
+    + visit(cocktail: Cocktail) : void
+    + visit(gasMask: GasMask) : void
+    + visit(transistor: Transistor) : void
+    + visit(camembert: Camembert) : void
 }
 
 ItemVisitor ..> Item
 
 abstract class ItemFinder {
     # potentialItems : Items[]
-    + findIn(Inventory inventory): Item
+    + findIn(inventory: Inventory): Item
 }
 
 ItemFinder --|> ItemVisitor
 
 class TransistorPairFinder {
-    + visit(Transistor transistor) : void
+    + visit(transistor: Transistor) : void
 }
 
 class BestGasMaskFinder {
-    + visit(GasMask gasMask) : void
+    + visit(gasMask: GasMask) : void
 }
 
 class BestTvszFinder {
-    + visit(GasMask gasMask) : void
+    + visit(tvsz: Tvsz) : void
 }   
 
 ItemFinder <|-- TransistorPairFinder
