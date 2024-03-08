@@ -1,0 +1,16 @@
+@startuml
+hide empty description
+
+[*] --> Start
+
+Start --> State1
+
+State1 : foo
+State1 : bar
+
+Start --> State2 : a()
+State1 --> State2 : b()
+
+State2 --> [*]
+
+@enduml
