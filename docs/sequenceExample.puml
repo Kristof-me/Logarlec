@@ -1,4 +1,6 @@
-@startuml
+@startuml sequenceExample
+header Sequence Diagram Example
+
 hide footbox
 
 ' lehet előre deklarálni résztvevőket '
@@ -46,5 +48,10 @@ end
 note left of A
   GL HF
 end note
+
+ref over C, B, A
+  másik referált szekvencia
+   diagram
+end ref
 
 @enduml
