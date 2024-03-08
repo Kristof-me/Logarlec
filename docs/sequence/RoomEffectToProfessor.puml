@@ -1,0 +1,34 @@
+@startuml AddRoomEffect
+header Add room effect
+hide footbox
+
+actor room as "room : Room"
+participant effect as "effect : RoomEffect"
+participant prof as "professor : Professor"
+participant iter as "iterator : Iterator<ItemFinder>"
+participant finder as "finder : ItemFinder"
+participant item as "item : Item"
+
+room -> effect ++ : addEffect(actor)
+effect -> prof ++ : acceptEffect(actor, unless)
+
+loop iterator.hasNext() && item == null
+    prof -> iter ++: next()
+    return finder
+
+    prof -> finder ++ : findIn(inventory)
+    ' itt van egy rész, ami sokkal kényelmesebb templatelhető ItemFinderrel
+    ...
+
+    return item
+end
+
+alt item == null
+    prof ->> item : use(professor)
+    prof ->> effect ++: applyEffect(professor)
+    ' ezt részletezik a gas meg a wet esetén a dolgok
+end
+
+' student-re meg ctrl+c ctrl+v
+
+@enduml

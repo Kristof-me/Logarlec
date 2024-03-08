@@ -1,7 +1,7 @@
 @startuml RoomSplit
 header Room Split
 hide footbox
-
+/'
 actor gm as "GameManager"
 participant r1 as "room1 : Room"
 participant capacity as "room1.capacity : int"
@@ -22,8 +22,8 @@ r1 ->> r2doors : add(d)
 loop foreach effect in room1.effects
     r1 ->> r2 ++ : addEffect(effect)
 end
+'/
 
-/'
 actor gm as "GameManager"
 participant r1 as "room1 : Room"
 participant iter as "iter : Iterator<RoomEffect>"
@@ -41,9 +41,10 @@ loop [[iter.hasnext()]]
     r1 -> iter ++: next()
     return effect
 
-    iter ->> r2 ++ : addEffect(effect)
+    r1 ->> r2 ++ : addEffect(effect)
 end
 
+/'
 actor gm as "GameManager"
 participant r1 as "room1 : Room"
 

@@ -1,0 +1,28 @@
+@startuml AddRoomEffect
+header Add room effect
+hide footbox
+
+actor item as "Item"
+participant room as "room : Room"
+participant effect as "effect : RoomEffect"
+participant actor as "actor : Actor"
+
+item -> room ++ : addEffect(effect)
+
+/' 
+az a baj, hogy ezt úgy kéne, hogy a tick használja a loopot
+mert különben nem tudjuk jelezni, hogy használni kell a
+gázmaszkot
+
+de akkor az add room effect csak egy nyílból állna
+'/
+
+loop foreach actor in room.actors
+    room ->>  effect : applyTo(actor)
+    ref over effect, actor
+        Room effect to actor
+    end ref
+end
+
+
+@enduml

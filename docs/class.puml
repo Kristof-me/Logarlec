@@ -141,18 +141,11 @@ class Room {
 /'
 az egyirányú ajtók merge-nél eltűnnek, ha a két szoba 
 között voltak?
-ezt elég később lekezelni, de erre nem gondoltam még
 '/
 
 /' 
 hogyan is fogjuk értesíteni a bennlévő professort, ha 
 egy hallgató belép?
-
-lehet ez egy merész gondolat, de mi lenne, ha mi az ajtót
-kérnénk, hogy engedjen át minket?
-
-és akkor a szoba enter-je tudna értesíteni minden bennlévőt
-a belépésről
 '/
 
 class Door {
@@ -182,7 +175,7 @@ abstract class RoomEffect {
     - timeLeft : int
     - unlessHas : List<ItemFinder>
     + tick(): boolean
-    + addEffect(Actor actor, List<ItemFinder> unlessHas) : void
+    + addEffect(Actor actor) : void
     + {abstract} applyEffect(professor: Professor) : void
     + {abstract} applyEffect(student: Student) : void
 }
