@@ -4,11 +4,9 @@ skinparam classAttributeIconSize 0
 
 'Items --------------------------------------------
 abstract class Item {
-    - usesLeft : int
     + use()
     + onPickup(Actor actor)
     + onDrop(Room room)
-    + accept(ItemVisitor visitor)
 }
 
 class Sponge {}
@@ -46,7 +44,6 @@ class Inventory {
     - isFull(): boolean
     + addItem(Item item): boolean
     + removeItem(Item item): Item
-    + acceptVisitor(ItemVisitor visitor): void
     + deleteItem(Item item): void
     + dropAll(Room target): void
     + getSize() : int
@@ -69,40 +66,48 @@ Room o-- Inventory
 class Actor {
     - alive : boolean
     - location : Room
+    - ActionStrategy : ActionStrategy
     - defenseStrategy : DefenseStrategy
 
-    + {abstract} attacked() : void
-    + {abstract} revive() : boolean
-    + {abstract} acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
-
-    + setActionState(ActionState state) : void
-    + setDefaultActionState() : void
-
-    + setDefenseStrategy(DefenseStrategy defenseStrategy) : void
-
-    + dropAllTo(Room room) : void
     + tick() : void
+    + {abstract} attacked() : void
+
+    + addEffect(RoomEffect effect) : void
+    + setActionStrategy(ActionStrategy TimeEffected) : void
+    + setDefenseStrategy(DefenseStrategy TimeEffected) : void
+
+    + isAlive() : boolean
+    + {abstract} revive() : boolean
+    + dropAllTo(Room room) : void
 }
 
-Actor "1" -- "1" ActionState
+interface IActions {
+    + attack() : void
+    + move(Door door) : boolean
+    + use(Item item) : void
+    + pickUp(Item item) : boolean
+    + drop(Item item) : void
+}
+
+IActions <|.. Actor
+IActions <|.. ActionStrategy
+
+Actor "1" -- "1..*" ActionStrategy
 Actor "1" -- "1..*" DefenseStrategy
 
 class Student {
-    + acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
     + attacked() : void
     + revive() : boolean
-    + setDefaultActionState() : void
+    + attack() : void
+}
+
+class Professor {
+    + attacked() : void
+    + revive() : boolean
+    + attack() : void
 }
 
 Actor <|-- Student
-
-class Professor {
-    + acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
-    + attacked() : void
-    + revive() : boolean
-    + setDefaultActionState() : void
-}
-
 Actor <|-- Professor
 
 'ez egy kísérleti dolog - szedd ki, ha nem tetszik
@@ -170,9 +175,8 @@ IHasLocation <|.. Actor
 'Effect -------------------------------------------
 abstract class RoomEffect {
     - timeLeft : int
-    - unlessHas : List<ItemFinder>
     + tick(): boolean
-    + addEffect(Actor actor, List<ItemFinder> unlessHas) : void
+    + addEffect(Actor actor) : void
     + {abstract} applyEffect(Professor professor) : void
     + {abstract} applyEffect(Student student) : void
 }
@@ -191,78 +195,52 @@ class GasEffect {
     + applyEffect(Student student) : void
 }
 
-'State --------------------------------------------
-interface IActions {
-    + attack() : void
-    + move(Door door) : boolean
-    + use(Item item) : void
-    + pickUp(Item item) : boolean
-    + drop(Item item) : void
-}
-
-IActions <|.. Actor
-IActions <|.. ActionState
-
-abstract class ActionState {
-    - actor : Actor
-    - inventory : Inventory
-    - room : Room
+abstract class TimeEffected {
+    - timeLeft : int
     + tick() : void
 }
 
-class StudentActions {
+abstract class ActionStrategy {
+    - previous : ActionStrategy
+    + step() : void
+}
+
+class DefaultStep {
     + attack() : void
     + move(Door door) : boolean
     + use(Item item) : void
     + pickUp(Item item) : boolean
     + drop(Item item) : void
 }
-
-StudentActions --|> ActionState
-
-class ProfessorActions {
-    + attack() : void
-    + move(Door door) : boolean
-    + use(Item item) : void
-    + pickUp(Item item) : boolean
-    + drop(Item item) : void
+DefaultProfStep --|> DefaultStep
+class DefaultProfStep {
+    +move(Door door): boolean
+    +attack(): void
 }
-
-ProfessorActions --|> ActionState
-
 class StunnedStep {
-    - remainingTime : int
-
     + attack() : void
     + move(Door door) : boolean
     + use(Item item) : void
     + pickUp(Item item) : boolean
     + drop(Item item) : void
-    + tick() : void
 }
+TimeEffected <|-- ActionStrategy
+ActionStrategy <|-- DefaultStep
+ActionStrategy <|-- StunnedStep
 
-StunnedStep --|> ActionState
-
-'Strategy -----------------------------------
 abstract class DefenseStrategy {
-    + defend() : void
+    - previous : DefenseStrategy
+    + defend(Professor attacker) : void
 }
 
-class DefaultDefense {
-    + defend() : void
-}
-
-class BeerDefense {
-    - remaining : int
-    + defend() : void
-    + tick() : void
-}
-
+class DefaultDefense {}
+class BeerDefense {}
+TimeEffected <|-- DefenseStrategy
 DefenseStrategy <|-- DefaultDefense
 DefenseStrategy <|-- BeerDefense
 
 'Visitors ----------------------------------------
-abstract class ItemVisitor {
+interface ItemVisitor {
     + visit(Sponge sponge) : void
     + visit(Tvsz tvsz) : void
     + visit(SlideRule slideRule) : void
@@ -272,30 +250,5 @@ abstract class ItemVisitor {
     + visit(Transistor transistor) : void
     + visit(Camembert camembert) : void
 }
-
-ItemVisitor ..> Item
-
-class ItemFinder<T> {
-    - potentialItems : T[]
-    + findIn(Inventory inventory) : T
-}
-
-ItemFinder ..|> ItemVisitor
-
-class TransistorPairFinder {
-    + visit(Transistor transistor) : void
-}
-
-class BestGasMaskFinder {
-    + visit(GasMask gasMask) : void
-}
-
-class BestTvszFinder {
-    + visit(GasMask gasMask) : void
-}   
-
-ItemFinder <|-- TransistorPairFinder
-ItemFinder <|-- BestGasMaskFinder
-ItemFinder <|-- BestTvszFinder
 
 @enduml
