@@ -5,30 +5,46 @@ skinparam classAttributeIconSize 0
 'Items --------------------------------------------
 abstract class Item {
     - usesLeft : int
-    + use()
+    + use(invoker: Actor): void
+    + getUsesLeft() : int
     + onPickup(Actor actor)
     + onDrop(Room room)
     + accept(ItemVisitor visitor)
 }
 
-class Sponge {}
+class Sponge {
+    + use(invoker: Actor): void
+}
 
-class Tvsz {}
+class Tvsz {
+    + use(invoker: Actor): void
+}
 
-class SlideRule {}
+class SlideRule {
+    + onPickup(Actor actor)
+}
 
-class Beer {}
+class Beer {
+    + use(invoker: Actor): void
+}
 
-class Cocktail {}
+class Cocktail {
+    + use(invoker: Actor): void
+}
 
-class GasMask {}
+class GasMask {
+    + use(invoker: Actor): void
+}
 
 class Transistor {
     - pair: Transistor
     - location: IHasLocation
+    + use(invoker: Actor): void
 }
 
-class Camembert {}
+class Camembert {
+    + use(invoker: Actor): void
+}
 
 Item <|-- Sponge
 Item <|-- Tvsz
@@ -61,7 +77,7 @@ Inventory "1" -- "0..*" Item
 
 ' azért asszociáció, mivel ettől még az item-nek van egyedi léte
 
-Actor o-- Inventory
+Actor *--"1" Inventory
 Room o-- Inventory
 
 'Character ----------------------------------------
@@ -77,11 +93,12 @@ class Actor {
 
     + setActionState(ActionState state) : void
     + setDefaultActionState() : void
-
     + setDefenseStrategy(DefenseStrategy defenseStrategy) : void
 
     + dropAllTo(Room room) : void
     + tick() : void
+
+    + getInventory() : Inventory
 }
 
 Actor "1" -- "1" ActionState
@@ -120,10 +137,13 @@ class Room {
     - isFull() : boolean
     + enter(Actor actor) : boolean
     + leave(Actor actor) : void
+    + revive(): boolean
 
     + addItem(Item item) : void
     + removeItem(Item item) : Item
     + dropAllTo(Room room) : void
+
+    + addEffect(RoomEffect effect) : void
 
     + tick() : void
 }
@@ -245,16 +265,16 @@ StunnedStep --|> ActionState
 
 'Strategy -----------------------------------
 abstract class DefenseStrategy {
-    + defend() : void
+    + defend(inventory: Inventory) : void
 }
 
 class DefaultDefense {
-    + defend() : void
+    + defend(inventory: Inventory) : void
 }
 
 class BeerDefense {
     - remaining : int
-    + defend() : void
+    + defend(inventory: Inventory) : void
     + tick() : void
 }
 
@@ -275,12 +295,12 @@ abstract class ItemVisitor {
 
 ItemVisitor ..> Item
 
-class ItemFinder<T> {
-    - potentialItems : T[]
-    + findIn(Inventory inventory) : T
+abstract class ItemFinder {
+    # potentialItems : Items[]
+    + findIn(Inventory inventory): Item
 }
 
-ItemFinder ..|> ItemVisitor
+ItemFinder --|> ItemVisitor
 
 class TransistorPairFinder {
     + visit(Transistor transistor) : void
