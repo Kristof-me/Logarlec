@@ -1,0 +1,65 @@
+@startuml RoomSplit
+header Room Split
+hide footbox
+
+actor gm as "GameManager"
+participant r1 as "room1 : Room"
+participant capacity as "room1.capacity : int"
+
+gm -> r1 ++ : split()
+
+create r2 as "room2 : Room"
+r1 --> r2 ++ : Room(room1.capacity)
+create r2doors as "room2.doors : List<Door>"
+r2 --> r2doors -- : List<Door>()
+
+create d as "door : Door"
+r1 --> d : Door(room1, room2)
+
+r1 ->> r2doors : add(d)
+
+
+loop foreach effect in room1.effects
+    r1 ->> r2 ++ : addEffect(effect)
+end
+
+/'
+actor gm as "GameManager"
+participant r1 as "room1 : Room"
+participant iter as "iter : Iterator<RoomEffect>"
+
+gm -> r1 ++ : split()
+
+create r2 as "room2 : Room"
+r1 --> r2  :  <<create>>
+
+create d as "door : Door"
+r1 --> d :  <<create>>
+
+
+loop [[iter.hasnext()]]
+    r1 -> iter ++: next()
+    return effect
+
+    iter ->> r2 ++ : addEffect(effect)
+end
+
+actor gm as "GameManager"
+participant r1 as "room1 : Room"
+
+gm -> r1 ++ : split()
+
+create r2 as "room2 : Room"
+r1 --> r2  :  <<create>>
+
+create d as "door : Door"
+r1 --> d :  <<create>>
+
+note right of r1
+    A további működés:
+    - room2-nél az ajtó beállítása
+    - hatások másolása
+    a Room osztály belső működésének része
+end note
+'/
+@enduml

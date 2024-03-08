@@ -1,3 +1,4 @@
 app/bin/*
 *.class
 output.puml
+out/*

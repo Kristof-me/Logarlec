@@ -26,7 +26,7 @@ return returnS
 A -> A  -- :  kill()
 
 create D
-B -->> D : create()
+B --> D : create()
 
 
 B -> D -- : delete()
