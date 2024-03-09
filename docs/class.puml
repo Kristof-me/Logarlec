@@ -275,9 +275,9 @@ abstract class ItemVisitor {
 
 ItemVisitor ..> Item
 
-abstract class ItemFinder {
-    # potentialItems : Items[]
-    + findIn(inventory: Inventory): Item
+abstract class ItemFinder<T extends Item> {
+    # potentialItems : List<T>
+    + findIn(inventory: Inventory): T
 }
 
 ItemFinder --|> ItemVisitor
