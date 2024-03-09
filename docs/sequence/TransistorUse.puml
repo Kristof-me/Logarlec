@@ -1,0 +1,32 @@
+@startuml TransistorUse
+header Transistor Use
+hide footbox
+
+actor Controller
+participant actor as "actor : Actor"
+participant t1 as "transistorA : Transistor"
+participant t2 as "transistorB : Transistor"
+
+Controller -> actor: use(transistorA)
+actor -> t1++: use(actor)
+
+alt pair == null
+
+    t1 -> actor++: getInventory()
+    return inventory
+    ref over t1: ItemFinding
+
+    opt  item != null
+        t1 -> t1: pairWith(TransistorB)
+        t1 -> t2++: pairWith(TransistorA)
+        return
+    end
+    return
+else pair != null
+    t1 -> t2++: getLocation()
+    return location
+    t1 -> actor++: teleport(location, false)
+end
+' work in progress
+
+@enduml

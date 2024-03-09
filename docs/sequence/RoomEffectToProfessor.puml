@@ -23,9 +23,11 @@ loop iterator.hasNext() && item == null
     return item
 end
 
-alt item == null
-    prof ->> item : use(professor)
-    prof ->> effect ++: applyEffect(professor)
+opt item == null
+    prof -> item ++: use(professor)
+    return
+    prof -> effect ++: applyEffect(professor)
+    return
     ' ezt részletezik a gas meg a wet esetén a dolgok
 end
 

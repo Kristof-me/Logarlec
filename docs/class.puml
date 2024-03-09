@@ -39,7 +39,8 @@ class Transistor {
     - pair: Transistor
     - location: IHasLocation
     + use(invoker: Actor): void
-    + onDrop(room: Room)
+    + pairWith(pair : Transistor) : void
+    + onDrop(room: Room) : void
 }
 
 class Camembert {
@@ -94,6 +95,7 @@ abstract class Actor {
     + setActionState(state: ActionState) : void
     + setDefenseStrategy(defenseStrategy: DefenseStrategy) : void
 
+    + teleport(room: Room, isForced: boolean) : boolean
     + dropAllTo(room: Room) : void
     + tick() : void
 
