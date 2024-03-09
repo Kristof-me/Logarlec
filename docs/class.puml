@@ -6,9 +6,9 @@ abstract class Item {
     - usesLeft : int
     + use(invoker: Actor): void
     + getUsesLeft() : int
-    + onPickup(actor: Actor)
-    + onDrop(room: Room)
-    + accept(visitor: ItemVisitor)
+    + onPickup(actor: Actor): void
+    + onDrop(room: Room): void
+    + accept(visitor: ItemVisitor): void
 }
 
 class Sponge {
