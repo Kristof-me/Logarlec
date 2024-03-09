@@ -1,0 +1,36 @@
+@startuml
+hide footbox
+actor caller
+create participant ItemFinder as "itemFinder : ItemFinder"
+participant Inventory as "inventory : Inventory"
+participant Item as "item : Item"
+
+caller --> ItemFinder  :  <<create>>
+caller -> ItemFinder : findIn(inventory)
+activate ItemFinder
+
+ItemFinder -> Inventory : acceptVisitor(itemFinder)
+activate Inventory
+
+loop for each Item
+Inventory -> Item : accept(itemFinder)
+activate Item
+
+Item -> ItemFinder : visit(item)
+activate ItemFinder
+
+' returns -------------------------------------
+ItemFinder --> Item
+deactivate ItemFinder
+
+Item --> Inventory
+deactivate Item
+end
+
+Inventory --> ItemFinder
+deactivate Inventory
+
+ItemFinder --> caller : item
+destroy ItemFinder
+
+@enduml
