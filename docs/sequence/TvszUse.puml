@@ -1,0 +1,14 @@
+@startuml
+hide footbox
+
+' might be vise to rename this xd
+actor Actor_ as "TvszUser"
+participant Item as "Tvsz : Item"
+participant Actor as "student : Actor"
+ref over Actor_, Item: ItemFinding
+
+Actor_ -> Item++: Use(Actor)
+ref over Item: DeleteItem
+return
+
+@enduml

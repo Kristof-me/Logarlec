@@ -1,0 +1,15 @@
+@startuml
+hide footbox
+actor Actor
+participant Item as "item: Item"
+participant Inventory as "inventory: Inventory"
+
+Actor -> Item: Use(Actor)
+activate Item
+opt usesLeft < 0
+Item -> Inventory++: removeItem(item)
+return
+Item --> Actor
+destroy Item
+end
+@enduml
