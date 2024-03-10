@@ -1,0 +1,16 @@
+@startuml DropAllTo
+header DropAllTo
+hide footbox
+participant Room as "room : Room"
+participant Actor as "actor : Actor"
+participant Inventory as "inventory : Inventory"
+participant Item as "item : Item"
+
+loop foreach Item
+Actor -> Inventory++: removeItem(item)
+return item
+Actor -> Room++: addItem(item)
+return
+end
+
+@enduml
