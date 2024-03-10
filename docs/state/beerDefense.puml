@@ -1,0 +1,17 @@
+@startuml BeerDefenseStates
+header Beer defense states
+hide empty description
+
+[*] --> Inactive
+
+' na itt nem tudom mi a függvény, mer ilyen nincs igazából
+Inactive --> Active : setDefenseStartegy()
+
+state c <<choice>>
+
+Active --> c : tick() / remaining--
+
+c --> Active : [remaining > 0]
+c --> Inactive : [remaining == 0]
+
+@enduml
