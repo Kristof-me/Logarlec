@@ -1,0 +1,15 @@
+@startuml WetEffectApply
+header Apply wet effect
+hide footbox
+
+' Actor Hitler
+Actor Actor as "Actor"
+participant Room as "room : Room"
+create WetEffect as "wetEffect : WetEffect"
+
+Actor --> WetEffect: <<create>>
+Actor -> Room++: addEffect(wetEffect)
+return
+
+
+@enduml

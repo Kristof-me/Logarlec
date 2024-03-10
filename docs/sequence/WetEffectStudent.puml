@@ -1,0 +1,20 @@
+@startuml WetEffectTeacher
+header Add wet effect to teacher
+hide footbox
+
+participant Room as "room : Room"
+participant Actor as "student : Student"
+participant GasEffect as "wetEffect : WetEffect"
+
+activate Room
+
+create List as "itemFinders : List<ItemFinder>"
+Room -> List: <<create>>
+
+Room -> Actor++: acceptEffect(wetEffect, itemFinders)
+
+return
+
+
+
+@enduml

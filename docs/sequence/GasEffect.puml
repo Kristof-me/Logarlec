@@ -1,5 +1,5 @@
 @startuml GasEffect
-header Add gas effect to room
+header Add gas effect to actor
 hide footbox
 
 participant Room as "room : Room"
