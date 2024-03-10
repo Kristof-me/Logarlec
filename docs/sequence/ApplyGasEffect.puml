@@ -1,0 +1,15 @@
+@startuml GasEffectApply
+header Apply gas effect
+hide footbox
+
+' Actor Hitler
+Actor Actor as "Actor"
+participant Room as "room : Room"
+create GasEffect as "gasEffect : GasEffect"
+
+Actor --> GasEffect: <<create>>
+Actor -> Room++: addEffect(gasEffect)
+return
+
+
+@enduml
