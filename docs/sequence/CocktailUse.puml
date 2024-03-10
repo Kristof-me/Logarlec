@@ -1,0 +1,48 @@
+@startuml CocktailUse
+header Cocktail Use
+hide footbox
+actor Controller
+participant Student as "student1: Student"
+participant StudentActions as "studentActions: StudentActions"
+participant Cocktail as "cocktail : Cocktail"
+participant Room as "room: Room"
+participant Student2 as "student2: Student"
+participant Success as "success: boolean"
+
+Controller -> Student: use(cocktail)
+activate Student
+Student -> StudentActions: use(cocktail)
+activate StudentActions
+StudentActions -> Cocktail: use(student)
+activate Cocktail
+Cocktail -> Student: getLocation()
+activate Student
+Student --> Cocktail: room
+deactivate Student
+Cocktail -> Room: revive()
+activate Room
+' fasz se tudja itt mi a kritérium
+' úgy meg fog ez bukni review-n mint a szar
+loop while NotRevivedAnyone
+    Room -> Student2: revive()
+    activate Student2
+    Student2 --> Room: success
+    deactivate Student2
+end
+
+alt success
+    Room --> Cocktail: true
+    ref over Cocktail: DeleteItem
+else
+    Room --> Cocktail: false
+end
+deactivate Room
+
+Cocktail --> StudentActions
+deactivate Cocktail
+StudentActions --> Student
+deactivate StudentActions
+Student --> Controller
+deactivate Student
+
+@enduml

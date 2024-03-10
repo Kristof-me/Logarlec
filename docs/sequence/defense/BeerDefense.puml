@@ -1,5 +1,5 @@
 @startuml BeerDefense
-header Beer Defense
+header Beer defense
 hide footbox
 
 ' csak mi tudjuk, hogy ők azok, de ez generikus igazából 
