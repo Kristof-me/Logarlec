@@ -247,16 +247,16 @@ StunnedStep --|> ActionState
 
 'Strategy -----------------------------------
 abstract class DefenseStrategy {
-    + defend(inventory: Inventory) : void
+    + defend(inventory: Inventory) : boolean
 }
 
 class DefaultDefense {
-    + defend(inventory: Inventory) : void
+    + defend(inventory: Inventory) : boolean
 }
 
 class BeerDefense {
     - remaining : int
-    + defend(inventory: Inventory) : void
+    + defend(inventory: Inventory) : boolean
     + tick() : void
 }
 
