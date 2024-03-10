@@ -1,0 +1,25 @@
+@startuml
+header Sponge Use
+
+actor controller as "Controller"
+participant actor as "actor : actor"
+participant sponge as "sponge : Sponge"
+participant room as "room : Room"
+participant actor2 as "actorInRoom : Actor"
+controller -> actor++: use(sponge)
+actor -> sponge++: use(actor)
+
+sponge -> actor++: getLocation()
+return location
+
+
+loop for each actor2 in room
+    ref over sponge, room, actor2 : Apply wet effect
+end
+ref over sponge : DeleteItem
+
+return
+return
+
+hide footbox
+@enduml

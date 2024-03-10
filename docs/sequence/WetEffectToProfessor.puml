@@ -1,0 +1,16 @@
+@startuml
+header Apply Wet Effect to Professor
+hide footbox
+autoactivate on
+actor room as "room : Room"
+participant effect as "effect : WetEffect"
+participant prof as "professor : Professor"
+
+room -> prof : acceptEffect(effect)
+prof -> effect : applyEffect(prof)
+
+create stunnedStep as "stunnedStep : StunnedStep"
+effect -> stunnedStep : <<create>>
+return stunnedStep
+effect -> prof : setActionState(stunnedStep)
+@enduml
