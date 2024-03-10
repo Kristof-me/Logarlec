@@ -1,0 +1,25 @@
+@startuml BeerDefense
+header Beer Defense
+hide footbox
+
+' csak mi tudjuk, hogy ők azok, de ez generikus igazából 
+actor prof as "Professor"
+participant student as "actor : Actor"
+participant beerDefense as "beerDefense : BeerDefense"
+participant beerDefense as "inventory : Inventory"
+
+prof -> student ++ : attacked()
+student -> beerDefense ++ : defend(inventory)
+return 
+
+/' 
+igazából itt semmi nem történik az inventory-val
+megjegyzés: a class diagrammon csak a beer defense-nek 
+van tick()-je, ami ebben a formában nem hívható meg
+feljebb kéne vinni a DefenseStrategy-be
+
+lehet itt is a tick-nek bool-ban kéne visszaadnia, hogy
+aktív-e még ez az effekt
+'/
+
+@enduml
