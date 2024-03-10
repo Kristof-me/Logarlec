@@ -3,10 +3,15 @@ header Room merge
 hide footbox
 
 actor gm as "GameManager"
-participant r1 as "room1 : Room"
 participant r2 as "room2 : Room"
+participant r1 as "room1 : Room"
 
-gm -> r1 : merge(room2)
+gm -> r1 ++: merge(room2)
+return
+
+note over r1
+    a beolvadás a room1 belső működése
+end note
 
 /' 
 látványosabb lenne, ha a room1 olvadna bele ilyenkor 
@@ -15,7 +20,6 @@ a room2-be, mert akkor több függvényhívást használnánk
 
 lentebb itthagyom a látványosabb változatot, de
 lehet ez egy külön diagrammra kéne és innen csak megreferálni
-
 
 actor gm as "GameManager"
 participant r1 as "room1 : Room"
@@ -48,4 +52,5 @@ loop for each actor
     return
 end
 '/
+
 @enduml

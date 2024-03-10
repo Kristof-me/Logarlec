@@ -1,0 +1,29 @@
+@startuml ActorTick
+header Actor Tick
+hide footbox
+autoactivate on
+
+actor Controller as "Time Passing"
+participant actor as "actor : Actor"
+participant state as "state : ActionState"
+participant strat as "strategy : DefenseStrategy"
+
+Controller -> actor : tick()
+actor -> state : tick()
+return stateExpired
+autoactivate off
+opt stateExpired
+    actor -> actor : setDefaultActionState()
+end
+autoactivate on
+actor -> strat : tick()
+return strategyExpired
+autoactivate off
+opt strategyExpired
+    create defDef as "defaultDefense : DefaultDefense"
+    actor --> defDef : <<create>>
+    actor -> actor : setDefenseStrategy(defaultDefense)
+end
+
+return
+@enduml

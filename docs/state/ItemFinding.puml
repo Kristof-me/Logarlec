@@ -1,0 +1,17 @@
+@startuml ItemFinding
+header Item finding
+hide empty description
+
+[*] --> Default
+Default --> Searching : findIn(inventory)
+
+state c <<choice>>
+
+Searching --> c
+c --> Found : [potentialItems.size() > 0]
+c --> NotFound : [potentialItems.size() == 0]
+
+Found --> Default : findIn(inventory)
+NotFound --> Default : findIn(inventory)
+
+@enduml

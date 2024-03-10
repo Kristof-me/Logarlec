@@ -1,23 +1,23 @@
-@startuml
+@startuml SpongeUse
 header Sponge Use
 
 actor controller as "Controller"
 participant actor as "actor : actor"
+participant state as "actionState : ActionState"
 participant sponge as "sponge : Sponge"
 participant room as "room : Room"
-participant actor2 as "actorInRoom : Actor"
 controller -> actor++: use(sponge)
-actor -> sponge++: use(actor)
+
+actor -> state++: use(sponge)
+state -> sponge++: use(actor)
 
 sponge -> actor++: getLocation()
-return location
+return room
 
+ref over sponge, room : Add room effect
+ref over sponge : Delete item
 
-loop for each actor2 in room
-    ref over sponge, room, actor2 : Apply wet effect
-end
-ref over sponge : DeleteItem
-
+return
 return
 return
 

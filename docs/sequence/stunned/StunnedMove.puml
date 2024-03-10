@@ -1,4 +1,4 @@
-@startuml
+@startuml StunnedMove
 header Stunned Move
 
 hide footbox
@@ -6,8 +6,8 @@ autoactivate on
 
 actor A as "Controller"
 participant B as "actor : Actor"
-participant C as "state : StunnedStep"
 participant D as "door : Door"
+participant C as "state : StunnedStep"
 A -> B : move(door)
 B -> C : move(door)
 return

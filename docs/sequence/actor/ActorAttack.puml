@@ -1,18 +1,18 @@
 @startuml AddRoomEffect
-header Add room effect
+header Actor Attack
 hide footbox
 autoactivate on
 
-actor P as "professor : Professor"
-participant S as "state : ProfessorActions"
+actor P as "Actor"
+participant S as "state : ActionState"
 participant R as "room : Room"
 participant A as "actor : Actor"
 
-P -> S++ : attack(professor)
-S -> R++ : attack(professor)
+P -> S++ : attack(actor)
+S -> R++ : attack(actor)
 loop foreach actor in room.actors
     R -> A ++: attacked()
-    ref over A : DefenseStrategy tries to defend
+    ref over A : Defense Strategy
     return
 end
 return

@@ -4,6 +4,5 @@ hide empty description
 
 [*] --> NotRevivedAnyone
 
-' na itt nem tudom mi a függvény, mer ilyen nincs igazából
-NotRevivedAnyone --> Revived : revive() == true
 NotRevivedAnyone --> NotRevivedAnyone : revive() == false
+NotRevivedAnyone --> Revived : revive() == true

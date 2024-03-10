@@ -2,18 +2,34 @@
 header Default defense
 hide footbox
 
-actor prof as "Professor"
+actor prof as "Attacker"
 participant student as "actor : Actor"
+participant item as "item : Tvsz"
 participant defense as "defense : DefaultDefense"
 participant inventory as "inventory : Inventory"
 
-prof -> student ++ : attacked()
-student -> defense ++ : defend(inventory)
+prof -> student : attacked()
+activate student
+student -> defense : defend(inventory)
+activate defense
 
-ref over defense, inventory 
-    Tvsz use
-end ref
+ref over defense, item, inventory
+    Item finding
+end ref 
 
-return success 
+alt item == null
+    defense --> student : false
+else item != null
+defense --> student : true
+    deactivate defense
+    student -> item: use(actor)
+    activate item
+    item --> student
+    deactivate item
+    
+end
 
+
+student --> prof
+deactivate student
 @enduml

@@ -1,0 +1,28 @@
+@startuml WetEffectProfessor
+header Add wet effect to professor
+hide footbox
+
+actor Controller as "invoker"
+participant Room as "room : Room"
+participant List as "itemFinders : List<ItemFinder>"
+participant Actor as "professor : Professor"
+participant State as "actionState : ActionState"
+participant GasEffect as "wetEffect : WetEffect"
+
+Controller -> Room : enter(professor)
+activate Room
+
+Room -> Actor++: acceptEffect(wetEffect, itemFinders)
+Actor -> GasEffect++: applyEffect(professor)
+
+create StunnedStep as "stunnedStep : StunnedStep"
+GasEffect --> StunnedStep: <<create>>
+GasEffect -> Actor++: setActionState(stunnedStep)
+Actor -> State ++ : setNextState(stunnedStep)
+return nextState
+return
+return
+return
+return
+
+@enduml

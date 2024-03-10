@@ -2,21 +2,23 @@
 header Transistor Use
 hide footbox
 
-actor Controller
+actor controller
 participant actor as "actor : Actor"
+participant state as "actionState : ActionState"
 participant t1 as "transistorA : Transistor"
 participant t2 as "transistorB : Transistor"
+participant location as "location : Room"
 
-Controller -> actor++: use(transistorA)
-actor -> t1++: use(actor)
+controller -> actor++: use(transistor)
+actor -> state ++: use(transistor)
+state -> t1++: use(actor)
 
 alt Picked up
-
     t1 -> actor++: getInventory()
     return inventory
     ref over t1: ItemFinding
 
-    opt  item != null
+    opt  transistorB != null
         t1 -> t1: pairWith(TransistorB)
         t1 -> t2++: pairWith(TransistorA)
         return
@@ -28,9 +30,10 @@ else Picked up and paired
     t1 -> actor++: teleport(location, false)
     return
     
-    t1 -> t1: pairWith(null)
-
     t1 -> t2++: pairWith(null)
+    return
+
+    t1 -> t1: pairWith(null)
     return
 
     return

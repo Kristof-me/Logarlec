@@ -6,8 +6,8 @@ autoactivate on
 
 actor A as "Controller"
 participant B as "actor : Actor"
-participant C as "state : StunnedStep"
 participant D as "item : Item"
+participant C as "state : StunnedStep"
 A -> B : drop(item)
 B -> C : drop(item)
 return

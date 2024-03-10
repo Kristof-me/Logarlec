@@ -1,5 +1,5 @@
-@startuml RoomEffectTicking
-header Room effect ticking
+@startuml RoomTick
+header Room tick
 hide footbox
 
 actor time as "TimePassing"
@@ -8,6 +8,10 @@ participant effect as "roomEffect : RoomEffect"
 participant actor as "actor : Actor"
 
 time -> room ++: tick()
+loop for each door in room
+    room -> door++ : tick()
+    return
+end
 loop for each roomEffect
     room -> effect ++: tick()
     return active
@@ -30,11 +34,7 @@ loop for each roomEffect
         ' ide kéne, hogy eltávolítjuk az effektet, de ez belső működés
     end
 end
-
-loop for each actor
-    room -> actor ++: tick()
-    return
-end
+return
  
 participant stillActive as "stillActive : boolean"
 participant unless as "unless : List<ItemFinder>"

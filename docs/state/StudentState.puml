@@ -1,8 +1,11 @@
-@startuml
+@startuml StudentState
+header Student states
+hide empty description
 
 [*] --> StudentActions
 
 StudentActions --> StunnedStep : gasEffect.applyEffect(student)
+StudentActions --> StudentActions : wetEffect.applyEffect(student)
 state c <<choice>>
 StunnedStep -> c : tick() / remainingTime--
 c -> StunnedStep : remainingTime > 0

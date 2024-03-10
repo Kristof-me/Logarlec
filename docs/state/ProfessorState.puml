@@ -1,4 +1,6 @@
-@startuml
+@startuml ProfessorState
+header Professor states
+hide empty description
 
 [*] --> ProfessorActions
 

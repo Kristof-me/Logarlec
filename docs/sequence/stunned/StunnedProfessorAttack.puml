@@ -1,5 +1,5 @@
-@startuml AddRoomEffect
-header Add room effect
+@startuml StunnedProfessorAttack
+header Stunned Professor Attack
 hide footbox
 autoactivate on
 

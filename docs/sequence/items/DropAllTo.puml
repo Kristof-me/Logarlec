@@ -1,16 +1,19 @@
 @startuml DropAllTo
 header DropAllTo
 hide footbox
-participant Room as "room : Room"
 participant Actor as "actor : Actor"
+participant Room as "room : Room"
 participant Inventory as "inventory : Inventory"
 participant Item as "item : Item"
 
+-> Actor ++: dropAll(room)
+Actor -> Inventory++: dropAll(room)
 loop foreach Item
-Actor -> Inventory++: removeItem(item)
-return item
-Actor -> Room++: addItem(item)
-return
+    Inventory -> Room++: addItem(item)
+    return true
+    Inventory -> Inventory : removeItem(item)
 end
 
+return
+return
 @enduml

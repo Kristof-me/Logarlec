@@ -4,14 +4,14 @@ hide empty description
 
 [*] --> DefaultDefense
 
-DefaultDefense -> BeerDefense : setDefenseStrategy(beerDefense)
-DefaultDefense -> DefaultDefense : tick()
-
 state c <<choice>>
 
-BeerDefense -> c : tick()
+BeerDefense --> c : tick()
 c --> BeerDefense : [usesLeft > 0]
 c --> DefaultDefense : [usesLeft == 0]
+
+DefaultDefense --> DefaultDefense : tick()
+DefaultDefense --> BeerDefense : setDefenseStrategy(beerDefense)
 
 
 @enduml

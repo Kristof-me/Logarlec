@@ -1,7 +1,6 @@
 @startuml DoorStates
 header Door states
 hide empty description
-
 /'
 Ha vita tárgyát képezné a condition - akkor UML 2.5.1-es 
 standard specifikáció 371. oldalát tudom előszeretettel ajánlani

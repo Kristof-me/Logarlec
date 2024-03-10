@@ -31,7 +31,11 @@ end
 Inventory --> ItemFinder
 deactivate Inventory
 
-ItemFinder --> caller : item
+alt Found
+    ItemFinder --> caller : item
+else NotFound
+    ItemFinder --> caller : null
+end
 destroy ItemFinder
 
 @enduml

@@ -19,7 +19,6 @@ loop for each effect
     r1 --> r2 ++ : addEffect(effect)
     return
 end
-
-participant capacity as "capacity : int"
+return
 
 @enduml

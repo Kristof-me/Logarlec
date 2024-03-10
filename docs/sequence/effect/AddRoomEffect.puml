@@ -2,7 +2,7 @@
 header Add room effect
 hide footbox
 
-Actor Actor as "Actor"
+Actor Actor as "Invoker"
 participant Room as "room : Room"
 create RoomEffect as "effect : RoomEffect"
 

@@ -4,35 +4,44 @@ skinparam classAttributeIconSize 0
 'Items --------------------------------------------
 abstract class Item {
     - usesLeft : int
+
     + use(invoker: Actor): void
     + getUsesLeft() : int
+    
     + onPickup(actor: Actor): void
     + onDrop(room: Room): void
-    + accept(visitor: ItemVisitor): void
+    
+    + {abstract} accept(visitor: ItemVisitor): void
 }
 
 class Sponge {
     + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
 }
 
 class Tvsz {
     + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
 }
 
 class SlideRule {
     + onPickup(actor: Actor)
+    + accept(visitor: ItemVisitor): void
 }
 
 class Beer {
     + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
 }
 
 class Cocktail {
     + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
 }
 
 class GasMask {
     + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
 }
 
 class Transistor {
@@ -41,10 +50,13 @@ class Transistor {
     + use(invoker: Actor): void
     + pairWith(pair : Transistor) : void
     + onDrop(room: Room) : void
+
+    + accept(visitor: ItemVisitor): void
 }
 
 class Camembert {
     + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
 }
 
 Item <|-- Sponge
@@ -63,16 +75,10 @@ class Inventory {
     - isFull(): boolean
     + addItem(item: Item): boolean
     + removeItem(item: Item): Item
-    + acceptVisitor(visitor: ItemVisitor): void
-    + deleteItem(item: Item): void
     + dropAll(target: Room): void
-    + getSize() : int
-}
 
-/' 
-itt a remove és a delete összevonható lenne egy 
-removeItem(Item item, boolean shouldDelete)-re
-'/
+    + acceptVisitor(visitor: ItemVisitor): void
+}
 
 Inventory "1" -- "0..*" Item
 
@@ -85,7 +91,6 @@ Room *-- "1" Inventory
 
 abstract class Actor {
     - alive : boolean
-    - location : Room
 
     + {abstract} attacked() : void
     + {abstract} revive() : boolean
@@ -96,21 +101,28 @@ abstract class Actor {
     + setDefenseStrategy(defenseStrategy: DefenseStrategy) : void
 
     + teleport(room: Room, isForced: boolean) : boolean
+    + getInventory() : Inventory
     + dropAllTo(room: Room) : void
     + tick() : void
-
-    + getInventory() : Inventory
 }
 
 Actor -- "1" ActionState
 Actor -- "1" DefenseStrategy
 
 class Student {
+    + attacked() : void
+    + revive() : boolean
+    + acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
+    + setDefaultActionState() : void
 }
 
 Actor <|-- Student
 
 class Professor {
+    + attacked() : void
+    + revive() : boolean
+    + acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
+    + setDefaultActionState() : void
 }
 
 Actor <|-- Professor
@@ -121,22 +133,19 @@ Actor <|-- Professor
 
 class Room {
     - capacity : int
-    - effects : RoomEffect[]
 
     + split() : void
     + merge(room: Room) : void
-    + attack(attacker: Professor)
+    + attack(attacker: Actor): void
+    + addEffect(effect: RoomEffect) : void
     
-    - isFull() : boolean
     + enter(actor: Actor) : boolean
     + leave(actor: Actor) : void
     + revive(): boolean
+    - isFull() : boolean
 
     + addItem(item: Item) : void
     + removeItem(item: Item) : Item
-
-    + addEffect(effect: RoomEffect) : void
-
     + tick() : void
 }
 
@@ -153,7 +162,6 @@ egy hallgató belép?
 class Door {
     - remainingInvisibility : int
     - isOneway : boolean
-    - rooms : Room[]
 
     + hide(duration: int) : void
     + leadsTo(from: Room) : Room
@@ -175,21 +183,26 @@ IHasLocation <|.. Actor
 'Effect -------------------------------------------
 abstract class RoomEffect {
     - timeLeft : int
-    - unlessHas : List<ItemFinder>
     + tick(): boolean
     + addEffect(Actor actor) : void
+
     + {abstract} applyEffect(professor: Professor) : void
     + {abstract} applyEffect(student: Student) : void
 }
 ' tick returns false when the effect expires
 
+RoomEffect "1" -- "0..*" ItemFinder
 RoomEffect <|-- WetEffect
 RoomEffect <|-- GasEffect
 
 class WetEffect {
+    + applyEffect(professor: Professor) : void
+    + applyEffect(student: Student) : void
 }
 
 class GasEffect {
+    + applyEffect(professor: Professor) : void
+    + applyEffect(student: Student) : void
 }
 
 'State --------------------------------------------
@@ -205,29 +218,18 @@ IActions <|.. Actor
 IActions <|.. ActionState
 
 abstract class ActionState {
-    - actor : Actor
-    - inventory : Inventory
-    - room : Room
-    + tick() : void
-    + attack() : void
-    + move(door: Door) : boolean
-    + use(item: Item) : void
-    + pickUp(item: Item) : boolean
-    + drop(item: Item) : void
+    + tick() : boolean
+    + {abstract} setNextState(state: ActionState) : ActionState
 }
 
 class StudentActions {
     + attack() : void
-    + move(door: Door) : boolean
-    + pickUp(item: Item) : boolean
 }
 
 StudentActions --|> ActionState
 
 class ProfessorActions {
     + attack() : void
-    + move(door: Door) : boolean
-    + pickUp(item: Item) : boolean
 }
 
 ProfessorActions --|> ActionState
@@ -235,18 +237,19 @@ ProfessorActions --|> ActionState
 class StunnedStep {
     - remainingTime : int
 
+    + tick() : boolean
     + attack() : void
     + move(door: Door) : boolean
     + use(item: Item) : void
     + pickUp(item: Item) : boolean
     + drop(item: Item) : void
-    + tick() : void
 }
 
 StunnedStep --|> ActionState
 
 'Strategy -----------------------------------
 abstract class DefenseStrategy {
+    + tick() : boolean
     + defend(inventory: Inventory) : boolean
 }
 
@@ -257,8 +260,10 @@ class DefaultDefense {
 class BeerDefense {
     - remaining : int
     + defend(inventory: Inventory) : boolean
-    + tick() : void
+    + tick() : boolean
 }
+
+' false-t ad vissza, ha már lejár
 
 DefenseStrategy <|-- DefaultDefense
 DefenseStrategy <|-- BeerDefense
@@ -299,5 +304,8 @@ class BestTvszFinder {
 ItemFinder <|-- TransistorPairFinder
 ItemFinder <|-- BestGasMaskFinder
 ItemFinder <|-- BestTvszFinder
+
+' dependency
+'Transistor ..> IHasLocation
 
 @enduml

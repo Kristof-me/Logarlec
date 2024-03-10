@@ -16,10 +16,15 @@ B -> C : drop(item)
 C -> B : getInventory()
 return inventory
 C -> I : removeItem(item)
-return
+return item
 C -> B : getLocation()
 return room
 C -> D : onDrop(room)
 D -> E : addItem(item)
+
+return true
+return
+return
+return
 
 @enduml

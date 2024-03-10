@@ -3,16 +3,18 @@ header Camembert use
 
 actor controller as "Controller"
 participant actor as "actor : actor"
+participant state as "actionState : ActionState"
 participant camembert as "camembert : Camembert"
 participant room as "room : Room"
 
 controller -> actor++: use(camembert)
-actor -> camembert++: use(actor)
+actor -> state ++: use(camembert)
+state -> camembert++: use(actor)
 
 camembert -> actor++: getLocation()
-return location
+return room
 
-ref over camembert, room : Apply gas effect
+ref over camembert, room : Apply effect
 ref over camembert : DeleteItem
 
 return

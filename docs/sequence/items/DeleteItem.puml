@@ -1,15 +1,19 @@
-@startuml
+@startuml DeleteItem
+header Delete Item
 hide footbox
+
 actor Actor
 participant Item as "item: Item"
 participant Inventory as "inventory: Inventory"
 
 Actor -> Item: Use(Actor)
 activate Item
-opt usesLeft < 0
-Item -> Inventory++: removeItem(item)
-return
-Item --> Actor
-destroy Item
+alt usesLeft > 0
+    Item --> Actor
+else usesLeft <= 0
+    Item -> Inventory++: removeItem(item)
+    return item
+    Actor <-- Item
+    destroy Item
 end
 @enduml

@@ -4,30 +4,34 @@ hide footbox
 
 participant Room as "room : Room"
 participant Actor as "actor : Actor"
+participant ItemFinders as "itemFinders : List<ItemFinder>"
 participant GasEffect as "gasEffect : GasEffect"
+participant State as "state : ActionState"
 
+-> Room
 activate Room
-create ItemFinder as "itemFinder : ItemFinder<GasMask>"
-Room -> ItemFinder: <<create>>
 
-create List as "itemFinders : List<ItemFinder>"
-Room -> List: <<create>>
+Room -> GasEffect ++: addEffect(actor)
+GasEffect -> Actor++: acceptEffect(gasEffect, itemFinders)
 
-Room -> List++: add(itemFinder)
-return
-Room -> Actor++: acceptEffect(gasEffect, itemFinders)
-Actor -> GasEffect++: applyEffect(actor)
+
+Actor -> GasEffect ++: applyEffect(actor)
+
 GasEffect -> Actor++: dropAllTo(room)
 ref over Actor, Room: DropAllTo
 return
 
 create StunnedStep as "stunnedStep : StunnedStep"
-GasEffect -> StunnedStep: <<create>>
+GasEffect --> StunnedStep: <<create>>
 GasEffect -> Actor++: setActionState(stunnedStep)
+Actor -> State++: setNextState(stunnedStep)
+return nextState
+
+return
 return
 return
 return
 
-
+<-- Room
 
 @enduml

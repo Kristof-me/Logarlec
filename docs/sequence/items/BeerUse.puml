@@ -12,23 +12,13 @@ student -> actionState ++ : use(beer)
 actionState -> beer ++ : use(student)
 
 create beerDefense as "beerDefense : BeerDefense"
-beer --> beerDefense : BeerDefense()
+beer --> beerDefense : <<create>>
 beer -> student ++ : setDefenseStrategy(beerDefense)
 return 
+ref over beer : DeleteItem
 return 
 
-actionState -> beer ++ : getUsesLeft()
-return usesLeft
-
-' ez lehet egy külön diagramm
-participant inventory as "inventory : Inventory"
-participant usesLeft as "usesLeft : int"
-
-opt usesLeft == 0
-actionState -> inventory ++ : removeItem(beer)
-return 
-end
-
+return
 return
 
 @enduml
