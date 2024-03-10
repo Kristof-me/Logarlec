@@ -1,0 +1,51 @@
+@startuml RoomMerge
+header Room merge
+hide footbox
+
+actor gm as "GameManager"
+participant r1 as "room1 : Room"
+participant r2 as "room2 : Room"
+
+gm -> r1 : merge(room2)
+
+/' 
+látványosabb lenne, ha a room1 olvadna bele ilyenkor 
+a room2-be, mert akkor több függvényhívást használnánk
+így csak belső működés az egész
+
+lentebb itthagyom a látványosabb változatot, de
+lehet ez egy külön diagrammra kéne és innen csak megreferálni
+
+
+actor gm as "GameManager"
+participant r1 as "room1 : Room"
+participant r2 as "room2 : Room"
+participant act as "actor : Actor"
+participant effect as "roomEffect : RoomEffect"
+participant item as "item : Item"
+
+gm -> r1 ++ : merge(room2)
+
+loop for each effect
+    r1 -> r2 ++ : addEffect(roomEffect)
+    return
+end
+
+loop for each item
+    r1 -> item ++ : onDrop(room2)
+    return
+    r1 -> r2 ++ : addItem(item)
+    'itt ugye még van az inventory-val is kommunikáció
+    'de azt lehet holnap megcsinálom és itt csak referálok rá
+    
+    return
+    
+    r1 -> r1 : removeItem(item)
+end
+
+loop for each actor
+    r1 -> act ++: teleport(room2, true)
+    return
+end
+'/
+@enduml

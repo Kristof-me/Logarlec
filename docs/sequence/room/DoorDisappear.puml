@@ -1,0 +1,19 @@
+@startuml DoorDisappear
+header Door disappear
+hide footbox
+
+actor gm as "GameManager"
+participant door as "door : Door"
+
+/' 
+itt kéne a room-nak egy hide door function? 
+igazából nem feltétlenül, főleg ha elakarjuk kerülni, 
+hogy "god class" legyen
+'/
+opt Visible
+gm -> door ++ : hide(duration)
+end
+
+
+participant duration as "duration : int"
+@enduml
