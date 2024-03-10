@@ -2,27 +2,13 @@
 header Add room effect
 hide footbox
 
-actor item as "Item"
-participant room as "room : Room"
-participant effect as "effect : RoomEffect"
-participant actor as "actor : Actor"
+Actor Actor as "Actor"
+participant Room as "room : Room"
+create RoomEffect as "effect : RoomEffect"
 
-item -> room ++ : addEffect(effect)
-
-/' 
-az a baj, hogy ezt úgy kéne, hogy a tick használja a loopot
-mert különben nem tudjuk jelezni, hogy használni kell a
-gázmaszkot
-
-de akkor az add room effect csak egy nyílból állna
-'/
-
-loop foreach actor in room.actors
-    room ->  effect ++ : applyTo(actor)
-    ref over effect, actor
-        Room effect to actor
-    end ref
-end
+Actor --> RoomEffect: <<create>>
+Actor -> Room++: addEffect(roomEffect)
+return
 
 
 @enduml
