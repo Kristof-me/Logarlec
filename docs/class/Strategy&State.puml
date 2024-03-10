@@ -12,10 +12,10 @@ Actor -- "1" DefenseStrategy
 
 interface IActions {
     + attack() : void
-    + move(Door door) : boolean
-    + use(Item item) : void
-    + pickUp(Item item) : boolean
-    + drop(Item item) : void
+    + move(door: Door) : boolean
+    + use(item: Item) : void
+    + pickUp(item: Item) : boolean
+    + drop(item: Item) : void
 }
 
 IActions <|.. Actor

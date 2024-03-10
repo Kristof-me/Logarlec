@@ -94,7 +94,7 @@ abstract class Actor {
 
     + {abstract} attacked() : void
     + {abstract} revive() : boolean
-    + {abstract} acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
+    + {abstract} acceptEffect(effect: RoomEffect, unless: List<ItemFinder>) : void
 
     + {abstract}setDefaultActionState() : void
     + setActionState(state: ActionState) : void
@@ -112,7 +112,7 @@ Actor -- "1" DefenseStrategy
 class Student {
     + attacked() : void
     + revive() : boolean
-    + acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
+    + acceptEffect(effect: RoomEffect, unless: List<ItemFinder>) : void
     + setDefaultActionState() : void
 }
 
@@ -121,7 +121,7 @@ Actor <|-- Student
 class Professor {
     + attacked() : void
     + revive() : boolean
-    + acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
+    + acceptEffect(effect: RoomEffect, unless: List<ItemFinder>) : void
     + setDefaultActionState() : void
 }
 
@@ -208,10 +208,10 @@ class GasEffect {
 'State --------------------------------------------
 interface IActions {
     + attack() : void
-    + move(Door door) : boolean
-    + use(Item item) : void
-    + pickUp(Item item) : boolean
-    + drop(Item item) : void
+    + move(door: Door) : boolean
+    + use(item: Item) : void
+    + pickUp(item: Item) : boolean
+    + drop(item: Item) : void
 }
 
 IActions <|.. Actor
