@@ -1,0 +1,10 @@
+@startuml
+
+[*] --> StudentActions
+
+StudentActions --> StunnedStep : gasEffect.applyEffect(student)
+state c <<choice>>
+StunnedStep -> c : tick() / remainingTime--
+c -> StunnedStep : remainingTime > 0
+c -> StudentActions : remainingTime <= 0
+@enduml
