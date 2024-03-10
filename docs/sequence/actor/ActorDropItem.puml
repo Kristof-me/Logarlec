@@ -1,4 +1,4 @@
-@startuml
+@startuml ActorDropItem
 header Actor Drop Item
 
 hide footbox
@@ -11,8 +11,8 @@ participant I as "inventory : Inventory"
 participant D as "item : Item"
 participant E as "room : Room"
 
-A -> B : dropItem(item)
-B -> C : dropItem(item)
+A -> B : drop(item)
+B -> C : drop(item)
 C -> B : getInventory()
 return inventory
 C -> I : removeItem(item)
