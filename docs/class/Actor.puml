@@ -1,0 +1,98 @@
+@startuml classDiagram
+skinparam classAttributeIconSize 0
+
+class Inventory {
+    - size : int
+
+    - isFull(): boolean
+    + addItem(item: Item): boolean
+    + removeItem(item: Item): Item
+    + dropAll(target: Room): void
+
+    + acceptVisitor(visitor: ItemVisitor): void
+}
+
+
+' azért asszociáció, mivel ettől még az item-nek van egyedi léte
+
+Actor *--"1" Inventory
+Room *-- "1" Inventory
+
+'Character ----------------------------------------
+
+abstract class Actor {
+    - alive : boolean
+
+    + {abstract} attacked() : void
+    + {abstract} revive() : boolean
+    + {abstract} acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
+
+    + {abstract}setDefaultActionState() : void
+    + setActionState(state: ActionState) : void
+    + setDefenseStrategy(defenseStrategy: DefenseStrategy) : void
+
+    + teleport(room: Room, isForced: boolean) : boolean
+    + getInventory() : Inventory
+    + dropAllTo(room: Room) : void
+    + tick() : void
+}
+
+Actor -- "1" ActionState
+Actor -- "1" DefenseStrategy
+
+class Student {
+    + attacked() : void
+    + revive() : boolean
+    + acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
+    + setDefaultActionState() : void
+}
+
+Actor <|-- Student
+
+class Professor {
+    + attacked() : void
+    + revive() : boolean
+    + acceptEffect(RoomEffect effect, List<ItemFinder> unless) : void
+    + setDefaultActionState() : void
+}
+
+Actor <|-- Professor
+
+
+class Room {
+}
+
+
+Room "1" -- "0..*" Actor 
+
+interface IHasLocation {
+    + getLocation(): Room
+}
+
+IHasLocation <|.. Room
+IHasLocation <|.. Actor
+
+
+'State --------------------------------------------
+interface IActions {
+    + attack() : void
+    + move(Door door) : boolean
+    + use(Item item) : void
+    + pickUp(Item item) : boolean
+    + drop(Item item) : void
+}
+
+abstract class ActionState {
+    + tick() : boolean
+    + {abstract} setNextState(state: ActionState) : ActionState
+}
+
+IActions <|.. ActionState
+
+IActions <|.. Actor
+'Strategy -----------------------------------
+abstract class DefenseStrategy {
+
+}
+
+@enduml

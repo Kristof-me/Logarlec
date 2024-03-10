@@ -1,0 +1,58 @@
+@startuml classDiagram
+skinparam classAttributeIconSize 0
+
+'Items --------------------------------------------
+abstract class Item {
+}
+
+
+'Effect -------------------------------------------
+abstract class RoomEffect {
+}
+' tick returns false when the effect expires
+
+RoomEffect "1" -- "0..*" ItemFinder
+
+
+
+'Visitors ----------------------------------------
+abstract class ItemVisitor {
+    + visit(sponge: Sponge) : void
+    + visit(tvsz: Tvsz) : void
+    + visit(slideRule: SlideRule) : void
+    + visit(beer: Beer) : void
+    + visit(cocktail: Cocktail) : void
+    + visit(gasMask: GasMask) : void
+    + visit(transistor: Transistor) : void
+    + visit(camembert: Camembert) : void
+}
+
+ItemVisitor ..> Item
+
+abstract class ItemFinder<T extends Item> {
+    # potentialItems : List<T>
+    + findIn(inventory: Inventory): T
+}
+
+ItemFinder --|> ItemVisitor
+
+class TransistorPairFinder {
+    + visit(transistor: Transistor) : void
+}
+
+class BestGasMaskFinder {
+    + visit(gasMask: GasMask) : void
+}
+
+class BestTvszFinder {
+    + visit(tvsz: Tvsz) : void
+}   
+
+ItemFinder <|-- TransistorPairFinder
+ItemFinder <|-- BestGasMaskFinder
+ItemFinder <|-- BestTvszFinder
+
+' dependency
+'Transistor ..> IHasLocation
+
+@enduml

@@ -1,0 +1,77 @@
+@startuml classDiagram
+skinparam classAttributeIconSize 0
+
+
+'Character ----------------------------------------
+
+abstract class Actor {
+}
+
+Actor -- "1" ActionState
+Actor -- "1" DefenseStrategy
+
+interface IActions {
+    + attack() : void
+    + move(Door door) : boolean
+    + use(Item item) : void
+    + pickUp(Item item) : boolean
+    + drop(Item item) : void
+}
+
+IActions <|.. Actor
+IActions <|.. ActionState
+
+abstract class ActionState {
+    + tick() : boolean
+    + {abstract} setNextState(state: ActionState) : ActionState
+}
+
+class StudentActions {
+    + attack() : void
+}
+
+StudentActions --|> ActionState
+
+class ProfessorActions {
+    + attack() : void
+}
+
+ProfessorActions --|> ActionState
+
+class StunnedStep {
+    - remainingTime : int
+
+    + tick() : boolean
+    + attack() : void
+    + move(door: Door) : boolean
+    + use(item: Item) : void
+    + pickUp(item: Item) : boolean
+    + drop(item: Item) : void
+}
+
+StunnedStep --|> ActionState
+
+'Strategy -----------------------------------
+abstract class DefenseStrategy {
+    + tick() : boolean
+    + defend(inventory: Inventory) : boolean
+}
+
+class DefaultDefense {
+    + defend(inventory: Inventory) : boolean
+}
+
+class BeerDefense {
+    - remaining : int
+    + defend(inventory: Inventory) : boolean
+    + tick() : boolean
+}
+
+' false-t ad vissza, ha már lejár
+
+DefenseStrategy <|-- DefaultDefense
+DefenseStrategy <|-- BeerDefense
+
+
+
+@enduml

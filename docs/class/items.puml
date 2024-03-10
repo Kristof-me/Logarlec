@@ -1,0 +1,82 @@
+@startuml classDiagram
+skinparam classAttributeIconSize 0
+
+'Items --------------------------------------------
+abstract class Item {
+    - usesLeft : int
+
+    + use(invoker: Actor): void
+    + getUsesLeft() : int
+    
+    + onPickup(actor: Actor): void
+    + onDrop(room: Room): void
+    
+    + {abstract} accept(visitor: ItemVisitor): void
+}
+
+class Sponge {
+    + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
+}
+
+class Tvsz {
+    + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
+}
+
+class SlideRule {
+    + onPickup(actor: Actor): void
+    + accept(visitor: ItemVisitor): void
+}
+
+class Beer {
+    + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
+}
+
+class Cocktail {
+    + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
+}
+
+class GasMask {
+    + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
+}
+
+class Transistor {
+    - pair: Transistor
+    - location: IHasLocation
+    + use(invoker: Actor): void
+    + pairWith(pair : Transistor) : void
+    + onDrop(room: Room) : void
+
+    + accept(visitor: ItemVisitor): void
+}
+
+class Camembert {
+    + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
+}
+
+abstract class Inventory {
+
+}
+
+Item <|-- Sponge
+Item <|-- Tvsz
+Item <|-- SlideRule
+Item <|-- Beer
+Item <|-- Cocktail
+Item <|-- GasMask
+Item <|-- Transistor
+Item <|-- Camembert
+
+
+Inventory "1" -- "0..*" Item
+
+
+ItemVisitor ..> Item
+
+
+@enduml
