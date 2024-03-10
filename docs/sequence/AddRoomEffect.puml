@@ -18,7 +18,7 @@ de akkor az add room effect csak egy nyílból állna
 '/
 
 loop foreach actor in room.actors
-    room ->>  effect : applyTo(actor)
+    room ->  effect ++ : applyTo(actor)
     ref over effect, actor
         Room effect to actor
     end ref

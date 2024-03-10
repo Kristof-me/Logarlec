@@ -1,0 +1,25 @@
+@startuml RoomSplit
+header Room Split
+hide footbox
+
+actor gm as "GameManager"
+participant r1 as "room1 : Room"
+
+gm -> r1 ++ : split()
+
+create r2 as "room2 : Room"
+r1 --> r2 : Room(capacity)
+
+create d as "door : Door"
+r1 --> d : Door(room1, room2)
+
+' az ajtó hozzáadás ezek szerint belső működés
+
+loop for each effect
+    r1 --> r2 ++ : addEffect(effect)
+    return
+end
+
+participant capacity as "capacity : int"
+
+@enduml

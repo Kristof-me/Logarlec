@@ -1,0 +1,41 @@
+@startuml RoomEffectTicking
+header Room effect ticking
+hide footbox
+
+actor time as "TimePassing"
+participant room as "room : Room"
+participant effect as "roomEffect : RoomEffect"
+participant actor as "actor : Actor"
+
+time -> room ++: tick()
+loop for each roomEffect
+    room -> effect ++: tick()
+    return active
+
+    alt active
+        loop for each actor 
+            room -> effect ++: addEffect(actor)
+
+            ' ennek illeszkednie kell a RoomEffectToActor/Professor/Student diagramhoz
+            effect -> actor ++ : acceptEffect(effect, unless)
+            
+            ref over actor, effect 
+                Room effect to actor
+            end ref
+            
+            return 
+            return
+        end
+    else
+        ' ide kéne, hogy eltávolítjuk az effektet, de ez belső működés
+    end
+end
+
+loop for each actor
+    room -> actor ++: tick()
+    return
+end
+ 
+participant stillActive as "stillActive : boolean"
+participant unless as "unless : List<ItemFinder>"
+@enduml

@@ -1,0 +1,22 @@
+@startuml DoorReappear
+header Door reappear
+hide footbox
+
+actor time as "TimePassing"
+participant room as "room : Room"
+participant door as "door : Door"
+
+/' 
+itt lehet opt-tal fel kéne tüntetni, hogy 
+a remainingInvisibility == 1, de nem tudom, hogy kell-e
+'/
+
+time -> room ++: tick()
+ 
+ref over room
+    Room effect ticking
+end ref
+room -> door ++: tick()
+return
+
+@enduml
