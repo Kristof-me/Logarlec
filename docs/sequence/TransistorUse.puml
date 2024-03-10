@@ -7,10 +7,10 @@ participant actor as "actor : Actor"
 participant t1 as "transistorA : Transistor"
 participant t2 as "transistorB : Transistor"
 
-Controller -> actor: use(transistorA)
+Controller -> actor++: use(transistorA)
 actor -> t1++: use(actor)
 
-alt pair == null
+alt Picked up
 
     t1 -> actor++: getInventory()
     return inventory
@@ -21,12 +21,19 @@ alt pair == null
         t1 -> t2++: pairWith(TransistorA)
         return
     end
-    return
-else pair != null
+else Picked up and paired
     t1 -> t2++: getLocation()
     return location
+    
     t1 -> actor++: teleport(location, false)
-end
-' work in progress
+    return
+    
+    t1 -> t1: pairWith(null)
 
+    t1 -> t2++: pairWith(null)
+    return
+
+    return
+end
+return
 @enduml

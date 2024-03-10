@@ -1,0 +1,22 @@
+@startuml TransistorState
+header Transistor states
+hide empty description
+
+state ground as "On ground"
+state picked as "Picked up"
+state gpaired as "On ground and paired"
+state ppaired as "Picked up and paired"
+
+[*] --> ground 
+
+ground --> picked : pickUp(transistor)
+picked --> ground : drop(transistor)
+
+picked --> ppaired : use(transistor)
+
+ppaired --> gpaired : drop(transistor)
+
+ppaired --> picked : use(transistor)
+gpaired --> ground : pairWith(null)
+
+@enduml

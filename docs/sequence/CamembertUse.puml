@@ -1,0 +1,22 @@
+@startuml CamembertUse
+header Camembert use
+
+actor controller as "Controller"
+participant actor as "actor : actor"
+participant camembert as "camembert : Camembert"
+participant room as "room : Room"
+
+controller -> actor++: use(camembert)
+actor -> camembert++: use(actor)
+
+camembert -> actor++: getLocation()
+return location
+
+ref over camembert, room : Apply gas effect
+ref over camembert : DeleteItem
+
+return
+return
+
+hide footbox
+@enduml
