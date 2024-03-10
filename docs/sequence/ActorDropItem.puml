@@ -1,0 +1,25 @@
+@startuml
+header Actor Drop Item
+
+hide footbox
+autoactivate on
+
+actor A as "Controller"
+participant B as "actor : Actor"
+participant C as "state : ActionState"
+participant I as "inventory : Inventory"
+participant D as "item : Item"
+participant E as "room : Room"
+
+A -> B : dropItem(item)
+B -> C : dropItem(item)
+C -> B : getInventory()
+return inventory
+C -> I : removeItem(item)
+return
+C -> B : getLocation()
+return room
+C -> D : onDrop(room)
+D -> E : addItem(item)
+
+@enduml

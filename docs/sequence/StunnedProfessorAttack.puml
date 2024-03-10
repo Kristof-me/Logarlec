@@ -1,0 +1,12 @@
+@startuml AddRoomEffect
+header Add room effect
+hide footbox
+autoactivate on
+
+actor P as "professor : Professor"
+participant S as "state : StunnedStep"
+
+P -> S : attack(professor)
+return
+
+@enduml

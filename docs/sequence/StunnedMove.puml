@@ -1,0 +1,15 @@
+@startuml
+header Stunned Move
+
+hide footbox
+autoactivate on
+
+actor A as "Controller"
+participant B as "actor : Actor"
+participant C as "state : StunnedStep"
+participant D as "door : Door"
+A -> B : move(door)
+B -> C : move(door)
+return
+
+@enduml
