@@ -1,0 +1,34 @@
+@startuml BeerUse
+header Beer use
+hide footbox
+
+actor controller as "Controller"
+participant student as "student : Student"
+participant actionState as "studentActions : StudentActions"
+participant beer as "beer : Beer"
+
+controller -> student ++ : use(beer)
+student -> actionState ++ : use(beer)
+actionState -> beer ++ : use(student)
+
+create beerDefense as "beerDefense : BeerDefense"
+beer --> beerDefense : BeerDefense()
+beer -> student ++ : setDefenseStrategy(beerDefense)
+return 
+return 
+
+actionState -> beer ++ : getUsesLeft()
+return usesLeft
+
+' ez lehet egy külön diagramm
+participant inventory as "inventory : Inventory"
+participant usesLeft as "usesLeft : int"
+
+opt usesLeft == 0
+actionState -> inventory ++ : removeItem(beer)
+return 
+end
+
+return
+
+@enduml
