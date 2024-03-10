@@ -1,0 +1,19 @@
+@startuml DefaultDefense
+header Default defense
+hide footbox
+
+actor prof as "Professor"
+participant student as "actor : Actor"
+participant defense as "defense : DefaultDefense"
+participant inventory as "inventory : Inventory"
+
+prof -> student ++ : attacked()
+student -> defense ++ : defend(inventory)
+
+ref over defense, inventory 
+    Tvsz use
+end ref
+
+return success 
+
+@enduml

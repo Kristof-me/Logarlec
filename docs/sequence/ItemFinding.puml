@@ -1,4 +1,5 @@
-@startuml
+@startuml ItemFinding
+header Item Finding
 hide footbox
 actor caller
 create participant ItemFinder as "itemFinder : ItemFinder"
