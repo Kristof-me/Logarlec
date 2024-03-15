@@ -1,0 +1,17 @@
+@startuml BeerEffectTicks
+header Beer Effect Ticks
+hide footbox
+
+participant main as "Main"
+activate main
+
+create student as "student : Student"
+main --> student : <<create>>
+create beerDefense as "beerDefense : BeerDefense"
+main --> beerDefense : <<create>>
+
+
+main --> student ++ : setDefenseStrategy(beerDefense)
+return
+
+@enduml

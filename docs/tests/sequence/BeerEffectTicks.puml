@@ -1,0 +1,24 @@
+@startuml BeerEffectTicks
+header Beer Effect Ticks
+hide footbox
+
+participant student as "student : Student"
+participant beerDefense as "beerDefense : BeerDefense"
+
+---> student ++ : tick()
+student --> beerDefense ++ : tick()
+alt remaining > 0
+    beerDefense --> student : true
+else remaining <= 0
+    return false
+    destroy beerDefense
+
+    create defense as "defaultDefense : DefaultDefense"
+    student --> defense : <<create>>
+
+    student --> student : setDefenseStrategy(defaultDefense)
+end
+
+return
+
+@enduml
