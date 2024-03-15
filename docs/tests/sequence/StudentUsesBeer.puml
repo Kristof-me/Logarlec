@@ -1,0 +1,31 @@
+@startuml StudentUsesBear
+header Student Uses Bear
+hide footbox
+
+participant student as "student : Student"
+participant actions as "actions : StudentActions"
+participant inventory as "inventory: Inventory"
+participant beer as "beer : Beer"
+
+-> student ++ : use(beer)
+student -> actions ++ : use(beer)
+actions -> beer ++ : use(student)
+
+create beerDefense as "beerDefense : BeerDefense"
+beer --> beerDefense : <<create>>
+beer --> student ++ : setDefenseStrategy(beerDefense)
+return 
+
+alt usesLeft > 0
+    beer --> actions
+else usesLeft <= 0
+    beer --> inventory++: removeItem(beer)
+    return beer
+    return
+    destroy beer
+end
+
+return
+return
+
+@enduml

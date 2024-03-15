@@ -1,0 +1,22 @@
+@startuml StudentUsesBear
+header Student Uses Bear
+hide footbox
+
+participant main as "Main"
+activate main
+create student as "student : Student"
+main --> student : <<create>>
+create inventory as "inventory: Inventory"
+student --> inventory : <<create>>
+create actions as "actions : StudentActions"
+student --> actions : <<create>>
+create beer as "beer : Beer"
+main --> beer : <<create>>
+
+main --> beer ++: onPickup(student)
+beer --> student ++: getInventory()
+return inventory
+return 
+
+
+@enduml
