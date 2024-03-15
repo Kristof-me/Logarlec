@@ -1,0 +1,41 @@
+@startuml ProfessorMoves
+header Professor Moves
+hide footbox
+
+participant professor as "professor : Professor"
+participant action as "state : ActionState"
+participant door as "door : Door"
+participant room1 as "room1 : Room"
+participant room2 as "room2 : Room"
+participant student as "student : Student"
+participant defense as "defense : DefaultDefense"
+participant inventory as "inventory : Inventory"
+
+--> professor ++: move(door)
+professor --> action ++: move(door)
+
+action --> door ++: leadsTo(room1)
+return room2
+
+action --> room2 ++: enter(professor)
+return isSuccessful
+
+opt isSuccessful
+    action --> room1 ++: leave(professor)
+    return
+
+    action --> room2 ++: attack(professor)
+    room2 --> student ++: attacked() 
+    student --> defense ++: defend(inventory)
+
+    ' ez garantáltan false lesz, mert üres az inventory-ja
+    
+    return false
+    return 
+    return
+end
+
+return
+return
+
+@enduml

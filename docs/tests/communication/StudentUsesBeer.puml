@@ -5,11 +5,11 @@ hide footbox
 participant main as "Main"
 activate main
 create student as "student : Student"
-main --> student : <<create>>
+main --> student ++: <<create>>
 create inventory as "inventory: Inventory"
 student --> inventory : <<create>>
 create actions as "actions : StudentActions"
-student --> actions : <<create>>
+student --> actions --: <<create>>
 create beer as "beer : Beer"
 main --> beer : <<create>>
 

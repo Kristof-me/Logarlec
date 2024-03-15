@@ -1,0 +1,33 @@
+@startuml ProfessorMoves
+header Professor Moves
+hide footbox
+
+participant main as "Main"
+activate main
+
+create room1 as "room1 : Room"
+main --> room1 : <<create>>
+create room2 as "room2 : Room"
+main --> room2 : <<create>>
+create door as "door : Door"
+main --> door : <<create>>
+
+create professor as "professor : Professor"
+main --> professor ++: <<create>>
+create action as "state : ActionState"
+professor --> action --: <<create>>
+
+create student as "student : Student"
+main --> student ++: <<create>>
+create inventory as "inventory : Inventory"
+student --> inventory : <<create>>
+create defense as "defense : DefaultDefense"
+student --> defense --: <<create>>
+
+main --> professor ++ : teleport(room1, false)
+return
+main --> student ++ : teleport(room2, false)
+return
+ 
+
+@enduml
