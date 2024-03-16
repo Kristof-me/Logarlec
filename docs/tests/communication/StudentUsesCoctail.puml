@@ -1,0 +1,58 @@
+@startuml StudentUsesCoctail
+header Student Uses Coctail
+hide footbox
+
+participant main as "Main"
+activate main
+
+create room as "room : Room"
+main --> room ++: <<create>>
+create roomInventory as "roomInventory : Inventory"
+room --> roomInventory --: <<create>>
+
+create student as "student1 : Student"
+main --> student ++: <<create>>
+create studentAction as "student1Action : StudentActions"
+student --> studentAction : <<create>>
+create inventory as "student1Inventory : Inventory"
+student --> inventory : <<create>>
+create defense as "student1Defense : DefaultDefense"
+student --> defense --: <<create>>
+
+create student2 as "student2 : Student"
+main --> student2 ++: <<create>>
+create studentAction2 as "student2Action : StudentActions"
+student2 --> studentAction2 : <<create>>
+create inventory2 as "student2Inventory : Inventory"
+student2 --> inventory2 : <<create>>
+create defense2 as "student2Defense : DefaultDefense"
+student2 --> defense2 --: <<create>>
+
+main --> student ++: teleport(room, false)
+return
+main --> student2 ++: teleport(room, false)
+return
+
+create coctail as "coctail : Coctail"
+main --> coctail : <<create>>
+
+main --> student ++: pickUp(coctail)
+student --> studentAction ++: pickUp(coctail)
+studentAction --> inventory ++: addItem(coctail)
+inventory --> inventory : isFull()
+return success
+
+alt success == true
+    studentAction --> coctail ++: onPickup(student)
+    coctail --> student ++: getInventory()
+    return inventory
+    return 
+    
+else success == false
+    note over inventory : can't test item usage
+end
+
+return
+return
+
+@enduml

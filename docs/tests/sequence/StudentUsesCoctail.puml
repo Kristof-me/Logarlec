@@ -1,0 +1,39 @@
+@startuml StudentUsesCoctail
+header Student Uses Coctail
+hide footbox
+
+participant student as "student1 : Student"
+participant actions as "student1Action : StudentActions"
+participant inventory as "student1Inventory: Inventory"
+participant coctail as "coctail : Coctail"
+participant room as "room : Room"
+participant student2 as "student2 : Student"
+participant actions2 as "student2Action : StudentActions"
+
+-> student ++ : use(coctail)
+student -> actions ++ : use(coctail)
+actions -> coctail ++ : use(student)
+
+coctail -> student ++ : getLocation()
+return room
+
+coctail -> room ++ : revive()
+    room -> student2 ++ : revive()
+    ' mivel az alive belső állapot, ezért le kell kérdezni a usertől, hogy él-e
+    ' legalábbis ebben reménykedem, mert kill függvény nincs :(
+    return success
+return success
+
+alt usesLeft > 0
+    coctail --> actions
+else usesLeft <= 0
+    coctail --> inventory++: removeItem(coctail)
+    return coctail
+    return
+    destroy coctail
+end
+
+return
+return
+
+@enduml
