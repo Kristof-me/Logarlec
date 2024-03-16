@@ -8,6 +8,7 @@ participant door as "door : Door"
 participant room1 as "room1 : Room"
 participant room2 as "room2 : Room"
 participant student as "student : Student"
+participant studentAction as "studentAction : StudentActions"
 participant defense as "studentDefense : DefaultDefense"
 participant inventory as "studentInventory : Inventory"
 
@@ -18,12 +19,18 @@ action --> door ++: leadsTo(room1)
 return room2
 
 action --> room2 ++: enter(professor)
-return isSuccessful
+' ezt lehet utólag kéne ellenőrizni, hogy a szoba megtámadása után
+' van-e elég helye belépni, but I'm not sure
+room2 --> room2 : isFull()
 
-opt isSuccessful
-    action --> room1 ++: leave(professor)
+opt isFull
+    room2 --> student ++: attack()
+    student --> studentAction ++: attack()
+    return
     return
 
+    room2 --> professor ++: attack()
+    professor --> action ++: attack()
     action --> room2 ++: attack(professor)
     room2 --> student ++: attacked() 
     student --> defense ++: defend(studentInventory)
@@ -33,6 +40,17 @@ opt isSuccessful
     
     return 
     return
+    return
+    return
+end
+
+return isSuccessful
+
+opt isSuccessful
+    action --> room1 ++: leave(professor)
+    return
+
+    
 end
 
 return
@@ -40,5 +58,7 @@ return
 
 ' itt lehet még fel kéne tüntetni a többi dolgot, amit a konstruktor hozott létre
 ' de annyira feleslegesnek érzem
+
+' ... fantasztikus ez az egész dolog ._.
 
 @enduml
