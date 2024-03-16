@@ -1,0 +1,44 @@
+@startuml StudentPairsTransistor
+header Student Pairs Transistor
+hide footbox
+
+participant student as "student : Student"
+participant actions as "studentAction : StudentActions"
+participant inventory as "studentInventory: Inventory"
+participant t1 as "transistorA: Transistor"
+participant t2 as "transistorB: Transistor"
+
+-> student ++ : use(transistorA)
+student -> actions ++ : use(transistorA)
+actions -> t1 ++ : use(student)
+' itt a konstruktorba be kene adnia sajat magat, hogy ne azt talalja majd meg
+create tFinder as "transistorPairFinder: TransistorPairFinder"
+t1 --> tFinder: <<create>>
+
+t1 -> student++: getInventory()
+return inventory
+
+' lil visiting around dx...
+t1 -> tFinder++: findIn(inventory)
+    tFinder -> t1++:accept(transistorPairFinder)
+    t1->tFinder++:visit(transistorA)
+    return
+    return
+
+    tFinder -> t2++:accept(transistorPairFinder)
+    t2 ->tFinder++:visit(transistorB)
+    return
+    return
+return transistorB
+destroy tFinder
+
+t1 -> t1: setPair(transistorB)
+
+t1 -> t2++: setPair(transistorA)
+return
+
+return
+return
+return
+
+@enduml

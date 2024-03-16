@@ -1,0 +1,46 @@
+@startuml StudentUsesTransistor
+header Student Uses Transistor
+hide footbox
+
+participant main as "Main"
+
+create student as "student : Student"
+main --> student ++: <<create>>
+create studentAction as "studentAction : StudentActions"
+student --> studentAction : <<create>>
+create inventory as "studentInventory : Inventory"
+student --> inventory : <<create>>
+create defense as "studentDefense : DefaultDefense"
+student --> defense: <<create>>
+
+return
+
+create t1 as "transistorA : Transistor"
+main --> t1: <<create>>
+
+create t2 as "transistorB : Transistor"
+main --> t2: <<create>>
+
+create room as "room : Room"
+main --> room : <<create>>
+
+main --> student++ : teleport(room, true)
+return
+
+main --> student ++: pickUp(transistorA)
+student --> studentAction ++: pickUp(transistorA)
+studentAction --> inventory ++: addItem(transistorA)
+inventory --> inventory : isFull()
+return success
+return
+return
+' i am going to violently git commit suicide --force
+main --> student ++: pickUp(transistorB)
+student --> studentAction ++: pickUp(transistorB)
+studentAction --> inventory ++: addItem(transistorB)
+inventory --> inventory : isFull()
+return success
+return
+return
+
+@enduml
