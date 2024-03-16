@@ -23,7 +23,7 @@ action --> room2 ++: enter(professor)
 ' van-e elég helye belépni, but I'm not sure
 room2 --> room2 : isFull()
 
-opt isFull
+opt isFull == false
     room2 --> student ++: attack()
     student --> studentAction ++: attack()
     return
@@ -49,8 +49,6 @@ return isSuccessful
 opt isSuccessful
     action --> room1 ++: leave(professor)
     return
-
-    
 end
 
 return

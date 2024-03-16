@@ -1,0 +1,72 @@
+@startuml StudentMoves
+header Student Moves
+hide footbox
+
+participant student as "student : Student"
+participant studentAction as "studentAction : StudentActions"
+participant defense as "studentDefense : DefaultDefense"
+participant door as "door : Door"
+participant room1 as "room1 : Room"
+participant room2 as "room2 : Room"
+participant professor as "professor : Professor"
+participant action as "professorAction : ProfessorActions"
+participant inventory as "studentInventory : Inventory"
+
+--> student ++: move(door)
+student --> studentAction ++: move(door)
+
+studentAction --> door ++: leadsTo(room1)
+return room2
+
+studentAction --> room2 ++: enter(professor)
+
+/' 
+itt mindenképp előbb kéne ezt ellenőrizni, hogy a 
+halálába ne léphessen
+'/
+room2 --> room2 : isFull()
+
+opt isFull == false
+/' 
+azért ez a sorrend, mert a room egy foreach-el megy végig
+a bent lévőkön, és a professzor korábban volt benn, vagyis vele
+kezdi
+'/
+
+    room2 --> professor ++: attack()
+    professor --> action ++: attack()
+    action --> room2 ++: attack(professor)
+    room2 --> student ++: attacked() 
+    student --> defense ++: defend(studentInventory)
+
+    ' ez garantáltan false lesz, mert üres az inventory-ja
+    return false
+    return 
+    return
+    return
+    return
+    
+
+/' 
+FONTOS! itt kéne lezárni a hitvitát, hogy ki kezeli azt, hogy
+ha a student halott, akkor meghívja-e a függvényét és a 
+state tiltsa meg neki a dolgot, vagy ő maga ellenőrizze
+'/
+    room2 --> student ++: attack()
+    student --> studentAction ++: attack()
+    return
+    return
+    
+end
+
+return isSuccessful
+
+opt isSuccessful
+    action --> room1 ++: leave(professor)
+    return
+end
+
+return
+return
+
+@enduml
