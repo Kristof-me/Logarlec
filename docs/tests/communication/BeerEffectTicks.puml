@@ -7,9 +7,15 @@ activate main
 
 create student as "student : Student"
 main --> student : <<create>>
+create studentAction as "studentAction : StudentActions"
+student --> studentAction : <<create>>
+create inventory as "studentInventory : Inventory"
+student --> inventory : <<create>>
+create defense as "studentDefense : DefaultDefense"
+student --> defense --: <<create>>
+
 create beerDefense as "beerDefense : BeerDefense"
 main --> beerDefense : <<create>>
-
 
 main --> student ++ : setDefenseStrategy(beerDefense)
 return

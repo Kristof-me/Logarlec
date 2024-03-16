@@ -6,17 +6,35 @@ participant main as "Main"
 activate main
 create student as "student : Student"
 main --> student ++: <<create>>
-create inventory as "inventory: Inventory"
+create studentAction as "studentAction : StudentActions"
+student --> studentAction : <<create>>
+create inventory as "studentInventory : Inventory"
 student --> inventory : <<create>>
-create actions as "actions : StudentActions"
-student --> actions --: <<create>>
+create defense as "studentDefense : DefaultDefense"
+student --> defense --: <<create>>
+
 create beer as "beer : Beer"
 main --> beer : <<create>>
 
-main --> beer ++: onPickup(student)
-beer --> student ++: getInventory()
-return inventory
-return 
+' ez nagyon nem így van a korábbi ábrán, de ez volt az intended use:
 
+main --> student ++: pickUp(beer)
+student --> studentAction ++: pickUp(beer)
+studentAction --> inventory ++: addItem(beer)
+inventory --> inventory : isFull()
+return success
+
+alt success == true
+    studentAction --> beer ++: onPickup(student)
+    beer --> student ++: getInventory()
+    return inventory
+    return 
+    
+else success == false
+    note over inventory : can't test item usage
+end
+
+return
+return
 
 @enduml

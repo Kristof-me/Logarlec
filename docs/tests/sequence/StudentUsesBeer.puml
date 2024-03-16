@@ -3,8 +3,8 @@ header Student Uses Bear
 hide footbox
 
 participant student as "student : Student"
-participant actions as "actions : StudentActions"
-participant inventory as "inventory: Inventory"
+participant actions as "studentAction : StudentActions"
+participant inventory as "studentInventory: Inventory"
 participant beer as "beer : Beer"
 
 -> student ++ : use(beer)
