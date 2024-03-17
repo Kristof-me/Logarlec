@@ -27,20 +27,15 @@ main --> room : <<create>>
 main --> student++ : teleport(room, true)
 return
 
-main --> student ++: pickUp(transistorA)
-student --> studentAction ++: pickUp(transistorA)
-studentAction --> inventory ++: addItem(transistorA)
-inventory --> inventory : isFull()
+main --> student ++: getInventory()
+return inventory
+
+main --> inventory ++: addItem(transistorA)
 return success
-return
-return
+
 ' i am going to violently git commit suicide --force
-main --> student ++: pickUp(transistorB)
-student --> studentAction ++: pickUp(transistorB)
-studentAction --> inventory ++: addItem(transistorB)
-inventory --> inventory : isFull()
+
+main --> inventory ++: addItem(transistorB)
 return success
-return
-return
 
 @enduml

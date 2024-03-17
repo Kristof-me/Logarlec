@@ -15,6 +15,17 @@ participant t2 as "transistorB: Transistor"
 -> student ++ : use(transistorA)
 student -> actions ++ : use(transistorA)
 
+actions -> t1++: use(student)
+    t1 -> t2++: getLocation()
+    return location
+
+    t1 -> student++: teleport(location, false)
+        student ->room++: enter(student)
+        room -> room: isFull()
+        return success
+    return
+return
+
 ' under construction
 
 return
