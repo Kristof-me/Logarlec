@@ -139,7 +139,7 @@ class Room {
     + attack(attacker: Actor): void
     + addEffect(effect: RoomEffect) : void
     
-    + enter(actor: Actor) : boolean
+    + enter(actor: Actor, isForced: boolean) : boolean
     + leave(actor: Actor) : void
     + revive(): boolean
     - isFull() : boolean
