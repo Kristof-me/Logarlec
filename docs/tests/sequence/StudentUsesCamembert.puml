@@ -1,0 +1,36 @@
+@startuml StudentUsesCamembert
+header Student Uses Camembert
+hide footbox
+
+participant student as "student : Student"
+participant actions as "studentAction : StudentActions"
+participant inventory as "studentInventory: Inventory"
+participant cam as "camembert : Camembert"
+participant room as "room : Room"
+
+-> student ++ : use(cam)
+student -> actions ++ : use(cam)
+actions -> cam ++ : use(student)
+
+cam -> student ++ : getLocation()
+return room
+
+create gas as "gasEffect : GasEffect"
+cam --> gas: <<create>>
+
+cam ->room++: addEffect(gasEffect)
+return
+
+alt usesLeft > 0
+    cam --> actions
+else usesLeft <= 0
+    cam --> inventory++: removeItem(camembert)
+    return cam
+    return
+    destroy cam
+end
+
+return
+return
+
+@enduml

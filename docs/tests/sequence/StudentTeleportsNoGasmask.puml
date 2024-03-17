@@ -1,0 +1,36 @@
+@startuml StudentTpNoMaskToGas
+header Student Moves to a Gased Room Without Gasmask
+hide footbox
+
+participant S1 as "student : Student"
+participant S1S as "studentState : StudentActions"
+participant R1 as "room1 : Room"
+participant R2 as "room2 : Room"
+participant gas as "gasEffect : GasEffect"
+
+-> S1 ++: teleport(room1)
+
+S1 -> R2++: enter(student, true)
+
+R2 -> R2 : isFull()
+opt isFull == false
+    ' the unless ItemFinder is created with the gas effect an comms diagramm
+    R2 -> S1 ++ : acceptEffect(gasEffect, bestGasMaskFinder)
+    S1 -> gas ++ : applyEffect(student)
+    return
+    return
+    R2 -> S1 ++ : attack()
+    S1 -> S1S ++ : attack()
+    return
+    return
+end
+return isSuccessful
+opt isSuccessful
+    S1 -> R1 ++ : leave(student)
+    return
+end
+return
+
+
+@enduml
+

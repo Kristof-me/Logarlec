@@ -1,0 +1,49 @@
+@startuml ProfTpWithMaskToGas
+header Professor Moves to a Gased Room with Gasmask
+hide footbox
+
+participant professor as "prof : professor"
+participant professorS as "profState : ProfessorActions"
+participant inv as "profInv : Inventory"
+participant R1 as "room1 : Room"
+participant R2 as "room2 : Room"
+participant gasMaskFinder as "bestGasMaskFinder : BestGasMaskFinder"
+participant gasMask as "gasMask : GasMask"
+
+-> professor ++: teleport(room1)
+
+professor -> R2++: enter(professor, true)
+
+R2 -> R2 : isFull()
+opt isFull == false
+    ' the unless ItemFinder is created with the gas effect an comms diagramm
+    R2 -> professor ++ : acceptEffect(gasEffect, bestGasMaskFinder)
+    
+    professor -> gasMaskFinder++ : findIn(inventory)
+        gasMaskFinder -> inv++: acceptVisitor(bestGasMaskFinder)
+            inv -> gasMask++: accept(bestGasMaskFinder)
+                gasMask -> gasMaskFinder++ : visit(gasMask)
+                return
+            return
+        return
+    return gasMask
+    
+    professor -> gasMask++: use(professor)
+    return
+
+    return
+
+    R2 -> professor ++ : attack()
+    professor -> professorS ++ : attack()
+    return
+    return
+end
+return isSuccessful
+opt isSuccessful
+    professor -> R1 ++ : leave(professor)
+    return
+end
+return
+
+@enduml
+

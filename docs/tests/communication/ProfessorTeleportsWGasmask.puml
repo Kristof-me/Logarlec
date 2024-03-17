@@ -1,0 +1,40 @@
+@startuml professorTeleportNoGasMaskComm
+header Set up a professor and move them to a gased room with a mask mask
+hide footbox
+
+participant M as "Main"
+create R1 as "room1 : Room"
+M --> R1 :  <<create>>
+create R2 as "room2 : Room"
+M --> R2 :  <<create>>
+create P1 as "professor1 : professor"
+M --> P1 ++: <<create>>
+create P1S as "professor1State : professorActions"
+P1 --> P1S : <<create>>
+create P1I as "professor1Inventory : Inventory"
+P1 --> P1I : <<create>>
+create P1D as "professor1Defense : DefaultDefense"
+P1 --> P1D --: <<create>>
+
+create gas as "gasEffect : GasEffect"
+M --> gas : <<create>>
+
+create gasMaskFinder as "bestGasMaskFinder : BestGasMaskFinder"
+gas --> gasMaskFinder : <<create>>
+
+M --> R2 ++ : addEffect(gasEffect)
+return
+
+create gasMask as "gasMask : GasMask"
+M --> gasMask: <<create>>
+
+M --> P1 ++: getInventory()
+return inventory
+
+M --> P1I ++: addItem(gasMask)
+return success
+
+M --> P1 ++ : teleport(room1, true)
+return true
+@enduml
+
