@@ -8,12 +8,12 @@ participant D as "door : Door"
 participant R1 as "room1 : Room"
 participant R2 as "room2 : Room"
 ref over S1, R2 : Setup Neighbouring Rooms, each with one Student
---> S1 ++: move(door)
-S1 --> S1S ++: move(door)
-S1S --> D ++: leadsTo(room1)
+-> S1 ++: move(door)
+S1 -> S1S ++: move(door)
+S1S -> D ++: leadsTo(room1)
 return room2
-S1S --> R2 ++ : enter(student1)
-R2 --> R2 : isFull()
+S1S -> R2 ++ : enter(student1)
+R2 -> R2 : isFull()
 opt isFull == true
     return false
     return false

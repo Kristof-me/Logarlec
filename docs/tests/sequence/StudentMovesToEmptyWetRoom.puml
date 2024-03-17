@@ -9,25 +9,25 @@ participant R1 as "room1 : Room"
 participant R2 as "room2 : Room"
 participant W as "wetEffect : WetEffect"
 ref over S1, W: Setup Neighbouring Rooms, with a student in one of them, and a a Wet Effect in the other
---> S1 ++: move(door)
-S1 --> S1S ++: move(door)
-S1S --> D ++: leadsTo(room1)
+-> S1 ++: move(door)
+S1 -> S1S ++: move(door)
+S1S -> D ++: leadsTo(room1)
 return room2
-S1S --> R2 ++ : enter(student1)
-R2 --> R2 : isFull()
+S1S -> R2 ++ : enter(student1)
+R2 -> R2 : isFull()
 opt isFull == false
-    R2 --> S1 ++ : acceptEffect(wetEffect, null)
-    S1 --> W ++ : applyEffect(student1)
+    R2 -> S1 ++ : acceptEffect(wetEffect, null)
+    S1 -> W ++ : applyEffect(student1)
     return
     return
-    R2 --> S1 ++ : attack()
-    S1 --> S1S ++ : attack()
+    R2 -> S1 ++ : attack()
+    S1 -> S1S ++ : attack()
     return
     return
 end
 return isSuccessful
 opt isSuccessful
-    S1S --> R1 ++ : leave(student1)
+    S1S -> R1 ++ : leave(student1)
     return
 end
 return 

@@ -10,25 +10,25 @@ participant R2 as "room2 : Room"
 participant S2 as "student2 : Student"
 participant S2S as "student2State : StudentActions"
 ref over S1, S2S : Setup Neighbouring Rooms, each with one Student
---> S1 ++: move(door)
-S1 --> S1S ++: move(door)
-S1S --> door ++: leadsTo(room1)
+-> S1 ++: move(door)
+S1 -> S1S ++: move(door)
+S1S -> door ++: leadsTo(room1)
 return room2
-S1S --> R2 ++ : enter(student1)
-R2 --> R2 : isFull()
+S1S -> R2 ++ : enter(student1)
+R2 -> R2 : isFull()
 opt isFull == false
-    R2 --> S2 ++ : attack()
-    S2 --> S2S ++ : attack()
+    R2 -> S2 ++ : attack()
+    S2 -> S2S ++ : attack()
     return
     return
-    R2 --> S1 ++ : attack()
-    S1 --> S1S ++ : attack()
+    R2 -> S1 ++ : attack()
+    S1 -> S1S ++ : attack()
     return
     return
 end
 return isSuccessful
 opt isSuccessful
-    S1S --> R1 ++ : leave(student1)
+    S1S -> R1 ++ : leave(student1)
     return
 end
 return 

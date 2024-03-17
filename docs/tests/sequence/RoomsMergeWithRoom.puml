@@ -15,22 +15,22 @@ participant S2S as "student2State : StudentActions"
 participant B as "beer : Beer"
 
 ref over R1, T : Setup Neighbouring Rooms, each with one Student and an Item
---> R1 ++: merge(room2)
-R1 --> B ++: onDrop(room2)
-B --> R2 ++: addItem(beer)
+-> R1 ++: merge(room2)
+R1 -> B ++: onDrop(room2)
+B -> R2 ++: addItem(beer)
 return
 return
-R1 --> R1 : removeItem(beer)
-R1 --> S1 ++: teleport(room2, true)
-S1 --> R2 ++: enter(student1)
-R2 --> R2 : isFull()
+R1 -> R1 : removeItem(beer)
+R1 -> S1 ++: teleport(room2, true)
+S1 -> R2 ++: enter(student1)
+R2 -> R2 : isFull()
 opt isFull == false
-    R2 --> S2 ++ : attack()
-    S2 --> S2S ++ : attack()
+    R2 -> S2 ++ : attack()
+    S2 -> S2S ++ : attack()
     return
     return
-    R2 --> S1 ++ : attack()
-    S1 --> S1S ++ : attack()
+    R2 -> S1 ++ : attack()
+    S1 -> S1S ++ : attack()
     return
     return
 end
