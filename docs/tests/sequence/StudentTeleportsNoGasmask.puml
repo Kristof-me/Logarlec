@@ -4,6 +4,7 @@ hide footbox
 
 participant S1 as "student : Student"
 participant S1S as "studentState : StudentActions"
+participant inv as "studentInv : Inventory"
 participant R1 as "room1 : Room"
 participant R2 as "room2 : Room"
 participant gas as "gasEffect : GasEffect"
@@ -14,10 +15,24 @@ S1 -> R2++: enter(student, true)
 
 R2 -> R2 : isFull()
 opt isFull == false
-    ' the unless ItemFinder is created with the gas effect an comms diagramm
+    ' inventory is empty, we find the null
     R2 -> S1 ++ : acceptEffect(gasEffect, bestGasMaskFinder)
+        S1 -> gasMaskFinder++ : findIn(inventory)
+        gasMaskFinder -> inv++: acceptVisitor(bestGasMaskFinder)
+        return
+    return null
+
     S1 -> gas ++ : applyEffect(student)
+        gas -> S1++: dropAll(room2)
+        return
+
+        create stun as "stunnedStep : StunnedStep"
+        gas --> stun: <<create>>
+        gas -> S1++: setActionState(stunnedStep)
+        return
+        
     return
+
     return
     R2 -> S1 ++ : attack()
     S1 -> S1S ++ : attack()

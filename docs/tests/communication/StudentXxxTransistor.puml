@@ -24,6 +24,9 @@ main --> t2: <<create>>
 create room as "room : Room"
 main --> room : <<create>>
 
+create r1inv as "roomInventory : Inventory"
+room --> r1inv --: <<create>>
+
 main --> student++ : teleport(room, true)
 return
 
