@@ -43,12 +43,11 @@ create profDefense as "professorDefense : DefaultDefense"
 professor --> profDefense --: <<create>>
 
 main --> student ++ : teleport(room1, false)
-return
-
-
-
+return true
+' ez garantált, hiszen a szoba mérete legalább 1
 
 main --> professor ++ : teleport(room2, false)
-return
+return true
+' ez garantált, hiszen a szoba mérete legalább 1
 
 @enduml

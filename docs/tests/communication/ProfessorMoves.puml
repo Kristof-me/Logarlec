@@ -40,8 +40,9 @@ create defense as "studentDefense : DefaultDefense"
 student --> defense --: <<create>>
 
 main --> professor ++ : teleport(room1, false)
-return
+return true
+
 main --> student ++ : teleport(room2, false)
-return
+return true
 
 @enduml

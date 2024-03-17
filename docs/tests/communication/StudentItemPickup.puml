@@ -1,0 +1,38 @@
+@startuml StudentItemPickup
+header Student Item Pickup
+hide footbox
+
+participant main as "Main"
+activate main
+
+create room as "room : Room"
+main --> room ++: <<create>>
+create roomInventory as "roomInventory : Inventory"
+room --> roomInventory --: <<create>>
+
+create student as "student : Student"
+main --> student ++: <<create>>
+create studentAction as "studentAction : StudentActions"
+student --> studentAction : <<create>>
+create inventory as "studentInventory : Inventory"
+student --> inventory : <<create>>
+create defense as "studentDefense : DefaultDefense"
+student --> defense --: <<create>>
+
+create beer as "beer : Beer"
+main --> beer : <<create>>
+
+main --> room ++: addItem(beer)
+room --> roomInventory ++: addItem(beer)
+roomInventory --> roomInventory : isFull()
+
+alt isFull == true
+    roomInventory --> room : false
+    note over roomInventory : can't test item pickup  
+else isFull == false
+    return true    
+end
+
+return
+
+@enduml

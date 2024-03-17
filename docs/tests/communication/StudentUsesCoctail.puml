@@ -29,30 +29,33 @@ create defense2 as "student2Defense : DefaultDefense"
 student2 --> defense2 --: <<create>>
 
 main --> student ++: teleport(room, false)
-return
+return true
+
 main --> student2 ++: teleport(room, false)
-return
+return true
+
+/' todo 
+itt baj lehet ha Simon B. úgy gondolja, hogy a szoba mérete state value
+mert ebben az esetben ez nem egy garantált tp és a teszt értelmetlen
+'/
 
 create coctail as "coctail : Coctail"
 main --> coctail : <<create>>
 
-main --> student ++: pickUp(coctail)
-student --> studentAction ++: pickUp(coctail)
-studentAction --> inventory ++: addItem(coctail)
-inventory --> inventory : isFull()
+main --> student ++: getInventory()
+return inventory
+
+main --> inventory ++: addItem(coctail)
 return success
 
 alt success == true
-    studentAction --> coctail ++: onPickup(student)
+    main --> coctail ++: onPickup(student1)
     coctail --> student ++: getInventory()
-    return inventory
+    return student1Inventory
     return 
     
 else success == false
     note over inventory : can't test item usage
 end
-
-return
-return
 
 @enduml

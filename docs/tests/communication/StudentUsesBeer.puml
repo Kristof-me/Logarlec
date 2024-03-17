@@ -16,25 +16,20 @@ student --> defense --: <<create>>
 create beer as "beer : Beer"
 main --> beer : <<create>>
 
-' ez nagyon nem így van a korábbi ábrán, de ez volt az intended use:
+main --> student ++: getInventory()
+return inventory
 
-main --> student ++: pickUp(beer)
-student --> studentAction ++: pickUp(beer)
-studentAction --> inventory ++: addItem(beer)
-inventory --> inventory : isFull()
+main --> inventory ++: addItem(beer)
 return success
 
 alt success == true
-    studentAction --> beer ++: onPickup(student)
+    main --> beer ++: onPickup(student)
     beer --> student ++: getInventory()
-    return inventory
+    return studentInventory
     return 
     
 else success == false
     note over inventory : can't test item usage
 end
-
-return
-return
 
 @enduml
