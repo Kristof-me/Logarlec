@@ -1,0 +1,44 @@
+@startuml RoomSplitWithEffects
+header Setup a Room with a Student, who has a Camembert
+hide footbox
+
+participant S1 as "student1 : Student"
+participant S1S as "student1State : StudentActions"
+participant S1I as "student1Inventory : Inventory"
+participant R as "room : Room"
+participant C as "camembert : Camembert"
+
+ref over S1, C: Setup Neighbouring Rooms, with a student in one of them, and a a Gas Effect in the other
+-> S1 ++: use(camembert)
+S1 -> S1S ++: use(camembert)
+S1S -> C ++: use(student1)
+create G as "gasEffect : GasEffect"
+C -> G : <<create>>
+create F as "bestGasMaskFinder : BestGasMaskFinder"
+G -> F : <<create>>
+C -> R ++: addEffect(gasEffect)
+    R -> S1 ++ : acceptEffect(gasEffect, null)
+    S1 -> F ++: findIn(student1Inventory)
+    F -> S1I ++: acceptVisitor(bestGasMaskFinder)
+    return
+    return null
+    S1 -> G ++ : applyEffect(student1)
+    G -> S1 ++: dropAllTo(room)
+    S1 -> S1I ++ : dropAllTo(room)
+    return
+    return
+    create S as "stunnedStep : StunnedStep"
+    G --> S <<create>>
+
+    G -> S1 ++: setActionState(stunnedStep)
+    return
+return 
+return 
+return
+return
+return
+return
+
+
+@enduml
+
