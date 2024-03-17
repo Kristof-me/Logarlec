@@ -1,0 +1,19 @@
+@startuml SetupGasEffectTicks
+header Setup Gas Effect Ticks
+hide footbox
+
+participant main as "Main"
+activate main
+
+create room as "room : Room"
+main --> room ++: <<create>>
+create inventory as "roomInventory : Inventory"
+room --> inventory --: <<create>>
+
+create effect as "gasEffect : GasEffect"
+main --> effect : <<create>>
+
+main --> room ++ : addEffect(gasEffect) 
+return 
+
+@endpuml
