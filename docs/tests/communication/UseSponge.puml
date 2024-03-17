@@ -1,0 +1,30 @@
+@startuml UseSponge
+header Sponge use
+hide footbox
+
+participant main as "Main"
+activate main
+
+create room1 as "room1 : Room"
+main --> room1 ++: <<create>>
+create r1inv as "room1inventory : Inventory"
+room1 --> r1inv --: <<create>>
+
+create student as "student : Student"
+main --> student ++: <<create>>
+create studentAction as "studentAction : StudentActions"
+student --> studentAction : <<create>>
+create inventory as "studentInventory : Inventory"
+student --> inventory : <<create>>
+create defense as "studentDefense : DefaultDefense"
+student --> defense --: <<create>>
+create sponge as "sponge : Sponge"
+main --> sponge: <<create>>
+main --> inventory ++: add(sponge)
+return true
+
+main --> student ++ : teleport(room1, false)
+return true
+' ez garantált, hiszen a szoba mérete legalább 1
+
+@enduml

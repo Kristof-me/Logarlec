@@ -1,0 +1,32 @@
+@startuml DoorAppear
+header Door disappear then reappear
+hide footbox
+
+participant door as "door : Door"
+participant student as "student : Student"
+participant studentAction as "studentAction : StudentActions"
+
+-> door ++: hide(2)
+return
+-> student++: move(door)
+student -> studentAction++ : move(door)
+studentAction -> door ++: leadsTo()
+return room2
+studentAction -> door ++: move(student, room2)
+return false
+return false
+return false
+
+-> door ++: tick()
+return
+-> door ++: tick()
+return
+-> student++: move(door)
+student -> studentAction++ : move(door)
+studentAction -> door ++: leadsTo()
+return room2
+studentAction -> door ++: move(student, room2)
+return true
+return true
+return true
+@enduml

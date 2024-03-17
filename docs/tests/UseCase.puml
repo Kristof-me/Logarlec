@@ -1,0 +1,48 @@
+@startuml TestUseCase
+
+actor :Tester: as Tester
+left to right direction
+Tester --> (Test TVSZ defense length)
+Tester --> (Test room merge with gas and wet effect)
+Tester --> (Test room splitting with gas and wet effect)
+Tester --> (Test room splitting with no effects)
+Tester --> (Test room merge with no space left)
+Tester --> (Test room merge with space left)
+Tester --> (Test changing rooms while no space left)
+Tester --> (Test picking up item while no space in inventory)
+Tester --> (Test picking up item)
+Tester --> (Test transistor use)
+
+Tester --> (Test transistor drop)
+Tester --> (Test transistor pair)
+Tester --> (Test professor getting wet)
+Tester --> (Test professor merging into room with wet effect)
+Tester --> (Test player teleport into room with gasmask)
+Tester --> (Test player merge into room with gasmask)
+Tester --> (Test player steps into room with gasmask)
+Tester --> (Test player getting gased with gasmask)
+Tester --> (Test player teleport into room without gasmask)
+Tester --> (Test player merge into room without gasmask)
+
+'Why up? I have no fucking idea
+Tester -u-> (Test player steps into room without gasmask)
+Tester -u-> (Test player getting gased without gasmask)
+Tester -u-> (Test gas effect running out)
+Tester -u-> (Test player using camambert)
+Tester -u-> (Test player using cocktail)
+Tester -u-> (Test beer effect ticking)
+Tester -u-> (Test student using beer)
+Tester -u-> (Test professor stepping into wet room)
+Tester -u-> (Test player stepping into wet room)
+Tester -u-> (Test player using sponge)
+
+
+Tester -u-> (Test professor moving to other room)
+Tester -u-> (Test player moving to other room)
+Tester -u-> (Test player moving with nobody in it)
+Tester -u-> (Test player moving with TVSZ)
+Tester -u-> (Test player moving with beer defense)
+Tester -u-> (Test player moving undefended)
+Tester -u-> (Test professor move)
+
+@enduml
