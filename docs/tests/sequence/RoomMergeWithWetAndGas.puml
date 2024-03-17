@@ -1,0 +1,22 @@
+@startuml RoomMergeWithDifferentEffects
+header Two Rooms merge with one of them having Wet effect and the other with Gas effect.
+hide footbox
+
+participant R1 as "room1: Room"
+participant R2 as "room2: Room"
+participant D as "door : Door"
+
+participant G as "gasEffect : GasEffect"
+participant W as "wetEffect: WetEffect"
+
+--> R1 ++: merge(room2)
+R1 --> R2 : addEffect(wetEffect)
+
+
+
+R1 --> D : <<destroy>>
+destroy R1
+destroy D
+
+
+

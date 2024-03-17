@@ -1,0 +1,29 @@
+@startuml RoomsMergeWithWetAndGas
+header Setup Room1 with WetEffect and merge it into Room2 with GasEffect
+hide footbox
+
+participant M as "Main"
+
+create R1 as "room1: Room"
+M --> R1 : <<create>>
+
+create R2 as "room2: Room"
+M --> R2 : <<create>>
+
+create D as "door: Door"
+M --> D : <<create>>
+
+
+
+create W as "wetEffect: WetEffect"
+M --> W : <<create>>
+
+create G as "gasEffect: GasEffect"
+M --> G : <<create>>
+
+M --> R1 ++: addEffect(wetEffect)
+return
+M --> R2 ++: addEffect(gasEffect)
+return
+
+@enduml
