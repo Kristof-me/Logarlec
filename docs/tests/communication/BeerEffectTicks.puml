@@ -1,5 +1,5 @@
-@startuml BeerEffectTicks
-header Beer Effect Ticks
+@startuml SetupBeerEffectTicks
+header Setup Beer Effect Ticks
 hide footbox
 
 participant main as "Main"

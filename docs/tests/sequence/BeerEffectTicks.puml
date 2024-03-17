@@ -5,6 +5,8 @@ hide footbox
 participant student as "student : Student"
 participant beerDefense as "beerDefense : BeerDefense"
 
+ref over student, beerDefense : Setup Beer Effect Ticks
+
 ---> student ++ : tick()
 student --> beerDefense ++ : tick()
 alt remaining > 0

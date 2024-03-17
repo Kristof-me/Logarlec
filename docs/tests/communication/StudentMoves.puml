@@ -1,5 +1,5 @@
-@startuml StudentMoves
-header Student Moves
+@startuml SetupStudentMoves
+header Setup Student Moves
 hide footbox
 
 participant main as "Main"

@@ -1,5 +1,5 @@
-@startuml StudentItemPickup
-header Student Item Pickup
+@startuml SetupStudentItemPickup
+header Setup Student Item Pickup
 hide footbox
 
 participant main as "Main"

@@ -12,6 +12,8 @@ participant studentAction as "studentAction : StudentActions"
 participant defense as "studentDefense : DefaultDefense"
 participant inventory as "studentInventory : Inventory"
 
+ref over professor, inventory : Setup Professor Moves
+
 --> professor ++: move(door)
 professor --> action ++: move(door)
 

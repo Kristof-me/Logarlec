@@ -9,6 +9,8 @@ participant room as "room : Room"
 participant roomInventory as "roomInventory : Inventory"
 participant beer as "beer : Beer"
 
+ref over student, beer : Setup Student Item Pickup
+
 --> student ++: pickUp(beer)
 student --> studentAction ++: pickUp(beer)
 studentAction --> room ++ : removeItem(beer)

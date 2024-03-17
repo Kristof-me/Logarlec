@@ -1,5 +1,5 @@
-@startuml StudentUsesCoctail
-header Student Uses Coctail
+@startuml SetupStudentUsesCoctail
+header Setup Student Uses Coctail
 hide footbox
 
 participant main as "Main"

@@ -1,5 +1,5 @@
-@startuml BeerDefense
-header Beer Defense
+@startuml SetupBeerDefense
+header Setup Beer Defense
 hide footbox
 
 participant main as "Main"

@@ -10,6 +10,8 @@ participant room as "room : Room"
 participant student2 as "student2 : Student"
 participant actions2 as "student2Action : StudentActions"
 
+ref over student, actions2 : Setup Student Uses Coctail
+
 -> student ++ : use(coctail)
 student -> actions ++ : use(coctail)
 actions -> coctail ++ : use(student)

@@ -12,6 +12,8 @@ participant professor as "professor : Professor"
 participant action as "professorAction : ProfessorActions"
 participant inventory as "studentInventory : Inventory"
 
+ref over student, professor, studentInventory : Setup Beer Defense
+
 --> student ++: move(door)
 student --> studentAction ++: move(door)
 

@@ -7,6 +7,8 @@ participant actions as "studentAction : StudentActions"
 participant inventory as "studentInventory: Inventory"
 participant beer as "beer : Beer"
 
+ref over student, beer : Setup Student Uses Bear
+
 -> student ++ : use(beer)
 student -> actions ++ : use(beer)
 actions -> beer ++ : use(student)
