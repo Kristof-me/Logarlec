@@ -1,0 +1,47 @@
+@startuml RoomSplitWithEffects
+header Professor Moves to a Room with another Professor
+hide footbox
+
+participant P1 as "professor1 : Professor"
+participant P1S as "professor1State : ProfessorActions"
+participant D as "door : Door"
+participant R1 as "room1 : Room"
+participant R2 as "room2 : Room"
+participant P2 as "professor2 : Professor"
+participant P2S as "professor2State : ProfessorActions"
+ref over P1, P2S : Setup Neighbouring Rooms, each with one Professor
+--> P1 ++: move(door)
+P1 --> P1S ++: move(door)
+P1S --> door ++: leadsTo(room1)
+return room2
+P1S --> R2 ++ : enter(professor1)
+R2 --> R2 : isFull()
+opt isFull == false
+    R2 --> P2 ++ : attack()
+    P2 --> P2S ++ : attack()
+    P2S --> R2 ++ : attack(professor2)
+    R2 --> P1 ++: attacked()
+    return
+    return
+    return
+    return
+    R2 --> P1 ++ : attack()
+    P1 --> P1S ++ : attack()
+    P1S --> R2 ++ : attack(professor1)
+    R2 --> P2 ++: attacked()
+    return
+    return
+    return
+    return
+end
+return isSuccessful
+opt isSuccessful
+    P1S --> R1 ++ : leave(professor1)
+    return
+end
+return 
+return 
+
+
+@enduml
+

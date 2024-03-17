@@ -1,0 +1,52 @@
+@startuml FullRoom
+header Setup Neighbouring Rooms, each with one Student and an Item
+hide footbox
+
+participant M as "Main"
+create R1 as "room1 : Room"
+M --> R1 :  <<create>>
+create R2 as "room2 : Room"
+M --> R2 :  <<create>>
+create D as "door : Door"
+M --> D :  <<create>>
+M --> R1 ++: addDoor(door)
+return
+M --> R2 ++: addDoor(door)
+return
+M --> D ++: setRoom1(room1)
+return
+M --> D ++: setRoom2(room2)
+return
+create S1 as "student1 : Student"
+M --> S1 ++: <<create>>
+create S1S as "student1State : StudentActions"
+S1 --> S1S : <<create>>
+create S1I as "student1Inventory : Inventory"
+S1 --> S1I : <<create>>
+create S1D as "student1Defense : DefaultDefense"
+S1 --> S1D --: <<create>>
+create S2 as "student2 : Student"
+M --> S2 ++: <<create>>
+create S2S as "student2State : StudentActions"
+S2 --> S2S : <<create>>
+create S2I as "student2Inventory : Inventory"
+S2 --> S2I : <<create>>
+create S2D as "student2Defense : DefaultDefense"
+S2 --> S2D --: <<create>>
+
+create B as "beer : Beer"
+M --> B : <<create>>
+create T as "tvsz : Tvsz"
+M --> T : <<create>>
+
+M --> R1 ++: addItem(beer)
+return
+M --> R2 ++: addItem(tvsz)
+return
+
+M --> S1 ++ : teleport(room1, false)
+return true
+M --> S2 ++ : teleport(room2, false)
+return true
+@enduml
+

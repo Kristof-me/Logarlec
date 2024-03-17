@@ -1,0 +1,30 @@
+@startuml RoomSplitWithEffects
+header Room splits with Two Students, with Wet and Gas Effects
+hide footbox
+
+participant R1 as "oRoom : Room"
+participant S1 as "student1 : Student"
+participant S2 as "student2 : Student"
+participant W as "wetEffect : WetEffect"
+participant G as "gasEffect : GasEffect"
+ref over R1, G : Setup Room with Two Students, Wet and Gas effects
+--> R1 ++ : split()
+create R2 as "nRoom : Room"
+R1 --> R2 : <<create>>
+create D as "door : Door"
+R1 --> D : <<create>>
+R1 --> R1: addDoor(door)
+R1 --> D ++: setRoom1(oRoom)
+return
+R1 --> R2 ++: addDoor(door)
+return
+R1 --> D ++: setRoom2(nRoom)
+return
+R1 --> R2 ++ : addEffect(wetEffect)
+return
+R1 --> R2 ++ : addEffect(gasEffect)
+return
+return
+
+@enduml
+

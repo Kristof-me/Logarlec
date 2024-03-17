@@ -1,0 +1,43 @@
+@startuml FullRoom
+header Setup Neighbouring Rooms, each with one Professor
+hide footbox
+
+participant M as "Main"
+create R1 as "room1 : Room"
+M --> R1 :  <<create>>
+create R2 as "room2 : Room"
+M --> R2 :  <<create>>
+create D as "door : Door"
+M --> D :  <<create>>
+M --> R1 ++: addDoor(door)
+return
+M --> R2 ++: addDoor(door)
+return
+M --> D ++: setRoom1(room1)
+return
+M --> D ++: setRoom2(room2)
+return
+create P1 as "professor1 : Professor"
+M --> P1 ++: <<create>>
+create P1S as "professor1State : ProfessorActions"
+P1 --> P1S : <<create>>
+create P1I as "professor1Inventory : Inventory"
+P1 --> P1I : <<create>>
+create P1D as "professor1Defense : DefaultDefense"
+P1 --> P1D --: <<create>>
+create P2 as "professor2 : Professor"
+M --> P2 ++: <<create>>
+create P2S as "professor2State : ProfessorActions"
+P2 --> P2S : <<create>>
+create P2I as "professor2Inventory : Inventory"
+P2 --> P2I : <<create>>
+create P2D as "professor2Defense : DefaultDefense"
+P2 --> P2D --: <<create>>
+
+
+M --> P1 ++ : teleport(room1, false)
+return true
+M --> P2 ++ : teleport(room2, false)
+return true
+@enduml
+
