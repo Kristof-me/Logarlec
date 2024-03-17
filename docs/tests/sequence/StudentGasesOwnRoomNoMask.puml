@@ -13,9 +13,10 @@ ref over S1, C: Setup Neighbouring Rooms, with a student in one of them, and a a
 S1 -> S1S ++: use(camembert)
 S1S -> C ++: use(student1)
 create G as "gasEffect : GasEffect"
-C -> G : <<create>>
+C -> G ++: <<create>>
 create F as "bestGasMaskFinder : BestGasMaskFinder"
 G -> F : <<create>>
+deactivate G
 C -> R ++: addEffect(gasEffect)
     R -> S1 ++ : acceptEffect(gasEffect, null)
     S1 -> F ++: findIn(student1Inventory)
