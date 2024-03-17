@@ -1,0 +1,35 @@
+@startuml ProfessorWet
+header Professor gets wet
+hide footbox
+
+participant Professor as "professor : Professor"
+participant ProfessorActions as "professorActions : ProfessorActions"
+participant Door as "door : Door"
+participant Room as "room1 : Room"
+participant RoomEffect as "wetEffect : WetEffect"
+
+-> Professor++ : move(door)
+Professor -> ProfessorActions++ : move(door)
+ProfessorActions -> Door++ : leadsTo(room1)
+return room2
+
+ProfessorActions -> Door ++: move(professor, room2)
+Door -> Room ++: move(professor, false)
+Room -> RoomEffect ++: addEffect(professor)
+RoomEffect -> Professor ++: acceptEffect(wetEffect)
+Professor -> RoomEffect ++: applyEffect(professor)
+
+create StunnedStep as "stunnedStep : StunnedStep"
+RoomEffect --> StunnedStep : <<create>>
+
+RoomEffect -> Professor ++: setActionState(stunnedStep)
+return
+return
+return
+
+return
+return true
+return true
+return true
+return true
+@enduml
