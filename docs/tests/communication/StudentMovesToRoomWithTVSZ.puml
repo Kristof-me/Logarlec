@@ -1,0 +1,51 @@
+@startuml SetupStudentMovesToRoomWithTVSZ
+header Setup Student Moves To Room With TVSZ
+hide footbox
+
+participant main as "Main"
+activate main
+
+create room1 as "room1 : Room"
+main --> room1 ++: <<create>>
+create r1inv as "room1inventory : Inventory"
+room1 --> r1inv --: <<create>>
+
+create room2 as "room2 : Room"
+main --> room2 ++: <<create>>
+create r2inv as "room2inventory : Inventory"
+room2 --> r2inv --: <<create>>
+
+create door as "door : Door"
+main --> door : <<create>>
+
+create student as "student : Student"
+main --> student ++: <<create>>
+create studentAction as "studentAction : StudentActions"
+student --> studentAction : <<create>>
+create inventory as "studentInventory : Inventory"
+student --> inventory : <<create>>
+
+create tvsz as "tvsz: Tvsz"
+main --> tvsz : <<create>>
+main -> inventory ++: addItem(tvsz)
+return true
+
+create defense as "studentDefense : DefaultDefense"
+student --> defense --: <<create>>
+
+create professor as "professor : Professor"
+main --> professor ++: <<create>>
+create action as "professorAction : ProfessorActions"
+professor --> action : <<create>>
+create profInventory as "professorInventory : Inventory"
+professor --> profInventory : <<create>>
+create profDefense as "professorDefense : DefaultDefense"
+professor --> profDefense --: <<create>>
+
+main -> student ++ : teleport(room1, false)
+return true
+
+main -> professor ++ : teleport(room2, false)
+return true
+
+@enduml

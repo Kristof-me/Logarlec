@@ -21,9 +21,9 @@ M --> W : <<create>>
 create G as "gasEffect: GasEffect"
 M --> G : <<create>>
 
-M --> R1 ++: addEffect(wetEffect)
+M -> R1 ++: addEffect(wetEffect)
 return
-M --> R2 ++: addEffect(gasEffect)
+M -> R2 ++: addEffect(gasEffect)
 return
 
 @enduml

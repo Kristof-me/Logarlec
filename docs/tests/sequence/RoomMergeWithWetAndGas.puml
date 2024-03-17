@@ -9,8 +9,8 @@ participant D as "door : Door"
 participant G as "gasEffect : GasEffect"
 participant W as "wetEffect: WetEffect"
 
---> R1 ++: merge(room2)
-R1 --> R2 : addEffect(wetEffect)
+-> R1 ++: merge(room2)
+R1 -> R2 : addEffect(wetEffect)
 
 
 
