@@ -1,0 +1,30 @@
+@startuml StudentDropsTransistor
+header Student Drops Transistor
+hide footbox
+
+participant student as "student : Student"
+participant actions as "studentAction : StudentActions"
+participant inv as "studentInventory: Inventory"
+participant room as "room : Room"
+participant invR as "roomInventory: Inventory"
+participant t1 as "transistor: Transistor"
+
+-> student ++ : drop(transistorA)
+student -> actions ++ : drop(transistor)
+
+actions -> inv++: removeItem(transistor)
+return transistor
+
+' egy jogos kerdes hogy az item onDropja-t a removeItem az actorbol vagy
+' az addItem a roomba hivja, itt <- ez
+
+actions -> invR++: addItem(transistor)
+    inv -> t1 ++ : onDrop(room)
+    ' transistor sets own loaction here
+    return
+return
+
+return
+return
+
+@enduml

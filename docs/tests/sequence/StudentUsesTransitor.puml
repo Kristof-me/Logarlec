@@ -1,0 +1,23 @@
+@startuml StudentUsesTransistor
+header Student Uses Transistor (teleports)
+hide footbox
+
+participant student as "student : Student"
+participant actions as "studentAction : StudentActions"
+participant inv as "studentInventory: Inventory"
+participant room as "room : Room"
+participant invR as "roomInventory: Inventory"
+participant t1 as "transistorA: Transistor"
+participant t2 as "transistorB: Transistor"
+
+' lets assume they are already paired
+
+-> student ++ : use(transistorA)
+student -> actions ++ : use(transistorA)
+
+' under construction
+
+return
+return
+
+@enduml

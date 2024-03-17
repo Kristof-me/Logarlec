@@ -4,7 +4,7 @@ hide footbox
 
 participant student as "student : Student"
 participant actions as "studentAction : StudentActions"
-participant inventory as "studentInventory: Inventory"
+participant inv as "studentInventory: Inventory"
 participant t1 as "transistorA: Transistor"
 participant t2 as "transistorB: Transistor"
 
@@ -20,14 +20,16 @@ return inventory
 
 ' lil visiting around dx...
 t1 -> tFinder++: findIn(inventory)
-    tFinder -> t1++:accept(transistorPairFinder)
-    t1->tFinder++:visit(transistorA)
-    return
-    return
+    tFinder -> inv++:acceptVisitor(transistorPairFinder)  
+        inv -> t1++:accept(transistorPairFinder)
+        t1->tFinder++:visit(transistorA)
+        return
+        return
 
-    tFinder -> t2++:accept(transistorPairFinder)
-    t2 ->tFinder++:visit(transistorB)
-    return
+        inv -> t2++:accept(transistorPairFinder)
+        t2 ->tFinder++:visit(transistorB)
+        return
+        return
     return
 return transistorB
 destroy tFinder
