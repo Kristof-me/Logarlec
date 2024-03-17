@@ -18,6 +18,10 @@ create inventory as "studentInventory : Inventory"
 student --> inventory : <<create>>
 create defense as "studentDefense : DefaultDefense"
 student --> defense --: <<create>>
+create sponge as "sponge : Sponge"
+main --> sponge: <<create>>
+main --> inventory ++: add(sponge)
+return true
 
 main --> student ++ : teleport(room1, false)
 return true
