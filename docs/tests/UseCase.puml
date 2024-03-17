@@ -1,4 +1,4 @@
-@startuml
+@startuml TestUseCase
 
 actor :Tester: as Tester
 left to right direction

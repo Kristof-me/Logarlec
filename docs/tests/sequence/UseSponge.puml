@@ -1,0 +1,29 @@
+@startuml
+hide footbox
+actor Actor
+participant Student as "student : Student"
+participant Sponge as "sponge : Sponge"
+participant Inventory as "studentInventory : Inventory"
+participant Room as "room1 : Room"
+
+Actor -> Student++ : use(sponge)
+Student -> Sponge++ : use(student)
+
+create RoomEffect as "wetEffect : WetEffect"
+Sponge --> RoomEffect: <<create>>
+activate RoomEffect
+create itemFinders as "itemFinders : List<ItemFinder>"
+RoomEffect --> itemFinders: <<create>>
+deactivate RoomEffect
+Sponge -> Room++: addEffect(wetEffect)
+Room -> Student++: acceptEffect(wetEffect, itemFinders)
+Student -> RoomEffect++: applyEffect(student)
+
+return
+return
+return
+return
+return
+
+
+@enduml
