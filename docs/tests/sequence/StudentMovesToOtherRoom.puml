@@ -1,4 +1,4 @@
-@startuml RoomSplitWithEffects
+@startuml StudentMovesToEmptyRoom
 header Student Moves to a Room with another Student
 hide footbox
 
@@ -7,21 +7,32 @@ participant S1S as "student1State : StudentActions"
 participant D as "door : Door"
 participant R1 as "room1 : Room"
 participant R2 as "room2 : Room"
-ref over S1, R2 : Setup Neighbouring Rooms, with a student in one of them
+participant S2 as "student2 : Student"
+participant S2S as "student2State : StudentActions"
+ref over S1, R2 : Setup Neighbouring Rooms, with a student in each of them
 -> S1 ++: move(door)
 S1 -> S1S ++: move(door)
 S1S -> D ++: leadsTo(room1)
 return room2
-S1S -> R2 ++ : enter(student1)
+
+S1S -> D ++ : move(student1, room2)
+D -> R2 ++ : enter(student1, false)
 R2 -> R2 : isFull()
 opt isFull == false
     R2 -> S1 ++ : attack()
     S1 -> S1S ++ : attack()
     return
     return
+
+    R2 -> S2 ++ : attack()
+    S2 -> S2S ++ : attack()
+    return
+    return
 end
-return isSuccessful
-opt isSuccessful
+return success
+return success
+
+opt success == true
     S1S -> R1 ++ : leave(student1)
     return
 end

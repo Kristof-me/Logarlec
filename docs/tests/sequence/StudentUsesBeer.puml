@@ -1,5 +1,5 @@
-@startuml StudentUsesBear
-header Student Uses Bear
+@startuml StudentUsesBeer
+header Student Uses Beer
 hide footbox
 
 participant student as "student : Student"
@@ -7,7 +7,7 @@ participant actions as "studentAction : StudentActions"
 participant inventory as "studentInventory: Inventory"
 participant beer as "beer : Beer"
 
-ref over student, beer : Setup Student Uses Bear
+ref over student, beer : Setup Student Uses Beer
 
 -> student ++ : use(beer)
 student -> actions ++ : use(beer)

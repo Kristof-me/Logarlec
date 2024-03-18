@@ -1,5 +1,5 @@
 @startuml UseSponge
-header Sponge use
+header Setup sponge use
 hide footbox
 
 participant main as "Main"
@@ -21,13 +21,15 @@ student --> defense --: <<create>>
 create sponge as "sponge : Sponge"
 main --> sponge: <<create>>
 
-main --> student ++: getInventory()
+main -> student ++: getInventory()
 return inventory
 
-main --> inventory ++: addItem(sponge)
+main -> inventory ++: addItem(sponge)
 return true
 
-main --> student ++ : teleport(room1, true)
+main -> student ++ : teleport(room1, false)
+student -> room1 ++ : enter(student, false)
+return true
 return true
 ' ez garantált, hiszen a szoba mérete legalább 1
 

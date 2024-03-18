@@ -1,0 +1,52 @@
+@startuml StudentsMerge
+header Rooms Merge with one Student and one Item in each, enough room for both students
+hide footbox
+
+participant R1 as "room1 : Room"
+participant R1I as "room1Inventory : Inventory"
+participant R2 as "room2 : Room"
+participant R2I as "room2Inventory : Inventory"
+participant D as "door : Door"
+
+participant S1 as "student1 : Student"
+participant S1S as "student1State : StudentActions"
+
+participant S2 as "student2 : Student"
+participant S2S as "student2State : StudentActions"
+
+participant B as "beer : Beer"
+
+ref over R1, B : Setup Neighbouring Rooms, each with one Student and an Item
+-> R1 ++: merge(room2)
+R1 -> R1I ++: dropAll(room2)
+    R1I -> R1I : removeItem(beer)
+
+    R1I -> R2 ++: addItem(beer)
+    R2 -> B ++ : onDrop(room1)
+    return
+    R2 -> R2I ++: addItem(beer)
+    return true
+    return
+return
+
+R1 -> S1 ++: teleport(room2, true)
+S1 -> R2 ++: enter(student1, true)
+
+R2 -> R2 : isFull()
+alt isFull == false
+    R2 -> S2 ++ : attack()
+    S2 -> S2S ++ : attack()
+    return
+    return
+    R2 -> S1 ++ : attack()
+    S1 -> S1S ++ : attack()
+    return
+    S1 --> R2 --
+else isFull == true
+     S1 --> R2 --
+    destroy S1
+end
+R2 --> R1 -- : true
+return
+
+@enduml

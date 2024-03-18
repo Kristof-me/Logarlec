@@ -1,11 +1,11 @@
-@startuml UseSponge
-header Sponge use
+@startuml UseCamembert
+header Setup a Room with a Student, who has a Camembert
 hide footbox
 
 participant main as "Main"
 activate main
 
-create room1 as "room1 : Room"
+create room1 as "room : Room"
 main --> room1 ++: <<create>>
 create r1inv as "room1inventory : Inventory"
 room1 --> r1inv --: <<create>>

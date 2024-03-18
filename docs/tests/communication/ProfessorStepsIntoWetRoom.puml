@@ -1,5 +1,5 @@
-@startuml BeerDefense
-header Beer Defense
+@startuml ProfessorStepsIntoWetRoom
+header Setup professor steps into wet room
 hide footbox
 
 participant main as "Main"
@@ -28,16 +28,13 @@ create profDefense as "professorDefense : DefaultDefense"
 professor --> profDefense --: <<create>>
 create wetEffect as "wetEffect : WetEffect"
 main --> wetEffect : <<create>>
-activate wetEffect
-create ItemFinders as "itemFinders : ItemFinders"
-wetEffect --> ItemFinders : <<create>>
-deactivate wetEffect
-main --> room2: addEffect (wetEffect)
 
+main -> room2 ++: addEffect (wetEffect)
+return
 
-' ez garantált, hiszen a szoba mérete legalább 1
-
-main --> professor ++ : teleport(room1, false)
+main -> professor ++ : teleport(room1, false)
+    professor -> room1++: enter(professor, false)
+    return true
 return true
-' ez garantált, hiszen a szoba mérete legalább 1
+
 @enduml

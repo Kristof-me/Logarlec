@@ -13,7 +13,7 @@ room --> inventory --: <<create>>
 create effect as "gasEffect : GasEffect"
 main --> effect : <<create>>
 
-main --> room ++ : addEffect(gasEffect) 
+main -> room ++ : addEffect(gasEffect) 
 return 
 
 @endpuml

@@ -12,9 +12,11 @@ participant P2S as "professor2State : ProfessorActions"
 ref over P1, P2S : Setup Neighbouring Rooms, each with one Professor
 -> P1 ++: move(door)
 P1 -> P1S ++: move(door)
-P1S -> door ++: leadsTo(room1)
+P1S -> D ++: leadsTo(room1)
 return room2
-P1S -> R2 ++ : enter(professor1)
+
+P1S -> D ++: move(professor1, room2)
+D -> R2 ++ : enter(professor1, false)
 R2 -> R2 : isFull()
 opt isFull == false
     R2 -> P2 ++ : attack()
@@ -35,6 +37,8 @@ opt isFull == false
     return
 end
 return isSuccessful
+return isSuccessful
+
 opt isSuccessful
     P1S -> R1 ++ : leave(professor1)
     return

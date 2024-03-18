@@ -17,7 +17,7 @@ student --> defense --: <<create>>
 create beerDefense as "beerDefense : BeerDefense"
 main --> beerDefense : <<create>>
 
-main --> student ++ : setDefenseStrategy(beerDefense)
+main -> student ++ : setDefenseStrategy(beerDefense)
 return
 
 @enduml

@@ -3,20 +3,21 @@ header Setup Neighbouring Rooms, each with one Professor
 hide footbox
 
 participant M as "Main"
+activate M
 create R1 as "room1 : Room"
 M --> R1 :  <<create>>
+activate R1
+create R1I as "room1Inventory : Inventory"
+R1 --> R1I --: <<create>>
+
 create R2 as "room2 : Room"
 M --> R2 :  <<create>>
+activate R2
+create R2I as "room2Inventory : Inventory"
+R2 --> R2I --: <<create>>
+
 create D as "door : Door"
 M --> D :  <<create>>
-M --> R1 ++: addDoor(door)
-return
-M --> R2 ++: addDoor(door)
-return
-M --> D ++: setRoom1(room1)
-return
-M --> D ++: setRoom2(room2)
-return
 create P1 as "professor1 : Professor"
 M --> P1 ++: <<create>>
 create P1S as "professor1State : ProfessorActions"
@@ -34,10 +35,10 @@ P2 --> P2I : <<create>>
 create P2D as "professor2Defense : DefaultDefense"
 P2 --> P2D --: <<create>>
 
-
-M --> P1 ++ : teleport(room1, false)
+M -> P1 ++ : teleport(room1, false)
 return true
-M --> P2 ++ : teleport(room2, false)
+M -> P2 ++ : teleport(room2, false)
 return true
+deactivate M
 @enduml
 

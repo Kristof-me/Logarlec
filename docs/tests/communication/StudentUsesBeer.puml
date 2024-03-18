@@ -1,5 +1,5 @@
-@startuml SetupStudentUsesBear
-header Setup Student Uses Bear
+@startuml SetupStudentUsesBeer
+header Setup Student Uses Beer
 hide footbox
 
 participant main as "Main"

@@ -1,5 +1,5 @@
 @startuml DoorAppear
-header Door disappear then reappear
+header Setup door disappear then reappear
 hide footbox
 
 participant main as "Main"
@@ -27,7 +27,12 @@ student --> defense --: <<create>>
 create door as "door : Door"
 main --> door : <<create>>
 
-main --> student ++ : teleport(room1, false)
+main -> student ++ : teleport(room1, false)
+student -> room1 ++ : enter(student, false)
 return true
+return true
+
+main -> door ++: hide(1)
+return
 
 @enduml

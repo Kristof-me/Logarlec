@@ -1,4 +1,4 @@
-@startuml ProfessorWet
+@startuml ProfessorGetsWet
 header Professor gets wet
 hide footbox
 
@@ -8,13 +8,17 @@ participant Door as "door : Door"
 participant Room as "room1 : Room"
 participant RoomEffect as "wetEffect : WetEffect"
 
+ref over Professor, RoomEffect : Setup professor steps into wet room
+
 -> Professor++ : move(door)
 Professor -> ProfessorActions++ : move(door)
 ProfessorActions -> Door++ : leadsTo(room1)
 return room2
 
 ProfessorActions -> Door ++: move(professor, room2)
-Door -> Room ++: move(professor, false)
+Door -> Room ++: enter(professor, false)
+Room -> Room : isFull()
+opt isFull == true 
 Room -> RoomEffect ++: addEffect(professor)
 RoomEffect -> Professor ++: acceptEffect(wetEffect)
 Professor -> RoomEffect ++: applyEffect(professor)
@@ -24,12 +28,19 @@ RoomEffect --> StunnedStep : <<create>>
 
 RoomEffect -> Professor ++: setActionState(stunnedStep)
 return
+return 
 return
 return
 
+Room -> Professor ++: attack()
+Professor -> StunnedStep ++: attack()
+return 
 return
-return true
-return true
-return true
-return true
+
+end
+
+return success
+return success
+return success
+return success
 @enduml

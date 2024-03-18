@@ -4,26 +4,31 @@ hide footbox
 
 participant Student as "student : Student"
 participant Sponge as "sponge : Sponge"
+participant Action as "studentActions : StudentActions"
 participant Inventory as "studentInventory : Inventory"
 participant Room as "room1 : Room"
 participant Professor as "professor : Professor"
+
+ref over Student, Professor : Setup professor wet
+
 -> Student++ : use(sponge)
-Student -> Sponge++ : use(student)
+Student -> Action ++ : use(sponge)
+Action -> Sponge++ : use(student)
 
 create RoomEffect as "wetEffect : WetEffect"
 Sponge --> RoomEffect: <<create>>
-activate RoomEffect
-create itemFinders as "itemFinders : List<ItemFinder>"
-RoomEffect --> itemFinders: <<create>>
-deactivate RoomEffect
 Sponge -> Room++: addEffect(wetEffect)
-Room -> Student++: acceptEffect(wetEffect, itemFinders)
+Room -> RoomEffect ++ : addEffect(student)
+RoomEffect -> Student++: acceptEffect(wetEffect, null)
 Student -> RoomEffect++: applyEffect(student)
 
 return
 return
+return
 
-Room -> Professor++: acceptEffect(wetEffect, itemFinders)
+
+Room -> RoomEffect++: addEffect(professor)
+RoomEffect -> Professor++: acceptEffect(wetEffect, null)
 Professor -> RoomEffect++: applyEffect(professor)
 create State as "stunnedStep : StunnedStep"
 RoomEffect --> State: <<create>>
@@ -32,11 +37,11 @@ RoomEffect -> Professor++: setActionState(stunnedStep)
 return
 return
 return
-
+return
 
 return
 return
 return
-
+return
 
 @enduml

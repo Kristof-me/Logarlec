@@ -1,5 +1,5 @@
-@startuml StudentMoves
-header Student Moves
+@startuml BeerDefense
+header Beer Defense
 hide footbox
 
 participant student as "student : Student"
@@ -12,23 +12,26 @@ participant professor as "professor : Professor"
 participant action as "professorAction : ProfessorActions"
 participant inventory as "studentInventory : Inventory"
 
-ref over student, professor, studentInventory : Setup Beer Defense
+ref over student, professor, inventory : Setup Beer Defense
 
---> student ++: move(door)
-student --> studentAction ++: move(door)
+-> student ++: move(door)
+student -> studentAction ++: move(door)
 
-studentAction --> door ++: leadsTo(room1)
+studentAction -> student ++ : getLocation()
+return room1
+
+studentAction -> door ++: leadsTo(room1)
 return room2
 
-studentAction --> room2 ++: enter(student)
-room2 --> room2 : isFull()
+studentAction -> room2 ++: enter(student, false)
+room2 -> room2 : isFull()
 
 opt isFull == false
-    room2 --> professor ++: attack()
-    professor --> action ++: attack()
-    action --> room2 ++: attack(professor)
-    room2 --> student ++: attacked() 
-    student --> defense ++: defend(studentInventory)
+    room2 -> professor ++: attack()
+    professor -> action ++: attack()
+    action -> room2 ++: attack(professor)
+    room2 -> student ++: attacked() 
+    student -> defense ++: defend(studentInventory)
 
     ' a beer defense always returns true
     return true
@@ -37,8 +40,8 @@ opt isFull == false
     return
     return
 
-    room2 --> student ++: attack()
-    student --> studentAction ++: attack()
+    room2 -> student ++: attack()
+    student -> studentAction ++: attack()
     return
     return
 end
@@ -46,7 +49,7 @@ end
 return isSuccessful
 
 opt isSuccessful
-    studentAction --> room1 ++: leave(student)
+    studentAction -> room1 ++: leave(student)
     return
 end
 

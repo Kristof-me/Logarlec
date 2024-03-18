@@ -9,18 +9,20 @@ participant room as "room : Room"
 participant invR as "roomInventory: Inventory"
 participant t1 as "transistor: Transistor"
 
--> student ++ : drop(transistorA)
+ref over student, transistorB: Student Interacts with Transistor Setup
+
+-> student ++ : drop(transistor)
 student -> actions ++ : drop(transistor)
 
 actions -> inv++: removeItem(transistor)
 return transistor
 
-' egy jogos kerdes hogy az item onDropja-t a removeItem az actorbol vagy
-' az addItem a roomba hivja, itt <- ez
-
-actions -> invR++: addItem(transistor)
-    inv -> t1 ++ : onDrop(room)
+actions -> room++: addItem(transistor)
+    room -> t1 ++ : onDrop(room)
     ' transistor sets own loaction here
+    return
+
+    room -> invR++: addItem(transistor)
     return
 return
 

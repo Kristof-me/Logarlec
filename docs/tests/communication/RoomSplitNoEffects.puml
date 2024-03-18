@@ -1,10 +1,15 @@
-@startuml RoomSplitWithEffects
+@startuml RoomSplitWithNoEffects
 header Setup Room with Two Students, without any effects
 hide footbox
 
 participant M as "Main"
+activate M
 create R1 as "oRoom : Room"
 M --> R1 :  <<create>>
+activate R1
+create R1I as "oRoomInventory : Inventory"
+R1 --> R1I --: <<create>>
+
 create S1 as "student1 : Student"
 M --> S1 ++: <<create>>
 create S1S as "student1State : StudentActions"
@@ -22,9 +27,18 @@ S2 --> S2I : <<create>>
 create S2D as "student2Defense : DefaultDefense"
 S2 --> S2D --: <<create>>
 
-M --> S1 ++ : teleport(oRoom, false)
+M -> S1 ++ : teleport(oRoom, false)
+S1 -> R1 ++ : enter(student1, false)
 return true
-M --> S2 ++ : teleport(oRoom, false)
 return true
+
+M -> S2 ++ : teleport(oRoom, false)
+S2 -> R1++: enter(student2, false)
+return success
+return success
+
+note over S2 : Undefined test behaviour if student2 is not in oRoom (success == false)
+
+deactivate M
 @enduml
 

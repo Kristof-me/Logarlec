@@ -10,16 +10,10 @@ participant G as "gasEffect : GasEffect"
 ref over R1, G : Setup Room with Two Students, Wet and Gas effects
 -> R1 ++ : split()
 create R2 as "nRoom : Room"
-R1 -> R2 : <<create>>
+R1 --> R2 : <<create>>
 create D as "door : Door"
-R1 -> D : <<create>>
-R1 -> R1: addDoor(door)
-R1 -> D ++: setRoom1(oRoom)
-return
-R1 -> R2 ++: addDoor(door)
-return
-R1 -> D ++: setRoom2(nRoom)
-return
+R1 --> D : <<create>>
+
 R1 -> R2 ++ : addEffect(wetEffect)
 return
 R1 -> R2 ++ : addEffect(gasEffect)

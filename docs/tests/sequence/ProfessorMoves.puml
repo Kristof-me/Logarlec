@@ -14,28 +14,27 @@ participant inventory as "studentInventory : Inventory"
 
 ref over professor, inventory : Setup Professor Moves
 
---> professor ++: move(door)
-professor --> action ++: move(door)
+-> professor ++: move(door)
+professor -> action ++: move(door)
 
-action --> door ++: leadsTo(room1)
+action -> door ++: leadsTo(room1)
 return room2
 
-action --> room2 ++: enter(professor)
-' ezt lehet utólag kéne ellenőrizni, hogy a szoba megtámadása után
-' van-e elég helye belépni, but I'm not sure
-room2 --> room2 : isFull()
+action -> door ++: move(professor, room2)
+door -> room2 ++: enter(professor, false)
+room2 -> room2 : isFull()
 
 opt isFull == false
-    room2 --> student ++: attack()
-    student --> studentAction ++: attack()
+    room2 -> student ++: attack()
+    student -> studentAction ++: attack()
     return
     return
 
-    room2 --> professor ++: attack()
-    professor --> action ++: attack()
-    action --> room2 ++: attack(professor)
-    room2 --> student ++: attacked() 
-    student --> defense ++: defend(studentInventory)
+    room2 -> professor ++: attack()
+    professor -> action ++: attack()
+    action -> room2 ++: attack(professor)
+    room2 -> student ++: attacked() 
+    student -> defense ++: defend(studentInventory)
 
     ' ez garantáltan false lesz, mert üres az inventory-ja
     return false
@@ -47,18 +46,14 @@ opt isFull == false
 end
 
 return isSuccessful
+return isSuccessful
 
 opt isSuccessful
-    action --> room1 ++: leave(professor)
+    action -> room1 ++: leave(professor)
     return
 end
 
 return
 return
-
-' itt lehet még fel kéne tüntetni a többi dolgot, amit a konstruktor hozott létre
-' de annyira feleslegesnek érzem
-
-' ... fantasztikus ez az egész dolog ._.
 
 @enduml

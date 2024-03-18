@@ -20,12 +20,9 @@ student --> studentAction ++: move(door)
 studentAction --> door ++: leadsTo(room1)
 return room2
 
-studentAction --> room2 ++: enter(student)
+studentAction --> door ++: move(student, room2)
+door --> room2 ++: enter(student, false)
 
-/' 
-itt mindenképp előbb kéne ezt ellenőrizni, hogy a 
-halálába ne léphessen
-'/
 room2 --> room2 : isFull()
 
 opt isFull == false
@@ -48,12 +45,6 @@ kezdi
     return
     return
     
-
-/' 
-FONTOS! itt kéne lezárni a hitvitát, hogy ki kezeli azt, hogy
-ha a student halott, akkor meghívja-e a függvényét és a 
-state tiltsa meg neki a dolgot, vagy ő maga ellenőrizze
-'/
     room2 --> student ++: attack()
     student --> studentAction ++: attack()
     return
@@ -61,6 +52,7 @@ state tiltsa meg neki a dolgot, vagy ő maga ellenőrizze
     
 end
 
+return isSuccessful
 return isSuccessful
 
 opt isSuccessful

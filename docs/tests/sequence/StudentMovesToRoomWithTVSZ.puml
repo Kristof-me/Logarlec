@@ -15,14 +15,14 @@ participant tvsz as "tvsz: Tvsz"
 
 ref over student, tvsz : Setup Student Moves To Room With TVSZ
 
-
 -> student ++: move(door)
 student -> studentAction ++: move(door)
 
 studentAction -> door ++: leadsTo(room1)
 return room2
 
-studentAction -> room2 ++: enter(student)
+studentAction -> door ++: move(student, room2)
+door -> room2 ++: enter(student, false)
 
 room2 -> room2 : isFull()
 
@@ -62,6 +62,7 @@ opt isFull == false
     
 end
 
+return isSuccessful
 return isSuccessful
 
 opt isSuccessful

@@ -11,31 +11,32 @@ participant beer as "beer : Beer"
 
 ref over student, beer : Setup Student Item Pickup
 
---> student ++: pickUp(beer)
-student --> studentAction ++: pickUp(beer)
-studentAction --> room ++ : removeItem(beer)
-room --> roomInventory ++: removeItem(beer)
+-> student ++: pickUp(beer)
+student -> studentAction ++: pickUp(beer)
+studentAction -> room ++ : removeItem(beer)
+room -> roomInventory ++: removeItem(beer)
 return beer
 return beer
 
-studentAction --> student ++: getInventory()
+studentAction -> student ++: getInventory()
 return inventory
 
-studentAction --> inventory ++: addItem(beer)
-inventory --> inventory : isFull()
+studentAction -> inventory ++: addItem(beer)
+inventory -> inventory : isFull()
 return success
 
-' todo ez is hitvita, hogy ezt akár az inventory is call-olhatná
+
 alt success == true
-    studentAction --> beer ++: onPickup(student)
-    beer --> student ++: getInventory()
+    studentAction -> beer ++: onPickup(student)
+    beer -> student ++: getInventory()
     return inventory
     return 
-    
 else success == false
-    studentAction --> room ++: addItem(beer)
-    room --> roomInventory ++: addItem(beer)
+    studentAction -> room ++: addItem(beer)
+    room -> roomInventory ++: addItem(beer)
     return true
+    room -> beer ++: onDrop(room)
+    return
     return 
 end
 

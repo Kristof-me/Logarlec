@@ -3,23 +3,24 @@ header Professor Moves to a Gased Room with Gasmask
 hide footbox
 
 participant professor as "prof : professor"
-participant professorS as "profState : ProfessorActions"
 participant inv as "profInv : Inventory"
+participant gasMask as "gasMask : GasMask"
 participant R1 as "room1 : Room"
 participant R2 as "room2 : Room"
+participant professorS as "profState : ProfessorActions"
 participant gasMaskFinder as "bestGasMaskFinder : BestGasMaskFinder"
-participant gasMask as "gasMask : GasMask"
 
--> professor ++: teleport(room1)
+ref over professor, gasMaskFinder :  Set up a professor and move them to a gased room with a gas mask
+-> professor ++: teleport(room1, true)
 
-professor -> R2++: enter(professor, true)
+professor -> R2++: enter(prof, true)
 
 R2 -> R2 : isFull()
 opt isFull == false
     ' the unless ItemFinder is created with the gas effect an comms diagramm
     R2 -> professor ++ : acceptEffect(gasEffect, bestGasMaskFinder)
     
-    professor -> gasMaskFinder++ : findIn(inventory)
+    professor -> gasMaskFinder++ : findIn(profInv)
         gasMaskFinder -> inv++: acceptVisitor(bestGasMaskFinder)
             inv -> gasMask++: accept(bestGasMaskFinder)
                 gasMask -> gasMaskFinder++ : visit(gasMask)
@@ -28,19 +29,29 @@ opt isFull == false
         return
     return gasMask
     
-    professor -> gasMask++: use(professor)
-    return
+    professor -> gasMask++: use(prof)
+    
 
+    alt usesLeft > 0
+        gasMask --> professor 
+    else usesLeft <= 0
+        gasMask --> inv++: removeItem(gasMask)
+        return gasMask
+        gasMask --> professor --
+        destroy gasMask
+    end
     return
 
     R2 -> professor ++ : attack()
     professor -> professorS ++ : attack()
+    professorS -> R2 ++ : attack(prof)
+    return
     return
     return
 end
 return isSuccessful
 opt isSuccessful
-    professor -> R1 ++ : leave(professor)
+    professor -> R1 ++ : leave(prof)
     return
 end
 return

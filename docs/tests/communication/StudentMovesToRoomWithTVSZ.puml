@@ -25,10 +25,6 @@ student --> studentAction : <<create>>
 create inventory as "studentInventory : Inventory"
 student --> inventory : <<create>>
 
-create tvsz as "tvsz: Tvsz"
-main --> tvsz : <<create>>
-main -> inventory ++: addItem(tvsz)
-return true
 
 create defense as "studentDefense : DefaultDefense"
 student --> defense --: <<create>>
@@ -42,10 +38,22 @@ professor --> profInventory : <<create>>
 create profDefense as "professorDefense : DefaultDefense"
 professor --> profDefense --: <<create>>
 
+create tvsz as "tvsz: Tvsz"
+main --> tvsz : <<create>>
+
+main -> student ++: getInventory()
+return studentInventory
+main -> inventory ++: addItem(tvsz)
+return true
+
 main -> student ++ : teleport(room1, false)
+    student -> room1 ++ : enter(student, false)
+    return true
 return true
 
 main -> professor ++ : teleport(room2, false)
+    professor -> room2 ++ : enter(professor, false)
+    return true
 return true
 
 @enduml

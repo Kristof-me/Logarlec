@@ -22,16 +22,10 @@ student --> defense --: <<create>>
 create beer as "beer : Beer"
 main --> beer : <<create>>
 
-main --> room ++: addItem(beer)
-room --> roomInventory ++: addItem(beer)
-roomInventory --> roomInventory : isFull()
-
-alt isFull == true
-    roomInventory --> room : false
-    note over roomInventory : can't test item pickup  
-else isFull == false
-    return true    
-end
+main -> room ++: addItem(beer)
+room -> roomInventory ++: addItem(beer)
+roomInventory -> roomInventory : isFull()
+return true
 
 return
 

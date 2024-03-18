@@ -8,6 +8,8 @@ participant inv as "studentInventory: Inventory"
 participant t1 as "transistorA: Transistor"
 participant t2 as "transistorB: Transistor"
 
+ref over student, transistorB: Student Interacts with Transistor Setup
+
 -> student ++ : use(transistorA)
 student -> actions ++ : use(transistorA)
 actions -> t1 ++ : use(student)

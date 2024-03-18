@@ -30,7 +30,7 @@ student --> defense --: <<create>>
 create beerDefense as "beerDefense : BeerDefense"
 main --> beerDefense : <<create>>
 
-main --> student ++ : setDefenseStrategy(beerDefense)
+main -> student ++ : setDefenseStrategy(beerDefense)
 return
 
 create professor as "professor : Professor"
@@ -42,12 +42,15 @@ professor --> profInventory : <<create>>
 create profDefense as "professorDefense : DefaultDefense"
 professor --> profDefense --: <<create>>
 
-main --> student ++ : teleport(room1, false)
+main -> student ++ : teleport(room1, false)
+student -> room1 ++ : enter(student, false)
 return true
-' ez garantált, hiszen a szoba mérete legalább 1
+return true
 
-main --> professor ++ : teleport(room2, false)
+
+main -> professor ++ : teleport(room2, false)
+professor -> room2 ++ : enter(professor, false)
 return true
-' ez garantált, hiszen a szoba mérete legalább 1
+return true
 
 @enduml

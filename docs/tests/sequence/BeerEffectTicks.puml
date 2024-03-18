@@ -7,8 +7,8 @@ participant beerDefense as "beerDefense : BeerDefense"
 
 ref over student, beerDefense : Setup Beer Effect Ticks
 
----> student ++ : tick()
-student --> beerDefense ++ : tick()
+-> student ++ : tick()
+student -> beerDefense ++ : tick()
 alt remaining > 0
     beerDefense --> student : true
 else remaining <= 0
@@ -16,9 +16,9 @@ else remaining <= 0
     destroy beerDefense
 
     create defense as "defaultDefense : DefaultDefense"
-    student --> defense : <<create>>
+    student -> defense : <<create>>
 
-    student --> student : setDefenseStrategy(defaultDefense)
+    student -> student : setDefenseStrategy(defaultDefense)
 end
 
 return

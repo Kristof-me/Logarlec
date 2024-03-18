@@ -28,34 +28,31 @@ student2 --> inventory2 : <<create>>
 create defense2 as "student2Defense : DefaultDefense"
 student2 --> defense2 --: <<create>>
 
-main --> student ++: teleport(room, false)
+main -> student ++: teleport(room, false)
+    student -> room ++: enter(student, false)
+    return true
 return true
 
-main --> student2 ++: teleport(room, false)
-return true
+main -> student2 ++: teleport(room, false)
+    student2 -> room ++: enter(student2, false)
+    return success
+return success
 
-/' todo 
-itt baj lehet ha Simon B. úgy gondolja, hogy a szoba mérete state value
-mert ebben az esetben ez nem egy garantált tp és a teszt értelmetlen
-'/
+note over student2 : Undefinded test behaviour if student2 can't get to the room
 
 create coctail as "coctail : Coctail"
 main --> coctail : <<create>>
 
-main --> student ++: getInventory()
+main -> student ++: getInventory()
 return inventory
 
-main --> inventory ++: addItem(coctail)
-return success
+main -> inventory ++: addItem(coctail)
+return true
+' a player inventory is legalább 1 elemű
 
-alt success == true
-    main --> coctail ++: onPickup(student1)
-    coctail --> student ++: getInventory()
+main -> coctail ++: onPickup(student1)
+    coctail -> student ++: getInventory()
     return student1Inventory
-    return 
-    
-else success == false
-    note over inventory : can't test item usage
-end
+return 
 
 @enduml

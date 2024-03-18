@@ -29,7 +29,7 @@ return success
 alt usesLeft > 0
     coctail --> actions
 else usesLeft <= 0
-    coctail --> inventory++: removeItem(coctail)
+    coctail -> inventory++: removeItem(coctail)
     return coctail
     return
     destroy coctail

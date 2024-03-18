@@ -1,5 +1,5 @@
-@startuml BeerDefense
-header Beer Defense
+@startuml SetupProfessorWet
+header Setup professor wet
 hide footbox
 
 participant main as "Main"
@@ -32,17 +32,25 @@ professor --> profInventory : <<create>>
 create profDefense as "professorDefense : DefaultDefense"
 professor --> profDefense --: <<create>>
 
-main --> student ++ : teleport(room1, false)
+main -> student ++ : teleport(room1, false)
+student -> room1 ++ : enter(student, false)
 return true
-' ez garantált, hiszen a szoba mérete legalább 1
+return true
 
-main --> professor ++ : teleport(room2, false)
-return true
-' ez garantált, hiszen a szoba mérete legalább 1
+main -> professor ++ : teleport(room1, false)
+professor -> room1 ++ : enter(professor, false)
+return success
+return success
+
+note over professor : Undefined test behaviour if professor is not in room1 (success == false)
 
 create sponge as "sponge : Sponge"
 main --> sponge: <<create>>
-main --> inventory ++: add(sponge)
+
+main -> student ++ : getInventory()
+return inventory
+
+main -> inventory ++: addItem(sponge)
 return true
 
 @enduml

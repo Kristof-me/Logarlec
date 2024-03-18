@@ -36,10 +36,10 @@ professor --> profInventory : <<create>>
 create profDefense as "professorDefense : DefaultDefense"
 professor --> profDefense --: <<create>>
 
-main --> student ++ : teleport(room1, false)
+main -> student ++ : teleport(room1, false)
 return true
 
-main --> professor ++ : teleport(room2, false)
+main -> professor ++ : teleport(room2, false)
 return true
 
 @enduml

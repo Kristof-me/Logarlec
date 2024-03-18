@@ -2,19 +2,19 @@
 header Use Sponge
 hide footbox
 participant Student as "student : Student"
-participant Sponge as "sponge : Sponge"
+participant Action as "studentAction : StudentAction"
 participant Inventory as "studentInventory : Inventory"
+participant Sponge as "sponge : Sponge"
 participant Room as "room1 : Room"
 
+ref over Student, Room : Setup use sponge
+
 -> Student++ : use(sponge)
-Student -> Sponge++ : use(student)
+Student -> Action ++: use(sponge)
+Action -> Sponge++ : use(student)
 
 create RoomEffect as "wetEffect : WetEffect"
 Sponge --> RoomEffect: <<create>>
-activate RoomEffect
-create itemFinders as "itemFinders : List<ItemFinder>"
-RoomEffect --> itemFinders: <<create>>
-deactivate RoomEffect
 Sponge -> Room++: addEffect(wetEffect)
 Room -> Student++: acceptEffect(wetEffect, itemFinders)
 Student -> RoomEffect++: applyEffect(student)
@@ -24,6 +24,6 @@ return
 return
 return
 return
-
+return
 
 @enduml

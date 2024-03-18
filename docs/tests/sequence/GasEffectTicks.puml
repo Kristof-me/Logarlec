@@ -2,15 +2,14 @@
 header Gas Effect Ticks
 hide footbox
 
-
 participant room as "room : Room"
 participant effect as "gasEffect : GasEffect"
 
 ref over room, effect : Setup Gas Effect Ticks
 
---> room ++: tick()
+-> room ++: tick()
 
-room --> effect ++: tick()
+room -> effect ++: tick()
 
 alt timeLeft > 0
     effect --> room : true
@@ -18,7 +17,6 @@ else timeLeft <= 0
     effect --> room --: false
     destroy effect
 end
-
 
 return
 

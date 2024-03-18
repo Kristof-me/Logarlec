@@ -1,8 +1,10 @@
 @startuml StudentUsesTransistor
-header Student Uses Transistor
+header Student Interacts with Transistor Setup
 hide footbox
 
 participant main as "Main"
+
+activate main
 
 create student as "student : Student"
 main --> student ++: <<create>>
@@ -23,22 +25,32 @@ main --> t2: <<create>>
 
 create room as "room : Room"
 main --> room : <<create>>
-
+activate room
 create r1inv as "roomInventory : Inventory"
 room --> r1inv --: <<create>>
 
-main --> student++ : teleport(room, true)
+create room2 as "room2 : Room"
+main --> room2 : <<create>>
+activate room2
+create r2inv as "room2Inventory : Inventory"
+room2 --> r2inv --: <<create>>
+
+main -> student++ : teleport(room, false)
+    student -> room++: enter(student, false)
+    return
 return
 
-main --> student ++: getInventory()
+main -> student ++: getInventory()
 return inventory
 
-main --> inventory ++: addItem(transistorA)
+main -> inventory ++: addItem(transistorA)
 return success
 
+main -> inventory ++: addItem(transistorB)
+return success
 ' i am going to violently git commit suicide --force
 
-main --> inventory ++: addItem(transistorB)
-return success
+note over inventory : Undefinded test behaviour if adding items fails
 
+deactivate main
 @enduml
