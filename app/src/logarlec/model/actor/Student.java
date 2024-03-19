@@ -1,52 +1,83 @@
-package logarlec.model.characters;
+import java.util.List;
 
-import logarlec.model.labyrinth.Room;
-import java.util.Map;
-import logarlec.model.characters.visitor.*;
-import logarlec.model.enums.Event;
-import logarlec.model.enums.*;
-
-/**
- * Egy hallgatót reprezentáló osztály.
- * 
- */
 public class Student extends Actor {
-
-    public Student(Room spawnRoom) {
-        super(spawnRoom, 5);
-    }
-
-    /**
-     * Az oktató általi támadását kezelő metódus
-     */
+    @Override
     public void attacked() {
-        // Sort by use asc
-        if (effects.containsKey(ActorEffect.TVSZ_ACTIVE) || effects.containsKey(ActorEffect.BEER))
-            return;
-
-
-        if (inventoryManager.autoUse(Event.ATTACK)) {
-            effects.put(ActorEffect.TVSZ_ACTIVE, 1);
-
-        } else {
-            kill();
-        }
-
-    }
-
-    public void accepts(IActorVisitor v) {
-        v.visit(this);
-    }
-
-    /**
-     * Újraéleszti a hallgatót
-     */
-    public void revive() {
-        isAlive = true;
+        // Implementation goes here
     }
 
     @Override
-    public void handleRoomEffects(Map<RoomEffect, Integer> effects) {
-        // Handle the effects
+    public boolean revive() {
+        // Implementation goes here
+        return false;
+    }
+
+    @Override
+    public void acceptEffect(RoomEffect effect, List<ItemFinder> unless) {
+        // Implementation goes here
+    }
+
+    @Override
+    public void setDefaultActionState() {
+        // Implementation goes here
+    }
+
+    @Override
+    public void setActionState(ActionState state) {
+        // Implementation goes here
+    }
+
+    @Override
+    public void setDefenseStrategy(DefenseStrategy defenseStrategy) {
+        // Implementation goes here
+    }
+
+    @Override
+    public boolean teleport(Room room, boolean isForced) {
+        // Implementation goes here
+        return false;
+    }
+
+    @Override
+    public Inventory getInventory() {
+        // Implementation goes here
+        return null;
+    }
+
+    @Override
+    public void dropAllTo(Room room) {
+        // Implementation goes here
+    }
+
+    @Override
+    public void tick() {
+        // Implementation goes here
+    }
+
+    @Override
+    public void attack() {
+        // Implementation goes here
+    }
+
+    @Override
+    public boolean move(Door door) {
+        // Implementation goes here
+        return false;
+    }
+
+    @Override
+    public void use(Item item) {
+        // Implementation goes here
+    }
+
+    @Override
+    public boolean pickUp(Item item) {
+        // Implementation goes here
+        return false;
+    }
+
+    @Override
+    public void drop(Item item) {
+        // Implementation goes here
     }
 }

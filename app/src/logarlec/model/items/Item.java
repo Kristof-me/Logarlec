@@ -1,37 +1,9 @@
-package logarlec.model.items;
+public abstract class Item {
+    protected int usesLeft;
 
-import logarlec.model.labyrinth.Room;
-import logarlec.model.characters.Actor;
-import logarlec.model.enums.Event;
-
-public interface IItem {
-    /**
-     * Egy karakter megpróbálja használni az adott tárgyat egy adott eseményre, visszaadja, hogy sikerült-e
-     */
-    public boolean use(Actor invoker, Event event);
-
-    /**
-     * Egy másik tárghy megpróbálja használni az adott tárgyat egy adott eseményre, visszaadja, hogy sikerült-e
-     */
-    public default boolean use(IItem invoker, Event event) {
-        return false;
-    }
-
-    /**
-     * A tárgy felvételekor hívódik meg
-     */
-    public default void onPickup(Actor newOwner) {}
-
-    /**
-     * A tárgy eldobásakor hívódik meg
-     */
-    public default void onDrop(Room inRoom) {}
-
-    /**
-     * Visszaadja, hogy a tárgy hányszor használható még
-     */
-    public default int getUsesLeft() {
-        return 1;
-    }
-
+    public abstract void use(Actor invoker);
+    public abstract int getUsesLeft();
+    public abstract void onPickup(Actor actor);
+    public abstract void onDrop(Room room);
+    public abstract void accept(ItemVisitor visitor);
 }
