@@ -1,4 +1,7 @@
 @startuml ProfessorGetsWet
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Professor gets wet
 hide footbox
 

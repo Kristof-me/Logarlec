@@ -1,4 +1,7 @@
 @startuml StudentMovesToEmptyWetRoom
+skinparam headerFontSize 30
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Student Moves to a Room with Wet effect
 hide footbox
 

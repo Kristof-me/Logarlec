@@ -1,4 +1,7 @@
 @startuml StudentsMerge
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Rooms Merge with one Student and one Item in each, enough room for both students
 hide footbox
 

@@ -1,4 +1,7 @@
 @startuml StudentsMerge
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Setup Neighbouring Rooms, each with one Student and an Item
 hide footbox
 

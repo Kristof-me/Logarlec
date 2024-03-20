@@ -1,4 +1,7 @@
 @startuml RoomSplitWithNoEffects
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Setup Room with Two Students, without any effects
 hide footbox
 

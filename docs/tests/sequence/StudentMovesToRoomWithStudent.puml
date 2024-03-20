@@ -1,4 +1,7 @@
 @startuml RoomSplitWithEffects
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Student Moves to a Room with another Student
 hide footbox
 

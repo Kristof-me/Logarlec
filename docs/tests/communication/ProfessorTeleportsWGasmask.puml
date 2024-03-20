@@ -1,4 +1,7 @@
 @startuml professorTeleportNoGasMaskComm
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Set up a professor and move them to a gased room with a gas mask
 hide footbox
 

@@ -1,0 +1,32 @@
+@startuml RoomsMergeWithWetAndGas
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Setup Room1 merge with Room2
+hide footbox
+
+participant M as "Main"
+
+create R1 as "room1: Room"
+M --> R1 : <<create>>
+
+create R2 as "room2: Room"
+M --> R2 : <<create>>
+
+create D as "door: Door"
+M --> D : <<create>>
+
+
+
+create W as "wetEffect: WetEffect"
+M --> W : <<create>>
+
+create G as "gasEffect: GasEffect"
+M --> G : <<create>>
+
+M -> R1 ++: addEffect(wetEffect)
+return
+M -> R2 ++: addEffect(gasEffect)
+return
+
+@enduml

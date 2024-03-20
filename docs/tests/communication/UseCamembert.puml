@@ -1,4 +1,7 @@
 @startuml UseCamembert
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Setup a Room with a Student, who has a Camembert
 hide footbox
 

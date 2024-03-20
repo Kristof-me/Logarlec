@@ -1,5 +1,8 @@
 @startuml StudentMovesToEmptyRoom
-header Student Moves to a Room with another Student
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Student Moves to another Room
 hide footbox
 
 participant S1 as "student1 : Student"

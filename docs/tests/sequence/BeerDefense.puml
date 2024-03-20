@@ -1,4 +1,7 @@
 @startuml BeerDefense
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Beer Defense
 hide footbox
 

@@ -1,5 +1,8 @@
 @startuml DoorAppear
-header Setup door disappear then reappear
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Setup door disappear
 hide footbox
 
 participant main as "Main"

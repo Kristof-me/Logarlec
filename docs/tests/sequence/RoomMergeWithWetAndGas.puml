@@ -1,4 +1,7 @@
 @startuml RoomMergeWithDifferentEffects
+skinparam headerFontSize 10
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Two Rooms merge with one of them having Wet effect and the other with Gas effect.
 hide footbox
 
@@ -7,6 +10,8 @@ participant R2 as "room2: Room"
 participant D as "door : Door"
 
 participant W as "wetEffect: WetEffect"
+
+ref over R1, W : Setup Room1 merge with Room2
 
 -> R1 ++: merge(room2)
 R1 -> R2 ++: addEffect(wetEffect)

@@ -1,4 +1,7 @@
 @startuml FullRoom
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Setup Neighbouring Rooms, with a student in one of them, and a a Wet Effect in the other
 hide footbox
 

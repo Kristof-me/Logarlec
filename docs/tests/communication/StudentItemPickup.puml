@@ -1,4 +1,7 @@
 @startuml SetupStudentItemPickup
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Setup Student Item Pickup
 hide footbox
 

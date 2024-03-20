@@ -4,21 +4,54 @@ left to right direction
 
 actor :Tester: as Tester
 'Why up? I have no fucking idea
-Tester -u-> (Test Room Merge with Actors)
+package Room{
+    usecase "Test Room Merge with Actors"
+    usecase "Test Student Merges into gassed Room"
+    usecase "Test Room Split with Students"
+    usecase "Test Merge Rooms with Different Effects"
+    usecase "Test Room Disappear"
+    usecase "Test Room Split with Students and Effects"
+}
+
+package Items{
+    usecase "Test Student Gases Room without Mask"
+    usecase "Test Beer Use"
+    usecase "Test Cocktail Use"
+    usecase "Test Gas Effect Expires"
+    usecase "Test Beer Effect Expires"
+    usecase "Test Student Uses Sponge"
+    usecase "Test Student Teleports with Transistor"
+    usecase "Test Student Pairs Transistor"
+    usecase "Test Student Drops Transistor"
+}
+
+package Actions {
+    usecase "Test Item Pickup"
+    usecase "Test Student Moves into Room with Student"
+    usecase "Test Student Moves to Room with Professor"
+    usecase "Test Student Moves into Room with Professor with TVSZ"
+    usecase "Test Student Moves into Wet Room"
+    usecase "Test Student Moves into Room with Professor Undefended"
+    usecase "Test Professor Moves to Room with Student"
+    usecase "Test Professor Moves into Wet Room"
+    usecase "Test Professor Moves into Room with Professor"
+}
+
+Tester --> (Test Room Merge with Actors)
 Tester -u-> (Test Student Moves to Room with Professor)
-Tester -u-> (Test Item Pickright)
+Tester -u-> (Test Item Pickup)
 Tester -u-> (Test Professor Moves into Wet Room)
-Tester -u-> (Test Student Merges into gassed Room)
+Tester --> (Test Student Merges into gassed Room)
 Tester -u-> (Test Professor Moves into Room with Professor)
-Tester -u-> (Test Student Uses Sponge)
-Tester -u-> (Test Gas Effect Expire)
-Tester -u-> (Test Room Split with Students)
-Tester -u-> (Test Beer Effect Expires)
+Tester --> (Test Student Uses Sponge)
+Tester --> (Test Gas Effect Expires)
+Tester --> (Test Room Split with Students)
+Tester --> (Test Beer Effect Expires)
 Tester -u-> (Test Student Moves into Room with Student)
-Tester -u-> (Test Merge Rooms with Different Effects)
-Tester --> (Test Professor Moves to Room with Student)
-Tester --> (Test Student Moves into Room with Professor with TVSZ)
-Tester --> (Test Student Moves into Wet Room)
+Tester --> (Test Merge Rooms with Different Effects)
+Tester -u-> (Test Professor Moves to Room with Student)
+Tester -u-> (Test Student Moves into Room with Professor with TVSZ)
+Tester -u-> (Test Student Moves into Wet Room)
 Tester --> (Test Student Pairs Transistor)
 
 Tester --> (Test Student Drops Transistor)
@@ -29,7 +62,7 @@ Tester --> (Test Cocktail Use)
 Tester --> (Test Student Gases Room without Mask)
 Tester --> (Test Room Split with Students and Effects)
 Tester --> (Test Beer Use)
-Tester --> (Test Student Moves into Room with Professor Undefended)
+Tester -u-> (Test Student Moves into Room with Professor Undefended)
 
 
 @enduml

@@ -1,4 +1,7 @@
 @startuml GasEffectTicks
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Gas Effect Ticks
 hide footbox
 

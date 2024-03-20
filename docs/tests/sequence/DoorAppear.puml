@@ -1,4 +1,7 @@
 @startuml DoorAppear
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Door disappear
 hide footbox
 
@@ -8,7 +11,7 @@ participant studentAction as "studentAction : StudentActions"
 participant room1 as "room1 : Room"
 participant room2 as "room2 : Room"
 
-ref over door, room2 : Setup door disappear then reappear
+ref over door, room2 : Setup door disappear
 
 -> student++: move(door)
 student -> studentAction++ : move(door)

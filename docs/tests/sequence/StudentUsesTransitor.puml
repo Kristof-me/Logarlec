@@ -1,4 +1,7 @@
 @startuml StudentUsesTransistor
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Student Uses Transistor (teleports)
 hide footbox
 

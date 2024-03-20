@@ -1,4 +1,7 @@
 @startuml ProfTpWithMaskToGas
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Professor Moves to a Gased Room with Gasmask
 hide footbox
 

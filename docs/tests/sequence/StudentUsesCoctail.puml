@@ -1,4 +1,7 @@
 @startuml StudentUsesCoctail
+skinparam headerFontSize 40
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Student Uses Coctail
 hide footbox
 

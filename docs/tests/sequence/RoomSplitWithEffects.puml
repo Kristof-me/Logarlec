@@ -1,4 +1,7 @@
 @startuml RoomSplitWithEffects
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Room splits with Two Students, with Wet and Gas Effects
 hide footbox
 
