@@ -1,3 +1,7 @@
+package logarlec.model.room;
+
+import logarlec.model.actor.Actor;
+
 public class Door {
     private Room room1;
     private Room room2;

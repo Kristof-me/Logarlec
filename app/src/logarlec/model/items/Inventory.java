@@ -1,4 +1,7 @@
+package logarlec.model.items;
+
 import java.util.List;
+import logarlec.model.room.Room;
 
 public class Inventory {
     private int size;

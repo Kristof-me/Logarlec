@@ -1,3 +1,9 @@
+package logarlec.model.room;
+
+import logarlec.model.actor.Actor;
+import logarlec.model.actor.Professor;
+import logarlec.model.actor.Student;
+
 public abstract class RoomEffect {
     protected int timeLeft;
 

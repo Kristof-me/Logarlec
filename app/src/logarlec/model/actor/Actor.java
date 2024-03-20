@@ -1,16 +1,32 @@
+package logarlec.model.actor;
+
 import java.util.List;
+import logarlec.model.actor.actions.ActionsState;
+import logarlec.model.actor.actions.IActions;
+import logarlec.model.actor.strategy.DefenseStrategy;
+import logarlec.model.items.Inventory;
+import logarlec.model.items.Item;
+import logarlec.model.items.ItemFinder;
+import logarlec.model.room.Door;
+import logarlec.model.room.IHasLocation;
+import logarlec.model.room.Room;
+import logarlec.model.room.RoomEffect;
 
 public abstract class Actor implements IHasLocation, IActions {
     private boolean alive;
 
     public abstract void attacked();
+
     public abstract boolean revive();
-    public abstract void acceptEffect(RoomEffect effect, List<ItemFinder> unless);
+
+    public abstract void acceptEffect(RoomEffect effect, List<ItemFinder<Item>> unless);
 
     public abstract void setDefaultActionState();
-    public void setActionState(ActionState state) {
+
+    public void setActionState(ActionsState state) {
         // Implementation goes here
     }
+
     public void setDefenseStrategy(DefenseStrategy defenseStrategy) {
         // Implementation goes here
     }
@@ -19,13 +35,16 @@ public abstract class Actor implements IHasLocation, IActions {
         // Implementation goes here
         return false;
     }
+
     public Inventory getInventory() {
         // Implementation goes here
         return null;
     }
+
     public void dropAllTo(Room room) {
         // Implementation goes here
     }
+
     public void tick() {
         // Implementation goes here
     }

@@ -1,55 +1,44 @@
 package logarlec.model.items.impl;
 
-import logarlec.model.characters.Actor;
-import logarlec.model.enums.Event;
-import logarlec.model.items.IItem;
-import logarlec.model.labyrinth.IHasLocation;
-import logarlec.model.labyrinth.Room;
+import logarlec.model.actor.Actor;
+import logarlec.model.items.Item;
+import logarlec.model.items.ItemVisitor;
+import logarlec.model.room.IHasLocation;
+import logarlec.model.room.Room;
 
-public class Transistor implements IItem {
-    private IItem pair; // The item that this is paired with
+public class Transistor extends Item {
+    private Item pair; // The item that this is paired with
     private IHasLocation locationReference;
 
-    public boolean use(IItem invoker, Event event) {
-        if (event == Event.TRANSISTOR_PAIR_REQUEST && pair == null) {
-            setPair(invoker);
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean use(Actor invoker, Event event) {
-        if (pair == null && event == Event.CONTROLLER_ACTIVATED) {
-            return invoker.getInventoryManager().getPair(this);
-        } else if (event == Event.CONTROLLER_ACTIVATED) {
-            if (pair.use(invoker, Event.TRANSISTOR_TELEPORT)) {
-                pair = null;
-                return true;
-            }
-            return false;
-        } else if (event == Event.TRANSISTOR_TELEPORT) {
-            if (invoker.teleport(locationReference.getLocation())) {
-                pair = null;
-                return true;
-            }
-            return false;
-        }
-
-        return false;
+    @Override
+    public void use(Actor invoker) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'use'");
     }
 
     @Override
-    public void onPickup(Actor newOwner) {
-        locationReference = newOwner;
+    public int getUsesLeft() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getUsesLeft'");
     }
 
     @Override
-    public void onDrop(Room inRoom) {
-        locationReference = inRoom;
+    public void onPickup(Actor actor) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onPickup'");
     }
 
-    public void setPair(IItem pair) {
-        this.pair = pair;
+    @Override
+    public void onDrop(Room room) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onDrop'");
     }
+
+    @Override
+    public void accept(ItemVisitor visitor) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'accept'");
+    }
+
+
 }

@@ -1,4 +1,14 @@
+package logarlec.model.actor;
+
 import java.util.List;
+import logarlec.model.actor.actions.ActionsState;
+import logarlec.model.actor.strategy.DefenseStrategy;
+import logarlec.model.items.Inventory;
+import logarlec.model.items.Item;
+import logarlec.model.items.ItemFinder;
+import logarlec.model.room.Door;
+import logarlec.model.room.Room;
+import logarlec.model.room.RoomEffect;
 
 public class Professor extends Actor {
     @Override
@@ -13,7 +23,7 @@ public class Professor extends Actor {
     }
 
     @Override
-    public void acceptEffect(RoomEffect effect, List<ItemFinder> unless) {
+    public void acceptEffect(RoomEffect effect, List<ItemFinder<Item>> unless) {
         // Implementation goes here
     }
 
@@ -23,7 +33,7 @@ public class Professor extends Actor {
     }
 
     @Override
-    public void setActionState(ActionState state) {
+    public void setActionState(ActionsState state) {
         // Implementation goes here
     }
 
@@ -79,5 +89,11 @@ public class Professor extends Actor {
     @Override
     public void drop(Item item) {
         // Implementation goes here
+    }
+
+    @Override
+    public Room getLocation() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getLocation'");
     }
 }

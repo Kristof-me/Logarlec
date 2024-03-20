@@ -1,4 +1,9 @@
-public class ProfessorActions extends ActionState {
+package logarlec.model.actor.actions;
+
+import logarlec.model.items.Item;
+import logarlec.model.room.Door;
+
+public class ProfessorActions extends ActionsState {
     @Override
     public void attack() {
         // Implementation goes here
@@ -11,7 +16,7 @@ public class ProfessorActions extends ActionState {
     }
 
     @Override
-    public ActionState setNextState(ActionState state) {
+    public ActionsState setNextState(ActionsState state) {
         // Implementation goes here
         return null;
     }

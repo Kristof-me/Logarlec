@@ -1,19 +1,39 @@
 package logarlec.model.items.impl;
 
-import logarlec.model.characters.Actor;
-import logarlec.model.enums.Event;
-import logarlec.model.enums.RoomEffect;
-import logarlec.model.items.IItem;
+import logarlec.model.actor.Actor;
+import logarlec.model.items.Item;
+import logarlec.model.items.ItemVisitor;
+import logarlec.model.room.Room;
 
-public class Sponge implements IItem {
-    public boolean use(Actor invoker, Event event) {
-        if (event == Event.CONTROLLER_ACTIVATED) {
-            invoker.getLocation().addEffect(RoomEffect.WET, 69);
-        }
-        return false;
+public class Sponge extends Item {
+
+    @Override
+    public void use(Actor invoker) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'use'");
     }
 
-    public boolean use(IItem invoker, Event event) {
-        return false;
+    @Override
+    public int getUsesLeft() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getUsesLeft'");
+    }
+
+    @Override
+    public void onPickup(Actor actor) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onPickup'");
+    }
+
+    @Override
+    public void onDrop(Room room) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onDrop'");
+    }
+
+    @Override
+    public void accept(ItemVisitor visitor) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'accept'");
     }
 }

@@ -1,8 +1,15 @@
+package logarlec.model.room;
+
+import java.util.List;
+import logarlec.model.actor.Actor;
+import logarlec.model.items.Inventory;
+import logarlec.model.items.Item;
+
 public class Room {
     private int capacity;
     private List<Actor> actors;
     private List<RoomEffect> roomEffects;
-    private Invetory inventory;
+    private Inventory inventory;
 
     public void split() {
         // Implementation goes here

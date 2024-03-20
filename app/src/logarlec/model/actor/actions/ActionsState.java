@@ -1,4 +1,7 @@
-public abstract class ActionState implements IActions {
+package logarlec.model.actor.actions;
+
+public abstract class ActionsState implements IActions {
     public abstract boolean tick();
-    public abstract ActionState setNextState(ActionState state);
+
+    public abstract ActionsState setNextState(ActionsState state);
 }

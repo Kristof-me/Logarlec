@@ -1,3 +1,5 @@
+package logarlec.model.items;
+
 import java.util.List;
 
 public abstract class ItemFinder<T extends Item> extends ItemVisitor {

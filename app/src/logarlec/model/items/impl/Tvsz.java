@@ -1,31 +1,41 @@
 package logarlec.model.items.impl;
 
-import logarlec.model.characters.Actor;
-import logarlec.model.enums.ActorEffect;
-import logarlec.model.enums.Event;
-import logarlec.model.items.IItem;
+import logarlec.model.actor.Actor;
+import logarlec.model.items.Item;
+import logarlec.model.items.ItemVisitor;
+import logarlec.model.room.Room;
 
-public class Tvsz implements IItem {
+public class Tvsz extends Item {
     private int usesLeft = 3;
 
     @Override
+    public void use(Actor invoker) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'use'");
+    }
+
+    @Override
     public int getUsesLeft() {
-        return usesLeft;
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getUsesLeft'");
     }
 
-    public boolean use(IItem invoker, Event event) {
-        return false;
+    @Override
+    public void onPickup(Actor actor) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onPickup'");
     }
 
-    public boolean use(Actor invoker, Event event) {
-        if (event == Event.CONTROLLER_ACTIVATED) {
-            // ? lehet ez nem az az event
-            invoker.deleteItem(this);
-            invoker.addEffect(ActorEffect.TVSZ_ACTIVE, 1);
-            usesLeft--;
-            return true;
-        }
-
-        return false;
+    @Override
+    public void onDrop(Room room) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'onDrop'");
     }
+
+    @Override
+    public void accept(ItemVisitor visitor) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'accept'");
+    }
+
 }

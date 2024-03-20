@@ -1,3 +1,7 @@
+package logarlec.model.actor.strategy;
+
+import logarlec.model.items.Inventory;
+
 public class DefaultDefense extends DefenseStrategy {
     @Override
     public boolean defend(Inventory inventory) {
