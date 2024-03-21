@@ -1,13 +1,15 @@
 package logarlec.model.room;
 
+import java.util.ArrayList;
 import java.util.List;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
+import logarlec.model.proxy.*;
 
 public class Room {
     private int capacity;
-    private List<Actor> actors;
+    private List<Actor> actors = new ArrayList<>();
     private List<RoomEffect> roomEffects;
     private Inventory inventory;
 
@@ -27,9 +29,13 @@ public class Room {
         // Implementation goes here
     }
 
+    @LogFunction
     public boolean enter(Actor actor, boolean isForced) {
+        Logger.preExecute(this, "enter", actor, isForced);
         // Implementation goes here
-        return false;
+        actors.add(actor);
+        actor.mockFunction(13, "alma");
+        return Logger.postExecute(true);
     }
 
     public void leave(Actor actor) {

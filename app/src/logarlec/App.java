@@ -3,19 +3,15 @@ package logarlec;
 
 import java.util.ArrayList;
 import java.util.List;
+import logarlec.model.actor.Student;
+import logarlec.model.room.Room;
 
 public class App {
     public static void main(String[] args) {
-        List<A> lista = new ArrayList<A>();
 
-        lista.add(new A<Integer>());
-        lista.add(new A<String>());
+        Room room = new Room();
+        room.enter(new Student(), true);
 
-        var a = lista.get(0).get(1);
-        var b = lista.get(1).get("a");
-
-        System.out.println(a.getClass());
-        System.out.println(b.getClass());
 
     }
 
