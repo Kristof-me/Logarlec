@@ -13,6 +13,12 @@ public class Room {
     private List<RoomEffect> roomEffects;
     private Inventory inventory;
 
+    public Room() {
+        Logger.preExecute(this);
+        // Implementation goes here
+        Logger.postExecute();
+    }
+
     public void split() {
         // Implementation goes here
     }
