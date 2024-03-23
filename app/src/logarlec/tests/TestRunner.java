@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import logarlec.model.actor.*;
+import logarlec.model.items.*;
+import logarlec.model.room.*;
+
 public class TestRunner {
     private List<Entry<Test, Method>> cases = new ArrayList<>();
     private static final String EXIT = "q";
