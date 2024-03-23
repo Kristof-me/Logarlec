@@ -1,17 +1,12 @@
 
 package logarlec;
 
-import java.util.ArrayList;
-import java.util.List;
-import logarlec.model.actor.Student;
-import logarlec.model.room.Room;
+import logarlec.tests.TestRunner;
 
 public class App {
     public static void main(String[] args) {
-
-        Room room = new Room();
-        room.enter(new Student(), true);
-
+        TestRunner runner = new TestRunner();
+        runner.startTesting();
 
     }
 
