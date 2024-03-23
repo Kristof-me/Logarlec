@@ -3,7 +3,7 @@ package logarlec.model.items;
 import logarlec.model.items.impl.Beer;
 import logarlec.model.items.impl.Camembert;
 import logarlec.model.items.impl.Cocktail;
-import logarlec.model.items.impl.GasMask;
+import logarlec.model.items.impl.Tvsz;
 import logarlec.model.items.impl.SlideRule;
 import logarlec.model.items.impl.Sponge;
 import logarlec.model.items.impl.Transistor;
@@ -13,56 +13,22 @@ public class BestTvszFinder extends ItemFinder<Tvsz> {
 
     @Override
     public Tvsz findIn(Inventory inventory) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findIn'");
-    }
+        potentialItems.clear();
+        inventory.acceptVisitor(this);
 
-    @Override
-    public void visit(Sponge sponge) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+        int lowest = Integer.MAX_VALUE;
+        Tvsz best = null;
+        for (Tvsz tvsz : potentialItems) {
+            if (tvsz.getUsesLeft() < lowest) {
+                best = tvsz;
+                lowest = tvsz.getUsesLeft();
+            }
+        }
+        return best;
     }
 
     @Override
     public void visit(Tvsz tvsz) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+        potentialItems.add(tvsz);
     }
-
-    @Override
-    public void visit(SlideRule slideRule) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
-    }
-
-    @Override
-    public void visit(Beer beer) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
-    }
-
-    @Override
-    public void visit(Cocktail cocktail) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
-    }
-
-    @Override
-    public void visit(GasMask gasMask) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
-    }
-
-    @Override
-    public void visit(Transistor transistor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
-    }
-
-    @Override
-    public void visit(Camembert camembert) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
-    }
-
 }

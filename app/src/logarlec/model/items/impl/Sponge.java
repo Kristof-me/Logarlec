@@ -26,12 +26,6 @@ public class Sponge extends Item {
     }
 
     @Override
-    public void onDrop(Room room) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onDrop'");
-    }
-
-    @Override
     public void accept(ItemVisitor visitor) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'accept'");

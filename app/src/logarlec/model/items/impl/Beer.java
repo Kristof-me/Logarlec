@@ -20,18 +20,6 @@ public class Beer extends Item {
     }
 
     @Override
-    public void onPickup(Actor actor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onPickup'");
-    }
-
-    @Override
-    public void onDrop(Room room) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onDrop'");
-    }
-
-    @Override
     public void accept(ItemVisitor visitor) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'accept'");
