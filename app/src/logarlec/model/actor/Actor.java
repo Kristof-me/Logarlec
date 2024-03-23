@@ -7,8 +7,7 @@ import logarlec.model.actor.strategy.DefenseStrategy;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemFinder;
-import logarlec.model.proxy.LogFunction;
-import logarlec.model.proxy.Logger;
+import logarlec.model.logger.Logger;
 import logarlec.model.room.Door;
 import logarlec.model.room.IHasLocation;
 import logarlec.model.room.Room;
@@ -78,7 +77,6 @@ public abstract class Actor implements IHasLocation, IActions {
         // Implementation goes here
     }
 
-    @LogFunction
     public int mockFunction(int a, String b) {
         Logger.preExecute(this, "mockFunction", a, b);
         return Logger.postExecute(65);

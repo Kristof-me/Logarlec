@@ -1,9 +1,9 @@
-package logarlec.model.proxy;
+package logarlec.model.logger;
 
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface LogFunction {
-
+public @interface Uses {
+    String[] fields();
 }
