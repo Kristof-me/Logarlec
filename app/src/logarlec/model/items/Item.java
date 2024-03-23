@@ -1,18 +1,20 @@
 package logarlec.model.items;
 
 import logarlec.model.actor.Actor;
-import logarlec.model.room.Room;
+import logarlec.model.room.IHasLocation;
 
 public abstract class Item {
     protected int usesLeft;
 
-    public abstract void use(Actor invoker);
+    public void use(Actor invoker) {}
 
-    public abstract int getUsesLeft();
+    public int getUsesLeft() {
+        return -1;
+    }
 
-    public abstract void onPickup(Actor actor);
+    public void onPickup(Actor actor) {}
 
-    public abstract void onDrop(Room room);
+    public void onDrop(IHasLocation location) {}
 
     public abstract void accept(ItemVisitor visitor);
 }
