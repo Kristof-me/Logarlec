@@ -8,7 +8,7 @@ import logarlec.model.items.Item;
 import logarlec.model.logger.*;
 
 public class Room implements IHasLocation {
-    @State(name = "capacity", popupQuestion = "Enter the capacity of the room", min = 1, max = 100)
+    @State(name = "capacity", min = 1, max = Integer.MAX_VALUE)
     private Integer capacity;
 
     private List<Door> doors = new ArrayList<>();
@@ -29,6 +29,7 @@ public class Room implements IHasLocation {
         Logger.postConstructor(this);
     }
 
+    @Uses(fields = {"capacity"})
     public void split() {
         Logger.preExecute(this, "split");
 
@@ -43,6 +44,7 @@ public class Room implements IHasLocation {
         Logger.postExecute();
     }
 
+    @Uses(fields = {"capacity"})
     public void merge(Room room) {
         Logger.preExecute(this, "merge", room);
 
@@ -130,6 +132,7 @@ public class Room implements IHasLocation {
         return false;
     }
 
+    @Uses(fields = {"capacity"})
     private boolean isFull() {
         Logger.preExecute(this, "isFull");
         boolean isFull = actors.size() < capacity && actors.size() >= 0;

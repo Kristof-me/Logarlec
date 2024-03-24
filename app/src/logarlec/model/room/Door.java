@@ -2,12 +2,18 @@ package logarlec.model.room;
 
 import logarlec.model.actor.Actor;
 import logarlec.model.logger.Logger;
+import logarlec.model.logger.State;
+import logarlec.model.logger.Uses;
 
 public class Door {
     private Room room1;
     private Room room2;
-    private int remainingInvisibility;
-    private boolean isOneway;
+
+    @State(name = "remainingInvisibility", min = 0, max = Integer.MAX_VALUE)
+    private Integer remainingInvisibility;
+
+    @State(name = "isOneway")
+    private Boolean isOneway;
 
     public Door(Room room1, Room room2, boolean isOneway) {
         Logger.preConstructor(this, room1, room2);
@@ -18,12 +24,14 @@ public class Door {
         Logger.postConstructor(this);
     }
 
+    @Uses(fields = {"remainingInvisibility"})
     public void hide(int duration) {
         Logger.preExecute(this, "hide", duration);
         remainingInvisibility = duration;
         Logger.postExecute();
     }
 
+    @Uses(fields = {"isOneway"})
     public Room leadsTo(Room from) {
         Logger.preExecute(this, "leadsTo", from);
         if (from == room1) {
@@ -40,6 +48,7 @@ public class Door {
         return null;
     }
 
+    @Uses(fields = {"remainingInvisibility"})
     public boolean move(Actor actor, Room target) {
         Logger.preExecute(this, "move", actor, target);
 
