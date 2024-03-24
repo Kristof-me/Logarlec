@@ -21,6 +21,12 @@ public abstract class Actor implements IHasLocation, IActions {
     protected DefenseStrategy defenseStrategy;
     protected Inventory inventory;
 
+    protected Actor() {
+        this.alive = true;
+        this.inventory = new Inventory();
+        this.defenseStrategy = new DefaultDefense(this);
+    }
+
     public abstract void attacked();
 
     public abstract boolean revive();
@@ -78,7 +84,7 @@ public abstract class Actor implements IHasLocation, IActions {
         }
         
         if (defenseStrategy.tick()) {
-            setDefenseStrategy(new DefaultDefense());
+            setDefenseStrategy(new DefaultDefense(this));
         }
 
         Logger.postExecute();
