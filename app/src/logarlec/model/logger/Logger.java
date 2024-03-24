@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
@@ -14,29 +15,69 @@ public class Logger {
 
     static int depth = 0;
 
+    static Deque<String> remainingNames = new ArrayDeque<>();
     static Map<Object, String> instanceNames = new HashMap<>();
-    static Deque<Method> remainingNames = new ArrayDeque<>();
 
     static InputStreamReader isr = new InputStreamReader(System.in);
     static BufferedReader br = new BufferedReader(isr);
 
-    // Deque<Method> calls = new ArrayDeque<>();
+    // ------------------------------------------------
+    // Instance names
+    // ------------------------------------------------
 
-    // for constructors
-    public static void preExecute(Object caller, Object... params) {
+    /**
+     * Sets the names of the instances for the test
+     * 
+     * @param names
+     */
+    public static void setInstanceNames(String... names) {
+        instanceNames.clear();
+        remainingNames = new ArrayDeque<>(List.of(names));
+    }
+
+    /**
+     * Logs the constructor call before it is executed
+     * 
+     * @param caller The object that was created
+     * @param params The parameters of the constructor
+     */
+    public static void preConstructor(Object caller, Object... params) {
         StringBuilder sb = new StringBuilder();
         sb.append("\t".repeat(depth));
         sb.append(String.format("=> %s", caller.getClass().getSimpleName()));
         sb.append(getParams(params));
 
         System.out.println(sb.toString());
+        instanceNames.put(caller, remainingNames.pop());
+
         depth++;
     }
 
+    /**
+     * Logs the constructor call after it is executed
+     * 
+     * @param caller The object that was created
+     */
+    public static void postConstructor(Object caller) {
+        depth--;
+        System.out.println("\t".repeat(depth) + "<= " + instanceNames.get(caller));
+    }
+
+    // ------------------------------------------------
+    // Function calls
+    // ------------------------------------------------
+
+    /**
+     * Logs the function call before it is executed
+     * 
+     * @param caller The object that has the function
+     * @param functionName The name of the function that was called
+     * @param params The parameters of the function being called
+     */
     public static void preExecute(Object caller, String functionName, Object... params) {
         StringBuilder sb = new StringBuilder();
         sb.append("\t".repeat(depth));
-        sb.append(String.format("=> %s.%s", getCallerName(caller), functionName));
+        sb.append(String.format("=> %s.%s", instanceNames.get(caller), functionName));
         sb.append(getParams(params));
 
         System.out.println(sb.toString());
@@ -45,6 +86,13 @@ public class Logger {
         setStateValues(caller, functionName);
     }
 
+    /**
+     * Logs the function call after it is executed
+     * 
+     * @param <T> the return type of the function
+     * @param re the return value of the function
+     * @return the value that was returned
+     */
     public static <T> T postExecute(T re) {
         depth--;
         System.out.println("\t".repeat(depth) + "<=" + re.toString() + " : " + re.getClass().getSimpleName());
@@ -52,10 +100,17 @@ public class Logger {
         return re;
     }
 
+    /**
+     * Logs the function call after it is executed (for void functions)
+     */
     public static void postExecute() {
         depth--;
         System.out.println("\t".repeat(depth) + "<= void");
     }
+
+    // ------------------------------------------------
+    // State values
+    // ------------------------------------------------
 
     /**
      * Sets the state values of the called function
@@ -149,6 +204,7 @@ public class Logger {
     private static Object parseInput(String string, Class<?> type, int min, int max) {
         String typeName = type.getName();
 
+        // Try to convert to the supported types
         try {
             if (typeName.equals(Integer.class.getName())) {
                 Integer value = Integer.parseInt(string);
@@ -171,13 +227,17 @@ public class Logger {
             } else if (typeName.equals(String.class.getName())) {
                 return string;
             } else {
+                // if the type is not supported, try to cast it
                 return type.cast(string);
             }
-
         } catch (Exception e) {
             return null;
         }
     }
+
+    // ------------------------------------------------
+    // String representations
+    // ------------------------------------------------
 
     /**
      * Returns a string representation of the parameters
@@ -201,18 +261,6 @@ public class Logger {
         sb.append(")");
 
         return sb.toString();
-    }
-
-    /**
-     * Returns the name of the caller
-     * 
-     * @param caller The caller object
-     */
-    private static String getCallerName(Object caller) {
-        if (caller.getClass().isAnnotationPresent(InstanceName.class))
-            return caller.getClass().getAnnotation(InstanceName.class).value();
-
-        return caller.toString();
     }
 
     /**
