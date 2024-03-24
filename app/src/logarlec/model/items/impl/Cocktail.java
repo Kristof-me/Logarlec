@@ -11,6 +11,7 @@ public class Cocktail extends Item {
     public void use(Actor invoker) {
         Room loc = invoker.getLocation();
         loc.revive();
+        super.use(invoker);
     }
 
     @Override

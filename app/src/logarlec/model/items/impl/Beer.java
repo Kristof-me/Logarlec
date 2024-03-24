@@ -14,6 +14,7 @@ public class Beer extends Item {
     @Override
     public void use(Actor invoker) {
         usesLeft--;
+        super.use(invoker);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package logarlec.model.items.impl;
 
-import org.w3c.dom.events.Event;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
@@ -20,11 +19,11 @@ public class Camembert extends Item {
         RoomEffect effect = new GasEffect();
         loc.addEffect(effect);
         usesLeft--;
+        super.use(invoker);
     }
 
     @Override
     public void accept(ItemVisitor visitor) {
         visitor.visit(this);
     }
-
 }

@@ -11,8 +11,8 @@ public class SlideRule extends Item {
     @Override
     public void onPickup(Actor actor) {
         // signal game over
-        System.out.println("Logarlec has benn picked up 4!4!!!");
-        return;
+        System.out.println("Logarlec has been picked up 4!4!!!");
+        super.onPickup(actor);
     }
 
     @Override

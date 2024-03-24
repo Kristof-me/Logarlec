@@ -24,16 +24,19 @@ public class Transistor extends Item {
             pair.pairWith(null);
             pairWith(null);
         }
+        super.use(invoker);
     }
 
     @Override
     public void onPickup(Actor actor) {
         location = actor;
+        super.onPickup(actor);
     }
 
     @Override
     public void onDrop(Room location) {
         this.location = location;
+        super.onDrop(location);
     }
 
     @Override

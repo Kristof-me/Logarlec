@@ -15,21 +15,21 @@ import logarlec.model.room.RoomEffect;
 public class Student extends Actor {
     public Student() {
         super();
-        Logger.preExecute(this);
+        Logger.preConstructor(this);
         this.actionState = new StudentActions();
-        Logger.postExecute();
+        Logger.postConstructor(this);
     }
 
     @Override
     public void attacked() {
-        Logger.preExecute(this);
+        Logger.preExecute(this, "attacked");
         alive = defenseStrategy.defend(inventory);
         Logger.postExecute();
     }
 
     @Override
     public boolean revive() {
-        Logger.preExecute(this);
+        Logger.preExecute(this, "revive");
         if (alive) {
             Logger.postExecute(false);
             return false;
@@ -42,7 +42,7 @@ public class Student extends Actor {
 
     @Override
     public void acceptEffect(RoomEffect effect, List<ItemFinder<Item>> unless) {
-        Logger.preExecute(this, effect, unless);
+        Logger.preExecute(this, "acceptEffect", effect, unless);
 
         for (ItemFinder<Item> itemFinder : unless) {
             if (itemFinder.findIn(inventory) != null) {
@@ -57,7 +57,7 @@ public class Student extends Actor {
 
     @Override
     public void setDefaultActionState() {
-        Logger.preExecute(this);
+        Logger.preExecute(this, "setDefaultActionState");
         actionState = new StudentActions();
         Logger.postExecute();
     }

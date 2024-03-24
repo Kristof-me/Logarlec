@@ -7,12 +7,15 @@ import logarlec.model.items.impl.Tvsz;
 import logarlec.model.logger.Logger;
 
 public class DefaultDefense extends DefenseStrategy {
+    protected Actor owner;
     public DefaultDefense(Actor owner) {
+        Logger.preConstructor(this, owner);
         this.owner = owner;
+        Logger.postConstructor(this);
     }
     @Override
     public boolean defend(Inventory inventory) {
-        Logger.preExecute(this, inventory);
+        Logger.preExecute(this, "defend", inventory);
         BestTvszFinder finder = new BestTvszFinder();
         Tvsz tvsz = finder.findIn(inventory);
         if (tvsz != null) {
@@ -26,7 +29,7 @@ public class DefaultDefense extends DefenseStrategy {
 
     @Override
     public boolean tick() {
-        Logger.preExecute(this);
+        Logger.preExecute(this, "tick");
         Logger.postExecute(false);
         return false;
     }
