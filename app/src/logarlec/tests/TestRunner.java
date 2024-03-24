@@ -156,7 +156,8 @@ public class TestRunner {
 
     @Test(id = 1, name = "Example test")
     private void test1() {
-        System.out.println("foo");
+        Room room = new Room();
+        room.enter(null, false);
     }
 
     @Test(id = 2, name = "My test")

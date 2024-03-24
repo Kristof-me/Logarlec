@@ -1,0 +1,16 @@
+Expected output: 
+1. Dialog structure: 
+=> instance1.function1(param1 : type1) 
+     => param1.function2(param2 : type2, param3 : type3) 
+     <= value : type4 
+<= value : type5
+
+2. Setting state variables: 
+variable1 : type (constraints) = value
+
+3. Test selection: 
+Test cases: 
+1. case name 1 
+2. case name 2 
+… 
+Selected = value

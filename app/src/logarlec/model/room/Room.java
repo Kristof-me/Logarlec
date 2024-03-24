@@ -5,13 +5,21 @@ import java.util.List;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
-import logarlec.model.proxy.*;
+import logarlec.model.logger.*;
 
 public class Room {
-    private int capacity;
+    @State(name = "capacity", popupQuestion = "Enter the capacity of the room", min = 1, max = 100)
+    private Integer capacity;
+
     private List<Actor> actors = new ArrayList<>();
     private List<RoomEffect> roomEffects;
     private Inventory inventory;
+
+    public Room() {
+        Logger.preExecute(this);
+        // Implementation goes here
+        Logger.postExecute();
+    }
 
     public void split() {
         // Implementation goes here
@@ -29,7 +37,7 @@ public class Room {
         // Implementation goes here
     }
 
-    @LogFunction
+    @Uses(fields = {"capacity"})
     public boolean enter(Actor actor, boolean isForced) {
         Logger.preExecute(this, "enter", actor, isForced);
         // Implementation goes here
