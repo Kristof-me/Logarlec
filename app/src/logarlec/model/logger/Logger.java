@@ -99,15 +99,14 @@ public class Logger {
 
             try {
                 // checking if the value is null (it throws an error if it is)
-                Object value = field.get(caller);
-            } catch (NullPointerException exception) {
-                // if it's null set the value
                 field.setAccessible(true);
-                setFieldValue(caller, field);
+
+                if (field.get(caller) == null) {
+                    setFieldValue(caller, field);
+                }
             } catch (Exception e) {
                 // we can't modify it if the field is unaccesable
             }
-
         }
     }
 
@@ -192,10 +191,10 @@ public class Logger {
         for (int i = 0; i < params.length; i++) {
             if (params[i] == null) {
                 sb.append("null");
-                continue;
+            } else {
+                sb.append(String.format("%s : %s", params[i].toString(), params[i].getClass().getSimpleName()));
             }
 
-            sb.append(String.format("%s : %s", params[i].toString(), params[i].getClass().getSimpleName()));
             sb.append(i == params.length - 1 ? "" : ", ");
         }
 
