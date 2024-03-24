@@ -22,9 +22,11 @@ public abstract class Actor implements IHasLocation, IActions {
     protected Inventory inventory;
 
     protected Actor() {
+        Logger.preExecute(this);
         this.alive = true;
         this.inventory = new Inventory();
         this.defenseStrategy = new DefaultDefense(this);
+        Logger.postExecute();
     }
 
     public abstract void attacked();
