@@ -10,22 +10,22 @@ public class Door {
     private boolean isOneway;
 
     public Door(Room room1, Room room2, boolean isOneway) {
-        Logger.preExecute(this, room1, room2);
+        Logger.preConstructor(this, room1, room2);
         this.room1 = room1;
         this.room2 = room2;
         this.remainingInvisibility = 0;
         this.isOneway = isOneway;
-        Logger.postExecute();
+        Logger.postConstructor(this);
     }
 
     public void hide(int duration) {
-        Logger.preExecute(this, duration);
+        Logger.preExecute(this, "hide", duration);
         remainingInvisibility = duration;
         Logger.postExecute();
     }
 
     public Room leadsTo(Room from) {
-        Logger.preExecute(this, from);
+        Logger.preExecute(this, "leadsTo", from);
         if (from == room1) {
             Logger.postExecute(room2);
             return room2;
@@ -41,14 +41,13 @@ public class Door {
     }
 
     public boolean move(Actor actor, Room target) {
-        Logger.preExecute(this, actor, target);
+        Logger.preExecute(this, "move", actor, target);
 
         // if Door is invisible, we can't use it
         if (remainingInvisibility > 0) {
             Logger.postExecute(false);
             return false;
         }
-
 
         boolean isSuccesful = target.enter(actor, false);
         Logger.postExecute(isSuccesful);
@@ -57,7 +56,7 @@ public class Door {
     }
 
     public void tick() {
-        Logger.preExecute(this);
+        Logger.preExecute(this, "tick");
         // Implementation goes here
         Logger.postExecute();
     }

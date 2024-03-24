@@ -17,20 +17,20 @@ public class Room implements IHasLocation {
     private Inventory inventory;
 
     public Room() {
-        Logger.preExecute(this);
+        Logger.preConstructor(this);
         inventory = new Inventory(capacity);
-        Logger.postExecute();
+        Logger.postConstructor(this);
     }
 
     public Room(int capacity) {
-        Logger.preExecute(this);
+        Logger.preConstructor(this, capacity);
         this.capacity = capacity;
         inventory = new Inventory(capacity);
-        Logger.postExecute();
+        Logger.postConstructor(this);
     }
 
     public void split() {
-        Logger.preExecute(this);
+        Logger.preExecute(this, "split");
 
         Room room2 = new Room(capacity);
         Door door = new Door(this, room2, false);
@@ -44,7 +44,7 @@ public class Room implements IHasLocation {
     }
 
     public void merge(Room room) {
-        Logger.preExecute(this, room);
+        Logger.preExecute(this, "merge", room);
 
         // move effects
         for (RoomEffect effect : roomEffects) {
@@ -72,7 +72,7 @@ public class Room implements IHasLocation {
     }
 
     public void attack(Actor attacker) {
-        Logger.preExecute(this, attacker);
+        Logger.preExecute(this, "attack", attacker);
 
         for (Actor actor : actors) {
             actor.attacked();
@@ -82,39 +82,73 @@ public class Room implements IHasLocation {
     }
 
     public void addEffect(RoomEffect effect) {
-        // Implementation goes here
+        Logger.preExecute(this, "addEffect", effect);
+        for (Actor actor : actors) {
+            effect.addEffect(actor);
+        }
+        Logger.postExecute();
     }
 
-    @Uses(fields = {"capacity"})
     public boolean enter(Actor actor, boolean isForced) {
         Logger.preExecute(this, "enter", actor, isForced);
-        // Implementation goes here
-        actors.add(actor);
-        actor.mockFunction(13, "alma");
-        return Logger.postExecute(true);
+
+        if (!this.isFull()) {
+            // newcomer accept effect
+            for (RoomEffect effect : roomEffects) {
+                effect.addEffect(actor);
+            }
+
+            actors.add(actor);
+
+            // everyone attacks everyone
+            for (Actor actor_ : actors) {
+                actor_.attack();
+            }
+
+            Logger.postExecute(true);
+            return true;
+        }
+        Logger.postExecute(false);
+        return false;
     }
 
     public void leave(Actor actor) {
-        // Implementation goes here
+        Logger.preExecute(this, "leave", actor);
+        actors.remove(actor);
+        Logger.postExecute();
     }
 
     public boolean revive() {
-        // Implementation goes here
+        Logger.preExecute(this, "revive");
+        for (Actor actor : actors) {
+            if (actor.revive()) {
+                Logger.postExecute(true);
+                return true;
+            }
+        }
+        Logger.postExecute(false);
         return false;
     }
 
     private boolean isFull() {
-        // Implementation goes here
-        return false;
+        Logger.preExecute(this, "isFull");
+        boolean isFull = actors.size() < capacity && actors.size() >= 0;
+        Logger.postExecute(isFull);
+        return isFull;
     }
 
     public void addItem(Item item) {
-        // Implementation goes here
+        Logger.preExecute(this, "addItem", item);
+        inventory.addItem(item);
+        item.onDrop(this);
+        Logger.postExecute();
     }
 
     public Item removeItem(Item item) {
-        // Implementation goes here
-        return null;
+        Logger.preExecute(this, "removeItem", item);
+        Item removedItem = inventory.removeItem(item);
+        Logger.postExecute(removedItem);
+        return removedItem;
     }
 
     public void tick() {
@@ -122,6 +156,8 @@ public class Room implements IHasLocation {
     }
 
     public Room getLocation() {
+        Logger.preExecute(this, "getLocation");
+        Logger.postExecute(this);
         return this;
     }
 
@@ -135,5 +171,9 @@ public class Room implements IHasLocation {
 
     public int getCapacity() {
         return this.capacity;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }
