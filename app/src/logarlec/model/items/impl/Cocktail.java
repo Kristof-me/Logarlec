@@ -9,20 +9,13 @@ public class Cocktail extends Item {
 
     @Override
     public void use(Actor invoker) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'use'");
-    }
-
-    @Override
-    public int getUsesLeft() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUsesLeft'");
+        Room loc = invoker.getLocation();
+        loc.revive();
     }
 
     @Override
     public void accept(ItemVisitor visitor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'accept'");
+        visitor.visit(this);
     }
 
 }

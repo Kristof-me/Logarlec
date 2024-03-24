@@ -9,21 +9,15 @@ import logarlec.model.room.Room;
 public class SlideRule extends Item {
 
     @Override
-    public void use(Actor invoker) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'use'");
-    }
-
-    @Override
-    public int getUsesLeft() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUsesLeft'");
+    public void onPickup(Actor actor) {
+        // signal game over
+        System.out.println("Logarlec has benn picked up 4!4!!!");
+        return;
     }
 
     @Override
     public void accept(ItemVisitor visitor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'accept'");
+        visitor.visit(this);
     }
 
 }

@@ -7,22 +7,18 @@ import logarlec.model.room.Room;
 
 public class Beer extends Item {
 
-    @Override
-    public void use(Actor invoker) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'use'");
+    public Beer() {
+        usesLeft = 1;
     }
 
     @Override
-    public int getUsesLeft() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUsesLeft'");
+    public void use(Actor invoker) {
+        usesLeft--;
     }
 
     @Override
     public void accept(ItemVisitor visitor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'accept'");
+        visitor.visit(this);
     }
 
 }

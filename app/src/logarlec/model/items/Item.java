@@ -1,16 +1,15 @@
 package logarlec.model.items;
 
 import logarlec.model.actor.Actor;
-import logarlec.model.room.IHasLocation;
 import logarlec.model.room.Room;
 
 public abstract class Item {
-    protected int usesLeft;
+    protected int usesLeft = Integer.MAX_VALUE;
 
     public void use(Actor invoker) {}
 
     public int getUsesLeft() {
-        return Integer.MAX_VALUE;
+        return usesLeft;
     }
 
     public void onPickup(Actor actor) {}

@@ -4,30 +4,25 @@ import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
 import logarlec.model.room.Room;
+import logarlec.model.room.RoomEffect;
+import logarlec.model.room.WetEffect;
 
 public class Sponge extends Item {
 
+    public Sponge() {
+        usesLeft = 1;
+    }
+
     @Override
     public void use(Actor invoker) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'use'");
-    }
-
-    @Override
-    public int getUsesLeft() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUsesLeft'");
-    }
-
-    @Override
-    public void onPickup(Actor actor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onPickup'");
+        Room loc = invoker.getLocation();
+        RoomEffect effect = new WetEffect();
+        loc.addEffect(effect);
+        usesLeft--;
     }
 
     @Override
     public void accept(ItemVisitor visitor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'accept'");
+        visitor.visit(this);
     }
 }
