@@ -7,7 +7,7 @@ import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 import logarlec.model.logger.*;
 
-public class Room {
+public class Room implements IHasLocation {
     @State(name = "capacity", popupQuestion = "Enter the capacity of the room", min = 1, max = 100)
     private Integer capacity;
 
@@ -71,5 +71,9 @@ public class Room {
 
     public void tick() {
         // Implementation goes here
+    }
+
+    public Room getLocation() {
+        return this;
     }
 }
