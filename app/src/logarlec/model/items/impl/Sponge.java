@@ -19,6 +19,7 @@ public class Sponge extends Item {
         RoomEffect effect = new WetEffect();
         loc.addEffect(effect);
         usesLeft--;
+        super.use(invoker);
     }
 
     @Override
