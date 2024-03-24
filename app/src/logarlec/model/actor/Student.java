@@ -26,7 +26,7 @@ public class Student extends Actor {
         if (alive) {
             Logger.postExecute(false);
             return false;
-        }else {
+        } else {
             alive = true;
             Logger.postExecute(true);
             return true;
@@ -35,17 +35,17 @@ public class Student extends Actor {
 
     @Override
     public void acceptEffect(RoomEffect effect, List<ItemFinder<Item>> unless) {
-       Logger.preExecute(this, effect, unless);
+        Logger.preExecute(this, effect, unless);
 
-       for (ItemFinder<Item> itemFinder : unless) {
+        for (ItemFinder<Item> itemFinder : unless) {
             if (itemFinder.findIn(inventory) != null) {
                 Logger.postExecute();
                 return;
             }
-       }
+        }
 
-       effect.applyEffect(this);
-       Logger.postExecute();
+        effect.applyEffect(this);
+        Logger.postExecute();
     }
 
     @Override

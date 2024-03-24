@@ -11,26 +11,74 @@ public class Room implements IHasLocation {
     @State(name = "capacity", popupQuestion = "Enter the capacity of the room", min = 1, max = 100)
     private Integer capacity;
 
+    private List<Door> doors = new ArrayList<>();
     private List<Actor> actors = new ArrayList<>();
     private List<RoomEffect> roomEffects;
     private Inventory inventory;
 
     public Room() {
         Logger.preExecute(this);
-        // Implementation goes here
+        inventory = new Inventory(capacity);
+        Logger.postExecute();
+    }
+
+    public Room(int capacity) {
+        Logger.preExecute(this);
+        this.capacity = capacity;
+        inventory = new Inventory(capacity);
         Logger.postExecute();
     }
 
     public void split() {
-        // Implementation goes here
+        Logger.preExecute(this);
+
+        Room room2 = new Room(capacity);
+        Door door = new Door(this, room2, false);
+        doors.add(door);
+        room2.getDoors().add(door);
+
+        for (RoomEffect effect : roomEffects) {
+            room2.addEffect(effect);
+        }
+        Logger.postExecute();
     }
 
     public void merge(Room room) {
-        // Implementation goes here
+        Logger.preExecute(this, room);
+
+        // move effects
+        for (RoomEffect effect : roomEffects) {
+            room.addEffect(effect);
+        }
+
+        // move items
+        inventory.dropAll(room);
+
+        // move actors
+        room.setCapacity(Math.max(capacity, room.getCapacity()));
+        for (Actor actor : actors) {
+            actor.teleport(room, true);
+        }
+
+        // delete this, Door
+        for (Door door : doors) {
+            if (door.leadsTo(room) == this) {
+                doors.remove(door);
+                room.getDoors().remove(door);
+                // TODO: does the door needs to nullify its room1 and room2?
+            }
+        }
+        Logger.postExecute();
     }
 
     public void attack(Actor attacker) {
-        // Implementation goes here
+        Logger.preExecute(this, attacker);
+
+        for (Actor actor : actors) {
+            actor.attacked();
+        }
+
+        Logger.postExecute();
     }
 
     public void addEffect(RoomEffect effect) {
@@ -75,5 +123,17 @@ public class Room implements IHasLocation {
 
     public Room getLocation() {
         return this;
+    }
+
+    public List<Door> getDoors() {
+        return doors;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getCapacity() {
+        return this.capacity;
     }
 }

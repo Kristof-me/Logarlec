@@ -9,6 +9,15 @@ public class Door {
     private int remainingInvisibility;
     private boolean isOneway;
 
+    public Door(Room room1, Room room2, boolean isOneway) {
+        Logger.preExecute(this, room1, room2);
+        this.room1 = room1;
+        this.room2 = room2;
+        this.remainingInvisibility = 0;
+        this.isOneway = isOneway;
+        Logger.postExecute();
+    }
+
     public void hide(int duration) {
         Logger.preExecute(this, duration);
         remainingInvisibility = duration;
