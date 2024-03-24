@@ -3,21 +3,27 @@ package logarlec.model.room;
 import logarlec.model.actor.Actor;
 import logarlec.model.actor.Professor;
 import logarlec.model.actor.Student;
+import logarlec.model.actor.actions.StunnedStep;
+import logarlec.model.logger.Logger;
 
 public class WetEffect extends RoomEffect {
     @Override
     public void applyEffect(Professor professor) {
-        // Implementation goes here
+        Logger.preExecute(this, "applyEffect", professor);
+        StunnedStep step = new StunnedStep(professor);
+        professor.setActionState(step);
+        Logger.postExecute();
     }
 
     @Override
     public void applyEffect(Student student) {
-        // Implementation goes here
+        Logger.preExecute(this, "applyEffect", student);
+        Logger.postExecute();
+
     }
 
     @Override
     public void addEffect(Actor actor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addEffect'");
+        actor.acceptEffect(this, null);
     }
 }
