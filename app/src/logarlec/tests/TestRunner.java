@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import logarlec.model.logger.*;
 import logarlec.model.actor.*;
 import logarlec.model.items.*;
 import logarlec.model.room.*;
@@ -156,12 +157,14 @@ public class TestRunner {
 
     @Test(id = 1, name = "Example test")
     private void test1() {
+        Logger.setInstanceNames("room");
         Room room = new Room();
         room.enter(null, false);
     }
 
     @Test(id = 2, name = "My test")
     private void funkyTestName() {
+
         System.out.println("bar");
     }
 

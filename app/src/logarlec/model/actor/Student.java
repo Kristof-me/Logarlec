@@ -13,6 +13,13 @@ import logarlec.model.room.Room;
 import logarlec.model.room.RoomEffect;
 
 public class Student extends Actor {
+    public Student() {
+        super();
+        Logger.preExecute(this);
+        this.actionState = new StudentActions();
+        Logger.postExecute();
+    }
+
     @Override
     public void attacked() {
         Logger.preExecute(this);

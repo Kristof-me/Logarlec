@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
@@ -14,25 +15,69 @@ public class Logger {
 
     static int depth = 0;
 
-    Map<Object, String> instanceNames = new HashMap<>();
-    Deque<Method> remainingNames = new ArrayDeque<>();
-    // Deque<Method> calls = new ArrayDeque<>();
+    static Deque<String> remainingNames = new ArrayDeque<>();
+    static Map<Object, String> instanceNames = new HashMap<>();
 
-    // for constructors
-    public static void preExecute(Object caller, Object... params) {
+    static InputStreamReader isr = new InputStreamReader(System.in);
+    static BufferedReader br = new BufferedReader(isr);
+
+    // ------------------------------------------------
+    // Instance names
+    // ------------------------------------------------
+
+    /**
+     * Sets the names of the instances for the test
+     * 
+     * @param names
+     */
+    public static void setInstanceNames(String... names) {
+        instanceNames.clear();
+        remainingNames = new ArrayDeque<>(List.of(names));
+    }
+
+    /**
+     * Logs the constructor call before it is executed
+     * 
+     * @param caller The object that was created
+     * @param params The parameters of the constructor
+     */
+    public static void preConstructor(Object caller, Object... params) {
         StringBuilder sb = new StringBuilder();
         sb.append("\t".repeat(depth));
         sb.append(String.format("=> %s", caller.getClass().getSimpleName()));
         sb.append(getParams(params));
 
         System.out.println(sb.toString());
+        instanceNames.put(caller, remainingNames.pop());
+
         depth++;
     }
 
+    /**
+     * Logs the constructor call after it is executed
+     * 
+     * @param caller The object that was created
+     */
+    public static void postConstructor(Object caller) {
+        depth--;
+        System.out.println("\t".repeat(depth) + "<= " + instanceNames.get(caller));
+    }
+
+    // ------------------------------------------------
+    // Function calls
+    // ------------------------------------------------
+
+    /**
+     * Logs the function call before it is executed
+     * 
+     * @param caller The object that has the function
+     * @param functionName The name of the function that was called
+     * @param params The parameters of the function being called
+     */
     public static void preExecute(Object caller, String functionName, Object... params) {
         StringBuilder sb = new StringBuilder();
         sb.append("\t".repeat(depth));
-        sb.append(String.format("=> %s.%s", getCallerName(caller), functionName));
+        sb.append(String.format("=> %s.%s", instanceNames.get(caller), functionName));
         sb.append(getParams(params));
 
         System.out.println(sb.toString());
@@ -41,6 +86,13 @@ public class Logger {
         setStateValues(caller, functionName);
     }
 
+    /**
+     * Logs the function call after it is executed
+     * 
+     * @param <T> the return type of the function
+     * @param re the return value of the function
+     * @return the value that was returned
+     */
     public static <T> T postExecute(T re) {
         depth--;
         System.out.println("\t".repeat(depth) + "<=" + re.toString() + " : " + re.getClass().getSimpleName());
@@ -48,16 +100,29 @@ public class Logger {
         return re;
     }
 
+    /**
+     * Logs the function call after it is executed (for void functions)
+     */
     public static void postExecute() {
         depth--;
         System.out.println("\t".repeat(depth) + "<= void");
     }
 
+    // ------------------------------------------------
+    // State values
+    // ------------------------------------------------
 
+    /**
+     * Sets the state values of the called function
+     * 
+     * @param caller The object that called the function
+     * @param functionName The name of the function that was called
+     */
     public static void setStateValues(Object caller, String functionName) {
         Method method = null;
         Method[] allMethods = caller.getClass().getDeclaredMethods();
 
+        // finding the method that was called
         for (Method m : allMethods) {
             if (m.getName().equals(functionName) && m.isAnnotationPresent(Uses.class)) {
                 method = m;
@@ -65,75 +130,114 @@ public class Logger {
             }
         }
 
+        // if the method doesn't exist or doesn't have the Uses annotation
         if (method == null) {
             return;
         }
 
-        String[] usedFields = method.getAnnotation(Uses.class).fields();
+        String[] fieldNames = method.getAnnotation(Uses.class).fields();
 
-        for (String field : usedFields) {
-            Field current;
+        // setting the state values
+        for (String fieldName : fieldNames) {
+            Field field;
 
             try {
-                current = caller.getClass().getDeclaredField(field);
+                field = caller.getClass().getDeclaredField(fieldName);
             } catch (Exception e) {
+                // skip this if we can't find the field
                 continue;
             }
 
-            if (current != null && current.isAnnotationPresent(State.class)) {
-                setFieldValue(caller, current);
+            // skip this if it isn't a state varibale
+            if (!field.isAnnotationPresent(State.class))
+                continue;
+
+            try {
+                // checking if the value is null (it throws an error if it is)
+                field.setAccessible(true);
+
+                if (field.get(caller) == null) {
+                    setFieldValue(caller, field);
+                }
+            } catch (Exception e) {
+                // we can't modify it if the field is unaccesable
             }
         }
     }
 
+    /**
+     * Sets the value of the field
+     * 
+     * @param caller the object that contains the field
+     * @param field the field to be set
+     */
     private static void setFieldValue(Object caller, Field field) {
-        State state = field.getAnnotation(State.class);
         Class<?> type = field.getType();
-
-        InputStreamReader isr = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(isr);
-
-        field.setAccessible(true);
+        State state = field.getAnnotation(State.class);
         boolean success = false;
 
         do {
             try {
-                String constraints = type == Integer.class ? String.format("(%d - %d)", state.min(), state.max()) : "";
-                System.out.print(String.format("%s : %s %s = ", state.name(), type.toString(), constraints));
-
+                // ask for a value
+                System.out.print(fieldToString(field, type, state));
                 String line = br.readLine();
-                field.set(caller, type.cast(parseInput(line, type)));
+
+                // try to set the value
+                field.set(caller, type.cast(parseInput(line, type, state.min(), state.max())));
                 success = true;
             } catch (Exception e) {
-                success = false;
+                // retry if the value is not assignable
             }
         } while (!success);
-
 
         // the tester uses the stream so we must keep it open
     }
 
-    private static Object parseInput(String string, Class<?> type) {
+    /**
+     * Parses the input string to the given type
+     * 
+     * @param string The string to be parsed
+     * @param type The type to be parsed to
+     * @param min The minimum value of the type
+     * @param max The maximum value of the type
+     */
+    private static Object parseInput(String string, Class<?> type, int min, int max) {
         String typeName = type.getName();
 
+        // Try to convert to the supported types
         try {
             if (typeName.equals(Integer.class.getName())) {
-                return Integer.parseInt(string);
+                Integer value = Integer.parseInt(string);
+
+                if (min < max) {
+                    return (min <= value && value <= max) ? value : null;
+                }
+
+                return value;
             } else if (typeName.equals(Double.class.getName())) {
-                return Double.parseDouble(string);
+                Double value = Double.parseDouble(string);
+
+                if (min < max) {
+                    return (min <= value && value <= max) ? value : null;
+                }
+
+                return value;
             } else if (typeName.equals(Boolean.class.getName())) {
                 return Boolean.parseBoolean(string);
             } else if (typeName.equals(String.class.getName())) {
                 return string;
             } else {
+                // if the type is not supported, try to cast it
                 return type.cast(string);
             }
-
         } catch (Exception e) {
             return null;
         }
     }
 
+    // ------------------------------------------------
+    // String representations
+    // ------------------------------------------------
 
     /**
      * Returns a string representation of the parameters
@@ -147,10 +251,10 @@ public class Logger {
         for (int i = 0; i < params.length; i++) {
             if (params[i] == null) {
                 sb.append("null");
-                continue;
+            } else {
+                sb.append(String.format("%s : %s", params[i].toString(), params[i].getClass().getSimpleName()));
             }
 
-            sb.append(String.format("%s : %s", params[i].toString(), params[i].getClass().getSimpleName()));
             sb.append(i == params.length - 1 ? "" : ", ");
         }
 
@@ -160,14 +264,20 @@ public class Logger {
     }
 
     /**
-     * Returns the name of the caller
+     * Returns a string representation of the field
      * 
-     * @param caller The caller object
+     * @param field The field to be represented
+     * @param type The type of the field
+     * @param state The state annotation of the field
      */
-    private static String getCallerName(Object caller) {
-        if (caller.getClass().isAnnotationPresent(InstanceName.class))
-            return caller.getClass().getAnnotation(InstanceName.class).value();
+    private static String fieldToString(Field field, Class<?> type, State state) {
+        String constraints = "";
 
-        return caller.toString();
+        if ((type == Integer.class || type == Double.class) && state.min() < state.max()) {
+            constraints = String.format("(%d - %d)", state.min(), state.max());
+        } else if (type == Boolean.class) {
+            constraints = "(true/false)";
+        }
+        return String.format("%s : %s %s = ", state.name(), field.getType().getSimpleName(), constraints);
     }
 }

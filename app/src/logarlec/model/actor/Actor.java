@@ -21,6 +21,14 @@ public abstract class Actor implements IHasLocation, IActions {
     protected DefenseStrategy defenseStrategy;
     protected Inventory inventory;
 
+    protected Actor() {
+        Logger.preExecute(this);
+        this.alive = true;
+        this.inventory = new Inventory();
+        this.defenseStrategy = new DefaultDefense(this);
+        Logger.postExecute();
+    }
+
     public abstract void attacked();
 
     public abstract boolean revive();
@@ -48,8 +56,12 @@ public abstract class Actor implements IHasLocation, IActions {
     public boolean teleport(Room room, boolean isForced) {
         Logger.preExecute(this, room, isForced);
 
+        
         boolean res = room.enter(this, isForced);
-        if (res) {
+        if (isForced && !res) {
+            alive = false;
+        }
+        if (res || isForced) {
             this.room = room;
         }
 
@@ -78,7 +90,7 @@ public abstract class Actor implements IHasLocation, IActions {
         }
         
         if (defenseStrategy.tick()) {
-            setDefenseStrategy(new DefaultDefense());
+            setDefenseStrategy(new DefaultDefense(this));
         }
 
         Logger.postExecute();
