@@ -14,8 +14,12 @@ public class Logger {
 
     static int depth = 0;
 
-    Map<Object, String> instanceNames = new HashMap<>();
-    Deque<Method> remainingNames = new ArrayDeque<>();
+    static Map<Object, String> instanceNames = new HashMap<>();
+    static Deque<Method> remainingNames = new ArrayDeque<>();
+
+    static InputStreamReader isr = new InputStreamReader(System.in);
+    static BufferedReader br = new BufferedReader(isr);
+
     // Deque<Method> calls = new ArrayDeque<>();
 
     // for constructors
@@ -53,11 +57,17 @@ public class Logger {
         System.out.println("\t".repeat(depth) + "<= void");
     }
 
-
+    /**
+     * Sets the state values of the called function
+     * 
+     * @param caller The object that called the function
+     * @param functionName The name of the function that was called
+     */
     public static void setStateValues(Object caller, String functionName) {
         Method method = null;
         Method[] allMethods = caller.getClass().getDeclaredMethods();
 
+        // finding the method that was called
         for (Method m : allMethods) {
             if (m.getName().equals(functionName) && m.isAnnotationPresent(Uses.class)) {
                 method = m;
@@ -65,62 +75,98 @@ public class Logger {
             }
         }
 
+        // if the method doesn't exist or doesn't have the Uses annotation
         if (method == null) {
             return;
         }
 
-        String[] usedFields = method.getAnnotation(Uses.class).fields();
+        String[] fieldNames = method.getAnnotation(Uses.class).fields();
 
-        for (String field : usedFields) {
-            Field current;
+        // setting the state values
+        for (String fieldName : fieldNames) {
+            Field field;
 
             try {
-                current = caller.getClass().getDeclaredField(field);
+                field = caller.getClass().getDeclaredField(fieldName);
             } catch (Exception e) {
+                // skip this if we can't find the field
                 continue;
             }
 
-            if (current != null && current.isAnnotationPresent(State.class)) {
-                setFieldValue(caller, current);
+            // skip this if it isn't a state varibale
+            if (!field.isAnnotationPresent(State.class))
+                continue;
+
+            try {
+                // checking if the value is null (it throws an error if it is)
+                Object value = field.get(caller);
+            } catch (NullPointerException exception) {
+                // if it's null set the value
+                field.setAccessible(true);
+                setFieldValue(caller, field);
+            } catch (Exception e) {
+                // we can't modify it if the field is unaccesable
             }
+
         }
     }
 
+    /**
+     * Sets the value of the field
+     * 
+     * @param caller the object that contains the field
+     * @param field the field to be set
+     */
     private static void setFieldValue(Object caller, Field field) {
-        State state = field.getAnnotation(State.class);
         Class<?> type = field.getType();
-
-        InputStreamReader isr = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(isr);
-
-        field.setAccessible(true);
+        State state = field.getAnnotation(State.class);
         boolean success = false;
 
         do {
             try {
-                String constraints = type == Integer.class ? String.format("(%d - %d)", state.min(), state.max()) : "";
-                System.out.print(String.format("%s : %s %s = ", state.name(), type.toString(), constraints));
-
+                // ask for a value
+                System.out.print(fieldToString(field, type, state));
                 String line = br.readLine();
-                field.set(caller, type.cast(parseInput(line, type)));
+
+                // try to set the value
+                field.set(caller, type.cast(parseInput(line, type, state.min(), state.max())));
                 success = true;
             } catch (Exception e) {
-                success = false;
+                // retry if the value is not assignable
             }
         } while (!success);
-
 
         // the tester uses the stream so we must keep it open
     }
 
-    private static Object parseInput(String string, Class<?> type) {
+    /**
+     * Parses the input string to the given type
+     * 
+     * @param string The string to be parsed
+     * @param type The type to be parsed to
+     * @param min The minimum value of the type
+     * @param max The maximum value of the type
+     */
+    private static Object parseInput(String string, Class<?> type, int min, int max) {
         String typeName = type.getName();
 
         try {
             if (typeName.equals(Integer.class.getName())) {
-                return Integer.parseInt(string);
+                Integer value = Integer.parseInt(string);
+
+                if (min < max) {
+                    return (min <= value && value <= max) ? value : null;
+                }
+
+                return value;
             } else if (typeName.equals(Double.class.getName())) {
-                return Double.parseDouble(string);
+                Double value = Double.parseDouble(string);
+
+                if (min < max) {
+                    return (min <= value && value <= max) ? value : null;
+                }
+
+                return value;
             } else if (typeName.equals(Boolean.class.getName())) {
                 return Boolean.parseBoolean(string);
             } else if (typeName.equals(String.class.getName())) {
@@ -133,7 +179,6 @@ public class Logger {
             return null;
         }
     }
-
 
     /**
      * Returns a string representation of the parameters
@@ -169,5 +214,23 @@ public class Logger {
             return caller.getClass().getAnnotation(InstanceName.class).value();
 
         return caller.toString();
+    }
+
+    /**
+     * Returns a string representation of the field
+     * 
+     * @param field The field to be represented
+     * @param type The type of the field
+     * @param state The state annotation of the field
+     */
+    private static String fieldToString(Field field, Class<?> type, State state) {
+        String constraints = "";
+
+        if ((type == Integer.class || type == Double.class) && state.min() < state.max()) {
+            constraints = String.format("(%d - %d)", state.min(), state.max());
+        } else if (type == Boolean.class) {
+            constraints = "(true/false)";
+        }
+        return String.format("%s : %s %s = ", state.name(), field.getType().getSimpleName(), constraints);
     }
 }
