@@ -56,8 +56,12 @@ public abstract class Actor implements IHasLocation, IActions {
     public boolean teleport(Room room, boolean isForced) {
         Logger.preExecute(this, room, isForced);
 
+        
         boolean res = room.enter(this, isForced);
-        if (res) {
+        if (isForced && !res) {
+            alive = false;
+        }
+        if (res || isForced) {
             this.room = room;
         }
 
