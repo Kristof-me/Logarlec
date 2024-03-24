@@ -1,5 +1,6 @@
 package logarlec.model.items;
 
+import logarlec.model.logger.*;
 import logarlec.model.actor.Actor;
 import logarlec.model.room.Room;
 
@@ -10,7 +11,8 @@ public abstract class Item {
         inventory = null;
     }
 
-    protected int usesLeft = Integer.MAX_VALUE;
+    @State(name = "usesLeft", popupQuestion = "How many uses does this item have?")
+    protected Integer usesLeft = null;
 
     public void use(Actor invoker) {
         if (usesLeft <= 0 && inventory != null) {
