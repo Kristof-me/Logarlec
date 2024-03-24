@@ -16,7 +16,7 @@ public class Student extends Actor {
     public Student() {
         super();
         Logger.preConstructor(this);
-        this.actionState = new StudentActions();
+        this.actionState = new StudentActions(this);
         Logger.postConstructor(this);
     }
 
@@ -58,7 +58,7 @@ public class Student extends Actor {
     @Override
     public void setDefaultActionState() {
         Logger.preExecute(this, "setDefaultActionState");
-        actionState = new StudentActions();
+        actionState = new StudentActions(this);
         Logger.postExecute();
     }
 }

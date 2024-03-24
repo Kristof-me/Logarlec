@@ -1,45 +1,24 @@
 package logarlec.model.actor.actions;
 
-import logarlec.model.items.Item;
-import logarlec.model.room.Door;
+import logarlec.model.actor.Student;
+import logarlec.model.logger.Logger;
 
 public class StudentActions extends ActionsState {
-    @Override
-    public void attack() {
-        // Implementation goes here
+    public StudentActions(Student student) {
+        super(student);
     }
 
     @Override
-    public boolean tick() {
+    public void attack() {
+        Logger.preExecute(this, "attack");
         // Implementation goes here
-        return false;
+        Logger.postExecute();
     }
 
     @Override
     public ActionsState setNextState(ActionsState state) {
-        // Implementation goes here
-        return null;
-    }
-
-    @Override
-    public boolean move(Door door) {
-        // Implementation goes here
-        return false;
-    }
-
-    @Override
-    public void use(Item item) {
-        // Implementation goes here
-    }
-
-    @Override
-    public boolean pickUp(Item item) {
-        // Implementation goes here
-        return false;
-    }
-
-    @Override
-    public void drop(Item item) {
-        // Implementation goes here
+        Logger.preExecute(this, "setNextState", state);
+        Logger.postExecute(state);
+        return state;
     }
 }

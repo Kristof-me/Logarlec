@@ -4,13 +4,13 @@ import logarlec.model.items.Item;
 import logarlec.model.room.Door;
 
 public interface IActions {
-    void attack();
+    public void attack();
 
-    boolean move(Door door);
+    public boolean move(Door door);
 
-    void use(Item item);
+    public void use(Item item);
 
-    boolean pickUp(Item item);
+    public boolean pickUp(Item item);
 
-    void drop(Item item);
+    public void drop(Item item);
 }

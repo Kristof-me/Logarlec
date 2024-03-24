@@ -280,4 +280,17 @@ public class Logger {
         }
         return String.format("%s : %s %s = ", state.name(), field.getType().getSimpleName(), constraints);
     }
+
+    /**
+     * Closing the streams if the object is garbage collected
+     */
+    @Override
+    protected void finalize() {
+        try {
+            br.close();
+            isr.close();
+        } catch (Exception e) {
+            // we can't do anything if the stream is already closed
+        }
+    }
 }
