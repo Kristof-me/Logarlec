@@ -24,6 +24,8 @@ public class WetEffect extends RoomEffect {
 
     @Override
     public void addEffect(Actor actor) {
+        Logger.preExecute(this, "addEffect", actor);
         actor.acceptEffect(this, null);
+        Logger.postExecute();
     }
 }

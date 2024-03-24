@@ -38,7 +38,7 @@ public abstract class Actor implements IHasLocation, IActions {
     public abstract void setDefaultActionState();
 
     public void setActionState(ActionsState state) {
-        Logger.preExecute(this,"setActionState" ,state);
+        Logger.preExecute(this, "setActionState", state);
 
         actionState = state;
 
@@ -46,7 +46,7 @@ public abstract class Actor implements IHasLocation, IActions {
     }
 
     public void setDefenseStrategy(DefenseStrategy strategy) {
-        Logger.preExecute(this,"setDefenseStrategy" ,strategy);
+        Logger.preExecute(this, "setDefenseStrategy", strategy);
 
         defenseStrategy = strategy;
 
@@ -54,9 +54,9 @@ public abstract class Actor implements IHasLocation, IActions {
     }
 
     public boolean teleport(Room room, boolean isForced) {
-        Logger.preExecute(this,"teleport" ,room, isForced);
+        Logger.preExecute(this, "teleport", room, isForced);
 
-        
+
         boolean res = room.enter(this, isForced);
         if (isForced && !res) {
             alive = false;
@@ -88,7 +88,7 @@ public abstract class Actor implements IHasLocation, IActions {
         if (actionState.tick()) {
             this.setDefaultActionState();
         }
-        
+
         if (defenseStrategy.tick()) {
             setDefenseStrategy(new DefaultDefense(this));
         }
@@ -108,7 +108,7 @@ public abstract class Actor implements IHasLocation, IActions {
         Logger.preExecute(this, "move", door);
 
         boolean res = actionState.move(door);
-        
+
         Logger.postExecute(res);
         return res;
     }
@@ -142,7 +142,7 @@ public abstract class Actor implements IHasLocation, IActions {
     }
 
     @Override
-    public Room getLocation() { 
+    public Room getLocation() {
         Logger.preExecute(this, "getLocation");
         Logger.postExecute(room);
         return room;
@@ -151,5 +151,9 @@ public abstract class Actor implements IHasLocation, IActions {
     public int mockFunction(int a, String b) {
         Logger.preExecute(this, "mockFunction", a, b);
         return Logger.postExecute(65);
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 }

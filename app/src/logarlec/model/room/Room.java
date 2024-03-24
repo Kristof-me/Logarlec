@@ -92,7 +92,7 @@ public class Room implements IHasLocation {
     public boolean enter(Actor actor, boolean isForced) {
         Logger.preExecute(this, "enter", actor, isForced);
 
-        if (!this.isFull()) {
+        if (!this.isFull() && actor.isAlive()) {
             // newcomer accept effect
             for (RoomEffect effect : roomEffects) {
                 effect.addEffect(actor);
