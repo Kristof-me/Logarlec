@@ -7,7 +7,6 @@ import logarlec.model.logger.*;
 public class TransistorPairFinder extends ItemFinder<Transistor> {
     private Transistor caller;
 
-    @Uses(fields = {"caller"})
     public TransistorPairFinder(Transistor caller) {
         Logger.preConstructor(this, caller);
         this.caller = caller;

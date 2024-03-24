@@ -16,9 +16,7 @@ public class Room implements IHasLocation {
     private Inventory inventory;
 
     public Room() {
-        Logger.preExecute(this);
         // Implementation goes here
-        Logger.postExecute();
     }
 
     public void split() {
