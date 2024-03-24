@@ -7,12 +7,12 @@ import logarlec.model.room.Room;
 public abstract class Item {
     private Inventory inventory;
 
+    @State(name = "usesLeft", popupQuestion = "How many uses does this item have?")
+    protected Integer usesLeft = null;
+
     protected Item() {
         inventory = null;
     }
-
-    @State(name = "usesLeft", popupQuestion = "How many uses does this item have?")
-    protected Integer usesLeft = null;
 
     public void use(Actor invoker) {
         if (usesLeft <= 0 && inventory != null) {
@@ -22,7 +22,8 @@ public abstract class Item {
     }
 
     public int getUsesLeft() {
-        return usesLeft;
+        Logger.preExecute(this, "getUsesLeft");
+        return Logger.postExecute(usesLeft);
     }
 
     public void onPickup(Actor actor) {

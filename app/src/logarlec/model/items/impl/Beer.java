@@ -24,7 +24,8 @@ public class Beer extends Item {
 
     @Override
     public void accept(ItemVisitor visitor) {
+        Logger.preExecute(this, "accept", visitor);
         visitor.visit(this);
+        Logger.postExecute();
     }
-
 }
