@@ -10,8 +10,6 @@ import java.lang.annotation.*;
 public @interface State {
     String name();
 
-    String popupQuestion() default "";
-
     int min() default 0;
 
     int max() default 0;

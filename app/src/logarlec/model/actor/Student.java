@@ -1,15 +1,10 @@
 package logarlec.model.actor;
 
 import java.util.List;
-import logarlec.model.actor.actions.ActionsState;
 import logarlec.model.actor.actions.StudentActions;
-import logarlec.model.actor.strategy.DefenseStrategy;
-import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemFinder;
 import logarlec.model.logger.Logger;
-import logarlec.model.room.Door;
-import logarlec.model.room.Room;
 import logarlec.model.room.RoomEffect;
 
 public class Student extends Actor {
@@ -31,21 +26,21 @@ public class Student extends Actor {
     public boolean revive() {
         Logger.preExecute(this, "revive");
         if (alive) {
-            Logger.postExecute(false);
-            return false;
-        } else {
-            alive = true;
-            Logger.postExecute(true);
-            return true;
+            return Logger.postExecute(false);
         }
+        
+        alive = true;
+        return Logger.postExecute(true);
     }
 
     @Override
-    public void acceptEffect(RoomEffect effect, List<ItemFinder<Item>> unless) {
+    public void acceptEffect(RoomEffect effect, List<ItemFinder<? extends Item>> unless) {
         Logger.preExecute(this, "acceptEffect", effect, unless);
 
-        for (ItemFinder<Item> itemFinder : unless) {
-            if (itemFinder.findIn(inventory) != null) {
+        for (ItemFinder<? extends Item> itemFinder : unless) {
+            var protector = itemFinder.findIn(inventory);
+            if (protector != null) {
+                actionState.use(protector);
                 Logger.postExecute();
                 return;
             }

@@ -9,52 +9,72 @@ import logarlec.model.room.Room;
 
 import logarlec.model.logger.*;
 
+/**
+ * A transistor that can be paired with another transistor to teleport the player
+ * to the room of the other transistor when used.
+ */
 public class Transistor extends Item {
     private Transistor pair; // The transistor that this is paired with
     private IHasLocation location;
 
     public Transistor() {
         Logger.preConstructor(this);
+        pair = null;
         Logger.postConstructor(this);
     }
 
-    @Uses(fields = {"pair", "location"})
+    /**
+     * If the transistor does not have a pair, it will find a pair in the inventory of the invoker.<br>
+     * If it already has a pair, it will teleport the invoker to the room of the paired transistor.
+     * 
+     * @param invoker The actor that uses the transistor
+     */
     @Override
     public void use(Actor invoker) {
-        Logger.preExecute(this, "use", invoker);
         if (pair == null) {
             TransistorPairFinder pairFinder = new TransistorPairFinder(this);
-            Transistor p = pairFinder.findIn(invoker.getInventory());
-            pairWith(p);
-            p.pairWith(this);
+            Transistor target = pairFinder.findIn(invoker.getInventory());
+
+            if(target != null){
+                pairWith(target);
+                target.pairWith(this);
+            }
         } else { // Already paired
-            Room loc = pair.location.getLocation();
-            invoker.teleport(loc, false);
+            Room room = pair.location.getLocation();
+            invoker.teleport(room, false);
             pair.pairWith(null);
             pairWith(null);
         }
         super.use(invoker);
-        Logger.postExecute();
     }
 
-    @Uses(fields = {"location"})
+    /**
+     * Sets the location of the transistor to the actor that picked it up.
+     * 
+     * @param actor The actor that picked up the transistor
+     */
     @Override
     public void onPickup(Actor actor) {
-        Logger.preExecute(this, "onPickup", actor);
         location = actor;
         super.onPickup(actor);
-        Logger.postExecute();
     }
 
-    @Uses(fields = {"location"})
+    /**
+     * Sets the location of the transistor to the room it was dropped in.
+     * 
+     * @param location The room the transistor was dropped in
+     */
     @Override
     public void onDrop(Room location) {
-        Logger.preExecute(this, "onDrop", location);
         this.location = location;
         super.onDrop(location);
-        Logger.postExecute();
     }
 
+    /**
+     * Accepts a visitor to visit the transistor.
+     * 
+     * @param visitor The visitor
+     */
     @Override
     public void accept(ItemVisitor visitor) {
         Logger.preExecute(this, "accept", visitor);
@@ -62,7 +82,11 @@ public class Transistor extends Item {
         Logger.postExecute();
     }
 
-    @Uses(fields = {"pair"})
+    /**
+     * Pairs this transistor with another transistor.
+     * 
+     * @param pair The transistor to pair with
+     */
     public void pairWith(Transistor pair) {
         Logger.preExecute(this, "pairWith", pair);
         this.pair = pair;

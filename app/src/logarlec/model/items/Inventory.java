@@ -6,27 +6,40 @@ import logarlec.model.room.Room;
 
 import logarlec.model.logger.*;
 
+/**
+ * Inventory class that holds items. Both the actors and the rooms have an inventory. <br>
+ * Has a limit, and rejects any item being added above the limit.
+ */
 public class Inventory {
-    private int size;
+    @State(name = "size", min = 1, max = Integer.MAX_VALUE)
+    private Integer size = null;
     private List<Item> items = new ArrayList<>();
 
     public Inventory() {
         this(Integer.MAX_VALUE);
     }
 
-    public Inventory(int size) {
+    public Inventory(Integer size) {
         Logger.preConstructor(this, "Inventory", size);
         this.size = size;
         Logger.postConstructor(this);
     }
 
+    /**
+     * Checks if the inventory is full.
+     * @return true if the inventory is full, false otherwise
+     */
     @Uses(fields = {"size"})
     private boolean isFull() {
         Logger.preExecute(this, "isFull");
         return Logger.postExecute(items.size() >= size);
     }
 
-    @Uses(fields = {"items"})
+    /**
+     * Adds an item to the inventory if there is space left.
+     * @param item the item to be added
+     * @return true if the item was added, false otherwise
+     */
     public boolean addItem(Item item) {
         Logger.preExecute(this, "addItem", item);
         if (!isFull()) {
@@ -36,14 +49,23 @@ public class Inventory {
         return Logger.postExecute(false);
     }
 
-    @Uses(fields = {"items"})
+    /**
+     * Removes an item from the inventory.
+     * @param item the item to be removed
+     * @return the removed item, or null if the item was not found
+     */
     public Item removeItem(Item item) {
         Logger.preExecute(this, "removeItem", item);
-        items.remove(item);
-        return Logger.postExecute(item);
+        if(items.remove(item)){
+            return Logger.postExecute(item);
+        }
+        return Logger.postExecute(null);
     }
 
-    @Uses(fields = {"items"})
+    /**
+     * Removes all items from the inventory and give them to a room.
+     * @param target the room to give the items to
+     */
     public void dropAll(Room target) {
         Logger.preExecute(this, "dropAll", target);
         for (Item item : items) {
@@ -53,7 +75,10 @@ public class Inventory {
         Logger.postExecute();
     }
 
-    @Uses(fields = {"items"})
+    /**
+     * Accepts a visitor to visit all items in the inventory.
+     * @param visitor the visitor to accept
+     */
     public void acceptVisitor(ItemVisitor visitor) {
         Logger.preExecute(this, "acceptVisitor", visitor);
         for (Item item : items) {

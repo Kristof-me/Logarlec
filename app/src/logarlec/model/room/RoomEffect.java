@@ -8,7 +8,7 @@ import logarlec.model.logger.Uses;
 
 public abstract class RoomEffect {
     @State(name = "timeLeft", min = 0, max = Integer.MAX_VALUE)
-    protected Integer timeLeft;
+    protected Integer timeLeft = null;
 
     @Uses(fields = {"timeLeft"})
     public boolean tick() {

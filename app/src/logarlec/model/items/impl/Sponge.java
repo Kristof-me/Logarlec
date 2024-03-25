@@ -9,6 +9,10 @@ import logarlec.model.room.WetEffect;
 
 import logarlec.model.logger.*;
 
+/**
+ * A sponge is an item that can be used to make a room wet,
+ * which then stuns the professors.
+ */
 public class Sponge extends Item {
 
     public Sponge() {
@@ -16,18 +20,25 @@ public class Sponge extends Item {
         Logger.postConstructor(this);
     }
 
+    /**
+     * Uses the sponge to make the room wet.
+     * @param invoker The actor that uses the sponge.
+     */
     @Uses(fields = {"usesLeft"})
     @Override
     public void use(Actor invoker) {
-        Logger.preExecute(this, "use", invoker);
-        Room loc = invoker.getLocation();
+        Room room = invoker.getLocation();
         RoomEffect effect = new WetEffect();
-        loc.addEffect(effect);
+        room.addEffect(effect);
+
         usesLeft--;
         super.use(invoker);
-        Logger.postExecute();
     }
 
+    /**
+     * Accepts a visitor to visit the sponge.
+     * @param visitor The visitor
+     */
     @Override
     public void accept(ItemVisitor visitor) {
         Logger.preExecute(this, "accept", visitor);

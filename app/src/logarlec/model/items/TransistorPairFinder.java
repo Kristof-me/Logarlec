@@ -4,6 +4,12 @@ import logarlec.model.items.impl.Transistor;
 
 import logarlec.model.logger.*;
 
+/**
+ * A class that finds a transistor in the inventory that is not the same as the caller.
+ * The pair is found by visiting all transistors in the inventory.
+ * The first transistor that is not the same as the caller is returned.
+ * If no such transistor is found, null is returned.
+ */
 public class TransistorPairFinder extends ItemFinder<Transistor> {
     private Transistor caller;
 
@@ -13,7 +19,6 @@ public class TransistorPairFinder extends ItemFinder<Transistor> {
         Logger.postConstructor(this);
     }
 
-    @Uses(fields = {"caller", "potentialItems"})
     @Override
     public void visit(Transistor transistor) {
         Logger.preExecute(this, "visit", transistor);
@@ -24,7 +29,6 @@ public class TransistorPairFinder extends ItemFinder<Transistor> {
         Logger.postExecute();
     }
 
-    @Uses(fields = {"potentialItems"})
     @Override
     public Transistor findIn(Inventory inventory) {
         Logger.preExecute(this, "findIn", inventory);

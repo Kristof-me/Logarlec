@@ -1,13 +1,14 @@
 package logarlec.model.items.impl;
 
-import org.w3c.dom.events.Event;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
-import logarlec.model.room.Room;
 
 import logarlec.model.logger.*;
 
+/**
+ * A slide rule item, which needs to be picked up to win the game
+ */
 public class SlideRule extends Item {
 
     public SlideRule() {
@@ -15,6 +16,10 @@ public class SlideRule extends Item {
         Logger.postConstructor(this);
     }
 
+    /**
+     * Called when the slide rule is picked up, 
+     * triggers the end of the game
+     */
     @Override
     public void onPickup(Actor actor) {
         Logger.preExecute(this, "onPickup", actor);
@@ -24,6 +29,11 @@ public class SlideRule extends Item {
         Logger.postExecute();
     }
 
+    /**
+     * Accepts a visitor
+     * 
+     * @param visitor the visitor
+     */
     @Override
     public void accept(ItemVisitor visitor) {
         Logger.preExecute(this, "accept", visitor);

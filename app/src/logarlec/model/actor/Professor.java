@@ -1,16 +1,10 @@
 package logarlec.model.actor;
 
 import java.util.List;
-import logarlec.model.actor.actions.ActionsState;
 import logarlec.model.actor.actions.ProfessorActions;
-import logarlec.model.actor.actions.StudentActions;
-import logarlec.model.actor.strategy.DefenseStrategy;
-import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemFinder;
 import logarlec.model.logger.Logger;
-import logarlec.model.room.Door;
-import logarlec.model.room.Room;
 import logarlec.model.room.RoomEffect;
 
 public class Professor extends Actor {
@@ -35,11 +29,14 @@ public class Professor extends Actor {
     }
 
     @Override
-    public void acceptEffect(RoomEffect effect, List<ItemFinder<Item>> unless) {
+    public void acceptEffect(RoomEffect effect, List<ItemFinder<? extends Item>> unless) {
        Logger.preExecute(this, "acceptEffect", effect, unless);
 
-       for (ItemFinder<Item> itemFinder : unless) {
-            if (itemFinder.findIn(inventory) != null) {
+       for (ItemFinder<? extends Item> itemFinder : unless) {
+            var protector = itemFinder.findIn(inventory);
+            
+            if (protector != null) {
+                actionState.use(protector);
                 Logger.postExecute();
                 return;
             }

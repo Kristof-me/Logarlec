@@ -6,21 +6,18 @@ import logarlec.model.logger.State;
 import logarlec.model.logger.Uses;
 
 public class Door {
-    private Room room1;
-    private Room room2;
+    private Room[] rooms = new Room[2];
 
     @State(name = "remainingInvisibility", min = 0, max = Integer.MAX_VALUE)
-    private Integer remainingInvisibility;
+    private Integer remainingInvisibility = null;
 
     @State(name = "isOneway")
-    private Boolean isOneway;
+    private Boolean isOneway = null;
 
     public Door(Room room1, Room room2, boolean isOneway) {
-        Logger.preConstructor(this, room1, room2);
-        this.room1 = room1;
-        this.room2 = room2;
-        this.remainingInvisibility = 0;
-        this.isOneway = isOneway;
+        Logger.preConstructor(this, rooms[0], rooms[1]);
+        this.rooms[0] = room1;
+        this.rooms[1] = room2;
         Logger.postConstructor(this);
     }
 
@@ -34,18 +31,17 @@ public class Door {
     @Uses(fields = {"isOneway"})
     public Room leadsTo(Room from) {
         Logger.preExecute(this, "leadsTo", from);
-        if (from == room1) {
-            Logger.postExecute(room2);
-            return room2;
+        if (from == rooms[0]) {
+            Logger.postExecute(rooms[1]);
+            return rooms[1];
         }
 
-        if (from == room2 && !isOneway) {
-            Logger.postExecute(room1);
-            return room1;
+        if (from == rooms[1] && !isOneway) {
+            Logger.postExecute(rooms[0]);
+            return rooms[0];
         }
 
-        Logger.postExecute(null);
-        return null;
+        return Logger.postExecute(null);
     }
 
     @Uses(fields = {"remainingInvisibility"})
@@ -53,20 +49,30 @@ public class Door {
         Logger.preExecute(this, "move", actor, target);
 
         // if Door is invisible, we can't use it
-        if (remainingInvisibility > 0) {
-            Logger.postExecute(false);
-            return false;
+        if (remainingInvisibility > 0 || (isOneway && target != rooms[1]) || (target != rooms[0] && target != rooms[1])) {
+            // oneway doors can only be used to go to the second room
+            return Logger.postExecute(false);
         }
 
         boolean isSuccesful = target.enter(actor, false);
-        Logger.postExecute(isSuccesful);
-
-        return isSuccesful;
+        return Logger.postExecute(isSuccesful);
     }
 
+    @Uses(fields = {"remainingInvisibility"})
     public void tick() {
         Logger.preExecute(this, "tick");
-        // Implementation goes here
+        if(remainingInvisibility > 0) {
+            remainingInvisibility--;
+        }
         Logger.postExecute();
+    }
+
+    public void updateRoom(Room original, Room current) {
+        // ! setter, hidden
+        if(rooms[0] == original) {
+            rooms[0] = current;
+        } else if(rooms[1] == original) {
+            rooms[1] = current;
+        }
     }
 }

@@ -7,6 +7,11 @@ import logarlec.model.actor.actions.StunnedStep;
 import logarlec.model.logger.Logger;
 
 public class WetEffect extends RoomEffect {
+    public WetEffect(){
+        Logger.preConstructor(this);
+        Logger.postConstructor(this);
+    }
+
     @Override
     public void applyEffect(Professor professor) {
         Logger.preExecute(this, "applyEffect", professor);
