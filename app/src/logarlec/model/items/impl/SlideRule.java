@@ -17,7 +17,7 @@ public class SlideRule extends Item {
     }
 
     /**
-     * Called when the slide rule is picked up, 
+     * Called when the slide rule is picked up,
      * triggers the end of the game
      */
     @Override

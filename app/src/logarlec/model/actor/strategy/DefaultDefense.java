@@ -30,6 +30,7 @@ public class DefaultDefense extends DefenseStrategy {
     public boolean defend(Inventory inventory) {
         Logger.preExecute(this, "defend", inventory);
         BestTvszFinder finder = new BestTvszFinder();
+
         Tvsz tvsz = finder.findIn(inventory);
         if (tvsz != null) {
             tvsz.use(actor);

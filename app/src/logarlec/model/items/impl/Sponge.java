@@ -22,21 +22,26 @@ public class Sponge extends Item {
 
     /**
      * Uses the sponge to make the room wet.
+     * 
      * @param invoker The actor that uses the sponge.
      */
-    @Uses(fields = {"usesLeft"})
+    @Uses(fields = { "usesLeft" })
     @Override
     public void use(Actor invoker) {
+        Logger.preExecute(this, "use", invoker);
+
         Room room = invoker.getLocation();
         RoomEffect effect = new WetEffect();
         room.addEffect(effect);
 
         usesLeft--;
         super.use(invoker);
+        Logger.postExecute();
     }
 
     /**
      * Accepts a visitor to visit the sponge.
+     * 
      * @param visitor The visitor
      */
     @Override

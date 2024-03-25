@@ -10,7 +10,7 @@ import logarlec.model.actor.Actor;
  * A defense strategy that gets applied after the player uses a beer item.
  */
 public class BeerDefense extends DefenseStrategy {
-    @State(name = "remaining", min = 1, max = Integer.MAX_VALUE)
+    @State(name = "remaining", min = 0, max = Integer.MAX_VALUE)
     private Integer remaining = null;
     
     /**
@@ -19,7 +19,7 @@ public class BeerDefense extends DefenseStrategy {
      */
     public BeerDefense(Actor actor) {
         super(actor);
-        Logger.preConstructor(this, remaining);
+        Logger.preConstructor(this, actor);
         Logger.postConstructor(this);
     }
 

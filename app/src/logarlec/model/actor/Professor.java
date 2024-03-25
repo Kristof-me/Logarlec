@@ -10,14 +10,15 @@ import logarlec.model.room.RoomEffect;
 public class Professor extends Actor {
     public Professor() {
         super();
-        Logger.preConstructor(this);
+
         this.actionState = new ProfessorActions(this);
         Logger.postConstructor(this);
     }
+
     @Override
     public void attacked() {
         Logger.preExecute(this, "attacked");
-        
+
         Logger.postExecute();
     }
 
@@ -30,20 +31,22 @@ public class Professor extends Actor {
 
     @Override
     public void acceptEffect(RoomEffect effect, List<ItemFinder<? extends Item>> unless) {
-       Logger.preExecute(this, "acceptEffect", effect, unless);
+        Logger.preExecute(this, "acceptEffect", effect, unless);
 
-       for (ItemFinder<? extends Item> itemFinder : unless) {
-            var protector = itemFinder.findIn(inventory);
-            
-            if (protector != null) {
-                actionState.use(protector);
-                Logger.postExecute();
-                return;
+        if (unless != null) {
+            for (ItemFinder<? extends Item> itemFinder : unless) {
+                var protector = itemFinder.findIn(inventory);
+
+                if (protector != null) {
+                    actionState.use(protector);
+                    Logger.postExecute();
+                    return;
+                }
             }
-       }
+        }
 
-       effect.applyEffect(this);
-       Logger.postExecute();
+        effect.applyEffect(this);
+        Logger.postExecute();
     }
 
     @Override

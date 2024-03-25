@@ -23,10 +23,10 @@ public abstract class Actor implements IHasLocation, IActions {
 
     protected Actor() {
         Logger.preConstructor(this);
+
         this.alive = true;
-        this.inventory = new Inventory();
+        this.inventory = new Inventory(null);
         this.defenseStrategy = new DefaultDefense(this);
-        Logger.postConstructor(this);
     }
 
     public abstract void attacked();
@@ -56,15 +56,23 @@ public abstract class Actor implements IHasLocation, IActions {
     public boolean teleport(Room room, boolean isForced) {
         Logger.preExecute(this, "teleport", room, isForced);
 
-        boolean success = room.enter(this, isForced);
-        if (isForced && !success) {
+        Room prevRoom = this.room;
+        this.room = room;
+
+        boolean staysAlive = room.enter(this, isForced);
+        if (isForced && !staysAlive) {
             alive = false;
         }
-        if (success || isForced) {
-            this.room = room;
+
+        if (!staysAlive && !isForced) {
+            this.room = prevRoom;
+        } else {
+            if (prevRoom != null) {
+                prevRoom.leave(this);
+            }
         }
 
-        return Logger.postExecute(success);
+        return Logger.postExecute(staysAlive);
     }
 
     public Inventory getInventory() {
@@ -76,7 +84,8 @@ public abstract class Actor implements IHasLocation, IActions {
     public void dropAllTo(Room room) {
         Logger.preExecute(this, "dropAllTo", room);
 
-        if(!alive) return; 
+        if (!alive)
+            return;
         inventory.dropAll(room);
 
         Logger.postExecute();
@@ -87,7 +96,7 @@ public abstract class Actor implements IHasLocation, IActions {
         if (actionState.tick() == false) {
             this.setDefaultActionState();
         }
-        
+
         if (defenseStrategy.tick() == false) {
             setDefenseStrategy(new DefaultDefense(this));
         }
@@ -99,7 +108,8 @@ public abstract class Actor implements IHasLocation, IActions {
     public void attack() {
         Logger.preExecute(this, "attack");
 
-        if(!alive) return; 
+        if (!alive)
+            return;
         actionState.attack();
 
         Logger.postExecute();
@@ -109,19 +119,19 @@ public abstract class Actor implements IHasLocation, IActions {
     public boolean move(Door door) {
         Logger.preExecute(this, "move", door);
 
-        if(!alive) return false; 
+        if (!alive)
+            return false;
+        boolean success = actionState.move(door);
 
-        boolean res = actionState.move(door);
-
-        Logger.postExecute(res);
-        return res;
+        return Logger.postExecute(success);
     }
 
     @Override
     public void use(Item item) {
         Logger.preExecute(this, "use", item);
 
-        if(!alive) return; 
+        if (!alive)
+            return;
         actionState.use(item);
 
         Logger.postExecute();
@@ -131,7 +141,8 @@ public abstract class Actor implements IHasLocation, IActions {
     public boolean pickUp(Item item) {
         Logger.preExecute(this, "pickUp", item);
 
-        if(!alive) return false;
+        if (!alive)
+            return false;
         boolean res = actionState.pickUp(item);
 
         Logger.postExecute(res);
@@ -142,7 +153,8 @@ public abstract class Actor implements IHasLocation, IActions {
     public void drop(Item item) {
         Logger.preExecute(this, "drop", item);
 
-        if(!alive) return; 
+        if (!alive)
+            return;
         actionState.drop(item);
 
         Logger.postExecute();
@@ -157,5 +169,10 @@ public abstract class Actor implements IHasLocation, IActions {
 
     public boolean isAlive() {
         return alive;
+    }
+
+    public void setLocation(Room location) {
+        // hidden set, not logged
+        this.room = location;
     }
 }

@@ -6,26 +6,32 @@ import logarlec.model.room.Door;
 import logarlec.model.logger.*;
 
 /**
- * The stunned step state of an actor. The actor is unable to perform any actions, and 
+ * The stunned step state of an actor. The actor is unable to perform any
+ * actions, and
  * after a while the state will expire.
  */
 public class StunnedStep extends ActionsState {
     @State(name = "Remaining", min = 1, max = 100)
     private Integer remaining;
-    public StunnedStep(Actor owner) {
 
     /**
      * The actor is unable to attack while stunned.
-     */        super(owner);
+     */  
+    public StunnedStep(Actor owner) {
+        super(owner);
+
+        Logger.preConstructor(this, actor);
+        Logger.postConstructor(this);
     }
 
     @Override
     public void attack() {
         Logger.preExecute(this, "attack");
 
-    /**
-     * The actor is unable to move while stunned.
-     */        Logger.postExecute();
+        /**
+         * The actor is unable to move while stunned.
+         */
+        Logger.postExecute();
     }
 
     @Override
@@ -33,18 +39,20 @@ public class StunnedStep extends ActionsState {
         Logger.preExecute(this, "move", door);
         Logger.postExecute(false);
 
-    /**
-     * The actor is unable to use items while stunned.
-     */        return false;
+        /**
+         * The actor is unable to use items while stunned.
+         */
+        return false;
     }
 
     @Override
     public void use(Item item) {
         Logger.preExecute(this, "use", item);
 
-    /**
-     * The actor is unable to pick up items while stunned.
-     */        Logger.postExecute();
+        /**
+         * The actor is unable to pick up items while stunned.
+         */
+        Logger.postExecute();
     }
 
     @Override
@@ -52,18 +60,20 @@ public class StunnedStep extends ActionsState {
         Logger.preExecute(this, "pickUp", item);
         Logger.postExecute(false);
 
-    /**
-     * The actor is unable to drop items while stunned.
-     */        return false;
+        /**
+         * The actor is unable to drop items while stunned.
+         */
+        return false;
     }
 
     @Override
     public void drop(Item item) {
         Logger.preExecute(this, "drop", item);
 
-    /**
-     * The stunned effect persists, it cannot be changed, so it just returns itself.
-     */        Logger.postExecute();
+        /**
+         * The stunned effect persists, it cannot be changed, so it just returns itself.
+         */
+        Logger.postExecute();
     }
 
     @Override

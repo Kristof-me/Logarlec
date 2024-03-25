@@ -10,7 +10,8 @@ import logarlec.model.room.Room;
 import logarlec.model.logger.*;
 
 /**
- * A transistor that can be paired with another transistor to teleport the player
+ * A transistor that can be paired with another transistor to teleport the
+ * player
  * to the room of the other transistor when used.
  */
 public class Transistor extends Item {
@@ -24,28 +25,35 @@ public class Transistor extends Item {
     }
 
     /**
-     * If the transistor does not have a pair, it will find a pair in the inventory of the invoker.<br>
-     * If it already has a pair, it will teleport the invoker to the room of the paired transistor.
+     * If the transistor does not have a pair, it will find a pair in the inventory
+     * of the invoker.<br>
+     * If it already has a pair, it will teleport the invoker to the room of the
+     * paired transistor.
      * 
      * @param invoker The actor that uses the transistor
      */
     @Override
     public void use(Actor invoker) {
+        Logger.preExecute(this, "use", invoker);
+
         if (pair == null) {
             TransistorPairFinder pairFinder = new TransistorPairFinder(this);
             Transistor target = pairFinder.findIn(invoker.getInventory());
 
-            if(target != null){
+            if (target != null) {
                 pairWith(target);
                 target.pairWith(this);
             }
         } else { // Already paired
             Room room = pair.location.getLocation();
-            invoker.teleport(room, false);
-            pair.pairWith(null);
-            pairWith(null);
+            if (room != location.getLocation()) { // cannot teleport to the same room
+                invoker.teleport(room, false);
+                pair.pairWith(null);
+                pairWith(null);
+            }
         }
         super.use(invoker);
+        Logger.postExecute();
     }
 
     /**

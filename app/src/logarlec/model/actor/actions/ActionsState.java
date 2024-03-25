@@ -20,7 +20,7 @@ import logarlec.model.logger.*;
  */
 public abstract class ActionsState implements IActions {
     protected Actor actor;
-    
+
     /**
      * Constructor for the ActionsState class.
      * 
@@ -59,13 +59,18 @@ public abstract class ActionsState implements IActions {
      */
     @Override
     public boolean move(Door door) {
-        Logger.preExecute(this, "move");
-        if (door.move(actor, door.leadsTo(actor.getLocation()))) {
-            Logger.postExecute(true);
-            return true;
+        Logger.preExecute(this, "move", door);
+
+        Room currentRoom = actor.getLocation();
+
+        if (door.move(actor, door.leadsTo(currentRoom))) {
+            if (currentRoom != null) {
+                currentRoom.leave(actor);
+            }
+
+            return Logger.postExecute(true);
         }
-        Logger.postExecute(false);
-        return false;
+        return Logger.postExecute(false);
     }
 
     /**
@@ -73,7 +78,7 @@ public abstract class ActionsState implements IActions {
      * 
      * @param item Item to use
      */
-    @Uses(fields = {"actor"})
+    @Uses(fields = { "actor" })
     @Override
     public void use(Item item) {
         Logger.preExecute(this, "use", item);
@@ -93,13 +98,15 @@ public abstract class ActionsState implements IActions {
 
         Item targetItem = actor.getLocation().removeItem(item);
 
-        if(targetItem == null) {
+        if (targetItem == null) {
             return Logger.postExecute(false);
         }
 
         Inventory inventory = actor.getInventory();
-        
-        if(inventory.addItem(targetItem)) { 
+
+        boolean success = inventory.addItem(targetItem);
+
+        if (success) {
             // if the item was added to the inventory
             item.onPickup(actor);
         } else {
@@ -107,7 +114,7 @@ public abstract class ActionsState implements IActions {
             actor.getLocation().addItem(targetItem);
         }
 
-        return Logger.postExecute(inventory.addItem(item));
+        return Logger.postExecute(success);
     }
 
     /**
@@ -118,7 +125,7 @@ public abstract class ActionsState implements IActions {
     @Override
     public void drop(Item item) {
         Logger.preExecute(this, "drop", item);
-        
+
         Inventory inventory = actor.getInventory();
         inventory.removeItem(item);
         Room room = actor.getLocation();

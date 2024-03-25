@@ -22,15 +22,11 @@ public abstract class Item {
      * 
      * @param invoker The actor that uses the item.
      */
-    @Uses(fields = {"usesLeft"})
+    @Uses(fields = { "usesLeft" })
     public void use(Actor invoker) {
-        Logger.preExecute(this, "use", invoker);
-
         if (usesLeft <= 0 && inventory != null) {
             inventory.removeItem(this);
         }
-
-        Logger.postExecute();
     }
 
     /**
@@ -38,14 +34,16 @@ public abstract class Item {
      * 
      * @return The uses left of the item.
      */
-    @Uses(fields = {"usesLeft"})
+    @Uses(fields = { "usesLeft" })
     public int getUsesLeft() {
         Logger.preExecute(this, "getUsesLeft");
         return Logger.postExecute(usesLeft);
     }
 
     /**
-     * When the item gets picked up by an actor it keeps track of the inventory it's in.
+     * When the item gets picked up by an actor it keeps track of the inventory it's
+     * in.
+     * 
      * @param actor The actor that picks up the item.
      */
     public void onPickup(Actor actor) {
@@ -56,11 +54,12 @@ public abstract class Item {
 
     /**
      * When the item gets dropped it keeps track of the inventory it's in.
+     * 
      * @param location The room the item gets dropped in.
      */
     public void onDrop(Room location) {
         Logger.preExecute(this, "onDrop", location);
-        inventory = location.getInventory(); 
+        inventory = location.getInventory();
         Logger.postExecute();
     }
 

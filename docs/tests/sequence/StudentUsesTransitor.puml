@@ -12,7 +12,7 @@ participant room2 as "room2 : Room"
 participant t1 as "transistorA: Transistor"
 participant t2 as "transistorB: Transistor"
 
-' lets assume they are already paired
+' lets assume they are already paired and transistorB is dropped in room2
 
 ' this already contains the init
 ref over student, t2: Student Pairs Transistor

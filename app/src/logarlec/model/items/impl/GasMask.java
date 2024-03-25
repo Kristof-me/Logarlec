@@ -8,7 +8,8 @@ import logarlec.model.logger.*;
 
 /**
  * A gas mask that will protect the player if it steps into a gased room.
- * Considered a passive item, so the player doesn't use it, it gets used automatically.
+ * Considered a passive item, so the player doesn't use it, it gets used
+ * automatically.
  */
 public class GasMask extends Item {
 
@@ -18,16 +19,19 @@ public class GasMask extends Item {
     }
 
     /**
-     * The gas mask will be used automatically when the player steps into a gased room.
+     * The gas mask will be used automatically when the player steps into a gased
+     * room.
      * The usesLeft field will be decremented.
      * 
      * @param invoker The actor that has the gas mask
      */
-    @Uses(fields = {"usesLeft"})
+    @Uses(fields = { "usesLeft" })
     @Override
     public void use(Actor invoker) {
+        Logger.preExecute(this, "use", invoker);
         usesLeft--;
         super.use(invoker);
+        Logger.postExecute();
     }
 
     /**

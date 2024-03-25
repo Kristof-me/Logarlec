@@ -6,4 +6,6 @@ cd %DIR%
 
 :: Compile the source code
 javac -sourcepath .\app\src\ .\app\src\logarlec\App.java -d .\app\bin
+
+:: Run the application
 java -cp .\app\bin logarlec.App

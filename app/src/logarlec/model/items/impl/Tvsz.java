@@ -20,17 +20,21 @@ public class Tvsz extends Item {
 
     /**
      * Use the item
+     * 
      * @param invoker the actor who's inventory the item is in.
      */
-    @Uses(fields = {"usesLeft"})
+    @Uses(fields = { "usesLeft" })
     @Override
     public void use(Actor invoker) {
+        Logger.preExecute(this, "use", invoker);
         usesLeft--;
         super.use(invoker);
+        Logger.postExecute();
     }
 
     /**
      * Accept a visitor
+     * 
      * @param visitor the visitor
      */
     @Override

@@ -8,8 +8,14 @@ import logarlec.model.logger.*;
  * Find the TVSZ with the most uses left.
  */
 public class BestTvszFinder extends ItemFinder<Tvsz> {
+    public BestTvszFinder() {
+        Logger.preConstructor(this);
+        Logger.postConstructor(this);
+    }
+
     /**
      * Find the TVSZ with the most uses left in the inventory.
+     * 
      * @param inventory The inventory to search in.
      * @return The TVSZ with the most uses left.
      */
@@ -22,9 +28,10 @@ public class BestTvszFinder extends ItemFinder<Tvsz> {
         int lowest = Integer.MAX_VALUE;
         Tvsz best = null;
         for (Tvsz tvsz : potentialItems) {
-            if (tvsz.getUsesLeft() <= lowest) {
+            int usesLeft = tvsz.getUsesLeft();
+            if (usesLeft <= lowest) {
                 best = tvsz;
-                lowest = tvsz.getUsesLeft();
+                lowest = usesLeft;
             }
         }
         return Logger.postExecute(best);
@@ -32,6 +39,7 @@ public class BestTvszFinder extends ItemFinder<Tvsz> {
 
     /**
      * Visit a TVSZ and add it to a list of potential items.
+     * 
      * @param tvsz The TVSZ to visit.
      */
     @Override

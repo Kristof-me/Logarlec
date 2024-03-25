@@ -25,7 +25,8 @@ public class TestRunner {
      * Constructor for TestRunner class.
      * 
      * @implNote This function initializes the cases list with all the test cases.
-     * @implNote The test cases are sorted by their id, so they can be easily selected.
+     * @implNote The test cases are sorted by their id, so they can be easily
+     *           selected.
      */
     public TestRunner() {
 
@@ -52,6 +53,7 @@ public class TestRunner {
             Test test = entry.getKey();
             System.out.println(String.format("%d. %s", test.id(), test.name()));
         }
+        System.out.println("Press 'q' to exit");
     }
 
     /**
@@ -92,7 +94,7 @@ public class TestRunner {
 
                     printTests();
                 } catch (Exception e) {
-                    System.err.println("Test failed: " + e.getMessage());
+                    System.err.println("Test failed: " + e.getClass().toString());
                 }
             }
         }
@@ -159,7 +161,9 @@ public class TestRunner {
 
     @Test(id = 1, name = "Beer Defense")
     private void BeerDefense() {
-        Logger.setInstanceNames("room", "room1inventory", "room2", "room2inventory", "door", "student", "studentInventory", "studentDefense", "studentAction", "beerDefense", "professor", "professorInventory", "professorDefense");
+        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "student",
+                "studentInventory", "studentDefense", "studentAction", "beerDefense", "professor", "professorInventory",
+                "professorDefense", "professorAction");
         Room room1 = new Room(null);
         Room room2 = new Room(null);
         Door door = new Door(room1, room2, false);
@@ -175,7 +179,8 @@ public class TestRunner {
 
     @Test(id = 2, name = "Beer Effect Ticks")
     private void BeerEffectTicks() {
-        Logger.setInstanceNames("student", "studentAction", "studentInventory", "studentDefense", "beerDefense", "defaultDefense");
+        Logger.setInstanceNames("student", "studentInventory", "studentDefense", "studentAction", "beerDefense",
+                "defaultDefense");
         Student student = new Student();
         BeerDefense beerDefense = new BeerDefense(student);
         student.setDefenseStrategy(beerDefense);
@@ -185,7 +190,8 @@ public class TestRunner {
 
     @Test(id = 3, name = "Door Appear")
     private void DoorAppear() {
-        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "student", "studentInventory", "studentDefense", "studentAction", "door");
+        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "student", "studentInventory",
+                "studentDefense", "studentAction", "door");
         Room room1 = new Room(null);
         Room room2 = new Room(null);
         Student student = new Student();
@@ -198,7 +204,7 @@ public class TestRunner {
 
     @Test(id = 4, name = "Gas Effect Ticks")
     private void GasEffectTicks() {
-        Logger.setInstanceNames("room", "roomInventory", "gasEffect");
+        Logger.setInstanceNames("room", "roomInventory", "gasEffect", "bestGasMaskFinder");
         Room room = new Room(null);
         GasEffect gasEffect = new GasEffect(null);
         room.addEffect(gasEffect);
@@ -208,7 +214,9 @@ public class TestRunner {
 
     @Test(id = 5, name = "Professor Moves")
     private void ProfessorMoves() {
-        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "professor", "professorInventory", "professorDefense", "professorActions", "student", "studentInventory", "studentDefense", "studentAction");
+        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "professor",
+                "professorInventory", "professorDefense", "professorActions", "student", "studentInventory",
+                "studentDefense", "studentAction", "bestTvszFinder");
         Room room1 = new Room(null);
         Room room2 = new Room(null);
         Door door = new Door(room1, room2, false);
@@ -222,7 +230,9 @@ public class TestRunner {
 
     @Test(id = 6, name = "Professor Moves to Room with Professor")
     private void ProfessorMovesToRoomWithProfessor() {
-        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "professor1",  "professor1Inventory", "professor1Defense", "professor1Actions", "professor2", "professor2Inventory", "professor2Defense", "professor2Actions");
+        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "professor1",
+                "professor1Inventory", "professor1Defense", "professor1Actions", "professor2", "professor2Inventory",
+                "professor2Defense", "professor2Actions");
         Room room1 = new Room(null);
         Room room2 = new Room(null);
         Door door = new Door(room1, room2, false);
@@ -236,7 +246,8 @@ public class TestRunner {
 
     @Test(id = 7, name = "Professor Steps into Wet Room")
     private void ProfessorStepsIntoWetRoom() {
-        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "professor", "professorInventory", "professorDefense", "professorActions", "wetEffect", "stunnedStep");
+        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "professor",
+                "professorInventory", "professorDefense", "professorActions", "wetEffect", "stunnedStep");
         Room room1 = new Room(null);
         Room room2 = new Room(null);
         Door door = new Door(room1, room2, false);
@@ -250,40 +261,50 @@ public class TestRunner {
 
     @Test(id = 8, name = "Professor Moves to a Gased Room with Gasmask")
     private void ProfessorTeleportsWGasmask() {
-        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "professor1", "professor1Inventory", "professo1rDefense", "professor1State", "gasEffect", "bestGasMaskFinder", "gasMask");
+        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "professor1",
+                "professor1Inventory", "professo1rDefense", "professor1State", "gasEffect", "bestGasMaskFinder",
+                "gasMask");
         Room room1 = new Room(null);
         Room room2 = new Room(null);
-        Door door = new Door(room1, room2, false);
         Professor professor = new Professor();
         GasEffect gasEffect = new GasEffect(null);
-        GasMask gasMask = new GasMask();
         room2.addEffect(gasEffect);
+        GasMask gasMask = new GasMask();
         Inventory professorInventory = professor.getInventory();
         professorInventory.addItem(gasMask);
-        professor.teleport(room1, false);
-
         professor.teleport(room1, true);
+
+        professor.teleport(room2, true);
     }
 
     @Test(id = 9, name = "Professor Gets Wet")
-    private void ProfessorGetsWet(){
-        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "student", "studentInventory", "studentDefense", "studentActions", "professor", "professorInventory", "professorDefense", "professorActions", "sponge", "stunnedStep");
+    private void ProfessorGetsWet() {
+        Logger.setInstanceNames("room1", "room1inventory", "door", "student", "studentInventory", "studentDefense",
+                "studentActions", "professor", "professorInventory", "professorDefense", "professorActions", "tvsz",
+                "sponge", "bestTvszFinder", "wetEffect", "stunnedStep");
         Room room1 = new Room(null);
         Door door = new Door(room1, null, false);
         Student student = new Student();
         Professor professor = new Professor();
         student.teleport(room1, false);
-        professor.teleport(room1, false);
-        Sponge sponge = new Sponge();
-        Inventory studentInventory = student.getInventory();
-        studentInventory.addItem(sponge);
 
+        Inventory studentInventory = student.getInventory();
+        Tvsz tvsz = new Tvsz();
+        studentInventory.addItem(tvsz);
+        tvsz.onPickup(student);
+
+        Sponge sponge = new Sponge();
+        studentInventory.addItem(sponge);
+        sponge.onPickup(student);
+
+        professor.teleport(room1, false);
         student.use(sponge);
     }
 
     @Test(id = 10, name = "Two Rooms merge with one of them having Wet effect and the other with Gas effect")
-    private void RoomMergeWithWetAndGas(){
-        Logger.setInstanceNames("room1", "room1inventory",  "room2", "room2inventory", "door", "wetEffect", "gasEffect");
+    private void RoomMergeWithWetAndGas() {
+        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "wetEffect", "gasEffect",
+                "bestGasMaskFinder");
         Room room1 = new Room(null);
         Room room2 = new Room(null);
         Door door = new Door(room1, room2, false);
@@ -296,8 +317,10 @@ public class TestRunner {
     }
 
     @Test(id = 11, name = "Room splits with Two Students, without any effects")
-    private void RoomSplitNoEffect(){
-        Logger.setInstanceNames("oRoom", "oRoomInventory", "student1", "student1Inventory", "student1Defense", "student1State", "student2", "student2Inventory", "student2Defense", "student2State", "nRoom", "nRoomInventory", "door");
+    private void RoomSplitNoEffect() {
+        Logger.setInstanceNames("oRoom", "oRoomInventory", "student1", "student1Inventory", "student1Defense",
+                "student1State", "student2", "student2Inventory", "student2Defense", "student2State", "nRoom",
+                "nRoomInventory", "door");
         Room oRoom = new Room(null);
         Student student1 = new Student();
         Student student2 = new Student();
@@ -308,8 +331,10 @@ public class TestRunner {
     }
 
     @Test(id = 12, name = "Room splits with Two Students, with Wet and Gas Effects")
-    private void RoomSplitWithEffects(){
-        Logger.setInstanceNames("oRoom", "oRoomInventory", "student1", "student1Inventory", "student1Defense", "student1State", "student2", "student2Inventory", "student2Defense", "student2State", "nRoom", "nRoomInventory", "door", "wetEffect", "gasEffect");
+    private void RoomSplitWithEffects() {
+        Logger.setInstanceNames("oRoom", "oRoomInventory", "student1", "student1Inventory", "student1Defense",
+                "student1State", "student2", "student2Inventory", "student2Defense", "student2State", "wetEffect",
+                "gasEffect", "bestGasMaskFinder", "nRoom", "nRoomInventory", "door");
         Room oRoom = new Room(null);
         Student student1 = new Student();
         Student student2 = new Student();
@@ -324,8 +349,9 @@ public class TestRunner {
     }
 
     @Test(id = 13, name = "Student Drops Transistor")
-    private void StudentDropsTransistor(){
-        Logger.setInstanceNames("student", "studentInventory", "studentDefense", "studentAction", "transistorA", "transistorB", "room", "roomInventory", "room2", "room2Inventory");
+    private void StudentDropsTransistor() {
+        Logger.setInstanceNames("student", "studentInventory", "studentDefense", "studentAction", "transistorA",
+                "transistorB", "room", "roomInventory", "room2", "room2Inventory");
 
         Student student = new Student();
         Transistor transistorA = new Transistor();
@@ -335,14 +361,18 @@ public class TestRunner {
         student.teleport(room, false);
         Inventory studentInventory = student.getInventory();
         studentInventory.addItem(transistorA);
+        transistorA.onPickup(student);
+
         studentInventory.addItem(transistorB);
+        transistorB.onPickup(student);
 
         student.drop(transistorA);
     }
 
     @Test(id = 14, name = "Student Uses a Camembert with no Gasmask")
-    private void StudentGasesOwnRoomNoMask(){
-        Logger.setInstanceNames("room1", "room1inventory", "student", "studentInventory", "studentDefense", "studentAction", "camembert", "gasEffect", "bestGasMaskFinder", "stunnedStep");
+    private void StudentGasesOwnRoomNoMask() {
+        Logger.setInstanceNames("room1", "room1inventory", "student", "studentInventory", "studentDefense",
+                "studentAction", "camembert", "gasEffect", "bestGasMaskFinder", "stunnedStep");
         Room room1 = new Room(null);
         Student student = new Student();
         Camembert camembert = new Camembert();
@@ -354,19 +384,23 @@ public class TestRunner {
     }
 
     @Test(id = 15, name = "Student Item Pickup")
-    private void StudentItemPickup(){
-        Logger.setInstanceNames("room", "roomInventory", "student", "studentInventory", "studentDefense", "studentAction", "beer");
+    private void StudentItemPickup() {
+        Logger.setInstanceNames("room", "roomInventory", "student", "studentInventory", "studentDefense",
+                "studentAction", "beer");
         Room room = new Room(null);
         Student student = new Student();
         Beer beer = new Beer();
         room.addItem(beer);
+        student.teleport(room, false);
 
         student.pickUp(beer);
     }
 
     @Test(id = 16, name = "Student Moves")
-    private void StudentMoves(){
-        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "student", "studentInventory", "studentDefense", "studentAction", "professor", "professorInventory", "professorDefense", "professorAction");
+    private void StudentMoves() {
+        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "student",
+                "studentInventory", "studentDefense", "studentAction", "professor", "professorInventory",
+                "professorDefense", "professorAction", "bestTvszFinder");
         Room room1 = new Room(null);
         Room room2 = new Room(null);
         Door door = new Door(room1, room2, false);
@@ -374,13 +408,14 @@ public class TestRunner {
         Professor professor = new Professor();
         student.teleport(room1, false);
         professor.teleport(room2, false);
-        
+
         student.move(door);
     }
 
     @Test(id = 17, name = "Student Moves to Empty Wet Room")
-    private void StudentMovesToEmptyWetRoom(){
-        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "student1", "student1Inventory", "student1Defense", "student1State", "wetEffect");
+    private void StudentMovesToEmptyWetRoom() {
+        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "student1",
+                "student1Inventory", "student1Defense", "student1State", "wetEffect");
         Room room1 = new Room(null);
         Room room2 = new Room(null);
         Door door = new Door(room1, room2, false);
@@ -393,8 +428,10 @@ public class TestRunner {
     }
 
     @Test(id = 18, name = "Student Moves to Room with Student")
-    private void StudentMovesToRoomWithStudent(){
-        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "student1", "student1Inventory", "student1Defense", "student1State", "student2", "student2Inventory", "student2Defense", "student2State");
+    private void StudentMovesToRoomWithStudent() {
+        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "student1",
+                "student1Inventory", "student1Defense", "student1State", "student2", "student2Inventory",
+                "student2Defense", "student2State");
         Room room1 = new Room(null);
         Room room2 = new Room(null);
         Door door = new Door(room1, room2, false);
@@ -407,8 +444,10 @@ public class TestRunner {
     }
 
     @Test(id = 19, name = "Student Moves to Room with TVSZ")
-    private void StudentMovesToRoomWithTVSZ(){
-        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "student", "studentInventory", "studentDefense", "studentAction", "professor", "professorInventory", "professorDefense", "professorAction", "tvsz", "tvszFinder");
+    private void StudentMovesToRoomWithTVSZ() {
+        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "student",
+                "studentInventory", "studentDefense", "studentAction", "professor", "professorInventory",
+                "professorDefense", "professorAction", "tvsz", "tvszFinder");
         Room room1 = new Room(null);
         Room room2 = new Room(null);
         Door door = new Door(room1, room2, false);
@@ -416,7 +455,10 @@ public class TestRunner {
         Professor professor = new Professor();
         Tvsz tvsz = new Tvsz();
         Inventory studentInventory = student.getInventory();
+
         studentInventory.addItem(tvsz);
+        tvsz.onPickup(student);
+
         student.teleport(room1, false);
         professor.teleport(room2, false);
 
@@ -424,8 +466,9 @@ public class TestRunner {
     }
 
     @Test(id = 20, name = "Student Pairs Transistor")
-    private void StudentPairsTransistor(){
-        Logger.setInstanceNames("student", "studentInventory", "studentDefense", "studentAction", "transistorA", "transistorB", "room", "roomInventory", "room2", "room2Inventory");
+    private void StudentPairsTransistor() {
+        Logger.setInstanceNames("student", "studentInventory", "studentDefense", "studentAction", "transistorA",
+                "transistorB", "room", "roomInventory", "room2", "room2Inventory", "transistorPairFinder");
         Student student = new Student();
         Transistor transistorA = new Transistor();
         Transistor transistorB = new Transistor();
@@ -433,15 +476,20 @@ public class TestRunner {
         Room room2 = new Room(null);
         student.teleport(room, false);
         Inventory studentInventory = student.getInventory();
+
         studentInventory.addItem(transistorA);
+        transistorA.onPickup(student);
         studentInventory.addItem(transistorB);
+        transistorB.onPickup(student);
 
         student.use(transistorA);
     }
 
     @Test(id = 21, name = "Rooms merge with one Student in each, enough room for both Students")
-    private void StudentsMerge(){
-        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "student1", "student1Inventory", "student1Defense", "student1State", "student2", "student2Inventory", "student2Defense", "student2State", "beer", "tvsz");
+    private void StudentsMerge() {
+        Logger.setInstanceNames("room1", "room1inventory", "room2", "room2inventory", "door", "student1",
+                "student1Inventory", "student1Defense", "student1State", "student2", "student2Inventory",
+                "student2Defense", "student2State", "beer", "tvsz");
         Room room1 = new Room(null);
         Room room2 = new Room(null);
         Door door = new Door(room1, room2, false);
@@ -457,56 +505,74 @@ public class TestRunner {
         room1.merge(room2);
     }
 
-    @Test(id = 22, name="Student Uses Beer")
-    private void StudentUsesBeer(){
+    @Test(id = 22, name = "Student Uses Beer")
+    private void StudentUsesBeer() {
         Logger.setInstanceNames("student", "studentInventory", "studentDefense", "studentAction", "beer", "beerEffect");
         Student student = new Student();
         Beer beer = new Beer();
         student.getInventory().addItem(beer);
+        beer.onPickup(student);
 
         student.use(beer);
     }
 
-    @Test(id = 23, name="Student Uses Cocktail")
-    private void StudentUsesCocktail(){
-        Logger.setInstanceNames("room", "roomInventory", "student1", "student1Inventory", "student1Action", "student1State", "student2", "student2Inventory", "student2Defense", "student2Action", "cocktail");
-        Room room = new Room(null);
+    @Test(id = 23, name = "Student Uses Cocktail")
+    private void StudentUsesCocktail() {
+        Logger.setInstanceNames("room", "roomInventory", "student1", "student1Inventory", "student1Action",
+                "student1State", "student2", "student2Inventory", "student2Defense", "student2Action", "cocktail");
+        Room room = new Room(1);
+
         Student student1 = new Student();
         Student student2 = new Student();
+
         student1.teleport(room, false);
-        student2.teleport(room, false);
+        student2.teleport(room, true);
+
         Cocktail cocktail = new Cocktail();
         Inventory student1Inventory = student1.getInventory();
         student1Inventory.addItem(cocktail);
+        cocktail.onPickup(student1);
+
+        room.setCapacity(2);
 
         student1.use(cocktail);
     }
 
     @Test(id = 24, name = "Student Uses Transistor")
-    private void StudentUseTransistor(){
-        Logger.setInstanceNames("student", "studentInventory", "studentDefense", "studentAction", "transistorA", "transistorB", "room", "roomInventory", "room2", "room2Inventory");
+    private void StudentUseTransistor() {
+        Logger.setInstanceNames("student", "studentInventory", "studentDefense", "studentAction", "transistorA",
+                "transistorB", "room", "roomInventory", "room2", "room2Inventory", "transistorPairFinder",
+                "transistorPairFinder");
         Student student = new Student();
         Transistor transistorA = new Transistor();
         Transistor transistorB = new Transistor();
         Room room = new Room(null);
         Room room2 = new Room(null);
+
         student.teleport(room, false);
         Inventory studentInventory = student.getInventory();
         studentInventory.addItem(transistorA);
+        transistorA.onPickup(student);
         studentInventory.addItem(transistorB);
+        transistorB.onPickup(student);
 
-        student.use(transistorA);
-        student.use(transistorA);
+        student.use(transistorA); // pair
+        transistorB.onDrop(room2);
+        studentInventory.removeItem(transistorB);
+
+        student.use(transistorA); // teleport
     }
 
     @Test(id = 25, name = "Use Sponge")
-    private void UseSponge(){
-        Logger.setInstanceNames("room1", "room1inventory", "student", "studentInventory", "studentDefense", "studentAction", "sponge", "wetEffect");
+    private void UseSponge() {
+        Logger.setInstanceNames("room1", "room1inventory", "student", "studentInventory", "studentDefense",
+                "studentAction", "sponge", "wetEffect");
         Room room1 = new Room(null);
         Student student = new Student();
         Sponge sponge = new Sponge();
         Inventory studentInventory = student.getInventory();
         studentInventory.addItem(sponge);
+        sponge.onPickup(student);
         student.teleport(room1, false);
 
         student.use(sponge);

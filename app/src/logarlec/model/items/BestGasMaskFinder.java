@@ -8,9 +8,17 @@ import logarlec.model.logger.*;
  * A class that finds the best gas mask with the most uses left in an inventory.
  */
 public class BestGasMaskFinder extends ItemFinder<GasMask> {
+    /**
+     * Creates a new best gas mask finder.
+     */
+    public BestGasMaskFinder() {
+        Logger.preConstructor(this);
+        Logger.postConstructor(this);
+    }
 
     /**
      * Finds the gas mask with the most uses left in the inventory.
+     * 
      * @param inventory The inventory to search in.
      * @return The gas mask with the most uses left.
      */
@@ -23,9 +31,10 @@ public class BestGasMaskFinder extends ItemFinder<GasMask> {
         int lowest = Integer.MAX_VALUE;
         GasMask best = null;
         for (GasMask gasMask : potentialItems) {
-            if (gasMask.getUsesLeft() <= lowest) {
+            int usesLeft = gasMask.getUsesLeft();
+            if (usesLeft <= lowest) {
                 best = gasMask;
-                lowest = gasMask.getUsesLeft();
+                lowest = usesLeft;
             }
         }
         return Logger.postExecute(best);
@@ -33,6 +42,7 @@ public class BestGasMaskFinder extends ItemFinder<GasMask> {
 
     /**
      * Visits a gas mask and adds it to the list of potential items.
+     * 
      * @param gasMask The gas mask to visit.
      */
     @Override

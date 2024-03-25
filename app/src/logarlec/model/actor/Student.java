@@ -10,7 +10,6 @@ import logarlec.model.room.RoomEffect;
 public class Student extends Actor {
     public Student() {
         super();
-        Logger.preConstructor(this);
         this.actionState = new StudentActions(this);
         Logger.postConstructor(this);
     }
@@ -28,7 +27,7 @@ public class Student extends Actor {
         if (alive) {
             return Logger.postExecute(false);
         }
-        
+
         alive = true;
         return Logger.postExecute(true);
     }
@@ -37,12 +36,14 @@ public class Student extends Actor {
     public void acceptEffect(RoomEffect effect, List<ItemFinder<? extends Item>> unless) {
         Logger.preExecute(this, "acceptEffect", effect, unless);
 
-        for (ItemFinder<? extends Item> itemFinder : unless) {
-            var protector = itemFinder.findIn(inventory);
-            if (protector != null) {
-                actionState.use(protector);
-                Logger.postExecute();
-                return;
+        if (unless != null) {
+            for (ItemFinder<? extends Item> itemFinder : unless) {
+                var protector = itemFinder.findIn(inventory);
+                if (protector != null) {
+                    actionState.use(protector);
+                    Logger.postExecute();
+                    return;
+                }
             }
         }
 

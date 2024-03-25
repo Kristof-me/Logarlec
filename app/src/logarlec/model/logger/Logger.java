@@ -11,7 +11,8 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 
 public class Logger {
-    private Logger() {}
+    private Logger() {
+    }
 
     static int depth = 0;
 
@@ -31,6 +32,7 @@ public class Logger {
      * @param names
      */
     public static void setInstanceNames(String... names) {
+        depth = 0;
         instanceNames.clear();
         remainingNames = new ArrayDeque<>(List.of(names));
     }
@@ -70,9 +72,9 @@ public class Logger {
     /**
      * Logs the function call before it is executed
      * 
-     * @param caller The object that has the function
+     * @param caller       The object that has the function
      * @param functionName The name of the function that was called
-     * @param params The parameters of the function being called
+     * @param params       The parameters of the function being called
      */
     public static void preExecute(Object caller, String functionName, Object... params) {
         StringBuilder sb = new StringBuilder();
@@ -90,12 +92,25 @@ public class Logger {
      * Logs the function call after it is executed
      * 
      * @param <T> the return type of the function
-     * @param re the return value of the function
+     * @param re  the return value of the function
      * @return the value that was returned
      */
     public static <T> T postExecute(T re) {
         depth--;
-        System.out.println("\t".repeat(depth) + "<=" + re.toString() + " : " + re.getClass().getSimpleName());
+
+        if (re == null) {
+            System.out.println("\t".repeat(depth) + "<= null");
+            return re;
+        }
+
+        String name;
+        if (instanceNames.containsKey(re)) {
+            name = instanceNames.get(re);
+        } else {
+            name = re.toString();
+        }
+
+        System.out.println("\t".repeat(depth) + "<= " + name + " : " + re.getClass().getSimpleName());
 
         return re;
     }
@@ -115,7 +130,7 @@ public class Logger {
     /**
      * Sets the state values of the called function
      * 
-     * @param caller The object that called the function
+     * @param caller       The object that called the function
      * @param functionName The name of the function that was called
      */
     public static void setStateValues(Object caller, String functionName) {
@@ -127,6 +142,18 @@ public class Logger {
             if (m.getName().equals(functionName) && m.isAnnotationPresent(Uses.class)) {
                 method = m;
                 break;
+            }
+        }
+
+        // try to find the method in the parent class
+        if (method == null && caller.getClass().getSuperclass() != null) {
+            allMethods = caller.getClass().getSuperclass().getDeclaredMethods();
+
+            for (Method m : allMethods) {
+                if (m.getName().equals(functionName) && m.isAnnotationPresent(Uses.class)) {
+                    method = m;
+                    break;
+                }
             }
         }
 
@@ -143,9 +170,20 @@ public class Logger {
 
             try {
                 field = caller.getClass().getDeclaredField(fieldName);
+
             } catch (Exception e) {
-                // skip this if we can't find the field
-                continue;
+                // if we can't find it try for the parent class
+                try {
+                    if (caller.getClass().getSuperclass() != null) {
+                        field = caller.getClass().getSuperclass().getDeclaredField(fieldName);
+                        caller = caller.getClass().getSuperclass().cast(caller);
+                    } else {
+                        continue;
+                    }
+                } catch (Exception e2) {
+                    // skip this if we can't find the field
+                    continue;
+                }
             }
 
             // skip this if it isn't a state varibale
@@ -169,7 +207,7 @@ public class Logger {
      * Sets the value of the field
      * 
      * @param caller the object that contains the field
-     * @param field the field to be set
+     * @param field  the field to be set
      */
     private static void setFieldValue(Object caller, Field field) {
         Class<?> type = field.getType();
@@ -183,8 +221,12 @@ public class Logger {
                 String line = br.readLine();
 
                 // try to set the value
-                field.set(caller, type.cast(parseInput(line, type, state.min(), state.max())));
-                success = true;
+                Object value = parseInput(line, type, state.min(), state.max());
+
+                if (value != null) {
+                    field.set(caller, type.cast(value));
+                    success = true;
+                }
             } catch (Exception e) {
                 // retry if the value is not assignable
             }
@@ -197,9 +239,9 @@ public class Logger {
      * Parses the input string to the given type
      * 
      * @param string The string to be parsed
-     * @param type The type to be parsed to
-     * @param min The minimum value of the type
-     * @param max The maximum value of the type
+     * @param type   The type to be parsed to
+     * @param min    The minimum value of the type
+     * @param max    The maximum value of the type
      */
     private static Object parseInput(String string, Class<?> type, int min, int max) {
         String typeName = type.getName();
@@ -249,10 +291,15 @@ public class Logger {
         sb.append("(");
 
         for (int i = 0; i < params.length; i++) {
+            String name = instanceNames.get(params[i]);
+
             if (params[i] == null) {
                 sb.append("null");
+            } else if (name != null) {
+                sb.append(name + " : " + params[i].getClass().getSimpleName());
             } else {
-                sb.append(String.format("%s : %s", params[i].toString(), params[i].getClass().getSimpleName()));
+                name = params[i].toString().replace("[", "").split("@")[0];
+                sb.append(String.format("%s : %s", name, params[i].getClass().getSimpleName()));
             }
 
             sb.append(i == params.length - 1 ? "" : ", ");
@@ -267,7 +314,7 @@ public class Logger {
      * Returns a string representation of the field
      * 
      * @param field The field to be represented
-     * @param type The type of the field
+     * @param type  The type of the field
      * @param state The state annotation of the field
      */
     private static String fieldToString(Field field, Class<?> type, State state) {

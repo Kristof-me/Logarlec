@@ -24,12 +24,15 @@ public class Cocktail extends Item {
     @Uses(fields = {"usesLeft"})
     @Override
     public void use(Actor invoker) {
+        Logger.preExecute(this, "use", invoker);
+
         Room room = invoker.getLocation();
         boolean success = room.revive();
         if(success) {
             usesLeft--;
         }
         super.use(invoker);
+        Logger.postExecute();
     }
 
     /**

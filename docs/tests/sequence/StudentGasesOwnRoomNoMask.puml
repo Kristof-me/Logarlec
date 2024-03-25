@@ -1,8 +1,8 @@
-@startuml RoomSplitWithEffects
+@startuml Student uses camember with no gas mask
 skinparam headerFontSize 40
 skinparam HeaderFontColor #000000
 skinparam HeaderFontStyle bold
-header Setup a Room with a Student, who has a Camembert
+header Student uses camember with no gas mask
 hide footbox
 
 participant S1 as "student : Student"

@@ -18,18 +18,22 @@ public class Beer extends Item {
     }
 
     /**
-     * Uses the beer item. It switches the defense strategy for a BeerDefense strategy.
+     * Uses the beer item. It switches the defense strategy for a BeerDefense
+     * strategy.
      * 
      * @param invoker The actor that uses the item.
      */
-    @Uses(fields = {"usesLeft"})
+    @Uses(fields = { "usesLeft" })
     @Override
     public void use(Actor invoker) {
+        Logger.preExecute(this, "use", invoker);
+
         BeerDefense beerDefense = new BeerDefense(invoker);
         invoker.setDefenseStrategy(beerDefense);
         usesLeft--;
-        
+
         super.use(invoker);
+        Logger.postExecute();
     }
 
     /**

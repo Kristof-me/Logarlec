@@ -7,7 +7,8 @@ import logarlec.model.room.Room;
 import logarlec.model.logger.*;
 
 /**
- * Inventory class that holds items. Both the actors and the rooms have an inventory. <br>
+ * Inventory class that holds items. Both the actors and the rooms have an
+ * inventory. <br>
  * Has a limit, and rejects any item being added above the limit.
  */
 public class Inventory {
@@ -20,16 +21,17 @@ public class Inventory {
     }
 
     public Inventory(Integer size) {
-        Logger.preConstructor(this, "Inventory", size);
+        Logger.preConstructor(this, size);
         this.size = size;
         Logger.postConstructor(this);
     }
 
     /**
      * Checks if the inventory is full.
+     * 
      * @return true if the inventory is full, false otherwise
      */
-    @Uses(fields = {"size"})
+    @Uses(fields = { "size" })
     private boolean isFull() {
         Logger.preExecute(this, "isFull");
         return Logger.postExecute(items.size() >= size);
@@ -37,6 +39,7 @@ public class Inventory {
 
     /**
      * Adds an item to the inventory if there is space left.
+     * 
      * @param item the item to be added
      * @return true if the item was added, false otherwise
      */
@@ -51,12 +54,13 @@ public class Inventory {
 
     /**
      * Removes an item from the inventory.
+     * 
      * @param item the item to be removed
      * @return the removed item, or null if the item was not found
      */
     public Item removeItem(Item item) {
         Logger.preExecute(this, "removeItem", item);
-        if(items.remove(item)){
+        if (items.remove(item)) {
             return Logger.postExecute(item);
         }
         return Logger.postExecute(null);
@@ -64,6 +68,7 @@ public class Inventory {
 
     /**
      * Removes all items from the inventory and give them to a room.
+     * 
      * @param target the room to give the items to
      */
     public void dropAll(Room target) {
@@ -77,6 +82,7 @@ public class Inventory {
 
     /**
      * Accepts a visitor to visit all items in the inventory.
+     * 
      * @param visitor the visitor to accept
      */
     public void acceptVisitor(ItemVisitor visitor) {

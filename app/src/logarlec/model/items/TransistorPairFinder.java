@@ -5,7 +5,8 @@ import logarlec.model.items.impl.Transistor;
 import logarlec.model.logger.*;
 
 /**
- * A class that finds a transistor in the inventory that is not the same as the caller.
+ * A class that finds a transistor in the inventory that is not the same as the
+ * caller.
  * The pair is found by visiting all transistors in the inventory.
  * The first transistor that is not the same as the caller is returned.
  * If no such transistor is found, null is returned.

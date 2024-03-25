@@ -25,6 +25,7 @@ student --> defense --: <<create>>
 create beer as "beer : Beer"
 main --> beer : <<create>>
 
+' student should teleport to room
 main -> room ++: addItem(beer)
 room -> roomInventory ++: addItem(beer)
 roomInventory -> roomInventory : isFull()

@@ -28,7 +28,7 @@ public class ProfessorActions extends ActionsState {
         actor.getLocation().attack(actor);
         Logger.postExecute();
     }
-    
+
     /**
      * Sets the next state of the professor.
      */
