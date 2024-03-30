@@ -4,6 +4,7 @@ skinparam classAttributeIconSize 0
 'Items --------------------------------------------
 abstract class Item {
     - usesLeft : int
+    - isFake: boolean
 
     + use(invoker: Actor): void
     + getUsesLeft() : int
@@ -124,8 +125,15 @@ class Professor {
     + acceptEffect(effect: RoomEffect, unless: List<ItemFinder>) : void
     + setDefaultActionState() : void
 }
-
 Actor <|-- Professor
+
+class Janitor {
+    + attacked() : void
+    + revive() : boolean
+    + acceptEffect(effect: RoomEffect, unless: List<ItemFinder>) : void
+    + setDefaultActionState() : void
+}
+Actor <|-- Janitor
 
 'ez egy kísérleti dolog - szedd ki, ha nem tetszik
 
@@ -133,11 +141,13 @@ Actor <|-- Professor
 
 class Room {
     - capacity : int
+    - isSticky : boolean
 
     + split() : void
     + merge(room: Room) : void
     + attack(attacker: Actor): void
     + addEffect(effect: RoomEffect) : void
+    + removeEffect(effect: RoomEffect) : void
     
     + enter(actor: Actor, isForced: boolean) : boolean
     + leave(actor: Actor) : void
@@ -146,6 +156,7 @@ class Room {
 
     + addItem(item: Item) : void
     + removeItem(item: Item) : Item
+    + clean() : boolean
     + tick() : void
 }
 
@@ -185,24 +196,36 @@ abstract class RoomEffect {
     - timeLeft : int
     + tick(): boolean
     + addEffect(Actor actor) : void
+    + {abstract} clean(): boolean
 
     + {abstract} applyEffect(professor: Professor) : void
     + {abstract} applyEffect(student: Student) : void
+    + {abstract} applyEffect(janitor: Janitor) : void
 }
 ' tick returns false when the effect expires
 
 RoomEffect "1" -- "0..*" ItemFinder
 RoomEffect <|-- WetEffect
 RoomEffect <|-- GasEffect
+RoomEffect <|-- StickyEffect
 
 class WetEffect {
     + applyEffect(professor: Professor) : void
     + applyEffect(student: Student) : void
+    + applyEffect(janitor: Janitor) : void
 }
 
 class GasEffect {
     + applyEffect(professor: Professor) : void
     + applyEffect(student: Student) : void
+    + applyEffect(janitor: Janitor) : void
+}
+
+class StickyEffect {
+    - checkLimit() : boolean
+    + applyEffect(professor: Professor) : void
+    + applyEffect(student: Student) : void
+    + applyEffect(janitor: Janitor) : void
 }
 
 'State --------------------------------------------
@@ -231,8 +254,13 @@ StudentActions --|> ActionState
 class ProfessorActions {
     + attack() : void
 }
-
 ProfessorActions --|> ActionState
+class JanitorActions {
+    + attack() : void
+    + move(door: Door) : boolean
+}
+JanitorActions --|> ActionState
+
 
 class StunnedStep {
     - remainingTime : int
