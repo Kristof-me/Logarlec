@@ -1,6 +1,5 @@
-@startuml classDiagram
+@startuml Strategy
 skinparam classAttributeIconSize 0
-
 
 'Character ----------------------------------------
 
@@ -37,6 +36,13 @@ class ProfessorActions {
 }
 
 ProfessorActions --|> ActionState
+
+class JanitorActions {
+    + attack() : void
+    + move(door: Door) : boolean
+}
+
+JanitorActions --|> ActionState
 
 class StunnedStep {
     - remainingTime : int

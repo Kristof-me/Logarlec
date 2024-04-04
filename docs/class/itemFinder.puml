@@ -1,4 +1,4 @@
-@startuml classDiagram
+@startuml ItemFinder
 skinparam classAttributeIconSize 0
 
 'Items --------------------------------------------
@@ -25,6 +25,7 @@ abstract class ItemVisitor {
     + visit(gasMask: GasMask) : void
     + visit(transistor: Transistor) : void
     + visit(camembert: Camembert) : void
+    + visit(airFreshener: AirFreshener) : void
 }
 
 ItemVisitor ..> Item
