@@ -9,6 +9,8 @@ participant student as "student : Student"
 participant actions as "studentAction : StudentActions"
 participant inventory as "studentInventory: Inventory"
 participant beer as "beer : Beer"
+participant room as "room : Room"
+participant item as "otherItem : Tvsz"
 
 ref over student, beer : Setup Student Uses Beer
 
@@ -18,8 +20,19 @@ actions -> beer ++ : use(student)
 
 create beerDefense as "beerDefense : BeerDefense"
 beer --> beerDefense : <<create>>
-beer --> student ++ : setDefenseStrategy(beerDefense)
+beer -> student ++ : setDefenseStrategy(beerDefense)
 return 
+'beer already knows the inventory'
+beer -> inventory ++ : getItemAt(0)
+return otherItem
+beer -> student ++ : getLocation()
+return room
+beer -> inventory ++ : removeItem(otherItem)
+return otherItem
+beer -> room ++ : addItem(otherItem)
+room -> otherItem ++ : onDrop(room)
+return
+return
 
 alt usesLeft > 0
     beer --> actions
