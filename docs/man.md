@@ -61,3 +61,8 @@ status <u>door</u> (invisible | oneway | rooms)
 status <u>item</u> (uses-left | inventory | fake | location)  
 status <u>transistor</u> pair  
 status <u>actor</u> (alive | location | inventory | defense | stunned)  
+
+Name  
+load - load commands from a file
+Synopsis
+load <u>file</u>
