@@ -16,21 +16,39 @@ student --> inventory : <<create>>
 create defense as "studentDefense : DefaultDefense"
 student --> defense --: <<create>>
 
+create room as "room : Room"
+main --> room ++: <<create>>
+create rinv as "roomInventory : Inventory"
+room --> rinv --: <<create>>
+
 create beer as "beer : Beer"
 main --> beer : <<create>>
 
-main --> student ++: getInventory()
+create item as "otherItem : Tvsz"
+main --> item : <<create>>
+
+main -> student ++: teleport(room, false)
+student -> room ++: enter(student, false)
+return true
+return true
+
+main -> student ++: getInventory()
 return inventory
 
-main --> inventory ++: addItem(beer)
+main -> inventory ++: addItem(beer)
 return success
 
 alt success == true
-    main --> beer ++: onPickup(student)
+    main -> beer ++: onPickup(student)
     beer --> student ++: getInventory()
     return studentInventory
     return 
-    
+    main -> inventory ++ : addItem(otherItem)
+    return true
+    main -> item ++: onPickup(student)
+    item -> student ++: getInventory()
+    return studentInventory
+    return
 else success == false
     note over inventory : can't test item usage
 end

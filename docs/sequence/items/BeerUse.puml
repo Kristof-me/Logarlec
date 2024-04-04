@@ -6,6 +6,8 @@ actor controller as "Controller"
 participant student as "student : Student"
 participant actionState as "studentActions : StudentActions"
 participant beer as "beer : Beer"
+participant studentInventory as "studentInventory : Inventory"
+participant room as "room : Room"
 
 controller -> student ++ : use(beer)
 student -> actionState ++ : use(beer)
@@ -15,6 +17,11 @@ create beerDefense as "beerDefense : BeerDefense"
 beer --> beerDefense : <<create>>
 beer -> student ++ : setDefenseStrategy(beerDefense)
 return 
+beer -> student ++ : getInventory()
+return studentInventory
+beer -> student ++ : getLocation()
+return room
+ref over student, beer, studentInventory, room : ActorDropItem
 ref over beer : DeleteItem
 return 
 
