@@ -1,4 +1,4 @@
-@startuml classDiagram
+@startuml Actor
 skinparam classAttributeIconSize 0
 
 class Inventory {
@@ -57,6 +57,14 @@ class Professor {
 }
 
 Actor <|-- Professor
+
+class Janitor {
+    + attacked() : void
+    + revive() : boolean
+    + acceptEffect(effect: RoomEffect, unless: List<ItemFinder>) : void
+    + setDefaultActionState() : void
+}
+Actor <|-- Janitor
 
 
 class Room {

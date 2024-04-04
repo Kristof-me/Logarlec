@@ -60,6 +60,11 @@ class Camembert {
     + accept(visitor: ItemVisitor): void
 }
 
+class AirFreshener {
+    + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
+}
+
 Item <|-- Sponge
 Item <|-- Tvsz
 Item <|-- SlideRule
@@ -68,6 +73,7 @@ Item <|-- Cocktail
 Item <|-- GasMask
 Item <|-- Transistor
 Item <|-- Camembert
+Item <|-- AirFreshener
 
 'Inventory ----------------------------------------
 class Inventory {
@@ -159,16 +165,6 @@ class Room {
     + clean() : boolean
     + tick() : void
 }
-
-/'
-az egyirányú ajtók merge-nél eltűnnek, ha a két szoba 
-között voltak?
-'/
-
-/' 
-hogyan is fogjuk értesíteni a bennlévő professort, ha 
-egy hallgató belép?
-'/
 
 class Door {
     - remainingInvisibility : int
@@ -306,6 +302,7 @@ abstract class ItemVisitor {
     + visit(gasMask: GasMask) : void
     + visit(transistor: Transistor) : void
     + visit(camembert: Camembert) : void
+    + visit(airFreshener: AirFreshener) : void
 }
 
 ItemVisitor ..> Item
