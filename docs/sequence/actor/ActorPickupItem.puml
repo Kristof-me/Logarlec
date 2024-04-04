@@ -13,21 +13,24 @@ participant I as "inventory : Inventory"
 
 A -> B : pickUp(item)
 B -> C : pickUp(item)
+C -> E : isSticky()
+return isSticky
+opt isSticky == false
+    C -> I : isFull()
+    return isFull
 
-C -> I : isFull()
-return isFull
+    opt isFull == false
+        C -> E : removeItem(item)
+        return item
+        C -> I : addItem(item)
+        return true
+        C -> D : onPickup(item)
+        ref over B, D, E : Item Pickup Effect
+        return
+    end
 
-opt isFull == false
-    C -> E : removeItem(item)
-    return item
-    C -> I : addItem(item)
-    return true
-    C -> D : onPickup(item)
-    ref over B, D, E : Item Pickup Effect
     return
 end
-
 return
-return 
 
 @enduml
