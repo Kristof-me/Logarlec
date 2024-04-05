@@ -7,14 +7,12 @@ autoactivate on
 actor A as "Controller"
 participant B as "actor : Actor"
 participant D as "item : Item"
-participant R as "room : Room"
 participant C as "state : ActionState"
 
-A -> B : useItem(item)
-B -> C : useItem(item)
+A -> B : use(item)
+B -> C : use(item)
 C -> D : use(actor)
-ref over B, D, R : Use Item
-ref over D : DeleteItem
+ref over D : Delete Item
 
 return
 return

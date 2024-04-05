@@ -10,6 +10,7 @@ participant C as "state : ActionState"
 participant I as "inventory : Inventory"
 participant D as "item : Item"
 participant E as "room : Room"
+participant F as "roomInventory : Inventory"
 
 A -> B : drop(item)
 B -> C : drop(item)
@@ -19,9 +20,11 @@ C -> I : removeItem(item)
 return item
 C -> B : getLocation()
 return room
-C -> D : onDrop(room)
-D -> E : addItem(item)
+C -> E : addItem(item)
+E -> D : onDrop(room)
+return
 
+E -> F : addItem(item)
 return true
 return
 return

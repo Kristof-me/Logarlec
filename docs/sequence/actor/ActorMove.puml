@@ -2,33 +2,53 @@
 header Actor move
 
 hide footbox
-autoactivate on
 
 actor A as "Controller"
 participant G as "actor : Actor"
 participant C as "state : ActionState"
 participant D as "door: Door"
 participant E as "roomFrom : Room"
-participant B as "professor : Professor"
 participant F as "roomTo : Room"
+participant H as "effect : RoomEffect"
+participant I as "other : Actor"
 
-A -> G : move(door)
-G -> B : move(door)
-B -> C : move(door)
-C -> D : leadsTo(roomFrom)
+A -> G ++: move(door)
+G -> C ++: move(door)
+C -> G ++: getLocation()
+return roomFrom
+C -> D ++: leadsTo(roomFrom)
 return roomTo
-C -> F : enter(actor)
-ref over B, F : Apply Room Effects
+C -> D ++: move(actor, roomTo)
+D -> G ++: getLocation()
+return roomFrom
+D -> F ++: enter(actor, false)
+F -> F : isFull()
+
+opt isFull == false
+    loop foreach effect in roomTo.roomEffects
+        F -> H ++: addEffect(actor)
+        return
+    end
+
+    loop foreach other in roomTo.actors
+        F -> I ++ : attack()
+
+        ref over I
+            Actor Attack
+        end ref
+        return
+    end
+end
+
+
 return isSuccessful
+return isSuccessful
+
 opt isSuccessful
-    C -> E : leave(actor)
-    return    
-    C -> F : attack(professor)
-    ref over B, F : Attack Room
+    C -> E ++: leave(actor)
     return
 end
 
-return
 return
 return
 

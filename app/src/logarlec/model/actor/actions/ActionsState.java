@@ -96,7 +96,8 @@ public abstract class ActionsState implements IActions {
     public boolean pickUp(Item item) {
         Logger.preExecute(this, "pickUp", item);
 
-        Item targetItem = actor.getLocation().removeItem(item);
+        Room room = actor.getLocation();
+        Item targetItem = room.removeItem(item);
 
         if (targetItem == null) {
             return Logger.postExecute(false);
@@ -111,7 +112,7 @@ public abstract class ActionsState implements IActions {
             item.onPickup(actor);
         } else {
             // put it back in the room
-            actor.getLocation().addItem(targetItem);
+            room.addItem(targetItem);
         }
 
         return Logger.postExecute(success);

@@ -22,7 +22,7 @@ return studentInventory
 beer -> student ++ : getLocation()
 return room
 ref over student, beer, studentInventory, room : ActorDropItem
-ref over beer : DeleteItem
+ref over beer : Delete Item
 return 
 
 return
