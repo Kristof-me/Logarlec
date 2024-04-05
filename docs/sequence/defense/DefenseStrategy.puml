@@ -1,0 +1,26 @@
+@startuml DefenseStrategy
+header Defense Startegy
+hide footbox
+
+actor room as "Invoker"
+participant student as "actor : Actor"
+participant defense as "defenseStrategy : DefenseStrategy"
+participant inventory as "inventory : Inventory"
+
+/' 
+itt a probléma az, hogy ez nem így van implementálva, hanem
+a leszármazottaknál eltérő az implementáció, de ha a defense stategy null
+például az otatónál és ezért nem fut le, akkor egészen más a helyzet
+
+de különben nem tudom hogyan kéne az 1. diagram problémáját kijavítani
+'/
+
+room -> student ++: attacked()
+
+'opt defenseStrategy != null
+student -> defense ++: defend(inventory)
+return success
+'end
+
+return 
+@enduml

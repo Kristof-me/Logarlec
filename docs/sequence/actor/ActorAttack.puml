@@ -1,15 +1,19 @@
-@startuml AddRoomEffect
+@startuml ActorAttack
 header Actor Attack
 hide footbox
 autoactivate on
 
-actor P as "Actor"
+actor C as "Controller"
+participant P as "attacker: Actor"
 participant S as "state : ActionState"
 participant R as "room : Room"
 participant A as "actor : Actor"
 
-P -> S++ : attack(actor)
-S -> R++ : attack(actor)
+C -> P : attack()
+P -> S ++: attack()
+S -> P ++: getLocation()
+return room
+S -> R ++: attack(attacker)
 loop foreach actor in room.actors
     R -> A ++: attacked()
     ref over A : Defense Strategy
