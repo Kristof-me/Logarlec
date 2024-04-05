@@ -11,5 +11,6 @@ participant C as "state : StunnedStep"
 A -> B : drop(item)
 B -> C : drop(item)
 return
+return
 
 @enduml

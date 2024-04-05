@@ -6,7 +6,7 @@ autoactivate on
 actor P as "professor : Professor"
 participant S as "state : StunnedStep"
 
-P -> S : attack(professor)
+P -> S : attack()
 return
 
 @enduml
