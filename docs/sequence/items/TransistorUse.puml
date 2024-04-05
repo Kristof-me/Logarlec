@@ -6,8 +6,6 @@ actor controller
 participant actor as "actor : Actor"
 participant state as "actionState : ActionState"
 participant t1 as "transistorA : Transistor"
-participant t2 as "transistorB : Transistor"
-participant location as "location : Room"
 
 controller -> actor++: use(transistor)
 actor -> state ++: use(transistor)
@@ -16,7 +14,13 @@ state -> t1++: use(actor)
 alt Picked up
     t1 -> actor++: getInventory()
     return inventory
-    ref over t1: ItemFinding
+
+    create finder as "finder : TransistorPairFinder"
+    t1 -> finder : <<create>>
+    ref over t1, finder: Item Finding
+
+participant t2 as "transistorB : Transistor"
+participant location as "location : Room"
 
     opt  transistorB != null
         t1 -> t1: pairWith(TransistorB)

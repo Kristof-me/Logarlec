@@ -17,12 +17,8 @@ create beerDefense as "beerDefense : BeerDefense"
 beer --> beerDefense : <<create>>
 beer -> student ++ : setDefenseStrategy(beerDefense)
 return 
-beer -> student ++ : getInventory()
-return studentInventory
-beer -> student ++ : getLocation()
-return room
-ref over student, beer, studentInventory, room : ActorDropItem
-ref over beer : Delete Item
+
+ref over beer, studentInventory : Delete Item
 return 
 
 return

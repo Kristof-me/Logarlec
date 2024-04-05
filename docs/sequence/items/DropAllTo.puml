@@ -10,6 +10,8 @@ participant Item as "item : Item"
 Actor -> Inventory++: dropAll(room)
 loop foreach Item
     Inventory -> Room++: addItem(item)
+    Room -> Item ++: onDrop(room)
+    return
     return true
     Inventory -> Inventory : removeItem(item)
 end

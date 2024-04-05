@@ -2,17 +2,10 @@
 header Door reappear
 hide footbox
 
-actor time as "TimePassing"
-participant room as "room : Room"
+actor time as "Room"
 participant door as "door : Door"
 
-time -> room ++: tick()
- 
-ref over room
-    Room effect ticking
-end ref
-room -> door ++: tick()
-return
+time -> door ++: tick()
 return
 
 @enduml

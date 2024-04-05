@@ -14,9 +14,12 @@ state -> camembert++: use(actor)
 camembert -> actor++: getLocation()
 return room
 
-ref over camembert, room : Apply effect
-ref over camembert : DeleteItem
+create gasEffect as "gasEffect : GasEffect"
+camembert --> gasEffect : <<create>>
+ref over camembert, room : Add room effect
+ref over camembert : Delete Item
 
+return
 return
 return
 

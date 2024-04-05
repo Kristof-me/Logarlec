@@ -8,14 +8,16 @@ participant r1 as "room1 : Room"
 gm -> r1 ++ : split()
 
 create r2 as "room2 : Room"
-r1 --> r2 : Room(capacity)
+r1 --> r2 ++: Room(capacity)
+create r2i as "room2inventory : Inventory"
+r2 --> r2i --: <<create>>
 
 create d as "door : Door"
 r1 --> d : Door(room1, room2)
 
 ' az ajtó hozzáadás ezek szerint belső működés
 
-loop for each effect
+loop foreach effect in room1.roomEffects
     r1 --> r2 ++ : addEffect(effect)
     return
 end

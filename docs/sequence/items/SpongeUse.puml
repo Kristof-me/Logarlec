@@ -14,6 +14,8 @@ state -> sponge++: use(actor)
 sponge -> actor++: getLocation()
 return room
 
+create wetEffect as "wetEffect : WetEffect"
+sponge --> wetEffect : <<create>>
 ref over sponge, room : Add room effect
 ref over sponge : Delete item
 
