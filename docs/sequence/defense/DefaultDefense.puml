@@ -20,15 +20,10 @@ end ref
 alt item == null
     defense --> student : false
 else item != null
-defense --> student : true
-    deactivate defense
-    student -> item: use(actor)
-    activate item
-    item --> student
-    deactivate item
-    
+    defense -> item ++: use(actor)
+    return 
+    return true
 end
-
 
 student --> prof
 deactivate student

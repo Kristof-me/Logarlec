@@ -10,7 +10,7 @@ participant inventory as "inventory : Inventory"
 
 prof -> student ++ : attacked()
 student -> beerDefense ++ : defend(inventory)
-return 
+return true
 return
 
 @enduml
