@@ -250,9 +250,15 @@ public class Room implements IHasLocation {
 
         // tick the effects
         for (int i = 0; i < roomEffects.size(); i++) {
-            if (roomEffects.get(i).tick() == false) {
+            RoomEffect effect = roomEffects.get(i);
+            if (effect.tick() == false) {
                 roomEffects.remove(i);
                 i--;
+            } else {
+                for (Actor actor : actors) {
+                    effect.addEffect(actor);
+                }
+
             }
         }
 
