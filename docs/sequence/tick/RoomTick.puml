@@ -6,6 +6,7 @@ actor time as "TimePassing"
 participant room as "room : Room"
 participant effect as "roomEffect : RoomEffect"
 participant actor as "actor : Actor"
+participant door as "door : Door"
 
 time -> room ++: tick()
 loop for each door in room
@@ -16,26 +17,22 @@ loop for each roomEffect
     room -> effect ++: tick()
     return active
 
-    alt active
+    alt active == true
         loop for each actor 
             room -> effect ++: addEffect(actor)
 
-            ' ennek illeszkednie kell a RoomEffectToActor/Professor/Student diagramhoz
             effect -> actor ++ : acceptEffect(effect, unless)
-            
-            ref over actor, effect 
-                Room effect to actor
-            end ref
+            ' ennek így kéne működnie, de nem így kódoltuk le ...
             
             return 
             return
         end
-    else
-        ' ide kéne, hogy eltávolítjuk az effektet, de ez belső működés
+    else active == false
+        room -> effect
+        destroy effect
     end
 end
 return
  
-participant stillActive as "stillActive : boolean"
 participant unless as "unless : List<ItemFinder>"
 @enduml

@@ -10,6 +10,7 @@ participant D as "door : Door"
 participant C as "state : StunnedStep"
 A -> B : move(door)
 B -> C : move(door)
-return
+return false
+return false
 
 @enduml

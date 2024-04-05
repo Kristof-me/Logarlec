@@ -10,6 +10,7 @@ participant D as "item : Item"
 participant C as "state : StunnedStep"
 A -> B : pickUp(item)
 B -> C : pickUp(item)
-return
+return false
+return false
 
 @enduml
