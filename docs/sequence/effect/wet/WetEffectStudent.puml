@@ -4,18 +4,23 @@ hide footbox
 
 actor Controller as "Invoker"
 participant Room as "room : Room"
-participant List as "itemFinders : List<ItemFinder>"
 participant Actor as "student : Student"
-participant GasEffect as "wetEffect : WetEffect"
+participant WetEffect as "wetEffect : WetEffect"
 
-Controller -> Room : enter(student)
-activate Room
+Controller -> Room ++: enter(student, false)
+Room -> Room : isFull()
 
-Room -> Actor++: acceptEffect(wetEffect, itemFinders)
-Actor -> GasEffect++: applyEffect(student)
+opt isFull == false
 
+Room -> WetEffect ++: addEffect(professor)
+WetEffect -> Actor++: acceptEffect(wetEffect, Null)
+Actor -> WetEffect++: applyEffect(student)
 return
 return
 return
+
+end
+
+return success
 
 @enduml

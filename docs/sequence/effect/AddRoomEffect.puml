@@ -7,7 +7,15 @@ participant Room as "room : Room"
 create RoomEffect as "effect : RoomEffect"
 
 Actor --> RoomEffect: <<create>>
-Actor -> Room++: addEffect(roomEffect)
+
+participant A as "actor : Actor"
+
+Actor -> Room++: addEffect(effect)
+loop foreach actor in room.actors
+    Room -> A ++: addEffect(effect)
+    return    
+end
+
 return
 
 
