@@ -23,34 +23,30 @@ hide footbox
 
 actor gm as "GameManager"
 participant r1 as "room1 : Room"
+participant effect as "roomEffect : RoomEffect"
+participant r1i as "room1inventory : Inventory"
 participant r2 as "room2 : Room"
 participant act as "actor : Actor"
-participant effect as "roomEffect : RoomEffect"
-participant item as "item : Item"
+participant d as "door : Door"
 
 gm -> r1 ++ : merge(room2)
 
-loop for each effect
+loop foreach effect in room1.roomEffects
     r1 -> r2 ++ : addEffect(roomEffect)
     return
 end
 
-loop for each item
-    r1 -> item ++ : onDrop(room2)
-    return
-    r1 -> r2 ++ : addItem(item)
-    'itt ugye még van az inventory-val is kommunikáció
-    'de azt lehet holnap megcsinálom és itt csak referálok rá
-    
-    return
-    
-    r1 -> r1 : removeItem(item)
-end
+r1 -> r1i ++: droppAll(room2)
+    ref over r1i, r2
+        DropAllTo
+    end ref
+return
 
-loop for each actor
+loop foreach actor in room1.actors
     r1 -> act ++: teleport(room2, true)
     return
 end
 
+' door update is missing, it's too much work and not necessary (I guess)
 
 @enduml
