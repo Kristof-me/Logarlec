@@ -9,16 +9,16 @@ participant actor as "actor : Actor"
 participant door as "door : Door"
 
 time -> room ++: tick()
-loop for each door in room
+loop foreach door in room.doors
     room -> door++ : tick()
     return
 end
-loop for each roomEffect
+loop foreach roomEffect in 
     room -> effect ++: tick()
     return active
 
     alt active == true
-        loop for each actor 
+        loop foreach actor room.actors
             room -> effect ++: addEffect(actor)
 
             effect -> actor ++ : acceptEffect(effect, unless)
@@ -32,7 +32,9 @@ loop for each roomEffect
         destroy effect
     end
 end
-return
- 
+
+room --> time
+deactivate room
+
 participant unless as "unless : List<ItemFinder>"
 @enduml
