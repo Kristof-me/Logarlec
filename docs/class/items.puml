@@ -4,7 +4,6 @@ skinparam classAttributeIconSize 0
 'Items --------------------------------------------
 abstract class Item {
     - usesLeft : int
-    - isFake : boolean
 
     + use(invoker: Actor): void
     + getUsesLeft() : int
@@ -26,7 +25,7 @@ class Tvsz {
 }
 
 class SlideRule {
-    + onPickup(actor: Actor): void
+    + onPickup(actor: Actor) : void
     + accept(visitor: ItemVisitor): void
 }
 
@@ -65,8 +64,10 @@ class AirFreshener {
     + accept(visitor: ItemVisitor): void
 }
 
-abstract class Inventory {
-
+class FakeItem {
+    - itemToFake: Item
+    + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
 }
 
 Item <|-- Sponge
@@ -78,6 +79,7 @@ Item <|-- GasMask
 Item <|-- Transistor
 Item <|-- Camembert
 Item <|-- AirFreshener
+Item <|-- FakeItem
 
 Inventory "1" -- "0..*" Item
 

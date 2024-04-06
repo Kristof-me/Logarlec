@@ -1,0 +1,23 @@
+@startuml FakeItemUse
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Fake Item Use
+
+actor controller as "Controller"
+participant actor as "actor : actor"
+participant state as "actionState : ActionState"
+participant fake as "fakeItem : FakeItem"
+controller -> actor++: use(fakeItem)
+
+actor -> state++: use(fakeItem)
+
+state -> fake++: use(actor)
+note over fake: Nothing happens
+return
+
+return
+return
+
+hide footbox
+@enduml
