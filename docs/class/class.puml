@@ -4,7 +4,6 @@ skinparam classAttributeIconSize 0
 'Items --------------------------------------------
 abstract class Item {
     - usesLeft : int
-    - isFake: boolean
 
     + use(invoker: Actor): void
     + getUsesLeft() : int
@@ -65,6 +64,12 @@ class AirFreshener {
     + accept(visitor: ItemVisitor): void
 }
 
+class FakeItem {
+    - itemToFake: Item
+    + use(invoker: Actor): void
+    + accept(visitor: ItemVisitor): void
+}
+
 Item <|-- Sponge
 Item <|-- Tvsz
 Item <|-- SlideRule
@@ -74,6 +79,7 @@ Item <|-- GasMask
 Item <|-- Transistor
 Item <|-- Camembert
 Item <|-- AirFreshener
+Item <|-- FakeItem
 
 'Inventory ----------------------------------------
 class Inventory {
