@@ -28,7 +28,7 @@ loop foreach roomEffect in
             return
         end
     else active == false
-        room -> effect
+        room -> effect : <<destroy>>
         destroy effect
     end
 end

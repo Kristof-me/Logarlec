@@ -1,0 +1,30 @@
+@startuml StickyEffect
+header Add sticky effect to room
+hide footbox
+
+participant Room as "room : Room"
+participant Actor as "actor : Actor"
+participant effect as "effect : StickyEffect"
+
+-> Room
+activate Room
+
+Room -> effect ++: addEffect(actor)
+effect -> Actor++: acceptEffect(effect, Null)
+Actor -> effect ++: applyEffect(actor)
+
+effect -> effect : checkLimit()
+
+/' TODO
+review-ra ez kérdés
+itt az issue azt írja, hogy a room-tól kéne kérni, hogy hányan vannak benne
+szerintem sokkal egyszerűbb, ha a sticky effect számon tartja, hogy hány emberre pakolódott rá eddig
+és pl. a tick-jét lehetne úgy felül írni az ősnek, hogy az megtartja a számlálót
+'/
+
+return
+return
+return
+return
+
+@enduml
