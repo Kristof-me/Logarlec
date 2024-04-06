@@ -2,3 +2,4 @@ app/bin/*
 *.class
 output.puml
 out/*
+data/output/*

@@ -1,0 +1,28 @@
+Test cases:
+1. Beer Defense
+2. Beer Effect Ticks
+3. Door Appear
+4. Gas Effect Ticks
+5. Professor Moves
+6. Professor Moves to Room with Professor
+7. Professor Steps into Wet Room
+8. Professor Moves to a Gased Room with Gasmask
+9. Professor Gets Wet
+10. Two Rooms merge with one of them having Wet effect and the other with Gas effect
+11. Room splits with Two Students, without any effects
+12. Room splits with Two Students, with Wet and Gas Effects
+13. Student Drops Transistor
+14. Student Uses a Camembert with no Gasmask
+15. Student Item Pickup
+16. Student Moves
+17. Student Moves to Empty Wet Room
+18. Student Moves to Room with Student
+19. Student Moves to Room with TVSZ
+20. Student Pairs Transistor
+21. Rooms merge with one Student in each, enough room for both Students
+22. Student Uses Beer
+23. Student Uses Cocktail
+24. Student Uses Transistor
+25. Use Sponge
+Press 'q' to exit
+Selected = 
