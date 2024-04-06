@@ -209,12 +209,14 @@ class WetEffect {
     + applyEffect(professor: Professor) : void
     + applyEffect(student: Student) : void
     + applyEffect(janitor: Janitor) : void
+    + clean(): boolean
 }
 
 class GasEffect {
     + applyEffect(professor: Professor) : void
     + applyEffect(student: Student) : void
     + applyEffect(janitor: Janitor) : void
+    + clean(): boolean
 }
 
 class StickyEffect {
@@ -222,6 +224,7 @@ class StickyEffect {
     + applyEffect(professor: Professor) : void
     + applyEffect(student: Student) : void
     + applyEffect(janitor: Janitor) : void
+    + clean(): boolean
 }
 
 'State --------------------------------------------
