@@ -18,8 +18,8 @@ import logarlec.model.room.*;
 public class TestRunner {
     private List<Entry<Test, Method>> cases = new ArrayList<>();
     private static final String EXIT = "q";
-    private InputStreamReader isr = new InputStreamReader(System.in);
-    private BufferedReader br = new BufferedReader(isr);
+    private InputStreamReader isr = Logger.isr;
+    private BufferedReader br = Logger.br;
 
     /**
      * Constructor for TestRunner class.
@@ -60,8 +60,6 @@ public class TestRunner {
      * Starts a loop that allows the user to select and run test cases.
      */
     public void startTesting() {
-        InputStreamReader isr = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(isr);
         String input = "";
 
         // printing the test cases for the first time
@@ -97,13 +95,6 @@ public class TestRunner {
                     System.err.println("Test failed: " + e.getClass().toString());
                 }
             }
-        }
-
-        try {
-            br.close();
-            isr.close();
-        } catch (Exception e) {
-            System.err.println("Error closing the input stream: " + e.getMessage());
         }
 
         System.exit(0);
