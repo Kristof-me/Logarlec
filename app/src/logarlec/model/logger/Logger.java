@@ -219,7 +219,6 @@ public class Logger {
                 // ask for a value
                 System.out.print(fieldToString(field, type, state));
                 String line = br.readLine();
-                System.out.println(line);
 
                 // try to set the value
                 Object value = parseInput(line, type, state.min(), state.max());
