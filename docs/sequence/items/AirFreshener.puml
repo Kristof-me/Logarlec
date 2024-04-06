@@ -1,0 +1,42 @@
+@startuml AirFreshenerUse
+header Air freshener use
+hide footbox
+
+actor controller as "Controller"
+participant student as "student : Student"
+participant actionState as "studentActions : StudentActions"
+participant af as "freshener : AirFreshener"
+participant studentInventory as "studentInventory : Inventory"
+participant room as "room : Room"
+participant effect as "effect : RoomEffect"
+
+controller -> student ++ : use(freshener)
+student -> actionState ++ : use(freshener)
+actionState -> af ++ : use(student)
+
+af -> student ++ : getLocation()
+return room
+
+af -> room ++ : clean()
+
+loop foreach effect in room.roomEffects
+    room -> effect ++ : clean()
+    return isCleanable
+
+    opt isCleanable == true
+        room -> effect : <<destroy>>
+        destroy effect
+    end
+end
+
+return success
+
+opt success == true
+    ref over af, studentInventory : Delete Item
+end
+
+return
+return
+return
+
+@enduml
