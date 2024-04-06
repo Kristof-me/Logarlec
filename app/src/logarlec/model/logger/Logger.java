@@ -19,8 +19,8 @@ public class Logger {
     static Deque<String> remainingNames = new ArrayDeque<>();
     static Map<Object, String> instanceNames = new HashMap<>();
 
-    static InputStreamReader isr = new InputStreamReader(System.in);
-    static BufferedReader br = new BufferedReader(isr);
+    public static InputStreamReader isr = new InputStreamReader(System.in);
+    public static BufferedReader br = new BufferedReader(isr);
 
     // ------------------------------------------------
     // Instance names
@@ -219,6 +219,7 @@ public class Logger {
                 // ask for a value
                 System.out.print(fieldToString(field, type, state));
                 String line = br.readLine();
+                System.out.println(line);
 
                 // try to set the value
                 Object value = parseInput(line, type, state.min(), state.max());
