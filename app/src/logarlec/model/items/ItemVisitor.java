@@ -18,4 +18,8 @@ public abstract class ItemVisitor {
     public void visit(Transistor transistor) {}
 
     public void visit(Camembert camembert) {}
+
+    public void visit(FakeItem fakeItem) {}
+
+    public void visit(AirFreshener airFreshener) {}
 }

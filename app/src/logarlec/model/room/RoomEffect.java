@@ -2,6 +2,7 @@ package logarlec.model.room;
 
 import logarlec.model.actor.Actor;
 import logarlec.model.actor.Professor;
+import logarlec.model.actor.Janitor;
 import logarlec.model.actor.Student;
 import logarlec.model.logger.Logger;
 import logarlec.model.logger.State;
@@ -39,7 +40,11 @@ public abstract class RoomEffect {
 
     public abstract void addEffect(Actor actor);
 
+    public abstract boolean clean();
+
     public abstract void applyEffect(Professor professor);
 
     public abstract void applyEffect(Student student);
+
+    public abstract void applyEffect(Janitor janitor);
 }
