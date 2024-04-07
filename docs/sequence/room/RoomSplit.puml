@@ -1,9 +1,13 @@
 @startuml RoomSplit
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Room Split
 hide footbox
 
 actor gm as "GameManager"
 participant r1 as "room1 : Room"
+participant ef1 as "roomEffect1 : RoomEffect"
 
 gm -> r1 ++ : split()
 
@@ -18,7 +22,11 @@ r1 --> d : Door(room1, room2)
 ' az ajtó hozzáadás ezek szerint belső működés
 
 loop foreach effect in room1.roomEffects
-    r1 --> r2 ++ : addEffect(effect)
+    r1 -> ef1++: copy()
+    create ef2 as "roomEffect2 : RoomEffect"
+    ef1 --> ef2: <<create>>
+    return roomEffect2
+    r1 -> r2 ++ : addEffect(roomEffect2)
     return
 end
 return

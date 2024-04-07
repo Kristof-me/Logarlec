@@ -1,7 +1,6 @@
 @startuml Room
 skinparam classAttributeIconSize 0
 
-
 'Inventory ----------------------------------------
 class Inventory {
     - size : int
@@ -79,6 +78,7 @@ abstract class RoomEffect {
     + {abstract} applyEffect(professor: Professor) : void
     + {abstract} applyEffect(student: Student) : void
     + {abstract} applyEffect(janitor: Janitor) : void
+    + {abstract} copy() : RoomEffect
 }
 ' tick returns false when the effect expires
 
@@ -91,6 +91,7 @@ class WetEffect {
     + applyEffect(professor: Professor) : void
     + applyEffect(student: Student) : void
     + applyEffect(janitor: Janitor) : void
+    + copy() : RoomEffect
     + clean(): boolean
 }
 
@@ -98,14 +99,17 @@ class GasEffect {
     + applyEffect(professor: Professor) : void
     + applyEffect(student: Student) : void
     + applyEffect(janitor: Janitor) : void
+    + copy() : RoomEffect
     + clean(): boolean
 }
 
 class StickyEffect {
+    - visitant : List<Actor>
     - checkLimit() : boolean
     + applyEffect(professor: Professor) : void
     + applyEffect(student: Student) : void
     + applyEffect(janitor: Janitor) : void
+    + copy() : RoomEffect
     + clean(): boolean
 }
 

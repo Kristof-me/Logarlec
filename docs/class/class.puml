@@ -226,6 +226,7 @@ class GasEffect {
 }
 
 class StickyEffect {
+    - visitant : List<Actor>
     - checkLimit() : boolean
     + applyEffect(professor: Professor) : void
     + applyEffect(student: Student) : void

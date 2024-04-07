@@ -1,4 +1,7 @@
 @startuml AirFreshenerUse
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Air freshener use
 hide footbox
 
@@ -21,12 +24,9 @@ af -> room ++ : clean()
 
 loop foreach effect in room.roomEffects
     room -> effect ++ : clean()
-    return isCleanable
-
-    opt isCleanable == true
-        room -> effect : <<destroy>>
-        destroy effect
-    end
+    effect -> room ++ : removeEffect(effect)
+    return
+    return success
 end
 
 return success

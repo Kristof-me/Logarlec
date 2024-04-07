@@ -1,4 +1,7 @@
 @startuml ActorPickupItem
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Actor Pickup Item
 
 hide footbox
@@ -15,7 +18,6 @@ B -> C ++: pickUp(item)
 C -> B ++: getLocation()
 return room
 C -> E ++: removeItem(item)
-E -> E : isSticky()
 alt isSticky == true
     E --> C : Null 
     C --> B : false
