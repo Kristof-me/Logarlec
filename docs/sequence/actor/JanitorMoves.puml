@@ -1,4 +1,7 @@
 @startuml JanitorEnters
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Janitor enters Room
 
 hide footbox
@@ -29,11 +32,11 @@ R2 -> R2 : isFull()
 opt isFull == false
     loop foreach effect in roomTo.roomEffects
         R2 -> E ++: addEffect(janitor)
+            ref over R2,E
+                Janitor removes Gas effect from Room
+            end ref
         return
 
-        ref over R2,E
-            Janitor removes Gas effect from Room
-        end ref
     end
 
     loop foreach other in roomTo.actors

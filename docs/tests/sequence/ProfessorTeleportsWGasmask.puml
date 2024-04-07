@@ -5,7 +5,7 @@ skinparam HeaderFontStyle bold
 header Professor Moves to a Gased Room with Gasmask
 hide footbox
 
-participant professor as "prof : professor"
+participant professor as "prof : Professor"
 participant inv as "profInv : Inventory"
 participant gasMask as "gasMask : GasMask"
 participant R1 as "room1 : Room"
