@@ -1,6 +1,7 @@
 package logarlec.model.room;
 
 import logarlec.model.actor.Actor;
+import logarlec.model.actor.Janitor;
 import logarlec.model.actor.Professor;
 import logarlec.model.actor.Student;
 import logarlec.model.logger.Logger;
@@ -51,6 +52,17 @@ public class GasEffect extends RoomEffect {
     }
 
     /**
+     * Apply the effect to the janitor.<br>
+     * Based on visitor pattern
+     */
+    @Override
+    public void applyEffect(Janitor janitor) {
+        Logger.preExecute(this, "applyEffect", janitor);
+        janitor.dropAllTo(janitor.getLocation());
+        Logger.postExecute();
+    }
+
+    /**
      * Add effect on an actor.
      */
     @Override
@@ -65,5 +77,11 @@ public class GasEffect extends RoomEffect {
     public boolean tick() {
         Logger.preExecute(this, "tick");
         return Logger.postExecute(super.tick());
+    }
+
+    @Override
+    public boolean clean(){
+        Logger.preExecute(this, "clean");
+        return Logger.postExecute(true); // cleanable
     }
 }

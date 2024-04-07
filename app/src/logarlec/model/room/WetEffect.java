@@ -1,6 +1,7 @@
 package logarlec.model.room;
 
 import logarlec.model.actor.Actor;
+import logarlec.model.actor.Janitor;
 import logarlec.model.actor.Professor;
 import logarlec.model.actor.Student;
 import logarlec.model.actor.actions.StunnedStep;
@@ -47,6 +48,19 @@ public class WetEffect extends RoomEffect {
     }
 
     /**
+     * Apply the effect to a Jantitor (visitor pattern, so this is an empty
+     * implementation)
+     * 
+     * @param student the Janitor to apply the effect to
+     */
+    @Override
+    public void applyEffect(Janitor janitor) {
+        Logger.preExecute(this, "applyEffect", janitor);
+        Logger.postExecute();
+
+    }
+
+    /**
      * Add the effect to an Actor (visitor pattern)
      * 
      * @param actor the Actor to add the effect to
@@ -63,5 +77,11 @@ public class WetEffect extends RoomEffect {
     public boolean tick() {
         Logger.preExecute(this, "tick");
         return Logger.postExecute(super.tick());
+    }
+
+    @Override
+    public boolean clean(){
+        Logger.preExecute(this, "clean");
+        return Logger.postExecute(false); // no cleanable
     }
 }
