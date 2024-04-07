@@ -5,12 +5,12 @@ create room <u>name</u> [-c <u>capacity</u>]
 create (professor | student) <u>name</u> <u>spawn-room</u> [-i <u>inventory-size</u>]  
 create janitor <u>name</u> <u>spawn-room</u>  
 create door <u>name</u> <u>room-1</u> <u>room-2</u> [-o | --one-way]  
-create (slidrule | gas-mask | tvsz | transistor | beer | camambert | cocktail | sponge) <u>name</u> (<u>actor</u> | <u>room</u>) [-u <u>uses-left</u>] [-f]  
+create (slidrule | gas-mask | tvsz | transistor | beer | camambert | cocktail | sponge) <u>name</u> (<u>actor</u> | <u>room</u>) [-u <u>uses-left</u>] [-f | --fake]  
 
 Name  
 effect - add effect to an actor or room  
 Synopsis  
-effect (<u>gas</u> | <u>wet</u> | <u>sticky</u>) <u>room</u> [-t <u>time-left</u>]  
+effect (gas | wet | sticky) <u>room</u> [-t <u>time-left</u>]  
 effect stun (<u>student</u> | <u>janitor</u>) [-t <u>time-left</u>]  
 
 Name  
