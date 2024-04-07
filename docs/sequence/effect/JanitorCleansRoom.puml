@@ -1,4 +1,7 @@
 @startuml JanitorCleansRoom
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Janitor removes Gas effect from Room
 
 hide footbox
@@ -22,5 +25,5 @@ return
 
 destroy G
 
-<- R
+<-- R
 @enduml

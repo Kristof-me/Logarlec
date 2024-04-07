@@ -25,7 +25,6 @@ abstract class Actor {
 
 }
 
-
 class Room {
     - capacity : int
     - isSticky : boolean
@@ -43,6 +42,7 @@ class Room {
 
     + addItem(item: Item) : void
     + removeItem(item: Item) : Item
+    + close() : void
     + clean() : boolean
     + tick() : void
 }
