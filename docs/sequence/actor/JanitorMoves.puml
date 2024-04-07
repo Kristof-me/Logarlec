@@ -1,0 +1,70 @@
+@startuml JanitorEnters
+header Janitor enters Room
+
+hide footbox
+
+actor C as "Controller"
+participant J as "janitor : Janitor"
+participant S as "state : JanitorActions"
+participant D as "door: Door"
+participant R1 as "roomFrom : Room"
+participant R2 as "roomTo : Room"
+participant E as "effect : RoomEffect"
+participant O as "other : Actor"
+participant ND as "neighbourDoor : Door"
+participant NR as "neighbourRoom : Room"
+
+C -> J ++: move(door)
+J -> S ++: move(door)
+S -> J ++: getLocation()
+return roomFrom
+S -> D ++: leadsTo(roomFrom)
+return roomTo
+S -> D ++: move(janitor, roomTo)
+D -> J ++: getLocation()
+return roomFrom
+D -> R2 ++: enter(janitor, false)
+R2 -> R2 : isFull()
+
+opt isFull == false
+    loop foreach effect in roomTo.roomEffects
+        R2 -> E ++: addEffect(janitor)
+        return
+    end
+
+    loop foreach other in roomTo.actors
+        R2 -> O ++ : attack()
+
+        ref over O
+            Actor Attack
+        end ref
+        return
+    end
+end
+
+
+return isSuccessful
+return isSuccessful
+
+opt isSuccessful
+    S -> R2 ++: close()
+
+        loop foreach neighbourDoor in roomTo.doors
+            loop forech actor in roomTo.actors
+                R2 -> ND ++: leadsTo(roomTo)
+                return neighbourRoom
+                R2 -> NR ++: move(actor,neighbourDoor)
+                return isSuccessful
+            end
+        end
+    return
+
+    S -> R1 ++: leave(janitor)
+    return
+end
+
+return
+return
+
+@enduml
+
