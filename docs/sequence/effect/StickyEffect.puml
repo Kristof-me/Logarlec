@@ -1,4 +1,7 @@
 @startuml StickyEffect
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Add sticky effect to room
 hide footbox
 
@@ -15,11 +18,9 @@ Actor -> effect ++: applyEffect(actor)
 
 effect -> effect : checkLimit()
 
-/' TODO
-review-ra ez kérdés
-itt az issue azt írja, hogy a room-tól kéne kérni, hogy hányan vannak benne
-szerintem sokkal egyszerűbb, ha a sticky effect számon tartja, hogy hány emberre pakolódott rá eddig
-és pl. a tick-jét lehetne úgy felül írni az ősnek, hogy az megtartja a számlálót
+/'
+Úgy működik, hogy van egy listánk, amibe ha az ember új, akkor letároljuk
+és így meg tudjuk számolni hány új látogató jött a szobába
 '/
 
 return

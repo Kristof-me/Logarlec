@@ -105,6 +105,7 @@ public class Door {
     public void tick() {
         Logger.preExecute(this, "tick");
         if (remainingInvisibility > 0) {
+            // KÉT SZOBA HÍVJA A TICKET !!! VAGYIS CSAK MINDEN MÁSODIKRA FUTHAT LE
             remainingInvisibility--;
         }
         Logger.postExecute();

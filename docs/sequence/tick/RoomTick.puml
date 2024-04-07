@@ -1,4 +1,7 @@
 @startuml RoomTick
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
 header Room tick
 hide footbox
 
@@ -13,7 +16,7 @@ loop foreach door in room.doors
     room -> door++ : tick()
     return
 end
-loop foreach roomEffect in 
+loop foreach roomEffect in room.roomEffects
     room -> effect ++: tick()
     return active
 
