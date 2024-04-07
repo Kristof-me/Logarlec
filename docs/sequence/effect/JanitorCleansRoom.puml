@@ -1,0 +1,26 @@
+@startuml JanitorCleansRoom
+header Janitor removes Gas effect from Room
+
+hide footbox
+
+participant R as "room : Room"
+participant J as "janitor : Janitor"
+participant G as "gasEffect : GasEffect"
+
+-> R
+activate R 
+
+R -> G ++: addEffect(janitor)
+G -> J ++: acceptEffect(gasEffect, null)
+J -> G ++: applyEffect(janitor)
+    G -> R ++: removeEffect(gasEffect)
+    return
+
+return
+return
+return
+
+destroy G
+
+<- R
+@enduml
