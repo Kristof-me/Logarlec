@@ -30,6 +30,10 @@ opt isFull == false
     loop foreach effect in roomTo.roomEffects
         R2 -> E ++: addEffect(janitor)
         return
+
+        ref over R2,E
+            Janitor removes Gas effect from Room
+        end ref
     end
 
     loop foreach other in roomTo.actors
