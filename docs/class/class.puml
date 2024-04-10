@@ -3,7 +3,7 @@ skinparam classAttributeIconSize 0
 
 'Items --------------------------------------------
 abstract class Item {
-    - usesLeft : int
+    # usesLeft : int
 
     + use(invoker: Actor): void
     + getUsesLeft() : int
