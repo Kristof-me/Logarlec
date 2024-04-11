@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import logarlec.model.room.*;
+import logarlec.control.GameManager;
 import logarlec.control.Interpreter;
 import logarlec.model.actor.*;
 import logarlec.model.items.Inventory;
@@ -37,6 +38,16 @@ public class Create extends Command {
         if(type.getNestHost() == Item.class) { // handle items
             return handleItemCreation(type, variableName, remaining);
         }
+        if(type.getNestHost() == Actor.class) { // handle actors
+            return handleActorCreation(type, variableName, remaining);
+        }
+        if(type == Room.class) { // handle rooms
+            return handleRoomCreation(variableName, remaining);
+        }
+        if(type == Door.class) { // handle doors
+            return handleDoorCreation(variableName, remaining);
+        }
+
 
         return false;
     }
@@ -54,6 +65,7 @@ public class Create extends Command {
         put("student", Student.class);
         put("janitor", Janitor.class);
         put("door", Door.class);
+
         put("sliderule", SlideRule.class);
         put("gas-mask", GasMask.class);
         put("tvsz ", Tvsz.class);
@@ -127,5 +139,70 @@ public class Create extends Command {
     private Inventory getInventory(String inventoryName) {
         Entry<Class<?>, Object> inventoryHolder = findVariableMatching(hasInventory, inventoryName);
         return (Inventory) invoke(inventoryHolder, "getInventory").getKey();
+    }
+
+    private boolean handleActorCreation(Class<?> type, String variableName, String data) {
+        String[] remaining = data.split(" ", 2);
+
+        // get spawn-room
+        String spawnRoom = remaining[0];
+        Room room = (Room) findVariable(Room.class, spawnRoom).getValue();
+
+        if(room == null) {
+            return false;
+        }
+
+        // handling options
+        String options = null;
+        Integer inventorySize = null;
+        
+        if(remaining.length > 1 && remaining[1].contains("-i")) {
+            options = remaining[1].replaceAll("-i", "");
+            
+            // cause this is the last remaining value
+            inventorySize = Integer.parseInt(options.trim());   
+
+            // out of range error
+            if(inventorySize < 1 || inventorySize > 100 || type == Janitor.class) {
+                return false;
+            }
+        }
+
+        // create actor 
+        Actor actor = null;
+        try {
+            actor = (Actor) type.getConstructor().newInstance();
+        } catch (Exception e) {
+            return false;
+        }
+        
+        // name taken
+        if(Interpreter.getInstance().AddVariable(variableName, actor) == false) {
+            return false;
+        }
+
+        if(type == Student.class) {
+            GameManager.getInstance().AddStudent((Student) actor);
+        } else if(type == Professor.class) {
+            GameManager.getInstance().AddProfessor((Professor) actor);
+        } else if(type == Janitor.class) {
+            GameManager.getInstance().AddJanitor((Janitor) actor);
+        }
+
+        if(inventorySize != null) {
+            actor.getInventory().setSize(inventorySize);
+        }
+
+        return true;
+    }
+
+    private boolean handleDoorCreation(String variableName, String remaining) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'handleDoorCreation'");
+    }
+
+    private boolean handleRoomCreation(String variableName, String remaining) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'handleRoomCreation'");
     }
 }

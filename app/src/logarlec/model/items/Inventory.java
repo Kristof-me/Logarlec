@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 import logarlec.model.room.Room;
 
-
-
 /**
  * Inventory class that holds items. Both the actors and the rooms have an
  * inventory. <br>
@@ -79,7 +77,10 @@ public class Inventory {
     public void acceptVisitor(ItemVisitor visitor) {
         for (Item item : items) {
             item.accept(visitor);
-        }
-        
+        }   
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
     }
 }

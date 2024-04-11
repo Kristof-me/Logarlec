@@ -10,7 +10,7 @@ public class GameManager {
     private static GameManager instance;
     private boolean randomness = true;
 
-    private List<Student> players = new ArrayList<>();
+    private List<Student> students = new ArrayList<>();
     private List<Professor> professors = new ArrayList<>();
     private List<Janitor> janitors = new ArrayList<>();
     private List<Room> rooms = new ArrayList<>();
@@ -31,7 +31,7 @@ public class GameManager {
     }
     
     public boolean isGameOver() {
-        for (Student player : players) {
+        for (Student player : students) {
             if(player.isAlive()) {
                 return false;
             }
@@ -43,12 +43,28 @@ public class GameManager {
     }
 
     public void reset() {
-        players.clear();
+        students.clear();
         professors.clear();
         janitors.clear();
         rooms.clear();
 
         // TODO: implement this method
+    }
+
+    public void AddStudent(Student student) {
+        students.add(student);
+    }
+    
+    public void AddProfessor(Professor professor) {
+        professors.add(professor);
+    }
+
+    public void AddJanitor(Janitor janitor) {
+        janitors.add(janitor);
+    }
+
+    public void AddRoom(Room room) {
+        rooms.add(room);
     }
 
     public void setRandomness(boolean value) {
