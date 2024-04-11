@@ -4,9 +4,9 @@ import logarlec.model.actor.Actor;
 import logarlec.model.actor.Professor;
 import logarlec.model.actor.Janitor;
 import logarlec.model.actor.Student;
-import logarlec.model.logger.Logger;
-import logarlec.model.logger.State;
-import logarlec.model.logger.Uses;
+
+
+
 
 /**
  * Represents an effect that can be applied to a room. <br>
@@ -15,7 +15,6 @@ import logarlec.model.logger.Uses;
  * After a while these effects expire
  */
 public abstract class RoomEffect {
-    @State(name = "timeLeft", min = 0, max = Integer.MAX_VALUE)
     protected Integer timeLeft = null;
 
     /**

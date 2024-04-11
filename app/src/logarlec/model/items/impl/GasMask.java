@@ -4,7 +4,7 @@ import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
 
-import logarlec.model.logger.*;
+
 
 /**
  * A gas mask that will protect the player if it steps into a gased room.
@@ -14,8 +14,8 @@ import logarlec.model.logger.*;
 public class GasMask extends Item {
 
     public GasMask() {
-        Logger.preConstructor(this);
-        Logger.postConstructor(this);
+        
+        
     }
 
     /**
@@ -25,13 +25,11 @@ public class GasMask extends Item {
      * 
      * @param invoker The actor that has the gas mask
      */
-    @Uses(fields = { "usesLeft" })
     @Override
     public void use(Actor invoker) {
-        Logger.preExecute(this, "use", invoker);
         usesLeft--;
         super.use(invoker);
-        Logger.postExecute();
+        
     }
 
     /**
@@ -41,9 +39,8 @@ public class GasMask extends Item {
      */
     @Override
     public void accept(ItemVisitor visitor) {
-        Logger.preExecute(this, "accept", visitor);
         visitor.visit(this);
-        Logger.postExecute();
+        
     }
 
 }

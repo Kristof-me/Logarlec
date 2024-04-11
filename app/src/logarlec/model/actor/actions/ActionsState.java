@@ -6,8 +6,6 @@ import logarlec.model.room.Door;
 import logarlec.model.actor.Actor;
 import logarlec.model.room.Room;
 
-import logarlec.model.logger.*;
-
 /**
  * <p>
  * Abstract class for the state of the actor's actions. <br>
@@ -36,8 +34,7 @@ public abstract class ActionsState implements IActions {
      * @return True if the state is still active, false if it has expired.
      */
     public boolean tick() {
-        Logger.preExecute(this, "tick");
-        return Logger.postExecute(true); // true while it exists (false when expired)
+        return true;
     }
 
     /**
@@ -46,8 +43,6 @@ public abstract class ActionsState implements IActions {
      */
     @Override
     public void attack() {
-        Logger.preExecute(this, "attack");
-        Logger.postExecute();
     }
 
     /**
@@ -59,7 +54,6 @@ public abstract class ActionsState implements IActions {
      */
     @Override
     public boolean move(Door door) {
-        Logger.preExecute(this, "move", door);
 
         Room currentRoom = actor.getLocation();
 
@@ -67,10 +61,8 @@ public abstract class ActionsState implements IActions {
             if (currentRoom != null) {
                 currentRoom.leave(actor);
             }
-
-            return Logger.postExecute(true);
         }
-        return Logger.postExecute(false);
+        return false;
     }
 
     /**
@@ -78,12 +70,9 @@ public abstract class ActionsState implements IActions {
      * 
      * @param item Item to use
      */
-    @Uses(fields = { "actor" })
     @Override
     public void use(Item item) {
-        Logger.preExecute(this, "use", item);
         item.use(actor);
-        Logger.postExecute();
     }
 
     /**
@@ -94,13 +83,11 @@ public abstract class ActionsState implements IActions {
      */
     @Override
     public boolean pickUp(Item item) {
-        Logger.preExecute(this, "pickUp", item);
 
         Room room = actor.getLocation();
         Item targetItem = room.removeItem(item);
 
         if (targetItem == null) {
-            return Logger.postExecute(false);
         }
 
         Inventory inventory = actor.getInventory();
@@ -114,8 +101,7 @@ public abstract class ActionsState implements IActions {
             // put it back in the room
             room.addItem(targetItem);
         }
-
-        return Logger.postExecute(success);
+        return success;
     }
 
     /**
@@ -125,14 +111,10 @@ public abstract class ActionsState implements IActions {
      */
     @Override
     public void drop(Item item) {
-        Logger.preExecute(this, "drop", item);
-
         Inventory inventory = actor.getInventory();
         inventory.removeItem(item);
         Room room = actor.getLocation();
         room.addItem(item);
-
-        Logger.postExecute();
     }
 
     /**

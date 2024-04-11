@@ -5,7 +5,7 @@ import java.util.List;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
-import logarlec.model.logger.*;
+
 
 /**
  * Represents a room in the game.<br>
@@ -15,7 +15,6 @@ import logarlec.model.logger.*;
  * @see IHasLocation
  */
 public class Room implements IHasLocation {
-    @State(name = "capacity", min = 1, max = Integer.MAX_VALUE)
     private Integer capacity = null;
 
     private List<Actor> actors = new ArrayList<>();
@@ -30,19 +29,16 @@ public class Room implements IHasLocation {
      * @param capacity the capacity of the room
      */
     public Room(Integer capacity) {
-        Logger.preConstructor(this, capacity);
         this.capacity = capacity;
 
         inventory = new Inventory();
-        Logger.postConstructor(this);
+        
     }
 
     /**
      * Splits a room into two rooms with a door between them
      */
-    @Uses(fields = { "capacity" })
     public void split() {
-        Logger.preExecute(this, "split");
 
         Room room2 = new Room(capacity);
         Door door = new Door(this, room2, false);
@@ -52,7 +48,7 @@ public class Room implements IHasLocation {
         for (RoomEffect effect : roomEffects) {
             room2.addEffect(effect);
         }
-        Logger.postExecute();
+        
     }
 
     /**
@@ -64,9 +60,7 @@ public class Room implements IHasLocation {
      * 
      * @param room the room to merge with
      */
-    @Uses(fields = { "capacity" })
     public void merge(Room room) {
-        Logger.preExecute(this, "merge", room);
 
         // move effects
         for (RoomEffect effect : roomEffects) {
@@ -95,7 +89,7 @@ public class Room implements IHasLocation {
                 door.updateRoom(this, room);
             }
         }
-        Logger.postExecute();
+        
     }
 
     /**
@@ -104,7 +98,6 @@ public class Room implements IHasLocation {
      * @param attacker the actor that is attacking
      */
     public void attack(Actor attacker) {
-        Logger.preExecute(this, "attack", attacker);
 
         for (Actor actor : actors) {
             if (actor != attacker && actor.isAlive()) {
@@ -112,7 +105,7 @@ public class Room implements IHasLocation {
             }
         }
 
-        Logger.postExecute();
+        
     }
 
     /**
@@ -121,7 +114,6 @@ public class Room implements IHasLocation {
      * @param effect the effect to add
      */
     public void addEffect(RoomEffect effect) {
-        Logger.preExecute(this, "addEffect", effect);
 
         roomEffects.add(effect);
 
@@ -129,7 +121,7 @@ public class Room implements IHasLocation {
             effect.addEffect(actor);
         }
 
-        Logger.postExecute();
+        
     }
 
     /**
@@ -144,7 +136,6 @@ public class Room implements IHasLocation {
      *         has to die / or no space in the room
      */
     public boolean enter(Actor actor, boolean isForced) {
-        Logger.preExecute(this, "enter", actor, isForced);
 
         boolean wasFull = this.isFull();
 
@@ -163,7 +154,7 @@ public class Room implements IHasLocation {
                 }
             }
         }
-        return Logger.postExecute(!wasFull);
+        return !wasFull;
     }
 
     /**
@@ -172,9 +163,8 @@ public class Room implements IHasLocation {
      * @param actor the actor leaving the room
      */
     public void leave(Actor actor) {
-        Logger.preExecute(this, "leave", actor);
         actors.remove(actor);
-        Logger.postExecute();
+        
     }
 
     /**
@@ -185,17 +175,16 @@ public class Room implements IHasLocation {
      * @return true if a student was revived, false otherwise
      */
     public boolean revive() {
-        Logger.preExecute(this, "revive");
         if (isFull()) { // not reviving if the room is full
-            return Logger.postExecute(false);
+            return false;
         }
 
         for (Actor actor : actors) {
             if (actor.revive()) {
-                return Logger.postExecute(true);
+                return true;
             }
         }
-        return Logger.postExecute(false);
+        return false;
     }
 
     /**
@@ -203,12 +192,10 @@ public class Room implements IHasLocation {
      * 
      * @return true if the room is full, false otherwise
      */
-    @Uses(fields = { "capacity" })
     private boolean isFull() {
-        Logger.preExecute(this, "isFull");
 
         boolean isFull = actors.stream().filter(actor -> actor.isAlive()).count() >= capacity;
-        return Logger.postExecute(isFull);
+        return isFull;
     }
 
     /**
@@ -217,10 +204,9 @@ public class Room implements IHasLocation {
      * @param item the item to drop
      */
     public void addItem(Item item) {
-        Logger.preExecute(this, "addItem", item);
         item.onDrop(this);
         inventory.addItem(item);
-        Logger.postExecute();
+        
     }
 
     /**
@@ -231,8 +217,27 @@ public class Room implements IHasLocation {
      * @return the removed item
      */
     public Item removeItem(Item item) {
-        Logger.preExecute(this, "removeItem", item);
-        return Logger.postExecute(inventory.removeItem(item));
+        return inventory.removeItem(item);
+    }
+
+    /**
+     * Destroys all the cleanable effects
+     * 
+     * @return whether at least one effect was cleaned
+     */
+    public boolean clean(){
+        boolean cleanedAtLeastOne = false;
+        int i = 0;
+        while (i < roomEffects.size()){
+            if(roomEffects.get(i).clean()){
+                cleanedAtLeastOne = true;
+                roomEffects.remove(i);
+            }
+            else{
+                i++;
+            }
+        }
+        return cleanedAtLeastOne;
     }
 
     /**
@@ -262,7 +267,6 @@ public class Room implements IHasLocation {
      * Ticks the doors and the room effects
      */
     public void tick() {
-        Logger.preExecute(this, "tick");
 
         // tick the doors
         for (Door door : doors) {
@@ -283,7 +287,7 @@ public class Room implements IHasLocation {
             }
         }
 
-        Logger.postExecute();
+        
     }
 
     /**
@@ -293,8 +297,7 @@ public class Room implements IHasLocation {
      * @return the location of the room
      */
     public Room getLocation() {
-        Logger.preExecute(this, "getLocation");
-        return Logger.postExecute(this);
+        return this;
     }
 
     /**
