@@ -1,19 +1,10 @@
 
 package logarlec;
 
-import logarlec.tests.TestRunner;
+import logarlec.control.Interpreter;
 
 public class App {
     public static void main(String[] args) {
-        TestRunner runner = new TestRunner();
-        runner.startTesting();
-
-    }
-
-    public static class A<T> {
-
-        public T get(T param) {
-            return param;
-        }
+        Interpreter.getInstance().handleInput(System.in);
     }
 }

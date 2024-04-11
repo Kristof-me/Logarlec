@@ -1,7 +1,6 @@
 package logarlec.control;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import logarlec.control.commands.*;
 
@@ -25,9 +24,14 @@ public class Interpreter {
     HashMap<String, Object> variables = new HashMap<String, Object>();
     HashMap<String, Command> commands = new HashMap<String, Command>();
 
+    public HashMap<String, Object> getVariables() {
+        return variables;
+    }
+
     protected Interpreter() {
         // ....
         commands.put("load", new Load());
+        commands.put("random", new Random());
         commands.put("reset", new Reset());
     }
 
@@ -39,7 +43,7 @@ public class Interpreter {
             String line;
 
             // read until EOF
-            while((line = bufferedReader.readLine()) != null) {  
+            while((line = bufferedReader.readLine()) != null) { 
                 String[] tokens = line.split(" ", 2);
 
                 String command = tokens[0].trim().toLowerCase();
