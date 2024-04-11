@@ -11,7 +11,7 @@ public class Tick extends Command {
     public boolean execute(String input) {
         input = input.trim();
         
-        Entry<Class<?>, Object> target = matchedTypes(targetTypes, input);
+        Entry<Class<?>, Object> target = findVariableMatching(targetTypes, input);
         
         if(target == null) {
             return false;
@@ -20,7 +20,7 @@ public class Tick extends Command {
         // TODO test this
 
         try {
-            target.getKey().getMethod("tick").invoke(target);
+            invoke(target, "tick");
             return true;
         } catch (Exception e) {
             return false;

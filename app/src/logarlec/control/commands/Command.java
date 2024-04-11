@@ -31,23 +31,36 @@ public abstract class Command {
         return result;
     }
 
-    protected Entry<Class<?>, Object> matchedType(Class<?> typeName, String variableName) {
-        return matchedTypes(new Class<?>[] { typeName }, variableName);
+    protected Entry<Class<?>, Object> findVariable(Class<?> typeName, String variableName) {
+        return findVariableMatching(new Class<?>[] { typeName }, variableName);
     }
 
-    protected Entry<Class<?>, Object> matchedTypes(Class<?>[] types, String variableName) {
-        Object var = Interpreter.getInstance().getVariables().get(variableName);
+    protected Entry<Class<?>, Object> findVariableMatching(Class<?>[] acceptedTypes, String variableName) {
+        Object var = Interpreter.getInstance().getVariable(variableName);
 
         if(var == null) {
             return null;
         }
 
-        for (Class<?> type : types) {
+        for (Class<?> type : acceptedTypes) {
             if(var.getClass() == type) {
                 return Map.entry(type, var);
             }
         }
 
         return null;
+    }
+
+    protected Entry<Object, Boolean> invoke(Entry<Class<?>, Object> target, String function) {
+        return invoke(target, function, null);
+    }
+
+    protected Entry<Object, Boolean> invoke(Entry<Class<?>, Object> target, String function, Class<?>[] paramTypes, Object... params) {
+        try {
+            Object result = target.getKey().getMethod(function, paramTypes).invoke(target, params);
+            return Map.entry(result, true);
+        } catch (Exception e) {
+            return Map.entry(null, false);
+        }
     }
 }

@@ -3,9 +3,6 @@ package logarlec.model.items.impl;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
-import logarlec.model.actor.strategy.BeerDefense;
-
-
 
 /**
  * The beer item defends the player from attacks from a certain amount of turns.

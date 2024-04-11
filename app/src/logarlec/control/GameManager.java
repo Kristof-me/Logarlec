@@ -46,6 +46,7 @@ public class GameManager {
         players.clear();
         professors.clear();
         janitors.clear();
+        rooms.clear();
 
         // TODO: implement this method
     }

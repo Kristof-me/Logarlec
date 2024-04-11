@@ -3,11 +3,6 @@ package logarlec.model.items.impl;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
-import logarlec.model.room.GasEffect;
-import logarlec.model.room.Room;
-import logarlec.model.room.RoomEffect;
-
-
 
 /**
  * Camembert is a type of item that can be used to create a gas effect in a
@@ -15,11 +10,11 @@ import logarlec.model.room.RoomEffect;
  */
 public class FakeItem extends Item {
 
-    private Item itemToFake; // ToDo: set this
+    private Item itemToFake;
 
-    public FakeItem() {
-        
-        
+    public FakeItem(Item item) {
+        // the fake item requires another item to fake
+        itemToFake = item; 
     }
 
     @Override
@@ -27,7 +22,7 @@ public class FakeItem extends Item {
 
         // no implementation
 
-        super.use(invoker);
+        super.use(invoker); // ? is this supposed to be here?
         
     }
 
@@ -39,6 +34,5 @@ public class FakeItem extends Item {
     @Override
     public void accept(ItemVisitor visitor) {
         visitor.visit(this);
-        
     }
 }

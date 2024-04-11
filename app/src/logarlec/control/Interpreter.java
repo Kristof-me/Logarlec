@@ -22,18 +22,23 @@ public class Interpreter {
     
     // user generated content
     HashMap<String, Object> variables = new HashMap<String, Object>();
-    HashMap<String, Command> commands = new HashMap<String, Command>();
+    HashMap<String, Command> commands = new HashMap<String, Command>() {{
+        put("create", new Create());
+        // ...
+        put("load", new Load());
+        put("random", new Random());
+        put("reset", new Reset());
+    }};
 
-    public HashMap<String, Object> getVariables() {
-        return variables;
+    public Object getVariable(String name) {
+        return variables.get(name);
     }
 
-    protected Interpreter() {
-        // ....
-        commands.put("load", new Load());
-        commands.put("random", new Random());
-        commands.put("reset", new Reset());
+    public boolean AddVariable(String name, Object item) {
+        return variables.put(name, item) == null;
     }
+
+    protected Interpreter() {}
 
     public void handleInput(InputStream is) {
         InputStreamReader isr = new InputStreamReader(is);

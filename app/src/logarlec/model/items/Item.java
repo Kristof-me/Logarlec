@@ -36,6 +36,10 @@ public abstract class Item {
         return usesLeft;
     }
 
+    public void setUsesLeft(int value) {
+        usesLeft = value;
+    }
+
     /**
      * When the item gets picked up by an actor it keeps track of the inventory it's
      * in.
