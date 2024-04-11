@@ -2,15 +2,13 @@ package logarlec.model.items;
 
 import logarlec.model.items.impl.Tvsz;
 
-import logarlec.model.logger.*;
+
 
 /**
  * Find the TVSZ with the most uses left.
  */
 public class BestTvszFinder extends ItemFinder<Tvsz> {
     public BestTvszFinder() {
-        Logger.preConstructor(this);
-        Logger.postConstructor(this);
     }
 
     /**
@@ -21,7 +19,6 @@ public class BestTvszFinder extends ItemFinder<Tvsz> {
      */
     @Override
     public Tvsz findIn(Inventory inventory) {
-        Logger.preExecute(this, "findIn", inventory);
         potentialItems.clear();
         inventory.acceptVisitor(this);
 
@@ -34,7 +31,7 @@ public class BestTvszFinder extends ItemFinder<Tvsz> {
                 lowest = usesLeft;
             }
         }
-        return Logger.postExecute(best);
+        return best;
     }
 
     /**
@@ -44,8 +41,7 @@ public class BestTvszFinder extends ItemFinder<Tvsz> {
      */
     @Override
     public void visit(Tvsz tvsz) {
-        Logger.preExecute(this, "visit", tvsz);
         potentialItems.add(tvsz);
-        Logger.postExecute();
+        
     }
 }

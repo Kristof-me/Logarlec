@@ -7,7 +7,7 @@ import logarlec.model.room.GasEffect;
 import logarlec.model.room.Room;
 import logarlec.model.room.RoomEffect;
 
-import logarlec.model.logger.*;
+
 
 /**
  * Camembert is a type of item that can be used to create a gas effect in a
@@ -16,8 +16,8 @@ import logarlec.model.logger.*;
 public class Camembert extends Item {
 
     public Camembert() {
-        Logger.preConstructor(this);
-        Logger.postConstructor(this);
+        
+        
     }
 
     /**
@@ -26,10 +26,8 @@ public class Camembert extends Item {
      * 
      * @param invoker The actor that uses the camembert.
      */
-    @Uses(fields = { "usesLeft" })
     @Override
     public void use(Actor invoker) {
-        Logger.preExecute(this, "use", invoker);
 
         Room room = invoker.getLocation();
         RoomEffect effect = new GasEffect(null);
@@ -37,7 +35,7 @@ public class Camembert extends Item {
         usesLeft--;
 
         super.use(invoker);
-        Logger.postExecute();
+        
     }
 
     /**
@@ -47,8 +45,7 @@ public class Camembert extends Item {
      */
     @Override
     public void accept(ItemVisitor visitor) {
-        Logger.preExecute(this, "accept", visitor);
         visitor.visit(this);
-        Logger.postExecute();
+        
     }
 }

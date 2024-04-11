@@ -1,12 +1,9 @@
 
 package logarlec;
 
-import logarlec.tests.TestRunner;
 
 public class App {
     public static void main(String[] args) {
-        TestRunner runner = new TestRunner();
-        runner.startTesting();
 
     }
 

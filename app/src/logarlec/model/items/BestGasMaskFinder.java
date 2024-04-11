@@ -2,7 +2,7 @@ package logarlec.model.items;
 
 import logarlec.model.items.impl.GasMask;
 
-import logarlec.model.logger.*;
+
 
 /**
  * A class that finds the best gas mask with the most uses left in an inventory.
@@ -12,8 +12,6 @@ public class BestGasMaskFinder extends ItemFinder<GasMask> {
      * Creates a new best gas mask finder.
      */
     public BestGasMaskFinder() {
-        Logger.preConstructor(this);
-        Logger.postConstructor(this);
     }
 
     /**
@@ -24,7 +22,6 @@ public class BestGasMaskFinder extends ItemFinder<GasMask> {
      */
     @Override
     public GasMask findIn(Inventory inventory) {
-        Logger.preExecute(this, "findIn", inventory);
         potentialItems.clear();
         inventory.acceptVisitor(this);
 
@@ -37,7 +34,7 @@ public class BestGasMaskFinder extends ItemFinder<GasMask> {
                 lowest = usesLeft;
             }
         }
-        return Logger.postExecute(best);
+        return best;
     }
 
     /**
@@ -47,8 +44,7 @@ public class BestGasMaskFinder extends ItemFinder<GasMask> {
      */
     @Override
     public void visit(GasMask gasMask) {
-        Logger.preExecute(this, "visit", gasMask);
         potentialItems.add(gasMask);
-        Logger.postExecute();
+        
     }
 }

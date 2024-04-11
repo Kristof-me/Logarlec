@@ -1,16 +1,15 @@
 package logarlec.model.actor.strategy;
 
 import logarlec.model.items.Inventory;
-import logarlec.model.logger.Logger;
-import logarlec.model.logger.State;
-import logarlec.model.logger.Uses;
+
+
+
 import logarlec.model.actor.Actor;
 
 /**
  * A defense strategy that gets applied after the player uses a beer item.
  */
 public class BeerDefense extends DefenseStrategy {
-    @State(name = "remaining", min = 0, max = Integer.MAX_VALUE)
     private Integer remaining = null;
     
     /**
@@ -19,8 +18,6 @@ public class BeerDefense extends DefenseStrategy {
      */
     public BeerDefense(Actor actor) {
         super(actor);
-        Logger.preConstructor(this, actor);
-        Logger.postConstructor(this);
     }
 
     /**
@@ -30,21 +27,17 @@ public class BeerDefense extends DefenseStrategy {
      */
     @Override
     public boolean defend(Inventory inventory) {
-        Logger.preExecute(this, "defend", inventory);
-        return Logger.postExecute(true);
+        return false;
     }
 
     /**
      * @return true if the defense is still active, false otherwise
      */
-    @Uses(fields = {"remaining"})
     @Override
     public boolean tick() {
-        Logger.preExecute(this, "tick");
         if (remaining > 0) {
             remaining--;
-            return Logger.postExecute(true);
         }
-        return Logger.postExecute(false);
+        return false;
     }
 }

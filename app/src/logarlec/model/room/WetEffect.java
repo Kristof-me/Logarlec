@@ -5,8 +5,8 @@ import logarlec.model.actor.Janitor;
 import logarlec.model.actor.Professor;
 import logarlec.model.actor.Student;
 import logarlec.model.actor.actions.StunnedStep;
-import logarlec.model.logger.Logger;
-import logarlec.model.logger.Uses;
+
+
 
 /**
  * WetEffect is a RoomEffect that applies a StunnedStep to a Professor <br>
@@ -17,8 +17,8 @@ public class WetEffect extends RoomEffect {
      * Constructor for WetEffect
      */
     public WetEffect() {
-        Logger.preConstructor(this);
-        Logger.postConstructor(this);
+        
+        
     }
 
     /**
@@ -28,10 +28,9 @@ public class WetEffect extends RoomEffect {
      */
     @Override
     public void applyEffect(Professor professor) {
-        Logger.preExecute(this, "applyEffect", professor);
         StunnedStep step = new StunnedStep(professor);
         professor.setActionState(step);
-        Logger.postExecute();
+        
     }
 
     /**
@@ -42,8 +41,7 @@ public class WetEffect extends RoomEffect {
      */
     @Override
     public void applyEffect(Student student) {
-        Logger.preExecute(this, "applyEffect", student);
-        Logger.postExecute();
+        
 
     }
 
@@ -55,8 +53,7 @@ public class WetEffect extends RoomEffect {
      */
     @Override
     public void applyEffect(Janitor janitor) {
-        Logger.preExecute(this, "applyEffect", janitor);
-        Logger.postExecute();
+        
 
     }
 
@@ -67,21 +64,17 @@ public class WetEffect extends RoomEffect {
      */
     @Override
     public void addEffect(Actor actor) {
-        Logger.preExecute(this, "addEffect", actor);
         actor.acceptEffect(this, null);
-        Logger.postExecute();
+        
     }
 
     @Override
-    @Uses(fields = { "timeLeft" })
     public boolean tick() {
-        Logger.preExecute(this, "tick");
-        return Logger.postExecute(super.tick());
+        return super.tick();
     }
 
     @Override
     public boolean clean(){
-        Logger.preExecute(this, "clean");
-        return Logger.postExecute(false); // no cleanable
+        return false; // no cleanable
     }
 }
