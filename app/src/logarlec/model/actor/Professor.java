@@ -4,7 +4,7 @@ import java.util.List;
 import logarlec.model.actor.actions.ProfessorActions;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemFinder;
-import logarlec.model.logger.Logger;
+
 import logarlec.model.room.RoomEffect;
 
 public class Professor extends Actor {
@@ -12,26 +12,19 @@ public class Professor extends Actor {
         super();
 
         this.actionState = new ProfessorActions(this);
-        Logger.postConstructor(this);
     }
 
     @Override
     public void attacked() {
-        Logger.preExecute(this, "attacked");
-
-        Logger.postExecute();
     }
 
     @Override
     public boolean revive() {
-        Logger.preExecute(this, "revive");
-        Logger.postExecute(false);
         return false;
     }
 
     @Override
     public void acceptEffect(RoomEffect effect, List<ItemFinder<? extends Item>> unless) {
-        Logger.preExecute(this, "acceptEffect", effect, unless);
 
         if (unless != null) {
             for (ItemFinder<? extends Item> itemFinder : unless) {
@@ -39,20 +32,16 @@ public class Professor extends Actor {
 
                 if (protector != null) {
                     actionState.use(protector);
-                    Logger.postExecute();
                     return;
                 }
             }
         }
 
         effect.applyEffect(this);
-        Logger.postExecute();
     }
 
     @Override
     public void setDefaultActionState() {
-        Logger.preExecute(this, "setDefaultActionState");
         actionState = new ProfessorActions(this);
-        Logger.postExecute();
     }
 }

@@ -1,7 +1,6 @@
 package logarlec.model.actor.actions;
 
 import logarlec.model.actor.Professor;
-import logarlec.model.logger.Logger;
 
 /**
  * The actions that a professor can take.
@@ -15,8 +14,6 @@ public class ProfessorActions extends ActionsState {
      */
     public ProfessorActions(Professor professor) {
         super(professor);
-        Logger.preConstructor(this, professor);
-        Logger.postConstructor(this);
     }
 
     /**
@@ -24,17 +21,13 @@ public class ProfessorActions extends ActionsState {
      */
     @Override
     public void attack() {
-        Logger.preExecute(this, "attack");
         actor.getLocation().attack(actor);
-        Logger.postExecute();
     }
 
     /**
      * Sets the next state of the professor.
      */
     public ActionsState setNextState(ActionsState state) {
-        Logger.preExecute(this, "setNextState", state);
-        Logger.postExecute(state);
         return state;
     }
 }

@@ -2,7 +2,7 @@ package logarlec.model.actor.strategy;
 
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
-import logarlec.model.logger.Logger;
+
 
 /**
  * Abstract class to defend an actor.
@@ -23,8 +23,7 @@ public abstract class DefenseStrategy {
      * @return True if the defense strategy still applied, false otherwise.
      */
     public boolean tick() {
-        Logger.preExecute(this, "tick");
-        return Logger.postExecute(true); 
+        return false;
     }
 
     /**
@@ -33,7 +32,6 @@ public abstract class DefenseStrategy {
      * @return True if the actor successfully defended, false otherwise.
      */
     public boolean defend(Inventory inventory) {
-        Logger.preExecute(this, "defend", inventory);
-        return Logger.postExecute(false);
+        return false;
     }
 }

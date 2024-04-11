@@ -1,6 +1,6 @@
 package logarlec.model.items;
 
-import logarlec.model.logger.*;
+
 import logarlec.model.actor.Actor;
 import logarlec.model.room.Room;
 
@@ -10,7 +10,6 @@ import logarlec.model.room.Room;
 public abstract class Item {
     private Inventory inventory;
 
-    @State(name = "usesLeft", min = 0, max = Integer.MAX_VALUE)
     protected Integer usesLeft = null;
 
     protected Item() {
@@ -22,7 +21,6 @@ public abstract class Item {
      * 
      * @param invoker The actor that uses the item.
      */
-    @Uses(fields = { "usesLeft" })
     public void use(Actor invoker) {
         if (usesLeft <= 0 && inventory != null) {
             inventory.removeItem(this);
@@ -34,10 +32,8 @@ public abstract class Item {
      * 
      * @return The uses left of the item.
      */
-    @Uses(fields = { "usesLeft" })
     public int getUsesLeft() {
-        Logger.preExecute(this, "getUsesLeft");
-        return Logger.postExecute(usesLeft);
+        return usesLeft;
     }
 
     /**
@@ -47,9 +43,8 @@ public abstract class Item {
      * @param actor The actor that picks up the item.
      */
     public void onPickup(Actor actor) {
-        Logger.preExecute(this, "onPickup", actor);
         inventory = actor.getInventory();
-        Logger.postExecute();
+        
     }
 
     /**
@@ -58,9 +53,8 @@ public abstract class Item {
      * @param location The room the item gets dropped in.
      */
     public void onDrop(Room location) {
-        Logger.preExecute(this, "onDrop", location);
         inventory = location.getInventory();
-        Logger.postExecute();
+        
     }
 
     public abstract void accept(ItemVisitor visitor);

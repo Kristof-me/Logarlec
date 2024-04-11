@@ -5,7 +5,7 @@ import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
 import logarlec.model.actor.strategy.BeerDefense;
 
-import logarlec.model.logger.*;
+
 
 /**
  * The beer item defends the player from attacks from a certain amount of turns.
@@ -13,8 +13,6 @@ import logarlec.model.logger.*;
 public class Beer extends Item {
 
     public Beer() {
-        Logger.preConstructor(this);
-        Logger.postConstructor(this);
     }
 
     /**
@@ -23,17 +21,15 @@ public class Beer extends Item {
      * 
      * @param invoker The actor that uses the item.
      */
-    @Uses(fields = { "usesLeft" })
     @Override
     public void use(Actor invoker) {
-        Logger.preExecute(this, "use", invoker);
 
         BeerDefense beerDefense = new BeerDefense(invoker);
         invoker.setDefenseStrategy(beerDefense);
         usesLeft--;
 
         super.use(invoker);
-        Logger.postExecute();
+        
     }
 
     /**
@@ -43,8 +39,7 @@ public class Beer extends Item {
      */
     @Override
     public void accept(ItemVisitor visitor) {
-        Logger.preExecute(this, "accept", visitor);
         visitor.visit(this);
-        Logger.postExecute();
+        
     }
 }

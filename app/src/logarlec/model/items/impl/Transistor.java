@@ -7,7 +7,7 @@ import logarlec.model.items.TransistorPairFinder;
 import logarlec.model.room.IHasLocation;
 import logarlec.model.room.Room;
 
-import logarlec.model.logger.*;
+
 
 /**
  * A transistor that can be paired with another transistor to teleport the
@@ -19,9 +19,9 @@ public class Transistor extends Item {
     private IHasLocation location;
 
     public Transistor() {
-        Logger.preConstructor(this);
+        
         pair = null;
-        Logger.postConstructor(this);
+        
     }
 
     /**
@@ -34,7 +34,6 @@ public class Transistor extends Item {
      */
     @Override
     public void use(Actor invoker) {
-        Logger.preExecute(this, "use", invoker);
 
         if (pair == null) {
             TransistorPairFinder pairFinder = new TransistorPairFinder(this);
@@ -53,7 +52,7 @@ public class Transistor extends Item {
             }
         }
         super.use(invoker);
-        Logger.postExecute();
+        
     }
 
     /**
@@ -85,9 +84,8 @@ public class Transistor extends Item {
      */
     @Override
     public void accept(ItemVisitor visitor) {
-        Logger.preExecute(this, "accept", visitor);
         visitor.visit(this);
-        Logger.postExecute();
+        
     }
 
     /**
@@ -96,8 +94,7 @@ public class Transistor extends Item {
      * @param pair The transistor to pair with
      */
     public void pairWith(Transistor pair) {
-        Logger.preExecute(this, "pairWith", pair);
         this.pair = pair;
-        Logger.postExecute();
+        
     }
 }
