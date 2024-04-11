@@ -241,6 +241,27 @@ public class Room implements IHasLocation {
     }
 
     /**
+     * Destroys all the cleanable effects
+     * 
+     * @return whether at least one effect was cleaned
+     */
+    public boolean clean(){
+        Logger.preExecute(this, "clean");
+        boolean cleanedAtLeastOne = false;
+        int i = 0;
+        while (i < roomEffects.size()){
+            if(roomEffects.get(i).clean()){
+                cleanedAtLeastOne = true;
+                roomEffects.remove(i);
+            }
+            else{
+                i++;
+            }
+        }
+        return Logger.postExecute(cleanedAtLeastOne);
+    }
+
+    /**
      * Ticks the room<br>
      * Ticks the doors and the room effects
      * Ticks the doors and the room effects

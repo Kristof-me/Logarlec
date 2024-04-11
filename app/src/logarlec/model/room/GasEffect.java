@@ -59,6 +59,17 @@ public class GasEffect extends RoomEffect {
     }
 
     /**
+     * Apply the effect to the janitor.<br>
+     * Based on visitor pattern
+     */
+    @Override
+    public void applyEffect(Janitor janitor) {
+        Logger.preExecute(this, "applyEffect", janitor);
+        janitor.dropAllTo(janitor.getLocation());
+        Logger.postExecute();
+    }
+
+    /**
      * Add effect on an actor.
      */
     @Override
@@ -75,5 +86,11 @@ public class GasEffect extends RoomEffect {
     @Override
     public boolean clean(){
         return true; // cleanable
+    }
+
+    @Override
+    public boolean clean(){
+        Logger.preExecute(this, "clean");
+        return Logger.postExecute(true); // cleanable
     }
 }
