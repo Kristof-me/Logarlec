@@ -62,6 +62,8 @@ status <u>item</u> (uses-left | inventory | fake | location)
 status <u>transistor</u> pair  
 status <u>actor</u> (alive | location | inventory | defense | stunned)  
 
+<!--wordben nincs ledokumentálva az se, hogy fake-e egy item-->
+
 Name  
 load - load commands from a file
 Synopsis

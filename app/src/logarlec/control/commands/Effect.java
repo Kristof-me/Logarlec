@@ -17,15 +17,17 @@ public class Effect extends Command {
     public boolean execute(String input) {
         String[] data = input.split(" ", 2);
 
+        String effectType = data[0].toLowerCase();
+
         if (data.length != 2 || data[1].isBlank()) {
             return false;
         }
 
-        if(data[0].toLowerCase().equals("stun")) {
+        if(effectType.equals("stun")) {
             return handleUserEffect(data[1]);
         } else {
             // getting the effect
-            Class<? extends RoomEffect> effectClass = effects.get(data[0]);
+            Class<? extends RoomEffect> effectClass = effects.get(effectType);
     
             if (effectClass == null) {
                 return false;

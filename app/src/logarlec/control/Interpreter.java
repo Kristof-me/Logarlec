@@ -33,7 +33,7 @@ public class Interpreter {
         put("split", new Split());
         put("tick", new Tick());
         put("hide", new Hide());
-        // ...
+        put("status", new Status());
         put("load", new Load());
         put("random", new Random());
         put("reset", new Reset());
@@ -41,6 +41,16 @@ public class Interpreter {
 
     public Object getVariable(String name) {
         return variables.get(name);
+    }
+
+    public String getVariableName(Object value) {
+        for (String key : variables.keySet()) {
+            if (variables.get(key) == value) {
+                return key;
+            }
+        }
+
+        return null;
     }
 
     public boolean AddVariable(String name, Object item) {

@@ -110,4 +110,16 @@ public class Door {
             rooms[1] = current;
         }
     }
+
+    public Integer getRemainingInvisibility() {
+        return remainingInvisibility;
+    }
+
+    public Boolean getIsOneWay() {
+        return isOneway;   
+    }
+
+    public Room[] getRooms() {
+        return rooms;
+    }
 }

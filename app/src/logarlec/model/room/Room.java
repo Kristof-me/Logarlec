@@ -22,6 +22,8 @@ public class Room implements IHasLocation {
     private List<RoomEffect> roomEffects = new ArrayList<>();
     private Inventory inventory;
 
+    private boolean isSticky = false;
+
     /**
      * Creates a new room with the given capacity (allowed players in the room at
      * the same time)
@@ -31,7 +33,7 @@ public class Room implements IHasLocation {
     public Room(Integer capacity) {
         this.capacity = capacity;
 
-        inventory = new Inventory();
+        inventory = new Inventory(this);
         
     }
 
@@ -296,5 +298,21 @@ public class Room implements IHasLocation {
 
     public ArrayList<Door> getDoors() {
         return doors;
+    }
+
+    public List<RoomEffect> getRoomEffects() {
+        return roomEffects;
+    }
+
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public boolean getIsSticky() { // TODO you can change this later
+        return isSticky;
     }
 }

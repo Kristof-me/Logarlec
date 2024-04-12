@@ -62,4 +62,8 @@ public abstract class Item {
     }
 
     public abstract void accept(ItemVisitor visitor);
+
+    public Inventory getInventory() {
+        return inventory;
+    }
 }

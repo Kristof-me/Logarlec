@@ -97,4 +97,8 @@ public class Transistor extends Item {
         this.pair = pair;
         
     }
+
+    public Transistor getPair() {
+        return pair;
+    }
 }
