@@ -16,8 +16,6 @@ public class Tick extends Command {
         if(target == null) {
             return false;
         }
-        
-        // TODO test this
 
         try {
             invoke(target, "tick");

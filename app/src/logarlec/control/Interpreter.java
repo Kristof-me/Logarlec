@@ -25,6 +25,8 @@ public class Interpreter {
     HashMap<String, Command> commands = new HashMap<String, Command>() {{
         put("create", new Create());
         // ...
+        put("tick", new Tick());
+        // ...
         put("load", new Load());
         put("random", new Random());
         put("reset", new Reset());

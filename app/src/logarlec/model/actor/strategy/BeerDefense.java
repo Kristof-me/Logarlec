@@ -37,6 +37,7 @@ public class BeerDefense extends DefenseStrategy {
     public boolean tick() {
         if (remaining > 0) {
             remaining--;
+            return true;
         }
         return false;
     }

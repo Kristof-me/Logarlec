@@ -22,8 +22,9 @@ public abstract class DefenseStrategy {
      * Tick method to update the defense strategy.
      * @return True if the defense strategy still applied, false otherwise.
      */
-    public boolean tick() {
-        return false;
+    public boolean tick() { 
+        // the default defense strategy does not expire
+        return true;
     }
 
     /**

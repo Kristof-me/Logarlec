@@ -70,7 +70,12 @@ public abstract class Command {
             }
             
             Object result = method.invoke(target.getValue(), params);
-            return Map.entry(result, true);
+            
+            if(result == null) {
+                return Map.entry("", false);
+            } else {
+                return Map.entry(result, true);
+            }
         } catch (Exception e) {
             return Map.entry(null, false);
         }
