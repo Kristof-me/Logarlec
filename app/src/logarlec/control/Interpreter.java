@@ -28,6 +28,7 @@ public class Interpreter {
         put("merge", new Merge());
         put("split", new Split());
         put("tick", new Tick());
+        put("hide", new Hide());
         // ...
         put("load", new Load());
         put("random", new Random());
@@ -94,5 +95,4 @@ public class Interpreter {
     private void handleInvalid() {
         System.out.println("Invalid command");
     }
-
 }

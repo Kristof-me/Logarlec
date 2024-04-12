@@ -10,7 +10,7 @@ public class Split extends Command {
 
     @Override
     public boolean execute(String input) {
-        String[] roomNames = removeExtraSpace(input).trim().split(" ");
+        String[] roomNames = removeExtraSpace(input).split(" ");
         
         // Check if the input is valid
         if (roomNames.length != 2 || isNameTaken(roomNames[1])) {

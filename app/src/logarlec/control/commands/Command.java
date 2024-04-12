@@ -29,7 +29,7 @@ public abstract class Command {
             result = result.replaceAll("  ", " ");
         } while(!previous.equals(result));
 
-        return result;
+        return result.trim();
     }
 
     protected boolean isNameTaken(String variableName) {

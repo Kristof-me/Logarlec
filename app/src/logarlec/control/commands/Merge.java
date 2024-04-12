@@ -9,7 +9,7 @@ public class Merge extends Command {
 
     @Override
     public boolean execute(String input) {
-        String[] roomNames = removeExtraSpace(input).trim().split(" ");
+        String[] roomNames = removeExtraSpace(input).split(" ");
         
         if (roomNames.length != 2) {
             return false;
