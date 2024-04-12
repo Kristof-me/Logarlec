@@ -105,7 +105,6 @@ public class Door {
      * @param current  The new room.
      */
     public void updateRoom(Room original, Room current) {
-        // ! setter, hidden
         if (rooms[0] == original) {
             rooms[0] = current;
         } else if (rooms[1] == original) {

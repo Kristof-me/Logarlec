@@ -18,7 +18,7 @@ public class Room implements IHasLocation {
     private Integer capacity = null;
 
     private List<Actor> actors = new ArrayList<>();
-    private List<Door> doors = new ArrayList<>();
+    private ArrayList<Door> doors = new ArrayList<>();
     private List<RoomEffect> roomEffects = new ArrayList<>();
     private Inventory inventory;
 
@@ -39,6 +39,7 @@ public class Room implements IHasLocation {
      * Splits a room into two rooms with a door between them
      */
     public void split() {
+        // TODO notify game / room manager or something like that
 
         Room room2 = new Room(capacity);
         Door door = new Door(this, room2, false);
@@ -61,6 +62,7 @@ public class Room implements IHasLocation {
      * @param room the room to merge with
      */
     public void merge(Room room) {
+        // TODO notify game / room manager or something like that
 
         // move effects
         for (RoomEffect effect : roomEffects) {
@@ -285,12 +287,14 @@ public class Room implements IHasLocation {
      * @return the inventory of the room
      */
     public Inventory getInventory() {
-        // ! hidden getter, not logged
         return inventory;
     }
 
     public void setCapacity(Integer capacity) {
-        // ! hidden setter, not logged
         this.capacity = capacity;
+    }
+
+    public ArrayList<Door> getDoors() {
+        return doors;
     }
 }
