@@ -10,14 +10,14 @@ public class Split extends Command {
 
     @Override
     public boolean execute(String input) {
-        String[] roomNames = removeExtraSpace(input).split(" ");
+        String[] names = removeExtraSpace(input).split(" ");
         
         // Check if the input is valid
-        if (roomNames.length != 2 || isNameTaken(roomNames[1])) {
+        if (names.length != 3 || isNameTaken(names[1]) || isNameTaken(names[2])) {
             return false;
         }
 
-        Entry<Class<?>, Object> room1entry = findVariable(Room.class, roomNames[0]);
+        Entry<Class<?>, Object> room1entry = findVariable(Room.class, names[0]);
         
         if (room1entry == null) {
             return false;
@@ -25,7 +25,7 @@ public class Split extends Command {
 
         Room room = (Room) room1entry.getValue();
 
-        // reference to the door list and get the last door
+        // reference to the door list to get the newest door (the last one added)
         ArrayList<Door> doors = room.getDoors(); 
         Door lastDoor;
 
@@ -43,14 +43,14 @@ public class Split extends Command {
             return false;
         }
 
-        // get the new room
+        // add the new door
         lastDoor = doors.get(doors.size() - 1);
+        Interpreter.getInstance().AddVariable(names[2], lastDoor);
+        
+        // get the new room
         Room newRoom = lastDoor.leadsTo(room);
+        Interpreter.getInstance().AddVariable(names[1], newRoom);
 
-        // TODO give name to the newly created door
-        // Interpreter.getInstance().AddVariable("TODO", lastDoor);
-
-        Interpreter.getInstance().AddVariable(roomNames[1], newRoom);
         return true;
     }
 }

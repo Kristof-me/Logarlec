@@ -15,7 +15,7 @@ import logarlec.model.items.Item;
  * @see IHasLocation
  */
 public class Room implements IHasLocation {
-    private Integer capacity = null;
+    private Integer capacity = 10; // TODO change this later
 
     private List<Actor> actors = new ArrayList<>();
     private ArrayList<Door> doors = new ArrayList<>();

@@ -48,7 +48,7 @@ public abstract class Command {
         }
 
         for (Class<?> type : acceptedTypes) {
-            if(var.getClass() == type) {
+            if(var.getClass() == type || var.getClass().getSuperclass() == type) {
                 return Map.entry(type, var);
             }
         }
