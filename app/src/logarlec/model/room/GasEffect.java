@@ -20,12 +20,11 @@ public class GasEffect extends RoomEffect {
 
     /**
      * Constructor for GasEffect
-     * 
-     * @param timeLeft effect for the gas to be active
      */
-    public GasEffect(Integer timeLeft) {
+    public GasEffect() {
         itemFinders.add(new BestGasMaskFinder());
-        
+        // ! PLEASE DON'T MAKE THIS A CONSTRUCTOR PARAMETER
+        timeLeft = 5; // TODO change this value later 
     }
 
     /**
@@ -62,8 +61,7 @@ public class GasEffect extends RoomEffect {
      */
     @Override
     public void addEffect(Actor actor) {
-        actor.acceptEffect(this, itemFinders);
-        
+        actor.acceptEffect(this, itemFinders);   
     }
 
     @Override

@@ -26,10 +26,12 @@ public class Hide extends Command {
             String option = data[1];
 
             if(option.contains("-t")) {
-                try {
-                    option = option.replace("-t", "").trim();
-                    duration = Integer.parseInt(option);
-                } catch (NumberFormatException e) {
+                option = option.replace("-t", "").trim();
+
+                duration = tryParse(option);
+                
+                // missing or out of range error
+                if(duration == null || duration < 1 || duration > 100) {
                     return false;
                 }
             } else {

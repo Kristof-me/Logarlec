@@ -127,17 +127,16 @@ public class Create extends Command {
                 options = options.replaceAll("-u", "");
 
                 // because this is the last remaining value
-                try {
-                    usesLeft = Integer.parseInt(options.trim());
-                } catch (Exception e) {
-                    // invalid value
+                usesLeft = tryParse(options);
+
+                if(usesLeft == null) {
                     return false;
                 }
-
+                
                 options = options.replaceAll(usesLeft.toString(), "");
 
-                // out of range error
-                if(usesLeft < 1 || usesLeft > 100) {
+                // missing or out of range error
+                if(usesLeft == null || usesLeft < 1 || usesLeft > 100) {
                     return false;
                 }
             }
@@ -221,15 +220,10 @@ public class Create extends Command {
             }
             
             // because this is the last remaining value
-            try {
-                inventorySize = Integer.parseInt(options.trim());   
-            } catch (Exception e) {
-                // invalid value
-                return false;
-            }
-
-            // out of range error
-            if(inventorySize < 1 || inventorySize > 100 || type == Janitor.class) {
+            inventorySize = tryParse(options.trim());
+            
+            // missing or out of range error
+            if(inventorySize == null || inventorySize < 1 || inventorySize > 100 || type == Janitor.class) {
                 return false;
             }
         }
@@ -277,20 +271,15 @@ public class Create extends Command {
             if(remaining.contains("-c")) {
                 remaining = remaining.replaceAll("-c", "");
 
-                try {
-                    capacity = Integer.parseInt(remaining.trim());
-                } catch (Exception e) {
-                    // invalid value
-                    return false;
-                }
+                capacity = tryParse(remaining.trim());
             } 
             else { 
                 // invalid option
                 return false;
             }
 
-            // out of range error
-            if(capacity < 1 || capacity > 100) {
+            // missing or out of range error
+            if(capacity == null || capacity < 1 || capacity > 100) {
                 return false;
             }
         }

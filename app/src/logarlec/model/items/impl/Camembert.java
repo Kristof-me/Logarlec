@@ -30,7 +30,7 @@ public class Camembert extends Item {
     public void use(Actor invoker) {
 
         Room room = invoker.getLocation();
-        RoomEffect effect = new GasEffect(null);
+        RoomEffect effect = new GasEffect();
         room.addEffect(effect);
         usesLeft--;
 

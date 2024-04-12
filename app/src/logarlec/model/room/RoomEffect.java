@@ -37,6 +37,10 @@ public abstract class RoomEffect {
         return true;
     }
 
+    public void setTimeLeft(int timeLeft) {
+        this.timeLeft = timeLeft;
+    }
+
     public abstract void addEffect(Actor actor);
 
     public abstract boolean clean();

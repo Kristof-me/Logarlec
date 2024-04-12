@@ -9,7 +9,13 @@ import logarlec.control.Interpreter;
 public abstract class Command {
     public abstract boolean execute(String input);
     
-    // TODO handle argument, options
+    public Integer tryParse(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
     
     HashMap<String, String> longOptions;
     protected String toShortOptions(String input) {

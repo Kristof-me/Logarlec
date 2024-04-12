@@ -24,7 +24,7 @@ public class Interpreter {
     HashMap<String, Object> variables = new HashMap<String, Object>();
     HashMap<String, Command> commands = new HashMap<String, Command>() {{
         put("create", new Create());
-        // ...
+        put("effect", new Effect());
         put("move", new Move());
         put("use", new Use());
         put("drop", new Drop());
