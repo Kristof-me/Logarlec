@@ -15,12 +15,14 @@ import logarlec.model.items.Item;
  * @see IHasLocation
  */
 public class Room implements IHasLocation {
-    private Integer capacity = null;
+    private Integer capacity = 10; // TODO change this later
 
     private List<Actor> actors = new ArrayList<>();
-    private List<Door> doors = new ArrayList<>();
+    private ArrayList<Door> doors = new ArrayList<>();
     private List<RoomEffect> roomEffects = new ArrayList<>();
     private Inventory inventory;
+
+    private boolean isSticky = false;
 
     /**
      * Creates a new room with the given capacity (allowed players in the room at
@@ -31,7 +33,7 @@ public class Room implements IHasLocation {
     public Room(Integer capacity) {
         this.capacity = capacity;
 
-        inventory = new Inventory();
+        inventory = new Inventory(this);
         
     }
 
@@ -39,6 +41,7 @@ public class Room implements IHasLocation {
      * Splits a room into two rooms with a door between them
      */
     public void split() {
+        // TODO notify game / room manager or something like that
 
         Room room2 = new Room(capacity);
         Door door = new Door(this, room2, false);
@@ -61,6 +64,7 @@ public class Room implements IHasLocation {
      * @param room the room to merge with
      */
     public void merge(Room room) {
+        // TODO notify game / room manager or something like that
 
         // move effects
         for (RoomEffect effect : roomEffects) {
@@ -241,27 +245,6 @@ public class Room implements IHasLocation {
     }
 
     /**
-     * Destroys all the cleanable effects
-     * 
-     * @return whether at least one effect was cleaned
-     */
-    public boolean clean(){
-        Logger.preExecute(this, "clean");
-        boolean cleanedAtLeastOne = false;
-        int i = 0;
-        while (i < roomEffects.size()){
-            if(roomEffects.get(i).clean()){
-                cleanedAtLeastOne = true;
-                roomEffects.remove(i);
-            }
-            else{
-                i++;
-            }
-        }
-        return Logger.postExecute(cleanedAtLeastOne);
-    }
-
-    /**
      * Ticks the room<br>
      * Ticks the doors and the room effects
      * Ticks the doors and the room effects
@@ -306,12 +289,30 @@ public class Room implements IHasLocation {
      * @return the inventory of the room
      */
     public Inventory getInventory() {
-        // ! hidden getter, not logged
         return inventory;
     }
 
     public void setCapacity(Integer capacity) {
-        // ! hidden setter, not logged
         this.capacity = capacity;
+    }
+
+    public ArrayList<Door> getDoors() {
+        return doors;
+    }
+
+    public List<RoomEffect> getRoomEffects() {
+        return roomEffects;
+    }
+
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public boolean getIsSticky() { // TODO you can change this later
+        return isSticky;
     }
 }

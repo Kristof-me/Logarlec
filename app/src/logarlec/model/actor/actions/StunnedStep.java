@@ -67,6 +67,10 @@ public class StunnedStep extends ActionsState {
         return this;
     }
 
+    public void setRemaining(int remaining) {
+        this.remaining = remaining;
+    }
+
     @Override
     public boolean tick() {
         remaining--;

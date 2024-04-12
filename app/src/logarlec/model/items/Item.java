@@ -36,6 +36,10 @@ public abstract class Item {
         return usesLeft;
     }
 
+    public void setUsesLeft(int value) {
+        usesLeft = value;
+    }
+
     /**
      * When the item gets picked up by an actor it keeps track of the inventory it's
      * in.
@@ -58,4 +62,8 @@ public abstract class Item {
     }
 
     public abstract void accept(ItemVisitor visitor);
+
+    public Inventory getInventory() {
+        return inventory;
+    }
 }

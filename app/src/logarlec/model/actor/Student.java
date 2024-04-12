@@ -11,7 +11,6 @@ public class Student extends Actor {
     public Student() {
         super();
         this.actionState = new StudentActions(this);
-        
     }
 
     @Override

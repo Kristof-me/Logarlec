@@ -20,12 +20,11 @@ public class GasEffect extends RoomEffect {
 
     /**
      * Constructor for GasEffect
-     * 
-     * @param timeLeft effect for the gas to be active
      */
-    public GasEffect(Integer timeLeft) {
+    public GasEffect() {
         itemFinders.add(new BestGasMaskFinder());
-        
+        // ! PLEASE DON'T MAKE THIS A CONSTRUCTOR PARAMETER
+        timeLeft = 5; // TODO change this value later 
     }
 
     /**
@@ -54,19 +53,7 @@ public class GasEffect extends RoomEffect {
      */
     @Override
     public void applyEffect(Janitor janitor) {
-        janitor.dropAllTo(janitor.getLocation());
-        
-    }
-
-    /**
-     * Apply the effect to the janitor.<br>
-     * Based on visitor pattern
-     */
-    @Override
-    public void applyEffect(Janitor janitor) {
-        Logger.preExecute(this, "applyEffect", janitor);
-        janitor.dropAllTo(janitor.getLocation());
-        Logger.postExecute();
+        // todo   
     }
 
     /**
@@ -74,8 +61,7 @@ public class GasEffect extends RoomEffect {
      */
     @Override
     public void addEffect(Actor actor) {
-        actor.acceptEffect(this, itemFinders);
-        
+        actor.acceptEffect(this, itemFinders);   
     }
 
     @Override
@@ -86,11 +72,5 @@ public class GasEffect extends RoomEffect {
     @Override
     public boolean clean(){
         return true; // cleanable
-    }
-
-    @Override
-    public boolean clean(){
-        Logger.preExecute(this, "clean");
-        return Logger.postExecute(true); // cleanable
     }
 }

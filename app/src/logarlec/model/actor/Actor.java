@@ -23,7 +23,7 @@ public abstract class Actor implements IHasLocation, IActions {
 
     protected Actor() {
         this.alive = true;
-        this.inventory = new Inventory(null);
+        this.inventory = new Inventory(this);
         this.defenseStrategy = new DefaultDefense(this);
     }
 
@@ -142,12 +142,23 @@ public abstract class Actor implements IHasLocation, IActions {
         return room;
     }
 
-    public boolean isAlive() {
+    public Boolean isAlive() {
         return alive;
     }
 
     public void setLocation(Room location) {
         // hidden set, not logged
         this.room = location;
+    }
+
+    public DefenseStrategy getDefense() {
+        return defenseStrategy;
+    }
+
+    public ActionsState getState() {
+        // TODO this WILL cause problems
+        // we need an isStunned() method but that would be an implicit type check
+
+        return actionState;
     }
 }

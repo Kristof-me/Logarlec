@@ -11,7 +11,7 @@ Name
 effect - add effect to an actor or room  
 Synopsis  
 effect (gas | wet | sticky) <u>room</u> [-t <u>time-left</u>]  
-effect stun (<u>student</u> | <u>janitor</u>) [-t <u>time-left</u>]  
+effect stun (<u>student</u> | <u>professor</u>) [-t <u>time-left</u>]  
 
 Name  
 move - move an actor through a door  
@@ -61,6 +61,8 @@ status <u>door</u> (invisible | oneway | rooms)
 status <u>item</u> (uses-left | inventory | fake | location)  
 status <u>transistor</u> pair  
 status <u>actor</u> (alive | location | inventory | defense | stunned)  
+
+<!--wordben nincs ledokumentálva az se, hogy fake-e egy item-->
 
 Name  
 load - load commands from a file

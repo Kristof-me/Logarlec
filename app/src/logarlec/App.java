@@ -1,16 +1,10 @@
 
 package logarlec;
 
+import logarlec.control.Interpreter;
 
 public class App {
     public static void main(String[] args) {
-
-    }
-
-    public static class A<T> {
-
-        public T get(T param) {
-            return param;
-        }
+        Interpreter.getInstance().handleInput(System.in);
     }
 }

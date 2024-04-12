@@ -2,9 +2,10 @@ package logarlec.model.items;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import logarlec.model.actor.Actor;
+import logarlec.model.room.IHasLocation;
 import logarlec.model.room.Room;
-
-
 
 /**
  * Inventory class that holds items. Both the actors and the rooms have an
@@ -14,13 +15,22 @@ import logarlec.model.room.Room;
 public class Inventory {
     private Integer size = null;
     private List<Item> items = new ArrayList<>();
+    private IHasLocation owner = null;
 
-    public Inventory() {
-        this(Integer.MAX_VALUE);
+    public Inventory(IHasLocation owner) {
+        this(Integer.MAX_VALUE, owner);
     }
 
-    public Inventory(Integer size) {
-        this.size = size;
+    public Inventory(Integer size, IHasLocation owner) {
+        // TODO add default values please
+
+        if(size != null) {
+            this.size = size;
+        }
+
+        if(owner != null) {
+            this.owner = owner;
+        }
     }
 
     /**
@@ -29,7 +39,7 @@ public class Inventory {
      * @return true if the inventory is full, false otherwise
      */
     private boolean isFull() {
-        return items.size() >= size;
+        return size != null && items.size() >= size;
     }
 
     /**
@@ -79,7 +89,18 @@ public class Inventory {
     public void acceptVisitor(ItemVisitor visitor) {
         for (Item item : items) {
             item.accept(visitor);
-        }
-        
+        }   
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public IHasLocation getOwner() {
+        return owner;
     }
 }

@@ -14,9 +14,9 @@ import logarlec.model.actor.Actor;
 public class Door {
     private Room[] rooms = new Room[2];
 
-    private Integer remainingInvisibility = null;
+    private Integer remainingInvisibility = 0;
 
-    private Boolean isOneway = null;
+    private Boolean isOneway = false;
 
     /**
      * Creates a new door between two rooms.
@@ -28,7 +28,6 @@ public class Door {
     public Door(Room room1, Room room2, boolean isOneway) {
         this.rooms[0] = room1;
         this.rooms[1] = room2;
-        
     }
 
     /**
@@ -105,11 +104,22 @@ public class Door {
      * @param current  The new room.
      */
     public void updateRoom(Room original, Room current) {
-        // ! setter, hidden
         if (rooms[0] == original) {
             rooms[0] = current;
         } else if (rooms[1] == original) {
             rooms[1] = current;
         }
+    }
+
+    public Integer getRemainingInvisibility() {
+        return remainingInvisibility;
+    }
+
+    public Boolean getIsOneWay() {
+        return isOneway;   
+    }
+
+    public Room[] getRooms() {
+        return rooms;
     }
 }
