@@ -28,7 +28,7 @@ public class Create extends Command {
             return false;
         }
 
-        Class<?> type = classes.get(data[0]);
+        Class<?> type = classes.get(data[0].toLowerCase());
 
         // type not supported
         if(type == null) { 
@@ -126,7 +126,7 @@ public class Create extends Command {
             if(options.contains("-u")) {
                 options = options.replaceAll("-u", "");
 
-                // cause this is the last remaining value
+                // because this is the last remaining value
                 usesLeft = Integer.parseInt(options.trim());
 
                 // out of range error
@@ -175,7 +175,7 @@ public class Create extends Command {
      * 
      * @param type the type of the actor
      * @param variableName the name of the variable (not empty, not taken - checked before)
-     * @param data the remaining data (options without extra spaces)
+     * @param data the remaining data (options without extra spaces or empty string if no options are present)
      * @return true if the actor was created successfully, false otherwise
      */
     private boolean handleActorCreation(Class<? extends Actor> type, String variableName, String data) {
@@ -193,10 +193,15 @@ public class Create extends Command {
         String options = null;
         Integer inventorySize = null;
         
-        if(remaining.length > 1 && remaining[1].contains("-i")) {
-            options = remaining[1].replaceAll("-i", "");
+        if(remaining.length > 1 && !remaining[1].isBlank()) {
+            if(remaining[1].contains("-i")) {
+                options = remaining[1].replaceAll("-i", "");
+            } else {
+                // invalid option
+                return false;
+            }
             
-            // cause this is the last remaining value
+            // because this is the last remaining value
             inventorySize = Integer.parseInt(options.trim());   
 
             // out of range error
@@ -232,13 +237,25 @@ public class Create extends Command {
         return true;
     }
     
+    /**
+     * Handles the creation of a room.
+     * @param variableName the name of the variable (not empty, not taken - checked before)
+     * @param remaining the remaining data (options without extra spaces or empty string if no options are present)
+     * @return true if the room was created successfully, false otherwise
+     */
     private boolean handleRoomCreation(String variableName, String remaining) {
         Integer capacity = 10;
 
         // handle options
-        if(remaining != null && !remaining.isBlank() && remaining.contains("-c")) {
-            remaining = remaining.replaceAll("-c", "");
-            capacity = Integer.parseInt(remaining.trim());
+        if(!remaining.isBlank()) {
+            if(remaining.contains("-c")) {
+                remaining = remaining.replaceAll("-c", "");
+                capacity = Integer.parseInt(remaining.trim());
+            } 
+            else { 
+                // invalid option
+                return false;
+            }
 
             // out of range error
             if(capacity < 1 || capacity > 100) {
@@ -253,6 +270,12 @@ public class Create extends Command {
         return true;
     }
 
+    /**
+     * Handles the creation of a door.
+     * @param variableName the name of the variable (not empty, not taken - checked before)
+     * @param remaining the remaining data (options without extra spaces or empty string if no options are present)
+     * @return true if the door was created successfully, false otherwise
+     */
     private boolean handleDoorCreation(String variableName, String remaining) {
         String[] data = remaining.split(" ", 3);
 
@@ -272,9 +295,16 @@ public class Create extends Command {
         boolean isOneWay = false;
         String options = data.length > 2 ? data[2] : "";
 
-        if(!options.isBlank() && options.contains("-o")) {
-            isOneWay = true;
-            options = options.replaceAll("-o", "");
+        if(!options.isBlank()) {
+            if(options.contains("-o")) {
+                isOneWay = true;
+                options = options.replaceAll("-o", "");
+            }
+
+            // invalid option (extra data)
+            if(!options.isBlank()) { 
+                return false;
+            }
         }
 
         Door door = new Door(room1, room2, isOneWay);
