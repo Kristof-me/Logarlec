@@ -84,7 +84,7 @@ public class Create extends Command {
         put("janitor", Janitor.class);
         put("sliderule", SlideRule.class);
         put("gas-mask", GasMask.class);
-        put("tvsz ", Tvsz.class);
+        put("tvsz", Tvsz.class);
         put("transistor", Transistor.class);
         put("beer", Beer.class);
         put("camambert", Camembert.class);
@@ -112,12 +112,12 @@ public class Create extends Command {
         }
 
         // handling options
-        String options = remaining[1];
-
         boolean isFake = false;
         Integer usesLeft = null;
 
-        if(!options.isBlank()) {
+        if(remaining.length > 1 && !remaining[1].isBlank()) {
+            String options = remaining[1];
+
             // fake option
             isFake = options.contains("-f");
             options = options.replaceAll("-f", "");
@@ -127,12 +127,24 @@ public class Create extends Command {
                 options = options.replaceAll("-u", "");
 
                 // because this is the last remaining value
-                usesLeft = Integer.parseInt(options.trim());
+                try {
+                    usesLeft = Integer.parseInt(options.trim());
+                } catch (Exception e) {
+                    // invalid value
+                    return false;
+                }
+
+                options = options.replaceAll(usesLeft.toString(), "");
 
                 // out of range error
                 if(usesLeft < 1 || usesLeft > 100) {
                     return false;
                 }
+            }
+
+            if(!options.isBlank()) {
+                // invalid option
+                return false;
             }
         }
         
@@ -153,7 +165,8 @@ public class Create extends Command {
         }
 
         inventory.addItem(item);
-        
+
+        Interpreter.getInstance().AddVariable(variableName, item);
         return true;
     }
 
@@ -167,6 +180,10 @@ public class Create extends Command {
      */
     private Inventory getInventory(String inventoryName) {
         Entry<Class<?>, Object> inventoryHolder = findVariableMatching(hasInventory, inventoryName);
+        if(inventoryHolder == null) {
+            return null;
+        }
+
         return (Inventory) invoke(inventoryHolder, "getInventory").getKey();
     }
 
@@ -183,11 +200,13 @@ public class Create extends Command {
 
         // get spawn-room
         String spawnRoom = remaining[0];
-        Room room = (Room) findVariable(Room.class, spawnRoom).getValue();
+        Entry <Class<?>, Object> spawnRoomEntry = findVariable(Room.class, spawnRoom);
 
-        if(room == null) {
+        if(spawnRoomEntry == null) {
             return false;
         }
+
+        Room room = (Room) spawnRoomEntry.getValue();
 
         // handling options
         String options = null;
@@ -202,7 +221,12 @@ public class Create extends Command {
             }
             
             // because this is the last remaining value
-            inventorySize = Integer.parseInt(options.trim());   
+            try {
+                inventorySize = Integer.parseInt(options.trim());   
+            } catch (Exception e) {
+                // invalid value
+                return false;
+            }
 
             // out of range error
             if(inventorySize < 1 || inventorySize > 100 || type == Janitor.class) {
@@ -222,14 +246,16 @@ public class Create extends Command {
             // adding the actor to game manager
             Method addMethod = GameManager.class.getMethod("Add" + type.getSimpleName(), type);
             addMethod.invoke(GameManager.getInstance(), type.cast(actor));
-
-            // adding the actor to variable list
-            Interpreter.getInstance().AddVariable(variableName, actor);
         } catch (Exception e) {
-            Interpreter.getInstance().removeVariable(variableName);
             return false;
         }
+
+        // adding the actor to variable list
+        Interpreter.getInstance().AddVariable(variableName, actor);
         
+        // setting the spawn room
+        actor.teleport(room, false); // ? is the actor supposed to be added by teleport?
+
         if(inventorySize != null) {
             actor.getInventory().setSize(inventorySize);
         }
@@ -250,7 +276,13 @@ public class Create extends Command {
         if(!remaining.isBlank()) {
             if(remaining.contains("-c")) {
                 remaining = remaining.replaceAll("-c", "");
-                capacity = Integer.parseInt(remaining.trim());
+
+                try {
+                    capacity = Integer.parseInt(remaining.trim());
+                } catch (Exception e) {
+                    // invalid value
+                    return false;
+                }
             } 
             else { 
                 // invalid option
@@ -284,12 +316,15 @@ public class Create extends Command {
         }
 
         // get rooms
-        Room room1 = (Room) findVariable(Room.class, data[0]).getValue();
-        Room room2 = (Room) findVariable(Room.class, data[1]).getValue();
+        Entry<Class<?>, Object> room1Entry = findVariable(Room.class, data[0]);
+        Entry<Class<?>, Object> room2Entry = findVariable(Room.class, data[1]);
 
-        if(room1 == null || room2 == null) {
+        if(room1Entry == null || room2Entry == null) {
             return false;
         }
+
+        Room room1 = (Room) room1Entry.getValue();
+        Room room2 = (Room) room2Entry.getValue();
 
         // handle options
         boolean isOneWay = false;

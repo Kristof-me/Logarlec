@@ -60,7 +60,10 @@ public class Interpreter {
 
                 // if there is no such command
                 if (action == null) {
-                    handleInvalid();
+                    if(!command.isBlank()) {
+                        handleInvalid();
+                    }
+                    
                     continue;
                 }
 

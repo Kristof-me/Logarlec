@@ -3,6 +3,7 @@ package logarlec.control.commands;
 import java.util.Map.Entry;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.reflect.Method;
 import logarlec.control.Interpreter;
 
 public abstract class Command {
@@ -13,7 +14,7 @@ public abstract class Command {
     HashMap<String, String> longOptions;
     protected String toShortOptions(String input) {
         for (String option : longOptions.keySet()) {
-            input.replace("--"+option, "-"+longOptions.get(option));
+            input = input.replace("--"+option, "-"+longOptions.get(option));
         }
 
         return input;
@@ -61,7 +62,14 @@ public abstract class Command {
 
     protected Entry<Object, Boolean> invoke(Entry<Class<?>, Object> target, String function, Class<?>[] paramTypes, Object... params) {
         try {
-            Object result = target.getKey().getMethod(function, paramTypes).invoke(target, params);
+            Method method;
+            if(paramTypes == null) {
+                method = target.getKey().getMethod(function);
+            } else {
+                method = target.getKey().getMethod(function, paramTypes);
+            }
+            
+            Object result = method.invoke(target.getValue(), params);
             return Map.entry(result, true);
         } catch (Exception e) {
             return Map.entry(null, false);

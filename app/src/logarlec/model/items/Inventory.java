@@ -18,7 +18,11 @@ public class Inventory {
     }
 
     public Inventory(Integer size) {
-        this.size = size;
+        // TODO add default values please
+
+        if(size != null) {
+            this.size = size;
+        }
     }
 
     /**
@@ -27,7 +31,7 @@ public class Inventory {
      * @return true if the inventory is full, false otherwise
      */
     private boolean isFull() {
-        return items.size() >= size;
+        return size != null && items.size() >= size;
     }
 
     /**
