@@ -31,6 +31,10 @@ public abstract class Command {
         return result;
     }
 
+    protected boolean isNameTaken(String variableName) {
+        return Interpreter.getInstance().getVariable(variableName) != null;
+    }
+
     protected Entry<Class<?>, Object> findVariable(Class<?> typeName, String variableName) {
         return findVariableMatching(new Class<?>[] { typeName }, variableName);
     }

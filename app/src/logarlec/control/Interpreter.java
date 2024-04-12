@@ -38,6 +38,10 @@ public class Interpreter {
         return variables.put(name, item) == null;
     }
 
+    public void removeVariable(String variableName) {
+        variables.remove(variableName);
+    }
+
     protected Interpreter() {}
 
     public void handleInput(InputStream is) {
@@ -83,4 +87,5 @@ public class Interpreter {
     private void handleInvalid() {
         System.out.println("Invalid command");
     }
+
 }
