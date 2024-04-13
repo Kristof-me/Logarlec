@@ -29,7 +29,7 @@ public class Sponge extends Item {
     public void use(Actor invoker) {
 
         Room room = invoker.getLocation();
-        RoomEffect effect = new WetEffect();
+        RoomEffect effect = new WetEffect(room);
         room.addEffect(effect);
 
         usesLeft--;

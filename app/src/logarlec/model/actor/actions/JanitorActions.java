@@ -3,6 +3,7 @@ package logarlec.model.actor.actions;
 import logarlec.model.actor.Janitor;
 import logarlec.model.room.Door;
 import logarlec.model.room.Room;
+import logarlec.model.room.StickyEffect;
 
 /**
  * The actions that a Janitor can take.
@@ -42,6 +43,7 @@ public class JanitorActions extends ActionsState {
                 currentRoom.leave(actor);
             }
             newRoom.close(actor);
+            newRoom.addEffect(new StickyEffect(newRoom));
             return true;
         }
         return false;

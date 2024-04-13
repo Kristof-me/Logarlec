@@ -69,11 +69,13 @@ opt isSuccessful
             end
         end
     return
-
+    create sticky as "stickyEffect : StickyEffect"
+    S --> sticky : <<create>>
+    S -> R2 ++: addEffect(sticky)
+    return
 end
 
 return
 return
-
 @enduml
 

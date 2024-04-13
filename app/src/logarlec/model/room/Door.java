@@ -85,15 +85,16 @@ public class Door {
         return isSuccesful;
     }
 
+    boolean doTick = false;
     /**
      * Ticks the door, decreasing the remaining invisibility time.
+     * Since both doors call this method, we need to only tick every other time.
      */
     public void tick() {
-        if (remainingInvisibility > 0) {
-            // KÉT SZOBA HÍVJA A TICKET !!! VAGYIS CSAK MINDEN MÁSODIKRA FUTHAT LE
+        if (remainingInvisibility > 0 && doTick) {
             remainingInvisibility--;
         }
-        
+        doTick = !doTick;
     }
 
     /**
@@ -110,14 +111,26 @@ public class Door {
         }
     }
 
+    /**
+     * Returns the remaining time of the invisibility.
+     * @return The remaining time of the invisibility.
+     */
     public Integer getRemainingInvisibility() {
         return remainingInvisibility;
     }
 
+    /**
+     * Returns whether the door is one-way.
+     * @return Whether the door is one-way.
+     */
     public Boolean getIsOneWay() {
         return isOneway;   
     }
 
+    /**
+     * Returns the rooms that the door connects.
+     * @return The rooms that the door connects.
+     */
     public Room[] getRooms() {
         return rooms;
     }

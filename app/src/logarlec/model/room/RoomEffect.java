@@ -15,7 +15,12 @@ import logarlec.model.actor.Student;
  * After a while these effects expire
  */
 public abstract class RoomEffect {
+
+    protected RoomEffect(Room room){
+        this.room = room;
+    }
     protected Integer timeLeft = null;
+    protected Room room;
 
     /**
      * Decreases the time left for the effect. <br>
@@ -27,31 +32,67 @@ public abstract class RoomEffect {
     public boolean tick() {
         // Decrease the time left for the effect
         timeLeft--;
-
         // If time left is zero or less, return false indicating the effect has expired
-        if (timeLeft <= 0) {
-            return false;
-        }
-
-        // Otherwise, return true indicating the effect is still active
-        return true;
+        return timeLeft > 0;
     }
 
+    /**
+     * Sets the time left for the effect
+     * @param timeLeft the time left for the effect
+     */
     public void setTimeLeft(int timeLeft) {
         this.timeLeft = timeLeft;
     }
 
+    /**
+     * Gets the time left for the effect
+     * @return the time left for the effect
+     */
     public Integer getTimeLeft() {
         return timeLeft;
     }
 
-    public abstract void addEffect(Actor actor);
+    /**
+     * Adds the effect to the actor using the visitor pattern
+     * By default, no item protects the actor from the effect
+     * @param actor the actor to add the effect to
+     */
+    public void addEffect(Actor actor) {
+        actor.acceptEffect(this, null);
+    }
 
-    public abstract boolean clean();
+    /**
+     * Tries to clean the effect from the room
+     * By default, the effect cannot be cleaned
+     * @return true if the effect was cleaned, false otherwise
+     */
+    public boolean clean() {
+        return false;
+    }
 
+    /**
+     * Apply the effect to a Professor (visitor pattern)
+     * @param professor the Professor to apply the effect to
+     */
     public abstract void applyEffect(Professor professor);
 
+    /**
+     * Apply the effect to a Student (visitor pattern)
+     * @param student the Student to apply the effect to
+     */
     public abstract void applyEffect(Student student);
 
+    /**
+     * Apply the effect to a Janitor (visitor pattern)
+     * @param janitor the Janitor to apply the effect to
+     */
     public abstract void applyEffect(Janitor janitor);
+
+    /**
+     * Sets the room of the effect
+     * @param room the room of the effect
+     */
+    public void setRoom(Room room) {
+        this.room = room;
+    }
 }

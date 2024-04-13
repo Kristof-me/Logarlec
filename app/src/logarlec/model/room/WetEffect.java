@@ -13,12 +13,13 @@ import logarlec.model.actor.actions.StunnedStep;
  * so it can't move or attack students.
  */
 public class WetEffect extends RoomEffect {
+
     /**
      * Constructor for WetEffect
      */
-    public WetEffect() {
-        
-        
+    public WetEffect(Room room) {
+        super(room);
+        timeLeft = 5; // TODO change this value later
     }
 
     /**
@@ -41,8 +42,7 @@ public class WetEffect extends RoomEffect {
      */
     @Override
     public void applyEffect(Student student) {
-        
-
+        // Student is not affected by the wet effect
     }
 
     /**
@@ -53,28 +53,6 @@ public class WetEffect extends RoomEffect {
      */
     @Override
     public void applyEffect(Janitor janitor) {
-        
-
-    }
-
-    /**
-     * Add the effect to an Actor (visitor pattern)
-     * 
-     * @param actor the Actor to add the effect to
-     */
-    @Override
-    public void addEffect(Actor actor) {
-        actor.acceptEffect(this, null);
-        
-    }
-
-    @Override
-    public boolean tick() {
-        return super.tick();
-    }
-
-    @Override
-    public boolean clean(){
-        return false; // no cleanable
+        // Janitor is not affected by the wet effect
     }
 }

@@ -51,6 +51,7 @@ public class Room implements IHasLocation {
 
         for (RoomEffect effect : roomEffects) {
             room2.addEffect(effect);
+            effect.setRoom(room2);
         }
         
     }
@@ -70,6 +71,7 @@ public class Room implements IHasLocation {
         // move effects
         for (RoomEffect effect : roomEffects) {
             room.addEffect(effect);
+            effect.setRoom(room);
         }
 
         // move items
@@ -119,14 +121,19 @@ public class Room implements IHasLocation {
      * @param effect the effect to add
      */
     public void addEffect(RoomEffect effect) {
-
         roomEffects.add(effect);
-
         for (Actor actor : actors) {
             effect.addEffect(actor);
         }
+    }
 
-        
+    /**
+     * Removes a room effect from the room
+     * 
+     * @param effect the effect to remove
+     */
+    public void removeEffect(RoomEffect effect) {
+        roomEffects.remove(effect);
     }
 
     /**
@@ -169,7 +176,6 @@ public class Room implements IHasLocation {
      */
     public void leave(Actor actor) {
         actors.remove(actor);
-        
     }
 
     /**
@@ -198,9 +204,7 @@ public class Room implements IHasLocation {
      * @return true if the room is full, false otherwise
      */
     private boolean isFull() {
-
-        boolean isFull = actors.stream().filter(actor -> actor.isAlive()).count() >= capacity;
-        return isFull;
+        return actors.stream().filter(actor -> actor.isAlive()).count() >= capacity;
     }
 
     /**
@@ -260,14 +264,13 @@ public class Room implements IHasLocation {
         // tick the effects
         for (int i = 0; i < roomEffects.size(); i++) {
             RoomEffect effect = roomEffects.get(i);
-            if (effect.tick() == false) {
+            if (!effect.tick()) {
                 roomEffects.remove(i);
                 i--;
             } else {
                 for (Actor actor : actors) {
                     effect.addEffect(actor);
                 }
-
             }
         }
 
@@ -277,10 +280,18 @@ public class Room implements IHasLocation {
     /**
      * Removes all the actors from the room,
      * except the initiating actor
-     * @param actor the actor that initiated it
+     * @param initiatingActor the actor that initiated it
      */
-    public void close(Actor actor){
-        
+    public void close(Actor initiatingActor){
+        for (Door door : doors) {
+            for (int i = 0; i < actors.size(); i++) {
+                Actor actor = actors.get(i);
+                if (actor != initiatingActor &&  actor.move(door)){
+                    //Decrease the index, because a successful move will remove the actor from the room
+                    i--;   
+                }
+            }
+        }
     }
 
     /**
@@ -302,27 +313,59 @@ public class Room implements IHasLocation {
         return inventory;
     }
 
+    /**
+     * Sets the capacity of the room
+     * @param capacity the new capacity of the room
+     */
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 
+    /**
+     * Gets the doors of the room
+     * @return the doors of the room
+     */
     public ArrayList<Door> getDoors() {
         return doors;
     }
 
+    /**
+     * Gets the room effects of the room
+     * @return the room effects of the room
+     */
     public List<RoomEffect> getRoomEffects() {
         return roomEffects;
     }
 
+    /**
+     * Gets the actors in the room
+     * @return the actors in the room
+     */
     public List<Actor> getActors() {
         return actors;
     }
 
+    /**
+     * Returns the capacity of the room
+     * @return the capacity of the room
+     */ 
     public Integer getCapacity() {
         return capacity;
     }
 
+    /**
+     * Returns whether the room is sticky
+     * @return whether the room is sticky
+     */
     public boolean getIsSticky() { // TODO you can change this later
         return isSticky;
+    }
+
+    /**
+     * Sets the room to be sticky
+     * @param isSticky whether the room is sticky
+     */
+    public void setIsSticky(boolean isSticky) {
+        this.isSticky = isSticky;
     }
 }

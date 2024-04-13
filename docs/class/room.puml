@@ -42,7 +42,7 @@ class Room {
 
     + addItem(item: Item) : void
     + removeItem(item: Item) : Item
-    + close() : void
+    + close(actor: Actor) : void
     + clean() : boolean
     + tick() : void
 }

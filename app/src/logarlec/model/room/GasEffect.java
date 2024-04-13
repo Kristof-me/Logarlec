@@ -4,8 +4,7 @@ import logarlec.model.actor.Actor;
 import logarlec.model.actor.Janitor;
 import logarlec.model.actor.Professor;
 import logarlec.model.actor.Student;
-
-
+import logarlec.model.actor.actions.StunnedStep;
 import logarlec.model.items.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -21,7 +20,8 @@ public class GasEffect extends RoomEffect {
     /**
      * Constructor for GasEffect
      */
-    public GasEffect() {
+    public GasEffect(Room room) {
+        super(room);
         itemFinders.add(new BestGasMaskFinder());
         // ! PLEASE DON'T MAKE THIS A CONSTRUCTOR PARAMETER
         timeLeft = 5; // TODO change this value later 
@@ -34,7 +34,8 @@ public class GasEffect extends RoomEffect {
     @Override
     public void applyEffect(Professor professor) {
         professor.dropAllTo(professor.getLocation());
-        
+        StunnedStep stunnedStep = new StunnedStep(professor);
+        professor.setActionState(stunnedStep);
     }
 
     /**
@@ -44,16 +45,17 @@ public class GasEffect extends RoomEffect {
     @Override
     public void applyEffect(Student student) {
         student.dropAllTo(student.getLocation());
-        
+        StunnedStep stunnedStep = new StunnedStep(student);
+        student.setActionState(stunnedStep);
     }
 
     /**
-     * Apply the effect to the janitor.<br>
+     * Apply the effect to the janitor, which removes this effect.
      * Based on visitor pattern
      */
     @Override
     public void applyEffect(Janitor janitor) {
-        // todo   
+        room.removeEffect(this);
     }
 
     /**
@@ -62,11 +64,6 @@ public class GasEffect extends RoomEffect {
     @Override
     public void addEffect(Actor actor) {
         actor.acceptEffect(this, itemFinders);   
-    }
-
-    @Override
-    public boolean tick() {
-        return super.tick();
     }
 
     @Override
