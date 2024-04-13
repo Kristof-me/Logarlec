@@ -35,10 +35,7 @@ public class BeerDefense extends DefenseStrategy {
      */
     @Override
     public boolean tick() {
-        if (remaining > 0) {
-            remaining--;
-            return true;
-        }
-        return false;
+        remaining--;
+        return remaining > 0;
     }
 }

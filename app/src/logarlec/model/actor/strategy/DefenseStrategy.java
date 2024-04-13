@@ -14,7 +14,7 @@ public abstract class DefenseStrategy {
      * Constructor.
      * @param actor Actor to defend.
      */
-    public DefenseStrategy(Actor actor) {
+    protected DefenseStrategy(Actor actor) {
         this.actor = actor;
     }
     

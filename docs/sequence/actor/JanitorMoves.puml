@@ -54,20 +54,22 @@ return isSuccessful
 return isSuccessful
 
 opt isSuccessful
-    S -> R2 ++: close()
+    S -> R1 ++: leave(janitor)
+    return
+    S -> R2 ++: close(janitor)
 
         loop foreach neighbourDoor in roomTo.doors
             loop forech actor in roomTo.actors
-                R2 -> ND ++: leadsTo(roomTo)
-                return neighbourRoom
-                R2 -> NR ++: move(actor,neighbourDoor)
-                return isSuccessful
+                alt actor != janitor
+                    R2 -> ND ++: leadsTo(roomTo)
+                    return neighbourRoom
+                    R2 -> NR ++: move(actor,neighbourDoor)
+                    return isSuccessful
+                end
             end
         end
     return
 
-    S -> R1 ++: leave(janitor)
-    return
 end
 
 return

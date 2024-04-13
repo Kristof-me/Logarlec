@@ -64,9 +64,14 @@ public class StunnedStep extends ActionsState {
 
     @Override
     public ActionsState setNextState(ActionsState state) {
+        //Stunned effect takes priority over any other state
         return this;
     }
 
+    /**
+     * Sets the remaining time of the stunned effect.
+     * @param remaining the remaining time of the stunned effect
+     */
     public void setRemaining(int remaining) {
         this.remaining = remaining;
     }
@@ -74,9 +79,6 @@ public class StunnedStep extends ActionsState {
     @Override
     public boolean tick() {
         remaining--;
-        if (remaining == 0) {
-            return false;
-        }
-        return true;
+        return remaining > 0;
     }
 }

@@ -3,6 +3,7 @@ package logarlec.model.room;
 import java.util.ArrayList;
 import java.util.List;
 import logarlec.model.actor.Actor;
+import logarlec.model.actor.Janitor;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 
@@ -270,6 +271,15 @@ public class Room implements IHasLocation {
             }
         }
 
+        
+    }
+
+    /**
+     * Removes all the actors from the room,
+     * except the initiating actor
+     * @param actor the actor that initiated it
+     */
+    public void close(Actor actor){
         
     }
 

@@ -18,13 +18,6 @@ public class JanitorActions extends ActionsState {
         super(janitor);
     }
 
-     /**
-     * The janitor can NOT attack, so this is an empty implementation.
-     */
-    @Override
-    public void attack() {
-        // no implementation
-    }
 
     /**
      * Sets the next state of the Janitor.
@@ -33,20 +26,29 @@ public class JanitorActions extends ActionsState {
         return state;
     }
 
+    /**
+     * Move the actor through the specified door.<br>
+     * This action is not forced (so the actor won't be killed if failed).
+     * If successful, the janitor moves all other actors out of the target room.
+     * @param door Door to move through.
+     * @return True if the actor was moved, false otherwise.
+     */
     @Override
     public boolean move(Door door) {
-        Room currentRoom = actor.getLocation();
-
-        if (door.move(actor, door.leadsTo(currentRoom))) {
-            if (currentRoom != null) {
-                currentRoom.leave(actor);
+        Room oldRoom = actor.getLocation();
+        Room newRoom = door.leadsTo(oldRoom);
+        //Set room to new, even though not entered yet, otherwise actor would attack old room
+        actor.setLocation(newRoom);
+        if (door.move(actor, newRoom) && newRoom.enter(actor, false)) {
+            if (oldRoom != null) {
+                oldRoom.leave(actor);
             }
-            
-            // ToDo: move everyone out of the room to
-            // ToDo: clean the room
-
+            newRoom.close(actor);
+            return true;
         }
-
+        else {
+            actor.setLocation(oldRoom);
+        }
         return false;
     }
 }

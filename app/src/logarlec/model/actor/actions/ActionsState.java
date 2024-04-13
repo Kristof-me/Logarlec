@@ -39,11 +39,10 @@ public abstract class ActionsState implements IActions {
 
     /**
      * Attack every other actor in the room.<br>
-     * This is an emtpy implementation, as students shouldn't be able to attack.
+     * This is an emtpy implementation, as students or janitors shouldn't be able to attack.
      */
     @Override
-    public void attack() {
-    }
+    public void attack() { }
 
     /**
      * Move the actor through the specified door.<br>
@@ -54,13 +53,18 @@ public abstract class ActionsState implements IActions {
      */
     @Override
     public boolean move(Door door) {
-
-        Room currentRoom = actor.getLocation();
-
-        if (door.move(actor, door.leadsTo(currentRoom))) {
-            if (currentRoom != null) {
-                currentRoom.leave(actor);
+        Room oldRoom = actor.getLocation();
+        Room newRoom = door.leadsTo(oldRoom);
+        //Set room to new, even though not entered yet, otherwise actor would attack old room
+        actor.setLocation(newRoom);
+        if (door.move(actor, newRoom) && newRoom.enter(actor, false)) {
+            if (oldRoom != null) {
+                oldRoom.leave(actor);
             }
+            return true;
+        }
+        else {
+            actor.setLocation(oldRoom);
         }
         return false;
     }
@@ -83,17 +87,15 @@ public abstract class ActionsState implements IActions {
      */
     @Override
     public boolean pickUp(Item item) {
-
         Room room = actor.getLocation();
         Item targetItem = room.removeItem(item);
 
         if (targetItem == null) {
+            return false;
         }
 
         Inventory inventory = actor.getInventory();
-
         boolean success = inventory.addItem(targetItem);
-
         if (success) {
             // if the item was added to the inventory
             item.onPickup(actor);

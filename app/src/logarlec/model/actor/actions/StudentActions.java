@@ -18,14 +18,6 @@ public class StudentActions extends ActionsState {
     }
 
     /**
-     * The student can NOT attack, so this is an empty implementation.
-     */
-    @Override
-    public void attack() {
-        // no implementation
-    }
-
-    /**
      * Sets the next state for the student.
      * 
      * @param state Next state
