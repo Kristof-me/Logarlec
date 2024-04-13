@@ -38,7 +38,6 @@ public class Door {
      */
     public void hide(Integer duration) {
         remainingInvisibility = duration;
-        
     }
 
     /**

@@ -35,19 +35,14 @@ public class JanitorActions extends ActionsState {
      */
     @Override
     public boolean move(Door door) {
-        Room oldRoom = actor.getLocation();
-        Room newRoom = door.leadsTo(oldRoom);
-        //Set room to new, even though not entered yet, otherwise actor would attack old room
-        actor.setLocation(newRoom);
-        if (door.move(actor, newRoom) && newRoom.enter(actor, false)) {
-            if (oldRoom != null) {
-                oldRoom.leave(actor);
+        Room currentRoom = actor.getLocation();
+        Room newRoom = door.leadsTo(currentRoom);
+        if (door.move(actor, newRoom)) {
+            if (currentRoom != null) {
+                currentRoom.leave(actor);
             }
             newRoom.close(actor);
             return true;
-        }
-        else {
-            actor.setLocation(oldRoom);
         }
         return false;
     }
