@@ -28,6 +28,7 @@ public class Door {
     public Door(Room room1, Room room2, boolean isOneway) {
         this.rooms[0] = room1;
         this.rooms[1] = room2;
+        this.isOneway = isOneway;
     }
 
     /**
