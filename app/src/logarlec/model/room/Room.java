@@ -243,7 +243,6 @@ public class Room implements IHasLocation {
         while (i < roomEffects.size()){
             if(roomEffects.get(i).clean()){
                 cleanedAtLeastOne = true;
-                roomEffects.remove(i);
             }
             else{
                 i++;

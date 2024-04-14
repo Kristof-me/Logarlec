@@ -68,6 +68,7 @@ public class GasEffect extends RoomEffect {
 
     @Override
     public boolean clean(){
+        room.removeEffect(this);
         return true; // cleanable
     }
 }
