@@ -13,7 +13,6 @@ public class FakeItem extends Item {
     private Item itemToFake; // the fake item requires another item to fake
 
     public FakeItem(Item item) {
-        super(1);
         itemToFake = item; 
     }
 

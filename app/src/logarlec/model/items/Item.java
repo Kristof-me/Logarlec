@@ -12,7 +12,7 @@ public abstract class Item {
 
     protected Integer usesLeft = 1;
 
-    protected Item(){ }
+    protected Item() { }
 
     /**
      * Constructor for the item.

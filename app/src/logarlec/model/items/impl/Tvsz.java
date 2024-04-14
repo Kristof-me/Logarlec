@@ -17,7 +17,7 @@ public class Tvsz extends Item {
      * Set the default usesLeft to 3
      */
     public Tvsz(){
-        usesLeft = 3;
+        super(3);
     }
 
     public Tvsz(Integer usesLeft){

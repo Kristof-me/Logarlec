@@ -15,7 +15,7 @@ import logarlec.model.room.WetEffect;
  */
 public class Sponge extends Item {
 
-    public Sponge() {}
+    public Sponge() { }
 
     public Sponge(Integer usesLeft) {
         super(usesLeft);

@@ -12,7 +12,7 @@ import logarlec.model.room.Room;
  */
 public class Cocktail extends Item {
 
-    public Coctail() { }
+    public Cocktail() { }
 
     public Cocktail(Integer usesLeft) {
         super(usesLeft);
