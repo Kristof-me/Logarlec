@@ -226,7 +226,10 @@ public class Room implements IHasLocation {
      * @return the removed item
      */
     public Item removeItem(Item item) {
-        return inventory.removeItem(item);
+        if(!isSticky){
+            return inventory.removeItem(item);
+        }
+        return null;
     }
 
     /**

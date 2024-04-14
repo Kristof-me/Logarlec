@@ -23,14 +23,6 @@ public class Move extends Command {
         Actor actor = (Actor) actorEntry.getValue();
         Door door = (Door) doorEntry.getValue();
 
-        // TODO remove this if not needed 
-        /*
-        // validation
-        if(!actor.getLocation().getDoors().contains(door)) {
-            return false;
-        }
-        */
-
         try {
             actor.move(door);
         } catch (Exception e) {

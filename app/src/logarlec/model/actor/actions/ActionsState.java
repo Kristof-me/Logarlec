@@ -54,6 +54,10 @@ public abstract class ActionsState implements IActions {
     @Override
     public boolean move(Door door) {
         Room currentRoom = actor.getLocation();
+        if(!roomHasDoor(currentRoom, door)){
+            throw new RuntimeException("Can not move through a door that your rooms does not have!");
+        }
+
         Room newRoom = door.leadsTo(currentRoom);
         if (door.move(actor, newRoom)) {
             if (currentRoom != null) {
@@ -71,6 +75,11 @@ public abstract class ActionsState implements IActions {
      */
     @Override
     public void use(Item item) {
+        Inventory inventory = actor.getInventory();
+        if(!inventory.getItems().contains(item)){
+            throw new RuntimeException("Can not use an item that is not in your inventory");
+        }
+
         item.use(actor);
     }
 
@@ -120,4 +129,8 @@ public abstract class ActionsState implements IActions {
      * @param state Next state
      */
     public abstract ActionsState setNextState(ActionsState state);
+
+    protected boolean roomHasDoor(Room room, Door door) {
+        return room.getDoors().contains(door);
+    }
 }

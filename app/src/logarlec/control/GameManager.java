@@ -8,12 +8,14 @@ import logarlec.model.room.*;
 
 public class GameManager {
     private static GameManager instance;
-    private boolean randomness = true;
+    private boolean randomness = false;
 
     private List<Student> students = new ArrayList<>();
     private List<Professor> professors = new ArrayList<>();
     private List<Janitor> janitors = new ArrayList<>();
     private List<Room> rooms = new ArrayList<>();
+
+    private boolean anySlideRulePickedUp = false;
 
     public static GameManager getInstance() {
         if (instance == null) {
@@ -23,14 +25,21 @@ public class GameManager {
         return instance;
     }
 
-    private GameManager() {}
+    private GameManager() { reset(); }
 
     public boolean isWon() {
-        // TODO implement this method
-        throw new UnsupportedOperationException("Unimplemented method 'execute'");
+        if(anySlideRulePickedUp) {
+            return true;
+        }
+
+        return false;
     }
     
     public boolean isGameOver() {
+        if(isWon()){
+            return true;
+        }
+
         for (Student player : students) {
             if(player.isAlive()) {
                 return false;
@@ -38,8 +47,6 @@ public class GameManager {
         }
 
         return true;
-
-        // TODO implement this method
     }
 
     public void reset() {
@@ -48,23 +55,31 @@ public class GameManager {
         janitors.clear();
         rooms.clear();
 
-        // TODO: implement this method
+        anySlideRulePickedUp = false;
+        setRandomness(false);
     }
 
-    public void AddStudent(Student student) {
+    public void addStudent(Student student) {
         students.add(student);
     }
     
-    public void AddProfessor(Professor professor) {
+    public void addProfessor(Professor professor) {
         professors.add(professor);
     }
 
-    public void AddJanitor(Janitor janitor) {
+    public void addJanitor(Janitor janitor) {
         janitors.add(janitor);
     }
 
-    public void AddRoom(Room room) {
+    public void addRoom(Room room) {
         rooms.add(room);
+    }
+
+    public Door addDoor(Room from, Room to, boolean isOnwWay){
+        Door door = new Door(from, to, isOnwWay);
+        from.getDoors().add(door);
+        to.getDoors().add(door);
+        return door;
     }
 
     public void setRandomness(boolean value) {
@@ -73,5 +88,9 @@ public class GameManager {
 
     public boolean isRandom() {
         return randomness;
+    }
+
+    public void slideRulePickedUp() {
+        anySlideRulePickedUp = true;
     }
 }

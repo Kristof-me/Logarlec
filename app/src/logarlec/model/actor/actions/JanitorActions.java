@@ -36,16 +36,20 @@ public class JanitorActions extends ActionsState {
      */
     @Override
     public boolean move(Door door) {
-        Room currentRoom = actor.getLocation();
-        Room newRoom = door.leadsTo(currentRoom);
-        if (door.move(actor, newRoom)) {
-            if (currentRoom != null) {
-                currentRoom.leave(actor);
-            }
-            newRoom.close(actor);
-            newRoom.addEffect(new StickyEffect(newRoom));
-            return true;
-        }
+                Room currentRoom = actor.getLocation();
+                if(!roomHasDoor(currentRoom, door)){
+                    throw new RuntimeException("Can not move through a door that your rooms does not have!");
+                }
+
+                Room newRoom = door.leadsTo(currentRoom);
+                if (door.move(actor, newRoom)) {
+                    if (currentRoom != null) {
+                        currentRoom.leave(actor);
+                    }
+                    newRoom.close(actor);
+                    newRoom.addEffect(new StickyEffect(newRoom));
+                    return true;
+                }
         return false;
     }
 }

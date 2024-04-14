@@ -238,7 +238,7 @@ public class Create extends Command {
     
         try {
             // adding the actor to game manager
-            Method addMethod = GameManager.class.getMethod("Add" + type.getSimpleName(), type);
+            Method addMethod = GameManager.class.getMethod("add" + type.getSimpleName(), type);
             addMethod.invoke(GameManager.getInstance(), type.cast(actor));
         } catch (Exception e) {
             return false;
@@ -285,7 +285,7 @@ public class Create extends Command {
         }
 
         Room room = new Room(capacity);
-        GameManager.getInstance().AddRoom(room);
+        GameManager.getInstance().addRoom(room);
         Interpreter.getInstance().AddVariable(variableName, room);
 
         return true;
@@ -331,7 +331,7 @@ public class Create extends Command {
             }
         }
 
-        Door door = new Door(room1, room2, isOneWay);
+        Door door = GameManager.getInstance().addDoor(room1, room2, isOneWay);
         Interpreter.getInstance().AddVariable(variableName, door);
 
         return true;

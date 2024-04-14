@@ -1,6 +1,10 @@
 package logarlec.model.items.impl;
 
+import java.util.Random;
+
+import logarlec.control.GameManager;
 import logarlec.model.actor.Actor;
+import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
 import logarlec.model.actor.strategy.BeerDefense;
@@ -17,7 +21,7 @@ public class Beer extends Item {
 
     /**
      * Uses the beer item. It switches the defense strategy for a BeerDefense
-     * strategy.
+     * strategy and drops a random (if random is on) item from the inventory.
      * 
      * @param invoker The actor that uses the item.
      */
@@ -29,7 +33,17 @@ public class Beer extends Item {
         usesLeft--;
 
         super.use(invoker);
-        
+
+        Inventory inventory = invoker.getInventory();
+        if(inventory.getItems().isEmpty()) {
+            return;
+        }
+        int selected = 0;
+        if(GameManager.getInstance().isRandom()) {
+            int max = inventory.getItems().size();
+            selected = new Random().nextInt(max);
+        }
+        invoker.drop(inventory.getItems().get(selected));
     }
 
     /**

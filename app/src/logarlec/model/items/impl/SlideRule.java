@@ -1,5 +1,6 @@
 package logarlec.model.items.impl;
 
+import logarlec.control.GameManager;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
@@ -10,6 +11,8 @@ import logarlec.model.items.ItemVisitor;
  * A slide rule item, which needs to be picked up to win the game
  */
 public class SlideRule extends Item {
+
+    public static boolean anyPickedUp = false;
 
     public SlideRule() {
         
@@ -22,8 +25,7 @@ public class SlideRule extends Item {
      */
     @Override
     public void onPickup(Actor actor) {
-        // signal game over
-        System.out.println("Logarlec has been picked up 4!4!!!");
+        GameManager.getInstance().slideRulePickedUp();
         super.onPickup(actor);
         
     }

@@ -22,8 +22,7 @@ public class FakeItem extends Item {
 
         // no implementation
 
-        super.use(invoker); // ? is this supposed to be here?
-        
+        super.use(invoker);
     }
 
     /**
