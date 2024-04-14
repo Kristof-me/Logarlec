@@ -321,7 +321,7 @@ public class Room implements IHasLocation {
      * Gets the doors of the room
      * @return the doors of the room
      */
-    public ArrayList<Door> getDoors() {
+    public List<Door> getDoors() {
         return doors;
     }
 

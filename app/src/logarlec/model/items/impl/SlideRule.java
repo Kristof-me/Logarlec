@@ -11,9 +11,6 @@ import logarlec.model.items.ItemVisitor;
  * A slide rule item, which needs to be picked up to win the game
  */
 public class SlideRule extends Item {
-
-    public static boolean anyPickedUp = false;
-
     /**
      * Called when the slide rule is picked up,
      * triggers the end of the game
@@ -22,7 +19,6 @@ public class SlideRule extends Item {
     public void onPickup(Actor actor) {
         GameManager.getInstance().slideRulePickedUp();
         super.onPickup(actor);
-        
     }
 
     /**
@@ -35,5 +31,4 @@ public class SlideRule extends Item {
         visitor.visit(this);
         
     }
-
 }
