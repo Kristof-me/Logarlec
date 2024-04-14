@@ -1,0 +1,7 @@
+@startuml stickyroom
+header Sticky effect
+hide empty description
+
+[*] --> NotSticky
+NotSticky --> NotSticky : uniqueActors.length() < 5
+NotSticky --> Sticky : uniqueActors.length() >= 5
