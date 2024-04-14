@@ -55,4 +55,9 @@ public class WetEffect extends RoomEffect {
     public void applyEffect(Janitor janitor) {
         // Janitor is not affected by the wet effect
     }
+
+    @Override
+    public RoomEffect copy() {
+        return new WetEffect(room);
+    }
 }

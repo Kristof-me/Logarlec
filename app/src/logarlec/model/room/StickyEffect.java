@@ -51,5 +51,9 @@ public class StickyEffect extends RoomEffect {
     public boolean tick(){
         return true;
     }
-    
+
+    @Override
+    public RoomEffect copy() {
+        return new StickyEffect(room);
+    }
 }

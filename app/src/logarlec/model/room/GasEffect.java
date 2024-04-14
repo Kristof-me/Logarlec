@@ -71,4 +71,9 @@ public class GasEffect extends RoomEffect {
         room.removeEffect(this);
         return true; // cleanable
     }
+
+    @Override
+    public RoomEffect copy() {
+        return new GasEffect(room);
+    }
 }

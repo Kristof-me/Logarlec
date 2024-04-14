@@ -95,4 +95,10 @@ public abstract class RoomEffect {
     public void setRoom(Room room) {
         this.room = room;
     }
+
+    /**
+     * 
+     * @return Deep copy of the effect
+     */
+    public abstract RoomEffect copy();
 }

@@ -45,13 +45,12 @@ public class Room implements IHasLocation {
      */
     public Room split() {
         Room room2 = new Room(capacity);
-        Door door = new Door(this, room2, false);
-        doors.add(door);
-        room2.doors.add(door);
+        new Door(this, room2, false);
 
         for (RoomEffect effect : roomEffects) {
-            room2.addEffect(effect);
-            effect.setRoom(room2);
+            RoomEffect effectCopy = effect.copy();
+            room2.addEffect(effectCopy);
+            effectCopy.setRoom(room2);
         }
         return room2;
     }
@@ -321,7 +320,7 @@ public class Room implements IHasLocation {
      * Gets the doors of the room
      * @return the doors of the room
      */
-    public List<Door> getDoors() {
+    public ArrayList<Door> getDoors() {
         return doors;
     }
 
