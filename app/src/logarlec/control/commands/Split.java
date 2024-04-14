@@ -2,6 +2,8 @@ package logarlec.control.commands;
 
 import java.util.ArrayList;
 import java.util.Map.Entry;
+
+import logarlec.control.GameManager;
 import logarlec.control.Interpreter;
 import logarlec.model.room.Door;
 import logarlec.model.room.Room;
@@ -36,7 +38,7 @@ public class Split extends Command {
         }
 
         // split the room
-        room.split();
+        Room newRoom = GameManager.getInstance().splitRoom(room);
 
         // if the door was not added
         if(doors.isEmpty() || lastDoor == doors.get(doors.size() - 1)) { 
@@ -48,7 +50,6 @@ public class Split extends Command {
         Interpreter.getInstance().AddVariable(names[2], lastDoor);
         
         // get the new room
-        Room newRoom = lastDoor.leadsTo(room);
         Interpreter.getInstance().AddVariable(names[1], newRoom);
 
         return true;

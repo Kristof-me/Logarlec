@@ -331,7 +331,7 @@ public class Create extends Command {
             }
         }
 
-        Door door = GameManager.getInstance().addDoor(room1, room2, isOneWay);
+        Door door = new Door(room1, room2, isOneWay);
         Interpreter.getInstance().AddVariable(variableName, door);
 
         return true;

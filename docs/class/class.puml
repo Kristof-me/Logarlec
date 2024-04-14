@@ -155,7 +155,7 @@ class Room {
     - capacity : int
     - isSticky : boolean
 
-    + split() : void
+    + split() : Room
     + merge(room: Room) : void
     + attack(attacker: Actor): void
     + addEffect(effect: RoomEffect) : void

@@ -2,6 +2,7 @@ package logarlec.control.commands;
 
 import java.util.Map.Entry;
 
+import logarlec.control.GameManager;
 import logarlec.control.Interpreter;
 import logarlec.model.room.Room;
 
@@ -30,7 +31,7 @@ public class Merge extends Command {
         Room room1 = (Room) room1entry.getValue();
         Room room2 = (Room) room2entry.getValue();
 
-        room2.merge(room1);
+        GameManager.getInstance().mergeRooms(room1, room2);
         Interpreter.getInstance().removeVariable(roomNames[1]);
 
         return true;

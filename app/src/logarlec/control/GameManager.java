@@ -75,11 +75,15 @@ public class GameManager {
         rooms.add(room);
     }
 
-    public Door addDoor(Room from, Room to, boolean isOnwWay){
-        Door door = new Door(from, to, isOnwWay);
-        from.getDoors().add(door);
-        to.getDoors().add(door);
-        return door;
+    public void mergeRooms(Room room1, Room room2){
+        room2.merge(room1);
+        rooms.remove(room2);
+    }
+
+    public Room splitRoom(Room room){
+        Room newRoom = room.split();
+        addRoom(newRoom);
+        return newRoom;
     }
 
     public void setRandomness(boolean value) {

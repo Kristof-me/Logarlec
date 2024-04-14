@@ -40,10 +40,10 @@ public class Room implements IHasLocation {
 
     /**
      * Splits a room into two rooms with a door between them
+     * 
+     * @return the new room created
      */
-    public void split() {
-        // TODO notify game / room manager or something like that
-
+    public Room split() {
         Room room2 = new Room(capacity);
         Door door = new Door(this, room2, false);
         doors.add(door);
@@ -53,7 +53,7 @@ public class Room implements IHasLocation {
             room2.addEffect(effect);
             effect.setRoom(room2);
         }
-        
+        return room2;
     }
 
     /**
@@ -66,8 +66,6 @@ public class Room implements IHasLocation {
      * @param room the room to merge with
      */
     public void merge(Room room) {
-        // TODO notify game / room manager or something like that
-
         // move effects
         for (RoomEffect effect : roomEffects) {
             room.addEffect(effect);
@@ -96,7 +94,6 @@ public class Room implements IHasLocation {
                 door.updateRoom(this, room);
             }
         }
-        
     }
 
     /**

@@ -29,6 +29,8 @@ public class Door {
         this.rooms[0] = room1;
         this.rooms[1] = room2;
         this.isOneway = isOneway;
+        room1.getDoors().add(this);
+        room2.getDoors().add(this);
     }
 
     /**
