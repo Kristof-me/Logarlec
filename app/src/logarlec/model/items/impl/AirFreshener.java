@@ -9,6 +9,12 @@ import logarlec.model.items.ItemVisitor;
  */
 public class AirFreshener extends Item {
 
+    public AirFreshener() { }
+
+    public AirFreshener(Integer usesLeft){
+        super(usesLeft);
+    }
+
     /**
      * Uses the beer item. It switches the defense strategy for a BeerDefense
      * strategy.

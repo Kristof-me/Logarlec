@@ -10,10 +10,10 @@ import logarlec.model.items.ItemVisitor;
  */
 public class FakeItem extends Item {
 
-    private Item itemToFake;
+    private Item itemToFake; // the fake item requires another item to fake
 
     public FakeItem(Item item) {
-        // the fake item requires another item to fake
+        super(1);
         itemToFake = item; 
     }
 

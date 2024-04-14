@@ -12,6 +12,12 @@ import logarlec.model.room.Room;
  */
 public class Cocktail extends Item {
 
+    public Coctail() { }
+
+    public Cocktail(Integer usesLeft) {
+        super(usesLeft);
+    }
+
     /**
      * Revives a student in the room if there is free space
      * @param invoker the actor that uses the item

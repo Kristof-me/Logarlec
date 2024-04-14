@@ -8,12 +8,20 @@ import logarlec.model.room.Room;
  * Abstract super class for every item.
  */
 public abstract class Item {
-    private Inventory inventory;
+    private Inventory inventory = null;
 
-    protected Integer usesLeft = null;
+    protected Integer usesLeft = 1;
 
-    protected Item() {
-        inventory = null;
+    protected Item(){ }
+
+    /**
+     * Constructor for the item.
+     * @param usesLeft the starting uses left of the item, null to leave default value
+     */
+    protected Item (Integer usesLeft) {
+        if(usesLeft != null){
+            this.usesLeft = usesLeft;
+        }
     }
 
     /**

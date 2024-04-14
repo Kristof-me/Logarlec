@@ -27,7 +27,7 @@ public class BeerDefense extends DefenseStrategy {
      */
     @Override
     public boolean defend(Inventory inventory) {
-        return false;
+        return true;
     }
 
     /**
@@ -35,7 +35,6 @@ public class BeerDefense extends DefenseStrategy {
      */
     @Override
     public boolean tick() {
-        remaining--;
-        return remaining > 0;
+        return --remaining > 0;
     }
 }

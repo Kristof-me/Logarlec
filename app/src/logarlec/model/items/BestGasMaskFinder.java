@@ -8,11 +8,6 @@ import logarlec.model.items.impl.GasMask;
  * A class that finds the best gas mask with the most uses left in an inventory.
  */
 public class BestGasMaskFinder extends ItemFinder<GasMask> {
-    /**
-     * Creates a new best gas mask finder.
-     */
-    public BestGasMaskFinder() {
-    }
 
     /**
      * Finds the gas mask with the most uses left in the inventory.

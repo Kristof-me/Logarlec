@@ -16,6 +16,12 @@ import logarlec.model.actor.strategy.BeerDefense;
  */
 public class Beer extends Item {
 
+    public Beer() { }
+
+    public Beer(Integer usesLeft){
+        super(usesLeft);
+    }
+
     /**
      * Uses the beer item. It switches the defense strategy for a BeerDefense
      * strategy and drops a random (if random is on) item from the inventory.

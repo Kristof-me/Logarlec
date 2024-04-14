@@ -13,7 +13,7 @@ import logarlec.model.room.Room;
  * Has a limit, and rejects any item being added above the limit.
  */
 public class Inventory {
-    private Integer size = null;
+    private Integer size = 5;
     private List<Item> items = new ArrayList<>();
     private IHasLocation owner = null;
 
@@ -22,12 +22,9 @@ public class Inventory {
     }
 
     public Inventory(Integer size, IHasLocation owner) {
-        // TODO add default values please
-
         if(size != null) {
             this.size = size;
         }
-
         if(owner != null) {
             this.owner = owner;
         }

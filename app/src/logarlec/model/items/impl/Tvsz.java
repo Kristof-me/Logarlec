@@ -12,7 +12,18 @@ import logarlec.model.items.ItemVisitor;
  * the item gets used once.
  */
 public class Tvsz extends Item {
-    
+
+    /**
+     * Set the default usesLeft to 3
+     */
+    public Tvsz(){
+        usesLeft = 3;
+    }
+
+    public Tvsz(Integer usesLeft){
+        super(usesLeft);
+    }
+
     /**
      * Use the item
      * 

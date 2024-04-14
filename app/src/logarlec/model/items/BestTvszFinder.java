@@ -3,13 +3,10 @@ package logarlec.model.items;
 import logarlec.model.items.impl.Tvsz;
 
 
-
 /**
  * Find the TVSZ with the most uses left.
  */
 public class BestTvszFinder extends ItemFinder<Tvsz> {
-    public BestTvszFinder() {
-    }
 
     /**
      * Find the TVSZ with the most uses left in the inventory.

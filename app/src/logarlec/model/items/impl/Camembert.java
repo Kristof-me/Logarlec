@@ -14,7 +14,13 @@ import logarlec.model.room.RoomEffect;
  * room.
  */
 public class Camembert extends Item {
-    
+
+    public Camembert() { }
+
+    public Camembert(Integer usesLeft) {
+        super(usesLeft);
+    }
+
     /**
      * Uses the camembert to create a gas effect in the room,
      * which will stun every actor in the room without gas mask.
