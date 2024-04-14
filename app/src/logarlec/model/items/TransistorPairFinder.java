@@ -20,9 +20,10 @@ public class TransistorPairFinder extends ItemFinder<Transistor> {
 
     @Override
     public void visit(Transistor transistor) {
-        if (transistor == caller) {
+        if (transistor == caller || transistor.getPair() != null) {
             return;
         }
+        
         potentialItems.add(transistor);
     }
 
@@ -30,9 +31,11 @@ public class TransistorPairFinder extends ItemFinder<Transistor> {
     public Transistor findIn(Inventory inventory) {
         potentialItems.clear();
         inventory.acceptVisitor(this);
+
         if (!potentialItems.isEmpty()) {
-        } else {
+            return potentialItems.get(0);
         }
+
         return null;
     }
 }
