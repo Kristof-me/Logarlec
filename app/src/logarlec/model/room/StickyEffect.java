@@ -18,30 +18,29 @@ public class StickyEffect extends RoomEffect {
         super(room);
         stickyLimit = 5; // TODO change this value later
     }
+
+    private void checkLimit(Actor actor) {
+        uniqueActors.add(actor);
+        if (uniqueActors.size() >= stickyLimit) {
+            room.setIsSticky(true);
+            room.removeEffect(this);
+        }
+    }
     
 
     @Override
     public void applyEffect(Professor professor) {
-        uniqueActors.add(professor);
-        if (uniqueActors.size() >= stickyLimit) {
-            room.setIsSticky(true);
-        }
+        checkLimit(professor);
     }
 
     @Override
     public void applyEffect(Student student) {
-        uniqueActors.add(student);
-        if (uniqueActors.size() >= stickyLimit) {
-            room.setIsSticky(true);
-        }
+        checkLimit(student);
     }
 
     @Override
     public void applyEffect(Janitor janitor) {
-        uniqueActors.add(janitor);
-        if (uniqueActors.size() >= stickyLimit) {
-            room.setIsSticky(true);
-        }
+        checkLimit(janitor);
     }
 
     /**
