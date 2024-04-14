@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import logarlec.model.room.*;
 import logarlec.model.items.*;
 import logarlec.model.items.impl.*;
+import logarlec.control.GameManager;
 import logarlec.control.Interpreter;
 import logarlec.model.actor.*;
 import logarlec.model.actor.strategy.*;
@@ -27,11 +28,15 @@ public class Status extends Command {
     public boolean execute(String input) {
         String[] attributes = removeExtraSpace(input).split(" ", 2);
 
+        if(attributes.length == 1 && attributes[0].equals("gamestate")) {
+            return handleGameState();
+        }
+
         if (attributes.length != 2) {
             return false;
         }
 
-        Entry<Class<?>, Object> variable = findVariableMatching(targetClasses, input);
+        Entry<Class<?>, Object> variable = findVariableMatching(targetClasses, attributes[0]);
         
         if (variable == null) {
             return false;
@@ -62,6 +67,18 @@ public class Status extends Command {
         return false;
     }
 
+    private boolean handleGameState() {
+        if(GameManager.getInstance().isWon()) {
+            System.out.println("hallgató nyert");
+        } else if(GameManager.getInstance().isGameOver()) {
+            System.out.println("professzor nyert");
+        } else {
+            System.out.println("folyamatban van");
+        }
+        
+        return true;
+    }
+
     private boolean handleRoom(Room target, String option) {
         switch (option) {
             case "effects":
@@ -69,12 +86,20 @@ public class Status extends Command {
                     String effectName = translations.get(effect.getClass().getName());
                     System.out.println(effectName + ": " + effect.getTimeLeft());
                 }
+
+                if(target.getRoomEffects().isEmpty()) {
+                    System.out.println("-");
+                }
                 return true;
 
             case "doors":
                 for (Door door : target.getDoors()) {
                     String doorName = Interpreter.getInstance().getVariableName(door);
                     System.out.println(doorName);
+
+                    if(target.getDoors().isEmpty()) {
+                        System.out.println("-");
+                    }
                 }
                 return true;
 
@@ -82,6 +107,10 @@ public class Status extends Command {
                 for (Actor actor : target.getActors()) {
                     String actorName = Interpreter.getInstance().getVariableName(actor);
                     System.out.println(actorName);
+
+                    if(target.getActors().isEmpty()) {
+                        System.out.println("-");
+                    }
                 }
                 return true;
 
@@ -160,7 +189,7 @@ public class Status extends Command {
                 Transistor transistor = (Transistor) target;
                 Transistor pair = transistor.getPair();
 
-                String result = ""; // TODO what's the name of the non existing pair?W
+                String result = "-";
 
                 if(pair != null) {
                     result = Interpreter.getInstance().getVariableName(pair);
@@ -208,10 +237,14 @@ public class Status extends Command {
             String itemName = Interpreter.getInstance().getVariableName(item);
             System.out.println(itemName);
         }
+
+        if(inventory.getItems().isEmpty()) {
+            System.out.println("-");
+        }
     }
 
     private void printLocation(Room room) {
-        String result = ""; // TODO we can change this later
+        String result = "-";
 
         if(room != null) {
             result = Interpreter.getInstance().getVariableName(room);
