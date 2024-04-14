@@ -4,12 +4,17 @@ import logarlec.model.actor.Actor;
 import logarlec.model.items.BestTvszFinder;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.impl.Tvsz;
+import logarlec.model.room.Room;
+import logarlec.control.GameManager;
 
 
 /**
  * Default defense strategy. It tries to use the best TVSZ in the inventory, otherwise dies.
  */
 public class DefaultDefense extends DefenseStrategy {
+    private int lastDefenseTick = -2;
+    private Room usedIn = null;
+    
     /**
      * Constructor.
      * @param actor Actor to defend.
@@ -26,13 +31,21 @@ public class DefaultDefense extends DefenseStrategy {
      */
     @Override
     public boolean defend(Inventory inventory) {
-        BestTvszFinder finder = new BestTvszFinder();
+        int timeDiff = GameManager.getInstance().getTick() - lastDefenseTick;
+        
+        if(actor.getLocation() != usedIn || timeDiff > 1) { // watch out for ticks here
+            BestTvszFinder finder = new BestTvszFinder();
 
-        Tvsz tvsz = finder.findIn(inventory);
-        if (tvsz != null) {
-            tvsz.use(actor);
-            return true;
+            Tvsz tvsz = finder.findIn(inventory);
+            if (tvsz != null) {
+                tvsz.use(actor);
+                usedIn = actor.getLocation();
+            }
+            else{
+                return false;
+            }
         }
-        return false;
+        lastDefenseTick =  GameManager.getInstance().getTick();
+        return true;
     }
 }

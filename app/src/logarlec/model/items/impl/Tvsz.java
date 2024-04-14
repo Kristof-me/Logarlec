@@ -1,8 +1,10 @@
 package logarlec.model.items.impl;
 
 import logarlec.model.actor.Actor;
+import logarlec.model.room.Room;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
+import logarlec.control.GameManager;
 
 
 
@@ -12,7 +14,6 @@ import logarlec.model.items.ItemVisitor;
  * the item gets used once.
  */
 public class Tvsz extends Item {
-
     /**
      * Set the default usesLeft to 3
      */
@@ -33,7 +34,6 @@ public class Tvsz extends Item {
     public void use(Actor invoker) {
         usesLeft--;
         super.use(invoker);
-        
     }
 
     /**

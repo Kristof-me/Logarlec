@@ -9,6 +9,7 @@ import logarlec.model.room.*;
 public class GameManager {
     private static GameManager instance;
     private boolean randomness = false;
+    private int currentTick = 0;
 
     private List<Student> students = new ArrayList<>();
     private List<Professor> professors = new ArrayList<>();
@@ -97,4 +98,37 @@ public class GameManager {
     public void slideRulePickedUp() {
         anySlideRulePickedUp = true;
     }
+
+    public void simulateTurn() {
+        // handling room and actor ticks
+        currentTick++; 
+        
+        for (Room room : rooms) {
+            room.tick();
+        }
+
+        for (Professor professor : professors) {
+            professor.tick();
+            professor.tick();
+            // TODO ai move
+        }
+
+        for (Janitor janitor : janitors) {
+            janitor.tick();
+            janitor.tick();
+            // TODO ai move
+        }
+
+        for (Student student : students) {
+            student.tick();
+            // TODO give them control
+            student.tick();
+            // TODO give them control again 
+            // cause everyone has 2 actions
+        }
+    }
+
+    public int getTick() {
+        return currentTick;
+    }    
 }

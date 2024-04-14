@@ -30,7 +30,6 @@ public class GasMask extends Item {
     public void use(Actor invoker) {
         usesLeft--;
         super.use(invoker);
-        
     }
 
     /**

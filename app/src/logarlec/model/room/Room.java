@@ -102,14 +102,11 @@ public class Room implements IHasLocation {
      * @param attacker the actor that is attacking
      */
     public void attack(Actor attacker) {
-
         for (Actor actor : actors) {
             if (actor != attacker && actor.isAlive()) {
                 actor.attacked();
             }
         }
-
-        
     }
 
     /**
