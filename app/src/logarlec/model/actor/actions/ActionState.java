@@ -16,7 +16,7 @@ import logarlec.model.room.Room;
  * @see IActions
  * @see Actor
  */
-public abstract class ActionsState implements IActions {
+public abstract class ActionState implements IActions {
     protected Actor actor;
 
     /**
@@ -24,7 +24,7 @@ public abstract class ActionsState implements IActions {
      * 
      * @param actor Owner of the state.
      */
-    public ActionsState(Actor actor) {
+    public ActionState(Actor actor) {
         this.actor = actor;
     }
 
@@ -128,7 +128,7 @@ public abstract class ActionsState implements IActions {
      * 
      * @param state Next state
      */
-    public abstract ActionsState setNextState(ActionsState state);
+    public abstract ActionState setNextState(ActionState state);
 
     protected boolean roomHasDoor(Room room, Door door) {
         return room.getDoors().contains(door);

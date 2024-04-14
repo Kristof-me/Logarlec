@@ -5,7 +5,7 @@ import logarlec.model.actor.Professor;
 /**
  * The actions that a professor can take.
  */
-public class ProfessorActions extends ActionsState {
+public class ProfessorActions extends ActionState {
 
     /**
      * Creates a new set of actions for the given professor.
@@ -27,7 +27,7 @@ public class ProfessorActions extends ActionsState {
     /**
      * Sets the next state of the professor.
      */
-    public ActionsState setNextState(ActionsState state) {
+    public ActionState setNextState(ActionState state) {
         return state;
     }
 }

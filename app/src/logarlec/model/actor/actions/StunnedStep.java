@@ -10,7 +10,7 @@ import logarlec.model.room.Door;
  * actions, and
  * after a while the state will expire.
  */
-public class StunnedStep extends ActionsState {
+public class StunnedStep extends ActionState {
     private Integer remaining;
 
     /**
@@ -63,7 +63,7 @@ public class StunnedStep extends ActionsState {
     }
 
     @Override
-    public ActionsState setNextState(ActionsState state) {
+    public ActionState setNextState(ActionState state) {
         //Stunned effect takes priority over any other state
         return this;
     }

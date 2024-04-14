@@ -6,7 +6,7 @@ import logarlec.model.actor.Student;
 /**
  * The StudentActions class represents the actions that a student can perform.
  */
-public class StudentActions extends ActionsState {
+public class StudentActions extends ActionState {
 
     /**
      * Constructs a new StudentActions object.
@@ -23,7 +23,7 @@ public class StudentActions extends ActionsState {
      * @param state Next state
      */
     @Override
-    public ActionsState setNextState(ActionsState state) {
+    public ActionState setNextState(ActionState state) {
         return state;
     }
 }

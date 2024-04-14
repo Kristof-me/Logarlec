@@ -8,7 +8,7 @@ import logarlec.model.room.StickyEffect;
 /**
  * The actions that a Janitor can take.
  */
-public class JanitorActions extends ActionsState {
+public class JanitorActions extends ActionState {
 
     /**
      * Creates a new set of actions for the given Janitor.
@@ -23,7 +23,7 @@ public class JanitorActions extends ActionsState {
     /**
      * Sets the next state of the Janitor.
      */
-    public ActionsState setNextState(ActionsState state) {
+    public ActionState setNextState(ActionState state) {
         return state;
     }
 

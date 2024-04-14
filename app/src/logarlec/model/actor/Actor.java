@@ -1,7 +1,7 @@
 package logarlec.model.actor;
 
 import java.util.List;
-import logarlec.model.actor.actions.ActionsState;
+import logarlec.model.actor.actions.ActionState;
 import logarlec.model.actor.actions.IActions;
 import logarlec.model.actor.strategy.DefaultDefense;
 import logarlec.model.actor.strategy.DefenseStrategy;
@@ -21,7 +21,7 @@ import logarlec.model.room.RoomEffect;
 public abstract class Actor implements IHasLocation, IActions {
     protected Room room;
     protected boolean alive;
-    protected ActionsState actionState;
+    protected ActionState actionState;
     protected DefenseStrategy defenseStrategy;
     protected Inventory inventory;
     /**
@@ -63,7 +63,7 @@ public abstract class Actor implements IHasLocation, IActions {
      * Sets the action state of the actor to the higher priority between the current action state and the new state
      * @param state the new action state
      */
-    public void setActionState(ActionsState state) {
+    public void setActionState(ActionState state) {
         actionState = actionState.setNextState(state);
     }
 
@@ -201,7 +201,7 @@ public abstract class Actor implements IHasLocation, IActions {
      * Gets the action state of the actor
      * @return the action state of the actor
      */
-    public ActionsState getState() {
+    public ActionState getState() {
         // TODO this WILL cause problems
         // we need an isStunned() method but that would be an implicit type check
         return actionState;

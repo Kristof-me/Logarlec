@@ -9,7 +9,7 @@ import logarlec.model.room.Door;
  * Every action all actors can perform is defined in this class.
  * 
  * Implemented by:
- * @see ActionsState
+ * @see ActionState
  * @see Actor
  */
 public interface IActions {
