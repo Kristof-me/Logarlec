@@ -13,11 +13,6 @@ import logarlec.model.items.ItemVisitor;
  */
 public class GasMask extends Item {
 
-    public GasMask() {
-        
-        
-    }
-
     /**
      * The gas mask will be used automatically when the player steps into a gased
      * room.

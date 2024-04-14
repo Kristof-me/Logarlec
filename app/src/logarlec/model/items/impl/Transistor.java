@@ -19,9 +19,7 @@ public class Transistor extends Item {
     private IHasLocation location;
 
     public Transistor() {
-        
         pair = null;
-        
     }
 
     /**

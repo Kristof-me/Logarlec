@@ -14,11 +14,6 @@ public class SlideRule extends Item {
 
     public static boolean anyPickedUp = false;
 
-    public SlideRule() {
-        
-        
-    }
-
     /**
      * Called when the slide rule is picked up,
      * triggers the end of the game

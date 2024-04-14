@@ -12,12 +12,7 @@ import logarlec.model.items.ItemVisitor;
  * the item gets used once.
  */
 public class Tvsz extends Item {
-
-    public Tvsz() {
-        
-        
-    }
-
+    
     /**
      * Use the item
      * 

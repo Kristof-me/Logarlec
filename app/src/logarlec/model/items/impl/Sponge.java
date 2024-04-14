@@ -14,12 +14,7 @@ import logarlec.model.room.WetEffect;
  * which then stuns the professors.
  */
 public class Sponge extends Item {
-
-    public Sponge() {
-        
-        
-    }
-
+    
     /**
      * Uses the sponge to make the room wet.
      * 
