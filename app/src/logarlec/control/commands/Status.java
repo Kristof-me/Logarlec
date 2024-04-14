@@ -27,13 +27,13 @@ public class Status extends Command {
     @Override
     public boolean execute(String input) {
         String[] attributes = removeExtraSpace(input).split(" ", 2);
-
-        if(attributes.length == 1 && attributes[0].equals("gamestate")) {
-            return handleGameState();
-        }
-
+        
         if (attributes.length != 2) {
             return false;
+        }
+        
+        if(attributes[0].equals("game") && attributes[1].equals("state")) {
+            return handleGameState();
         }
 
         Entry<Class<?>, Object> variable = findVariableMatching(targetClasses, attributes[0]);
