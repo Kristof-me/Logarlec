@@ -1,6 +1,6 @@
 load map.data
 create janitor j r1
-create gasmask g r2
+create gas-mask g r2
 move j d12
 move j d23
 create student s1 r1

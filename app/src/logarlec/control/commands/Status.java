@@ -44,22 +44,22 @@ public class Status extends Command {
 
         attributes[1] = attributes[1].toLowerCase();
 
-        if(variable.getValue() == Room.class) {
+        if(variable.getKey() == Room.class) {
             Room room = (Room) variable.getValue();
             return handleRoom(room, attributes[1]);
         }
 
-        if(variable.getValue() == Door.class) {
+        if(variable.getKey() == Door.class) {
             Door door = (Door) variable.getValue();
             return handleDoor(door, attributes[1]);
         }
 
-        if(variable.getValue() == Item.class) {
+        if(variable.getKey() == Item.class) {
             Item item = (Item) variable.getValue();
             return handleItem(item, attributes[1]);
         }
 
-        if(variable.getValue() == Actor.class) {
+        if(variable.getKey() == Actor.class) {
             Actor actor = (Actor) variable.getValue();
             return handleActor(actor, attributes[1]);
         }
@@ -107,10 +107,10 @@ public class Status extends Command {
                 for (Actor actor : target.getActors()) {
                     String actorName = Interpreter.getInstance().getVariableName(actor);
                     System.out.println(actorName);
+                }
 
-                    if(target.getActors().isEmpty()) {
-                        System.out.println("-");
-                    }
+                if(target.getActors().isEmpty()) {
+                    System.out.println("-");
                 }
                 return true;
 
@@ -223,7 +223,7 @@ public class Status extends Command {
                 return true;
 
             case "stunned":
-                Boolean isStunned = StudentActions.class.isInstance(actor.getState());
+                Boolean isStunned = StunnedStep.class.isInstance(actor.getState());
                 System.out.println(translations.get(isStunned.toString()));
                 return true;
 

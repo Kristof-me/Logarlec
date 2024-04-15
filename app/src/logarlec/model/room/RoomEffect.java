@@ -19,7 +19,7 @@ public abstract class RoomEffect {
     protected RoomEffect(Room room){
         this.room = room;
     }
-    protected Integer timeLeft = null;
+    protected Integer timeLeft = 10;
     protected Room room;
 
     /**

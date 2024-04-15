@@ -149,8 +149,15 @@ public class Room implements IHasLocation {
 
             if (!wasFull) {
                 // newcomer accept effect
-                for (RoomEffect effect : roomEffects) {
-                    effect.addEffect(actor);
+
+                // cause janitor removes effects this can't be done in the loop
+                for (int i = 0; i < roomEffects.size(); i++) {
+                    RoomEffect effect = roomEffects.get(i);
+                    effect.addEffect(actor); 
+
+                    if(roomEffects.size() > 0 && effect != roomEffects.get(i)){
+                        i--; // if the effect was removed, decrease the index
+                    }
                 }
 
                 // everyone attacks everyone

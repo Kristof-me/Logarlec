@@ -19,7 +19,7 @@ public class WetEffect extends RoomEffect {
      */
     public WetEffect(Room room) {
         super(room);
-        timeLeft = 5; // TODO change this value later
+        timeLeft = 10; // TODO change this value later
     }
 
     /**

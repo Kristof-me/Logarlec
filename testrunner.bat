@@ -9,10 +9,14 @@ cd %DIR%
 :: Compile the source code
 javac -sourcepath .\app\src\ .\app\src\logarlec\App.java -d .\app\bin >NUL 2>NUL
 
+:: If there is no output directory, create one
+if not exist .\data\output\ mkdir .\data\output\
+
 :: Loop through each file in .\data\input\
 for %%F in (.\data\input\*.txt) do (
-    java -classpath .\app\bin logarlec.App 0< "%%F" 1>".\data\output\%%~nF.txt" >NUL 2>NUL
+    type "%%F" | java -Dfile.encoding=UTF-8 -classpath .\app\bin logarlec.App 1>".\data\output\%%~nF.txt" 
 )
+::>NUL 2>NUL
 
 :: Compare the output files with the expected output files
 for %%F in (.\data\output\*.txt) do (
@@ -23,10 +27,10 @@ for %%F in (.\data\output\*.txt) do (
 
     if "!ERR!" NEQ "" ( :: if the error string is not empty
         echo "%%~nxF ERROR"
-    ) else if "!RESULT!"=="" ( :: if the result string is matching the no differences encountered string
-        echo "%%~nxF SUCCESS"
-    ) else (
+    ) else if "!RESULT!" == "***** .\DATA\OUTPUT\%%~nF.txt" ( 
         echo "%%~nxF FAIL"
+    ) else (
+        echo "%%~nxF SUCCESS"
     )
 
     del tempOut.txt

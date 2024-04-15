@@ -6,5 +6,5 @@ effect gas r1
 split r1 r2 d12
 status r1 actors
 status r2 actors
-status effects r1
-status effects r2
+status r1 effects 
+status r2 effects 

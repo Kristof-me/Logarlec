@@ -11,7 +11,7 @@ public abstract class Command {
     
     public Integer tryParse(String value) {
         try {
-            return Integer.parseInt(value);
+            return Integer.parseInt(value.trim());
         } catch (NumberFormatException e) {
             return null;
         }

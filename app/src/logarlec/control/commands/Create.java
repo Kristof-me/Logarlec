@@ -87,11 +87,15 @@ public class Create extends Command {
         put("tvsz", Tvsz.class);
         put("transistor", Transistor.class);
         put("beer", Beer.class);
-        put("camambert", Camembert.class);
+        put("camembert", Camembert.class);
         put("cocktail", Cocktail.class);
         put("sponge", Sponge.class);
         put("airfreshener", AirFreshener.class);
     }};
+
+     // classes that have an inventory
+     Class<?>[] hasInventory = { Room.class, Student.class, Professor.class };
+
 
     /**
      * Handles the creation of an item.
@@ -105,7 +109,14 @@ public class Create extends Command {
         String[] remaining = data.split(" ", 2);
 
         // getting the inventory
-        Inventory inventory = getInventory(remaining[0]);
+        Entry<Class<?>, Object> inventoryHolder = findVariableMatching(hasInventory, remaining[0]);
+
+        if(inventoryHolder == null) {
+            return false;
+        }
+
+        
+        Inventory inventory = (Inventory) invoke(inventoryHolder, "getInventory").getKey();
 
         if(inventory == null) {
             return false;
@@ -165,25 +176,15 @@ public class Create extends Command {
 
         inventory.addItem(item);
 
+        if(inventoryHolder.getValue() instanceof Actor) {
+            item.onPickup((Actor) inventoryHolder.getValue());
+        } else {
+            item.onDrop((Room) inventoryHolder.getValue());
+        }
+        
+
         Interpreter.getInstance().AddVariable(variableName, item);
         return true;
-    }
-
-    // classes that have an inventory
-    Class<?>[] hasInventory = { Room.class, Student.class, Professor.class };
-
-    /**
-     * Gets the inventory of a variable with the given name.
-     * @param inventoryName the name of the inventory holder
-     * @return the inventory of the inventory holder, or <b>null</b> if the inventory holder does not exist
-     */
-    private Inventory getInventory(String inventoryName) {
-        Entry<Class<?>, Object> inventoryHolder = findVariableMatching(hasInventory, inventoryName);
-        if(inventoryHolder == null) {
-            return null;
-        }
-
-        return (Inventory) invoke(inventoryHolder, "getInventory").getKey();
     }
 
     /**

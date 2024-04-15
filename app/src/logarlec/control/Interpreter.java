@@ -50,7 +50,7 @@ public class Interpreter {
             }
         }
 
-        return null;
+        return "-";
     }
 
     public boolean AddVariable(String name, Object item) {

@@ -8,5 +8,5 @@ status t2 pair
 drop s1 t1
 status t1 pair
 status t2 pair
-status t1 owner
-status t2 owner
+status t1 inventory
+status t2 inventory

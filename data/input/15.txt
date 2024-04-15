@@ -1,4 +1,4 @@
 load map.data
 create student s1 r1
 create sliderule s s1 -f
-status game gamestate
+status game state

@@ -1,6 +1,6 @@
 load map.data
 create student s1 r1
-create gasmask g s1
+create gas-mask g s1
 create airfreshener a s1 -f
 effect gas r2
 move s1 d12

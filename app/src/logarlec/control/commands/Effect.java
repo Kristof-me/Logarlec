@@ -40,23 +40,23 @@ public class Effect extends Command {
     private boolean handleNewEffect(Class<? extends RoomEffect> effectClass, String remaining) {
         String[] data = remaining.split(" ", 2);
 
-        // creating the effect
-        RoomEffect effect;
-
-        try {
-            effect = effectClass.getConstructor().newInstance();
-        } catch (Exception e) {
-            return false;
-        }
-
         // getting the room
-        Entry<Class<?>, Object> roomEntry = findVariable(RoomEffect.class, data[0]);
+        Entry<Class<?>, Object> roomEntry = findVariable(Room.class, data[0]);
 
         if (roomEntry == null) {
             return false;
         }
 
         Room room = (Room) roomEntry.getValue();
+
+        // creating the effect
+        RoomEffect effect;
+
+        try {
+            effect = effectClass.getConstructor(Room.class).newInstance(room);
+        } catch (Exception e) {
+            return false;
+        }
 
         // handling options
         if(data.length == 2 && !data[1].isBlank()) {
