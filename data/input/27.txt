@@ -1,0 +1,10 @@
+load map.data
+create student s1 r1
+create gasmask g s1
+effect gas r2
+move s1 d12
+status student stunned 
+move s1 d12
+status student inventory
+move s1 d12
+status student stunned

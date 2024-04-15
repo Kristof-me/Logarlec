@@ -1,0 +1,7 @@
+load map.data
+effect gas r2
+create professor p1 r1
+create gas-mask g1 p1 -u 5
+move p1 d12
+status p1 stunned
+status g1 uses-left

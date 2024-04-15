@@ -1,0 +1,10 @@
+load map.data
+create student s1 r1
+create student s2 r1
+create janitor j1 r2
+create gas-mask g1 s2
+effect gas r1
+move j1 d12
+status s1 location
+status s2 location
+status r1 effects

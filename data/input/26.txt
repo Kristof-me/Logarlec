@@ -1,0 +1,10 @@
+load map.data
+create professor p1 r2
+create professor p2 r3
+create student s1 r1
+create tvsz t s1 -u 1
+move s1 d12
+status s1 alive
+status s1 inventory
+move s1 d23
+status s1 alive

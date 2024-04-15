@@ -1,0 +1,12 @@
+load map.data
+create student s1 r1
+create transistor t1 s1
+create transistor t2 s1
+use s1 t1
+status t1 pair
+status t2 pair
+drop s1 t1
+status t1 pair
+status t2 pair
+status t1 owner
+status t2 owner

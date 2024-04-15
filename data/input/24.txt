@@ -1,0 +1,7 @@
+load map.data
+create student s1 r1
+create tvsz t s1 -u 3
+create professor p1 r2
+move s1 d12
+status s1 alive
+status t uses-left

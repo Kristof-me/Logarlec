@@ -1,0 +1,10 @@
+create room r1
+create student s1 r1
+create student s2 r1
+effect wet r1
+effect gas r1
+split r1 r2 d12
+status r1 actors
+status r2 actors
+status effects r1
+status effects r2

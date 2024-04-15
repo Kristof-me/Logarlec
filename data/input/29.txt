@@ -1,0 +1,5 @@
+load map.data
+create student s1 r1
+create camembert c s1
+use s1 c
+status r1 effects

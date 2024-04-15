@@ -1,0 +1,6 @@
+create room r1
+create room r2
+effect gas r1
+effect wet r2
+merge  r1 r2
+status  r1 effects

@@ -1,0 +1,7 @@
+load map.data
+create student s1 r1
+status effects r1
+create sponge s s1
+use s1 s
+status effects r1
+status s1 inventory

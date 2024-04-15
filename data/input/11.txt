@@ -1,11 +1,10 @@
 load map.data
 create student s1 r1
-hide d12 -t 1
-status d12 invisible
+create transistor t1 s1
+create transistor t2 s1
+use s1 t1
+drop s1 t1
 move s1 d12
 status s1 location
-tick r1
-tick r2
-status d12 invisible
-move s1 d12
+use s1 t2
 status s1 location

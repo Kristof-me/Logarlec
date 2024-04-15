@@ -1,1 +1,4 @@
-jajj ne, ez eltér
+1
+r1
+0
+r2

@@ -1,7 +1,5 @@
-1
-1
-1
-1
-0
-
-q
+create room r1
+effect gas r1 -t 1
+status r1 effects
+tick r1
+status r1 effects

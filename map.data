@@ -1,0 +1,7 @@
+create room r1
+create room r2
+create room r3	
+create room r4
+create door d12 r1 r2
+create door d23 r2 r3
+create door d34 r3 r4

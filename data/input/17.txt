@@ -1,9 +1,6 @@
 load map.data
 create student s1 r1
+create tvsz t s1 -f
 create professor p1 r2
-create beer b r1
-pickup s1 b
-status s1 inventory
-use s1 b
 move s1 d12
 status s1 alive

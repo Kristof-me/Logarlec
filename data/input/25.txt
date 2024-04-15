@@ -1,0 +1,15 @@
+load map.data
+create janitor j r1
+create gasmask g r2
+move j d12
+move j d23
+create student s1 r1
+create student s2 r1
+create student s3 r1
+create student s4 r1
+move s1 d12
+move s2 d12
+move s3 d12
+move s4 d12
+pickup s4 g
+status s4 inventory

@@ -1,0 +1,15 @@
+load map.data
+create student s1 r1
+create student s2 r1
+create cocktail c s2
+create professor p1 r2
+move s1 d12
+status s1 alive
+move p1 d23
+use s2 c
+status s1 alive
+status s2 inventory
+move s2 d12
+use s2 c
+status s1 alive 
+status s2 inventory

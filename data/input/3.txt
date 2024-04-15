@@ -1,0 +1,6 @@
+load map.data
+create professor p1 r1
+create professor p2 r2
+move p1 d12
+status p1 alive
+status p2 alive

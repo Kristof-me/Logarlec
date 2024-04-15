@@ -1,0 +1,6 @@
+load map.data
+create student s1 r1
+create transistor t1 s1
+create transistor tf s1 -f
+use s1 tf
+status t1 pair
