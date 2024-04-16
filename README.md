@@ -17,13 +17,13 @@ Preview in VS Code: [Simple Viewer](https://marketplace.visualstudio.com/items?i
 | Week 3   | 2      | -    |
 | Week 4   | 25     | 0.3  |
 | Week 5   | 20     | 2    |
-| Week 6   | ?/20   |      |
+| Week 6   | 20     | 2    |
 | Skeleton | * 0.3  | -    |
-| Week 7   | ?/20   |      |
+| Week 7   | 17     | 0.5  |
 | Week 9   | ?/45   |      |
 | Week 10  | ?/35   |      |
-| Week 12  | ?/30   |      |
 | Proto    | * 0.5  | -    |
+| Week 12  | ?/30   |      |
 | Week 13  | ?/40   |      |
 | Week 15  | ?/30   | -    |
 | Grafikus | * 0.2  | -    |
