@@ -20,6 +20,7 @@ if not "%1"=="" (
     )
     call :RunTest ".\data\input\%1"
     call :CompareFiles ".\data\output\%~n1.txt"
+    pause
     goto :EOF
 )
 ::else, run all the tests in the input directory
@@ -33,7 +34,7 @@ for %%F in (.\data\input\*.txt) do (
 for %%F in (.\data\output\*.txt) do (
     call :CompareFiles "%%F"
 )
-
+pause
 endlocal
 EXIT
 
