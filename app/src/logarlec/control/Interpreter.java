@@ -64,7 +64,14 @@ public class Interpreter {
     protected Interpreter() {}
 
     public void handleInput(InputStream is) {
-        InputStreamReader isr = new InputStreamReader(is);
+        InputStreamReader isr; 
+        try {
+            isr = new InputStreamReader(is, "UTF-8");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
         BufferedReader bufferedReader = new BufferedReader(isr);
         
         try (isr; bufferedReader) {
