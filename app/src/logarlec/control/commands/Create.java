@@ -20,6 +20,7 @@ public class Create extends Command {
      * @param input the input string containing the command
      * @return true if the command was successful, false otherwise
      */
+    @SuppressWarnings("unchecked")
     @Override
     public boolean execute(String input) {
         String[] data = removeExtraSpace(input).split(" ", 3);
@@ -249,7 +250,7 @@ public class Create extends Command {
         Interpreter.getInstance().AddVariable(variableName, actor);
         
         // setting the spawn room
-        actor.teleport(room, false); // ? is the actor supposed to be added by teleport?
+        actor.teleport(room, false);
 
         if(inventorySize != null) {
             actor.getInventory().setSize(inventorySize);

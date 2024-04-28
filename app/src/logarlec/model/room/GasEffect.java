@@ -23,8 +23,7 @@ public class GasEffect extends RoomEffect {
     public GasEffect(Room room) {
         super(room);
         itemFinders.add(new BestGasMaskFinder());
-        // ! PLEASE DON'T MAKE THIS A CONSTRUCTOR PARAMETER
-        timeLeft = 10; // TODO change this value later 
+        timeLeft = 10;
     }
 
     /**

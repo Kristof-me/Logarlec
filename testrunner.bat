@@ -7,7 +7,8 @@ set DIR=%~dp0
 cd %DIR%
 
 :: Compile the source code
-javac -Dfile.encoding=UTF-8 -Xmx3g -sourcepath .\app\src\ .\app\src\logarlec\App.java -d .\app\bin >NUL 2>NUL
+javac -sourcepath .\app\src\ .\app\src\logarlec\App.java -d .\app\bin >NUL 2>NUL
+
 :: If there is no output directory, create one
 if not exist .\data\output\ mkdir .\data\output\
 
@@ -19,7 +20,7 @@ if not "%1"=="" (
         goto :EOF
     )
     call :RunTest ".\data\input\%1"
-    call :CompareFiles ".\data\output\%~n1.txt"
+    call :CompareFiles ".\data\output\%1"
     pause
     goto :EOF
 )
@@ -40,7 +41,7 @@ EXIT
 
 :RunTest
 ::echo name of the file: %~n1
-type "%~1" | java -Dfile.encoding=UTF-8 -Xmx3g -classpath .\app\bin logarlec.App 1>".\data\output\%~n1.txt"
+type "%~1" | java -Dfile.encoding=UTF-8 -Xmx3g -classpath .\app\bin logarlec.App 1>".\data\output\%~n1.txt" 2>NUL
 goto :EOF
 
 :CompareFiles
@@ -51,7 +52,7 @@ set /p ERR=<tempErr.txt
 
 if "!ERR!" NEQ "" ( :: if the error string is not empty
     echo "%~nx1 ERROR"
-) else if "!RESULT!" == "***** .\DATA\OUTPUT\%%~nF.txt" ( 
+) else if "!RESULT!" == "***** .\DATA\OUTPUT\%~n1.txt" ( 
     echo "%~nx1 FAIL"
 ) else (
     echo "%~nx1 SUCCESS"

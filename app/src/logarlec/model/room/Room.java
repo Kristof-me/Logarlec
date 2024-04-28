@@ -3,7 +3,6 @@ package logarlec.model.room;
 import java.util.ArrayList;
 import java.util.List;
 import logarlec.model.actor.Actor;
-import logarlec.model.actor.Janitor;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 
@@ -16,7 +15,7 @@ import logarlec.model.items.Item;
  * @see IHasLocation
  */
 public class Room implements IHasLocation {
-    private Integer capacity = 10; // TODO change this later
+    private Integer capacity = 10;
 
     private List<Actor> actors = new ArrayList<>();
     private ArrayList<Door> doors = new ArrayList<>();
@@ -359,7 +358,7 @@ public class Room implements IHasLocation {
      * Returns whether the room is sticky
      * @return whether the room is sticky
      */
-    public boolean getIsSticky() { // TODO you can change this later
+    public boolean getIsSticky() {
         return isSticky;
     }
 

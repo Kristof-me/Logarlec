@@ -16,7 +16,7 @@ public class StickyEffect extends RoomEffect {
      */
     public StickyEffect(Room room) {
         super(room);
-        stickyLimit = 5; // TODO change this value later
+        stickyLimit = 5;
     }
 
     private void checkLimit(Actor actor) {

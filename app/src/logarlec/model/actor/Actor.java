@@ -202,7 +202,6 @@ public abstract class Actor implements IHasLocation, IActions {
      * @return the action state of the actor
      */
     public ActionState getState() {
-        // TODO this WILL cause problems
         // we need an isStunned() method but that would be an implicit type check
         return actionState;
     }

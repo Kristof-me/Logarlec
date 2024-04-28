@@ -10,7 +10,7 @@ import logarlec.model.actor.Actor;
  * A defense strategy that gets applied after the player uses a beer item.
  */
 public class BeerDefense extends DefenseStrategy {
-    private Integer remaining = 10; // TODO change this later
+    private Integer remaining = 10;
     
     /**
      * Creates a new beer defense strategy.
