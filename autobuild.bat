@@ -5,7 +5,7 @@ set DIR=%~dp0
 cd %DIR%
 
 :: Compile the source code
-javac -sourcepath .\app\src\ .\app\src\logarlec\App.java -d .\app\bin
+javac -encoding "UTF-8"  -sourcepath .\app\src\ .\app\src\logarlec\App.java -d .\app\bin
 
 :: Run the application
 java -cp .\app\bin logarlec.App
