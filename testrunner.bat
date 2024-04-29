@@ -7,7 +7,7 @@ set DIR=%~dp0
 cd %DIR%
 
 :: Compile the source code
-javac -sourcepath .\app\src\ .\app\src\logarlec\App.java -d .\app\bin >NUL 2>NUL
+javac -encoding "UTF-8" -sourcepath .\app\src\ .\app\src\logarlec\App.java -d .\app\bin >NUL 2>NUL
 
 :: If there is no output directory, create one
 if not exist .\data\output\ mkdir .\data\output\
