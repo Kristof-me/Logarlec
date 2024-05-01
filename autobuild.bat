@@ -1,4 +1,5 @@
 @echo off
+chcp 65001
 
 :: Get the current directory
 set DIR=%~dp0

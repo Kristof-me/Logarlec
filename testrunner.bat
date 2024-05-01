@@ -1,5 +1,6 @@
 setlocal enabledelayedexpansion
 @echo off 
+chcp 65001
 cls
 
 :: Get the current directory
