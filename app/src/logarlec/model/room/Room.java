@@ -21,6 +21,8 @@ public class Room implements IHasLocation {
     private ArrayList<Door> doors = new ArrayList<>();
     private List<RoomEffect> roomEffects = new ArrayList<>();
     private Inventory inventory;
+    private double posX;
+    private double posY;
 
     private boolean isSticky = false;
 
@@ -36,6 +38,14 @@ public class Room implements IHasLocation {
         inventory = new Inventory(this);
         
     }
+
+    public Room(Integer capacity, double posX, double posY) {
+        this.capacity = capacity;
+        this.posX = posX;
+        this.posY = posY;
+
+        inventory = new Inventory(this);
+    } 
 
     /**
      * Splits a room into two rooms with a door between them
