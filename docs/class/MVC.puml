@@ -1,0 +1,140 @@
+@startuml ItemFinder
+skinparam classAttributeIconSize 0
+
+package Model {
+    '...
+}
+
+
+package Controller {
+    class GameManager {}
+}
+
+
+package View {
+    class SetupWindow {}
+    class GameWindow {}
+
+    package Items {
+        class ItemView {
+            # Icon image
+            # Icon loadImage(string image)
+
+            + JPanel Draw()
+            + JPanel OnRightClick(Item item)
+        }
+
+        class AirFreshenerView {
+            - AirFreshener airFreshener
+        }
+
+        class BeerView {
+            - Beer beer
+        }
+
+        class CamembertView {
+            - Camembert camembert
+        }
+
+        class CocktailView {
+            - Cocktail cocktail
+        }
+
+        class FakeItemView {
+            - FakeItem fakeItem
+            + JPanel Draw()
+        }
+
+        class GasMaskView {
+            - GasMask gasMask
+        }
+
+        class SlideRuleView {
+            - SlideRule slideRule
+        }
+
+        class SpongeView {
+            - Sponge sponge
+        }
+
+        class TransistorView {
+            - Transistor transistor
+            + JPanel OnRightClick(Item item)
+        }
+
+        class TvszView {
+            - Tvsz tvsz
+        }
+
+        ItemView <|-- AirFreshenerView
+        ItemView <|-- BeerView
+        ItemView <|-- CamembertView
+        ItemView <|-- CocktailView
+        ItemView <|-- FakeItemView
+        ItemView <|-- GasMaskView
+        ItemView <|-- SlideRuleView
+        ItemView <|-- SpongeView
+        ItemView <|-- TransistorView
+        ItemView <|-- TvszView
+    }
+}
+
+GameManager "1"--"1" SetupWindow
+GameManager "1"--"1" GameWindow
+
+/'
+
+
+    class InventoryView {}
+    class RoomView {}
+
+
+package Controller {
+    class App {
+        - Student currentStudent
+        - GameManager GameManager
+        - GameWindow GameWindow
+
+    }
+
+    class MapManager {
+        - boolean isReachable()
+        - void PlaceItem(Room room)
+        - void mergeRooms(Room room1, Room room2)
+        - Room splitRoom(Room room)
+
+        + void GenerateLabirynth()
+        + void ChangeRooms() 
+    }
+
+' merge vagy split hívása random = change rooms
+
+    class GameManager {
+        - {static} GameManager instance
+        - boolean anySlideRulePickedUp
+        - boolean randomness
+        - int currentTurn
+
+        - GameManager()
+        - List<Student> students
+        - List<Professor> professors
+        - List<Janitor> janitors
+        - List<Room> rooms
+        + {static} GameManager getInstance()
+
+        + void reset() 
+        + boolean isRandom()
+        + boolean isWon()
+        + boolean isGameOver()
+        + void addStudent(Student student)
+        + void addProfessor(Professor professor)
+        + void addJanitor(Janitor janitor) 
+        + void addRoom(Room room) 
+        + void setRandomness(boolean value)
+        + void slideRulePickedUp()
+        + void simulateTurn()
+        + int getTick() 
+    }
+}
+'/
+@enduml
