@@ -1,10 +1,13 @@
 package logarlec.view.utility;
 
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.Color;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
 import javax.swing.BorderFactory;
+import java.io.File;
+import java.util.List;
+import java.util.Arrays;
 
 import logarlec.view.elements.ScrollUI;
 
@@ -14,20 +17,42 @@ public class ThemeManager {
 
     // COLORS
     // todo setup properly
-    Color PRIMARY = colorFrom("#F00");
-    Color PRIMARY_LIGHT = colorFrom("#F00");
+    final Color PRIMARY = colorFrom("#F00");
+    final Color PRIMARY_LIGHT = colorFrom("#F00");
 
-    Color BACKGROUND = colorFrom("#545454");
+    final Color BACKGROUND = colorFrom("#545454");
     
-    Color SCROLL = colorFrom("#AAA");
-    Color TRACK = colorFrom("#777");
+    final Color SCROLL = colorFrom("#AAA");
+    final Color TRACK = colorFrom("#777");
     
-    Color TEXT = colorFrom("#EEE");
-    Color BUTTON = PRIMARY;
+    final Color TEXT = colorFrom("#EEE");
+    final Color TEXT_DARK = colorFrom("#000");
+    final Color BUTTON = PRIMARY;
 
-    Color BORDER_COLOR = colorFrom("#000000");
+    Font FONT;
+    final int FONT_SIZE = 14;
 
-    private ThemeManager() {}
+    private ThemeManager() {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        List<String> takenNames = Arrays.asList(ge.getAvailableFontFamilyNames());
+
+        // load font
+        File fontFile = new File("app/src/resources/Roboto-Regular.ttf");
+
+        if (fontFile.exists()) {
+            try {
+                FONT = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+                if(!takenNames.contains(FONT.getFontName())) {
+                    ge.registerFont(FONT);
+                }
+            } catch (Exception e) {
+                System.err.println("Error loading font: " + e.getMessage());
+            }
+        } else {
+            FONT = ge.getAllFonts()[0];
+            System.err.println("Font file not found");
+        }
+    }
 
     public static ThemeManager getInstance() {
         if (instance == null) {
@@ -84,16 +109,19 @@ public class ThemeManager {
     }
     
     private void setButtonStyle() {
+        int BUTTON_BORDER = 2;
+
         UIManager.put("Button.background", BUTTON);
         UIManager.put("Button.foreground", TEXT);
-        UIManager.put("Button.border", BorderFactory.createEmptyBorder());
-
-        //Border border = BorderFactory.createLineBorder(BUTTON, 2);
-        //UIManager.put("ButtonUI", "logarlec.view.elements.ButtonUI");
+        UIManager.put("Button.border", BorderFactory.createLineBorder(BUTTON, BUTTON_BORDER));
+        UIManager.put("Button.font", getFont(FONT_SIZE));
     }
     
     private void setLabelStyle() {
-        // TODO
+        UIManager.put("Label.foreground", TEXT);
+        UIManager.put("Label.font", getFont(FONT_SIZE));
+        UIManager.put("Label.opaque", true);
+        UIManager.put("Label.disabledShadow", true);
     }
     
     private void setScrollStyle() {    
@@ -108,7 +136,10 @@ public class ThemeManager {
     }
 
     private void setTextFieldStyle() {
-        // TODO
+        UIManager.put("TextField.background", TEXT);
+        UIManager.put("TextField.foreground", TEXT_DARK);
+        UIManager.put("TextField.font", getFont(FONT_SIZE));
+        UIManager.put("TextField.border", BorderFactory.createEmptyBorder());
     }
 
     public void loadTheme() {
@@ -122,9 +153,7 @@ public class ThemeManager {
 
     
     public Font getFont(int style, int fontSize) {
-        // return new Font();
-        // TODO
-        return null;
+        return FONT.deriveFont(style, fontSize);
     }
 
     public Font getFont(int fontSize) {
