@@ -10,7 +10,7 @@ public class IconLoader {
     private String path;
 
     private IconLoader() {
-        path = getClass().getResource("../../../icons/").getPath();
+        path = getClass().getResource("../../../resoutces/icons/").getPath();
         System.out.println(path);
     }
 
