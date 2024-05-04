@@ -1,12 +1,14 @@
-package logarlec.view.utility;
+package logarlec.control.controller;
 
 import java.awt.Color;
 
-public class Player {
-    String name;
-    Color color;
+import logarlec.model.actor.Actor;
 
-    public Player() {
+public abstract class Controller {
+    protected String name;
+    protected Color color;
+
+    protected Controller() {
         this.name = "";
         //random color
         generateColor();
@@ -24,4 +26,7 @@ public class Player {
     public Color getColor() {
         return this.color;
     }
+
+    public abstract void prepareTurn();
+    
 }

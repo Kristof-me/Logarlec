@@ -1,6 +1,12 @@
 package logarlec.model.actor;
 
 import java.util.List;
+
+import logarlec.model.room.Door;
+import logarlec.model.room.IHasLocation;
+import logarlec.model.room.Room;
+import logarlec.model.room.RoomEffect;
+import logarlec.model.GameObject;
 import logarlec.model.actor.actions.ActionState;
 import logarlec.model.actor.actions.IActions;
 import logarlec.model.actor.strategy.DefaultDefense;
@@ -9,16 +15,11 @@ import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemFinder;
 
-import logarlec.model.room.Door;
-import logarlec.model.room.IHasLocation;
-import logarlec.model.room.Room;
-import logarlec.model.room.RoomEffect;
-
 /**
  * Abstract class representing an actor in the game.<br>
  * Perfors actions with the help of the current action state.
  */
-public abstract class Actor implements IHasLocation, IActions {
+public abstract class Actor extends GameObject implements IHasLocation, IActions {
     protected Room room;
     protected boolean alive;
     protected ActionState actionState;

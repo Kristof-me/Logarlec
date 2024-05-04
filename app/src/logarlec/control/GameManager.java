@@ -3,17 +3,21 @@ package logarlec.control;
 import java.util.ArrayList;
 import java.util.List;
 
-import logarlec.model.actor.*;
 import logarlec.model.room.*;
+import logarlec.control.controller.Controller;
+import logarlec.control.controller.JanitorAI;
+import logarlec.control.controller.Player;
+import logarlec.control.controller.ProfessorAI;
+import logarlec.model.actor.*;
 
 public class GameManager {
     private static GameManager instance;
     private boolean randomness = false;
     private int currentTick = 0;
 
-    private List<Student> students = new ArrayList<>();
-    private List<Professor> professors = new ArrayList<>();
-    private List<Janitor> janitors = new ArrayList<>();
+    private List<Player> students = new ArrayList<>();
+    private List<ProfessorAI> professors = new ArrayList<>();
+    private List<JanitorAI> janitors = new ArrayList<>();
     private List<Room> rooms = new ArrayList<>();
 
     private boolean anySlideRulePickedUp = false;
@@ -41,8 +45,8 @@ public class GameManager {
             return true;
         }
 
-        for (Student player : students) {
-            if(player.isAlive()) {
+        for (Player player : students) {
+            if(player.getActor().isAlive()) {
                 return false;
             }
         }
@@ -60,18 +64,38 @@ public class GameManager {
         setRandomness(false);
     }
 
-    public void addStudent(Student student) {
-        students.add(student);
+    public void addPlayer(Player player) {
+        students.add(player);
     }
-    
-    public void addProfessor(Professor professor) {
+    public void addProfessor(ProfessorAI professor) {
         professors.add(professor);
     }
-
-    public void addJanitor(Janitor janitor) {
+    public void addJanitor(JanitorAI janitor) {
         janitors.add(janitor);
     }
+    // public void addStudent(Student student) {
+    //     students.add(student);
+    // }
+    
+    // public void addProfessor(Professor professor) {
+    //     professors.add(professor);
+    // }
 
+    // public void addJanitor(Janitor janitor) {
+    //     janitors.add(janitor);
+    // }
+    public Controller getControllerForActor(Actor actor){
+        for (Player player : students) {
+            if (player.getActor() == actor) return player;
+        }
+        for (ProfessorAI professor : professors) {
+            if (professor.getActor() == actor) return professor;
+        }
+        for (JanitorAI janitor : janitors) {
+            if (janitor.getActor() == actor) return janitor;
+        }
+        return null;
+    }
     public void addRoom(Room room) {
         rooms.add(room);
     }
@@ -107,24 +131,25 @@ public class GameManager {
             room.tick();
         }
 
-        for (Professor professor : professors) {
-            professor.tick();
-            professor.tick();
-            // TODO ai move
+        for (ProfessorAI professor : professors) {
+            professor.getActor().tick();
+            professor.getActor().tick();
+            professor.prepareTurn();
+            professor.prepareTurn();
         }
 
-        for (Janitor janitor : janitors) {
-            janitor.tick();
-            janitor.tick();
-            // TODO ai move
+        for (JanitorAI janitor : janitors) {
+            janitor.getActor().tick();
+            janitor.getActor().tick();
+            janitor.prepareTurn();
+            janitor.prepareTurn();
         }
 
-        for (Student student : students) {
-            student.tick();
-            // TODO give them control
-            student.tick();
-            // TODO give them control again 
-            // cause everyone has 2 actions
+        for (Player player : students) {
+            player.getActor().tick();
+            player.getActor().tick();
+            player.prepareTurn();
+            player.prepareTurn();
         }
     }
 

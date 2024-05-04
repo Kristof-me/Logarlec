@@ -1,11 +1,13 @@
 package logarlec.model.actor;
 
 import java.util.List;
+
+import logarlec.model.room.RoomEffect;
+import logarlec.view.observerviews.View;
+import logarlec.view.panels.PlayerPanel;
 import logarlec.model.actor.actions.StudentActions;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemFinder;
-
-import logarlec.model.room.RoomEffect;
 
 /**
  * The student actor in the game. The student is controlled by the player can die when attacked, and may be revived.
@@ -60,5 +62,10 @@ public class Student extends Actor {
     @Override
     public void setDefaultActionState() {
         actionState = new StudentActions(this);
+    }
+
+    @Override
+    public View createOwnView() {
+        return new PlayerPanel(this);
     }
 }

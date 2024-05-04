@@ -1,11 +1,12 @@
 package logarlec.model.actor;
 
 import java.util.List;
+
+import logarlec.model.room.RoomEffect;
+import logarlec.view.observerviews.View;
 import logarlec.model.actor.actions.JanitorActions;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemFinder;
-
-import logarlec.model.room.RoomEffect;
 
 /**
  * The janitor actor in the game. The janitor can clean up rooms (removes effects) and removes other actors from them.
@@ -36,5 +37,11 @@ public class Janitor extends Actor {
     @Override
     public void setDefaultActionState() {
         actionState = new JanitorActions(this);
+    }
+
+
+    @Override
+    public View createOwnView() {
+        return null;
     }
 }

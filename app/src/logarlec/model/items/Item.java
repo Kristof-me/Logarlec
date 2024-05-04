@@ -1,8 +1,8 @@
 package logarlec.model.items;
 
 
-import logarlec.model.actor.Actor;
 import logarlec.model.room.Room;
+import logarlec.model.actor.Actor;
 
 /**
  * Abstract super class for every item.

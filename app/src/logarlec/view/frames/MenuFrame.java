@@ -2,8 +2,8 @@ package logarlec.view.frames;
 
 import javax.swing.*;
 
-import logarlec.view.panels.PlayerPanel;
-import logarlec.view.utility.Player;
+import logarlec.view.panels.MenuPlayerPanel;
+import logarlec.control.controller.Player;
 import logarlec.view.elements.ScrollUI;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class MenuFrame extends JFrame {
 
         // Add the player panels to the scrollable panel
         for (Player player : players) {
-            playerPanel.add(new PlayerPanel(player));
+            playerPanel.add(new MenuPlayerPanel(player));
         }
         // Add the scroll pane to the frame
         constraints.insets = new Insets(0, 5, 0, 5);
@@ -52,7 +52,7 @@ public class MenuFrame extends JFrame {
         JButton addPlayer = new JButton("Add Player");
         addPlayer.addActionListener(e -> {
             players.add(new Player());
-            playerPanel.add(new PlayerPanel(players.get(players.size() - 1)));
+            playerPanel.add(new MenuPlayerPanel(players.get(players.size() - 1)));
 
             playerPanel.revalidate();
             playerPanel.repaint();

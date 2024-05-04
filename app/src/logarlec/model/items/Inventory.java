@@ -3,16 +3,17 @@ package logarlec.model.items;
 import java.util.List;
 import java.util.ArrayList;
 
-import logarlec.model.actor.Actor;
 import logarlec.model.room.IHasLocation;
 import logarlec.model.room.Room;
+import logarlec.model.GameObject;
+import logarlec.model.actor.Actor;
 
 /**
  * Inventory class that holds items. Both the actors and the rooms have an
  * inventory. <br>
  * Has a limit, and rejects any item being added above the limit.
  */
-public class Inventory {
+public class Inventory extends GameObject {
     private Integer size = 5;
     private List<Item> items = new ArrayList<>();
     private IHasLocation owner = null;

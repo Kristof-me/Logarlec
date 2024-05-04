@@ -1,9 +1,9 @@
 package logarlec.model.items.impl;
 
+import logarlec.model.room.Room;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
-import logarlec.model.room.Room;
 
 
 

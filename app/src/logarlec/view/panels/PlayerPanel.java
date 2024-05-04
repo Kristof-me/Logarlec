@@ -8,23 +8,13 @@ import logarlec.view.elements.CustomButton;
 import logarlec.view.utility.IconLoader;
 import logarlec.view.utility.Player;
 
+import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 
-public class PlayerPanel extends JPanel{
-    private Player player;
-    public PlayerPanel(Player player){
-        super();
-        this.player = player;
-        this.setLayout(new GridBagLayout());
-        this.setMaximumSize(new Dimension(300, 40));
-        GridBagConstraints constraints = new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0);
-
-        //create a row that has a border with the players color, the players name in an editable field, and two buttons to the right
-        JTextField name = new JTextField(player.getName());
-        
-        name.setBackground(new Color(238, 238, 238));
-        name.setBorder(new EmptyBorder(0, 0, 0, 0));
-        this.add(name, constraints);
+public class PlayerPanel extends View {
+    Student viewedPlayer;
+    Controller player;
 
         constraints.fill = GridBagConstraints.NONE;
         constraints.weightx = 0;
@@ -48,8 +38,9 @@ public class PlayerPanel extends JPanel{
 
         drawBorder();
     }
+    
+    @Override
+    public void updateView() {
 
-    private void drawBorder(){
-        setBorder(new CompoundBorder(new EmptyBorder(5, 5, 5, 5), BorderFactory.createLineBorder(player.getColor(), 2)));
     }
 }

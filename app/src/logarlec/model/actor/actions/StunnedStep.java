@@ -1,8 +1,8 @@
 package logarlec.model.actor.actions;
 
+import logarlec.model.room.Door;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
-import logarlec.model.room.Door;
 
 
 /**

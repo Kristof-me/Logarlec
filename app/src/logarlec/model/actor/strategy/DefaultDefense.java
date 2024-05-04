@@ -4,8 +4,8 @@ import logarlec.model.actor.Actor;
 import logarlec.model.items.BestTvszFinder;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.impl.Tvsz;
-import logarlec.model.room.Room;
 import logarlec.control.GameManager;
+import logarlec.model.room.Room;
 
 
 /**
