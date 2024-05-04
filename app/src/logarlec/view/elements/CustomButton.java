@@ -4,9 +4,9 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.util.function.Consumer;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 
+import javax.swing.JButton;
+import javax.swing.Icon;
 import java.awt.Color;
 
 /**
@@ -18,7 +18,7 @@ public class CustomButton extends JButton {
     private Color highlightColor;
     private boolean hasAnimation = true;
 
-    public CustomButton(ImageIcon icon, String text, Consumer<ActionEvent> action) {
+    public CustomButton(Icon icon, String text, Consumer<ActionEvent> action) {
         super(text, icon);
 
         setModel(new CustomButtonState());
@@ -31,7 +31,7 @@ public class CustomButton extends JButton {
         this.highlightColor = getBackground().darker();
     }
 
-    public CustomButton(ImageIcon icon, Consumer<ActionEvent> action) {
+    public CustomButton(Icon icon, Consumer<ActionEvent> action) {
         this(icon, "", action);
     }
 

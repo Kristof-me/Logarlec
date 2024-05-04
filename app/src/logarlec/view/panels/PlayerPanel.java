@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
+import logarlec.view.elements.CustomButton;
+import logarlec.view.utility.IconLoader;
 import logarlec.view.utility.Player;
 
 import java.awt.*;
@@ -26,7 +28,7 @@ public class PlayerPanel extends JPanel{
 
         constraints.fill = GridBagConstraints.NONE;
         constraints.weightx = 0;
-        Button reset = new Button("R");
+        CustomButton reset = new CustomButton(IconLoader.getInstance().getIcon("fa-solid--bible.svg", 18), null);
         
         //reset onclick
         reset.addActionListener(e -> {
