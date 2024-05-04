@@ -1,12 +1,12 @@
 package logarlec.view.panels;
 
-import javax.swing.*;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-
+import logarlec.control.GameManager;
+import logarlec.control.controller.Controller;
+import logarlec.control.controller.Player;
+import logarlec.model.actor.Student;
 import logarlec.view.elements.CustomButton;
-import logarlec.view.utility.IconLoader;
-import logarlec.view.utility.Player;
+import logarlec.view.observerviews.View;
+import logarlec.view.utility.ColorGenerator;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -16,27 +16,23 @@ public class PlayerPanel extends View {
     Student viewedPlayer;
     Controller player;
 
-        constraints.fill = GridBagConstraints.NONE;
-        constraints.weightx = 0;
-        CustomButton reset = new CustomButton(IconLoader.getInstance().getIcon("fa-solid--bible.svg", 18), null);
-        
-        //reset onclick
-        reset.addActionListener(e -> {
-            player.generateColor();
-            //redraw the border
-            drawBorder();
-        });
-
-        reset.setPreferredSize(new Dimension(20, 20));
-        this.add(reset, constraints);
-
-        constraints.fill = GridBagConstraints.NONE;
-        Button delete = new Button("D");
-        // TODO delete player onclick
-        delete.setPreferredSize(new Dimension(20, 20));
-        this.add(delete, constraints);
-
-        drawBorder();
+    public PlayerPanel(Student student) {
+        super();
+        this.viewedPlayer = student;
+        GridLayout layout = new GridLayout(1, 3);
+        layout.setHgap(150);
+        this.setLayout(layout);
+        this.setPreferredSize(new Dimension(800, 75));
+        player = GameManager.getInstance().getControllerForActor(viewedPlayer);
+        JLabel nameLabel = new JLabel(player.getName());
+        nameLabel.setOpaque(true);
+        nameLabel.setBackground(player.getColor()); 
+        nameLabel.setBorder(new LineBorder(Color.BLACK, 5));
+        nameLabel.setAlignmentX(CENTER_ALIGNMENT);
+        nameLabel.setForeground(ColorGenerator.getInstance().getForegroundColor(player.getColor()));
+        this.add(nameLabel, BorderLayout.WEST);
+        this.add(new JLabel("inventory"), BorderLayout.CENTER);
+        this.add(new CustomButton("End Turn"), BorderLayout.EAST);
     }
     
     @Override
