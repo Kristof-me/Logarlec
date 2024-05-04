@@ -2,11 +2,11 @@
 package logarlec;
 
 import logarlec.view.frames.MenuFrame;
-import logarlec.view.utility.UiManager;
+import logarlec.view.utility.ThemeManager;
 
 public class App {
     public static void main(String[] args) {
-        UiManager.getInstance().loadTheme();
+        ThemeManager.getInstance().loadTheme();
         boolean readyToExit = false;
 
         // Game setup

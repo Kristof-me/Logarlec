@@ -4,7 +4,6 @@ import javax.swing.*;
 
 import logarlec.view.panels.PlayerPanel;
 import logarlec.view.utility.Player;
-import logarlec.view.elements.ScrollPane;
 import logarlec.view.elements.ScrollUI;
 
 import java.util.List;
@@ -19,6 +18,7 @@ public class MenuFrame extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(300, 350);
         this.setLayout(new GridBagLayout());
+        
 
         GridBagConstraints constraints = new GridBagConstraints(0, GridBagConstraints.RELATIVE, 3, 1, 1, 0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 20, 5), 0, 0);
 
@@ -33,7 +33,7 @@ public class MenuFrame extends JFrame {
         playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
         playerPanel.add(Box.createVerticalGlue());
 
-        ScrollPane scrollPane = new ScrollPane(playerPanel);
+        JScrollPane scrollPane = new JScrollPane(playerPanel);
         scrollPane.getVerticalScrollBar().setUI(new ScrollUI());
         scrollPane.setMinimumSize(new Dimension(300, 140));
         scrollPane.setPreferredSize(new Dimension(300, 140));
@@ -49,7 +49,7 @@ public class MenuFrame extends JFrame {
         //create three new buttons below the scroll pane, each in a new row
         constraints.insets = new Insets(10, 5, 10, 5);
 
-        Button addPlayer = new Button("Add Player");
+        JButton addPlayer = new JButton("Add Player");
         addPlayer.addActionListener(e -> {
             players.add(new Player());
             playerPanel.add(new PlayerPanel(players.get(players.size() - 1)));
@@ -67,7 +67,8 @@ public class MenuFrame extends JFrame {
         constraints.insets = new Insets(0, 5, 0, 5);  // Remove bottom inset
         constraints.anchor = GridBagConstraints.SOUTH;
 
-        Button startGame = new Button("Start Game");
+        
+        JButton startGame = new JButton("Start Game");
         startGame.addActionListener(e -> {
             // todo start the game
         });
@@ -77,7 +78,7 @@ public class MenuFrame extends JFrame {
         // Add the "Exit" button
         constraints.insets = new Insets(0, 5, 10, 5);  // Remove top inset
         
-        Button exit = new Button("Exit");
+        JButton exit = new JButton("Exit");
         exit.addActionListener(e -> {
             System.exit(0);
         });
