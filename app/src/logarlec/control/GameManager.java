@@ -3,6 +3,8 @@ package logarlec.control;
 import java.util.ArrayList;
 import java.util.List;
 
+import logarlec.control.ai.JanitorController;
+import logarlec.control.ai.ProfessorController;
 import logarlec.model.actor.*;
 import logarlec.model.room.*;
 
@@ -13,7 +15,9 @@ public class GameManager {
 
     private List<Student> students = new ArrayList<>();
     private List<Professor> professors = new ArrayList<>();
+    private ProfessorController professorController = new ProfessorController();
     private List<Janitor> janitors = new ArrayList<>();
+    private JanitorController janitorController = new JanitorController();
     private List<Room> rooms = new ArrayList<>();
 
     private boolean anySlideRulePickedUp = false;
@@ -109,14 +113,16 @@ public class GameManager {
 
         for (Professor professor : professors) {
             professor.tick();
+            professorController.step(professor);
             professor.tick();
-            // TODO ai move
+            professorController.step(professor);
         }
 
         for (Janitor janitor : janitors) {
             janitor.tick();
+            janitorController.step(janitor);
             janitor.tick();
-            // TODO ai move
+            janitorController.step(janitor);
         }
 
         for (Student student : students) {
