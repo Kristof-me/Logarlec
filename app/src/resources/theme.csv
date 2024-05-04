@@ -1,1 +1,6 @@
 Panel.background; #AAA
+
+ScrollBar.thumb; #0A0
+ScrollBar.thumbDarkShadow; #0A0
+ScrollBar.thumbShadow; #0A0
+ScrollBar.thumbHighlight; #0A0

@@ -4,6 +4,8 @@ import javax.swing.*;
 
 import logarlec.view.panels.PlayerPanel;
 import logarlec.view.utility.Player;
+import logarlec.view.elements.ScrollPane;
+import logarlec.view.elements.ScrollUI;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -31,7 +33,8 @@ public class MenuFrame extends JFrame {
         playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
         playerPanel.add(Box.createVerticalGlue());
 
-        JScrollPane scrollPane = new JScrollPane(playerPanel);
+        ScrollPane scrollPane = new ScrollPane(playerPanel);
+        scrollPane.getVerticalScrollBar().setUI(new ScrollUI());
         scrollPane.setMinimumSize(new Dimension(300, 140));
         scrollPane.setPreferredSize(new Dimension(300, 140));
 
