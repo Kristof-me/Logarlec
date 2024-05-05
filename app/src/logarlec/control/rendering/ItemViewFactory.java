@@ -1,4 +1,4 @@
-package logarlec.view.rendering;
+package logarlec.control.rendering;
 
 import logarlec.model.items.impl.*;
 import logarlec.view.panels.ItemPanel;
@@ -6,11 +6,12 @@ import logarlec.view.panels.TransistorPanel;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
 
-public class ItemDrawer extends ItemVisitor {
+public class ItemViewFactory extends ItemVisitor {
     private ItemPanel panel;
 
-    public synchronized void createPanel(Item item) {
+    public ItemPanel createPanel(Item item) {
         item.accept(this);
+        return panel;
     }
 
     public void visit(AirFreshener airFreshener) {
@@ -61,9 +62,5 @@ public class ItemDrawer extends ItemVisitor {
     public void visit(Tvsz tvsz) {
         panel = new ItemPanel(tvsz, "tvsz.png");
         tvsz.addListener(panel);
-    }
-
-    public ItemPanel getPanel() {
-        return panel;
     }
 }

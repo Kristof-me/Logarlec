@@ -1,13 +1,15 @@
 package logarlec.view.panels;
 
 import java.awt.*;
+
 import javax.swing.*;
 
 import logarlec.view.observerviews.View;
 
 public abstract class EffectPanel extends View {
     private JLabel turnsLabel;
-    public EffectPanel(Color backGround, String description, ImageIcon icon){
+
+    public EffectPanel(Color backGround, String description, ImageIcon icon) {
         super();
 
         this.setLayout(new GridBagLayout());

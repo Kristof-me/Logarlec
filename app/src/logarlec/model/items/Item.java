@@ -3,7 +3,7 @@ package logarlec.model.items;
 
 import logarlec.model.room.Room;
 import logarlec.view.panels.ItemPanel;
-import logarlec.view.rendering.ItemDrawer;
+import logarlec.control.rendering.ItemViewFactory;
 import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 
@@ -82,9 +82,7 @@ public abstract class Item extends GameObject {
     
     @Override
     public ItemPanel createOwnView() {
-        ItemDrawer drawer = new ItemDrawer();
-        drawer.createPanel(this);
-
-        return drawer.getPanel();
+        ItemViewFactory drawer = new ItemViewFactory();
+        return drawer.createPanel(this);
     }
 }

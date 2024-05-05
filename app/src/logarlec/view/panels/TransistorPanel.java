@@ -40,7 +40,4 @@ public class TransistorPanel extends ItemPanel {
         revalidate();
         repaint();
     }
-
-    
-    
 }

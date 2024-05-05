@@ -1,7 +1,6 @@
 package logarlec.model.actor.strategy;
 
 import logarlec.model.items.Inventory;
-import logarlec.view.panels.BeerDefensePanel;
 import logarlec.model.actor.Actor;
 
 /**
@@ -40,14 +39,7 @@ public class BeerDefense extends DefenseStrategy {
         return remaining > 0;
     }
 
-    public int getRemaining() {
+    public Integer getRemaining() {
         return remaining;
-    }
-
-    @Override
-    public BeerDefensePanel createOwnView() {
-        BeerDefensePanel panel = new BeerDefensePanel(this, "beer text", "beer.png");
-        addListener(panel);
-        return panel;
     }
 }

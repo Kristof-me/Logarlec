@@ -1,7 +1,8 @@
 package logarlec.model.actor.actions;
 
 import logarlec.model.room.Door;
-import logarlec.view.panels.StunnedStrategyPanel;
+import logarlec.view.panels.EffectPanel;
+import logarlec.control.rendering.EffectViewFactory;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 
@@ -91,9 +92,7 @@ public class StunnedStep extends ActionState {
     }
 
     @Override
-    public StunnedStrategyPanel createOwnView() {
-        StunnedStrategyPanel panel = new StunnedStrategyPanel(this, "stunned", "stun.png");
-        addListener(panel);
-        return panel;
+    public EffectPanel createOwnView() {
+        return new EffectViewFactory().createPanel(this);
     }
 }

@@ -5,8 +5,9 @@ import logarlec.model.actor.strategy.BeerDefense;
 import logarlec.view.elements.ScrollUI;
 import logarlec.view.observerviews.View;
 import logarlec.view.panels.StunnedStrategyPanel;
-import logarlec.view.panels.BeerDefensePanel;
+import logarlec.view.panels.DefenseStrategyPanel;
 import logarlec.view.panels.EffectListPanel;
+import logarlec.view.panels.EffectPanel;
 import logarlec.view.panels.PlayerPanel;
 
 import java.awt.*;
@@ -53,11 +54,12 @@ public class GameFrame extends JFrame {
         EffectListPanel effectsPanel = EffectListPanel.getInstance();
         
         effectsPanel.reset();
-        BeerDefensePanel beerPanel = playerPanel.getViewedPlayer().getDefense().createOwnView();
+        
+        EffectPanel beerPanel = playerPanel.getViewedPlayer().getDefense().createOwnView();
         if (beerPanel != null) {
             effectsPanel.addEffect(beerPanel);
         }
-        StunnedStrategyPanel stunnedPanel = playerPanel.getViewedPlayer().getState().createOwnView();
+        EffectPanel stunnedPanel = playerPanel.getViewedPlayer().getState().createOwnView();
         if (stunnedPanel != null) {
             effectsPanel.addEffect(stunnedPanel);
         }

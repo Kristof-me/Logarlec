@@ -2,14 +2,14 @@ package logarlec.view.panels;
 
 import java.awt.Color;
 
-import logarlec.model.actor.strategy.BeerDefense;
+import logarlec.model.actor.strategy.DefenseStrategy;
 import logarlec.view.utility.IconLoader;
 
-public class BeerDefensePanel extends EffectPanel {
+public class DefenseStrategyPanel extends EffectPanel {
 
-    protected BeerDefense beerDefense;
-    public BeerDefensePanel(BeerDefense defense, String description, String icon) {
-        super(Color.green, description, IconLoader.getInstance().getIcon(icon, 30));
+    protected DefenseStrategy beerDefense;
+    public DefenseStrategyPanel(DefenseStrategy defense, String description, String icon) {
+        super(new Color(0, 200, 0), description, IconLoader.getInstance().getIcon(icon, 30));
         this.beerDefense = defense;
         this.setTurnsLeft(beerDefense.getRemaining());
     }
@@ -24,6 +24,4 @@ public class BeerDefensePanel extends EffectPanel {
             setTurnsLeft(turnsLeft);
         }
     }
-
-    
 }

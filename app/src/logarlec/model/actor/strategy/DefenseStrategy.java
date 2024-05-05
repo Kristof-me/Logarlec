@@ -1,5 +1,6 @@
 package logarlec.model.actor.strategy;
 
+import logarlec.control.rendering.EffectViewFactory;
 import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
@@ -38,6 +39,10 @@ public abstract class DefenseStrategy extends GameObject {
         return false;
     }
 
+    public abstract Integer getRemaining();
+
     @Override
-    public abstract EffectPanel createOwnView();
+    public EffectPanel createOwnView()  {
+        return new EffectViewFactory().createPanel(this);
+    }
 }

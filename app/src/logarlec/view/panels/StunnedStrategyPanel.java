@@ -2,8 +2,6 @@ package logarlec.view.panels;
 
 import java.awt.Color;
 
-import javax.swing.ImageIcon;
-
 import logarlec.model.actor.actions.StunnedStep;
 import logarlec.view.utility.IconLoader;
 

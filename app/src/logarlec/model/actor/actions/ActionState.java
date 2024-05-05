@@ -6,7 +6,7 @@ import logarlec.model.room.Door;
 import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 import logarlec.model.room.Room;
-import logarlec.view.panels.StunnedStrategyPanel;
+import logarlec.view.panels.EffectPanel;
 
 /**
  * <p>
@@ -137,7 +137,7 @@ public abstract class ActionState extends GameObject implements IActions {
     }
 
     @Override
-    public StunnedStrategyPanel createOwnView() {
+    public EffectPanel createOwnView() {
         return null;
     }
 }

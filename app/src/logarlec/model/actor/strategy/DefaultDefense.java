@@ -6,7 +6,7 @@ import logarlec.model.items.Inventory;
 import logarlec.model.items.impl.Tvsz;
 import logarlec.control.GameManager;
 import logarlec.model.room.Room;
-import logarlec.view.panels.EffectPanel;
+
 
 /**
  * Default defense strategy. It tries to use the best TVSZ in the inventory, otherwise dies.
@@ -51,22 +51,9 @@ public class DefaultDefense extends DefenseStrategy {
         lastDefenseTick =  GameManager.getInstance().getTick();
         return true;
     }
-    
-    @Override
-    public boolean tick() {
-        return isTvszActive();
-    }
 
     @Override
-    public EffectPanel createOwnView() {
-        if(!isTvszActive()) {
-            return null;
-        }
-        
-        // TODO
-        return null;
-        // return new EffectPanel("Tvsz active", "tvsz.png");
+    public Integer getRemaining() {
+        return isTvszActive() ? Integer.MAX_VALUE : 0;
     }
-
-    
 }

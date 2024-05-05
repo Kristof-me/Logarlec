@@ -40,5 +40,4 @@ public class InventoryPanel extends View {
             this.add(new EmptyItemPanel());
         }
     }
-    
 }
