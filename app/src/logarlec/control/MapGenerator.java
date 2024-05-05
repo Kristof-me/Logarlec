@@ -1,10 +1,8 @@
 package logarlec.control;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import logarlec.model.items.Item;
@@ -42,12 +40,10 @@ public class MapGenerator {
     public static List<Room> generateMap(int height, int width, Room solution) {
         MapGenerator.height = height;
         MapGenerator.width = width;
-        double roomHeight = 1.0/height;
-        double roomWidth = 1.0/width;
         Room[][] map = new Room[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                map[i][j] = new Room(10, i*roomWidth, j*roomHeight);
+                map[i][j] = new Room(10);
             }
         }
         
