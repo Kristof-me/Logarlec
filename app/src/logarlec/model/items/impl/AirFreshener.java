@@ -48,6 +48,8 @@ public class AirFreshener extends Item {
 
     @Override
     public ItemPanel createOwnView() {
-        return new ItemPanel(this, "air-freshener.png");
+        ItemPanel itemPanel = new ItemPanel(this, "air-freshener.png");
+        addListener(itemPanel);
+        return itemPanel;
     }
 }

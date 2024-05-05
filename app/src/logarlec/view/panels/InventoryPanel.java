@@ -15,6 +15,8 @@ public class InventoryPanel extends View {
     @Override
     public void updateView() {
         drawItems();
+        revalidate();
+        repaint();
     }
 
     private void drawItems(){

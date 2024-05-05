@@ -8,26 +8,38 @@ import java.awt.*;
 import javax.swing.*;
 public class ItemPanel extends View {
 
-    Item item;
-    String icon;
+    protected Item item;
+    protected String icon;
 
-    JLabel usesLeft;
+    protected JLabel usesLeft;
     public ItemPanel(Item item, String icon){
         super();
         this.item = item;
         this.icon = icon;
-        this.setLayout(new GridLayout(1,1));
+        this.setLayout(new GridBagLayout());
         this.setPreferredSize(new Dimension(50, 50));
         this.setMaximumSize(new Dimension(50, 50));
-        JLabel iconLabel = new JLabel(new ImageIcon(IconLoader.getInstance().getImage(icon, 75)));
+    
+        JLabel iconLabel = new JLabel(IconLoader.getInstance().getIcon(icon, 35));
+        iconLabel.setPreferredSize(new Dimension(50, 50));
         iconLabel.setForeground(Color.WHITE);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        this.add(iconLabel, gbc);
+    
         //add a number at bottom right corner
-        // usesLeft = new JLabel(item.getUsesLeft() + "");
-        // usesLeft.setForeground(Color.WHITE);
-        // usesLeft.setHorizontalAlignment(SwingConstants.RIGHT);
-        // usesLeft.setVerticalAlignment(SwingConstants.BOTTOM);
-        // usesLeft.setForeground(Color.WHITE);
-        // iconLabel.add(usesLeft);
+        usesLeft = new JLabel(item.getUsesLeft() + "");
+        usesLeft.setOpaque(false);
+        usesLeft.setForeground(Color.WHITE);
+        usesLeft.setHorizontalAlignment(SwingConstants.RIGHT);
+        usesLeft.setVerticalAlignment(SwingConstants.BOTTOM);
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.SOUTHEAST;
+        this.add(usesLeft, gbc);
+    
         this.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
     }
     @Override

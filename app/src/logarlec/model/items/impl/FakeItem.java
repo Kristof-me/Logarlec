@@ -38,6 +38,8 @@ public class FakeItem extends Item {
     @Override
     public ItemPanel createOwnView() {
         ItemPanel original = itemToFake.createOwnView();
-        return new ItemPanel(this, original.getIcon());
+        ItemPanel fake = new ItemPanel(this, original.getIcon());
+        addListener(fake);
+        return fake;
     }
 }

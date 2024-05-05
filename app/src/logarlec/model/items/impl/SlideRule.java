@@ -35,6 +35,8 @@ public class SlideRule extends Item {
 
     @Override
     public ItemPanel createOwnView() {
-        return new ItemPanel(this, "slide-rule.png");
+        ItemPanel itemPanel = new ItemPanel(this, "slide-rule.png");
+        addListener(itemPanel);
+        return itemPanel;
     }
 }

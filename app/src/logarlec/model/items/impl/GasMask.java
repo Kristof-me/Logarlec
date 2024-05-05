@@ -45,7 +45,9 @@ public class GasMask extends Item {
 
     @Override
     public ItemPanel createOwnView() {
-        return new ItemPanel(this, "gas-mask.png");
+        ItemPanel itemPanel = new ItemPanel(this, "gas-mask.png");
+        addListener(itemPanel);
+        return itemPanel;
     }
 
 }

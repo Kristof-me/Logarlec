@@ -62,6 +62,8 @@ public class Beer extends Item {
 
     @Override
     public ItemPanel createOwnView() {
-        return new ItemPanel(this, "beer.png");
+        ItemPanel itemPanel = new ItemPanel(this, "beer.png");
+        addListener(itemPanel);
+        return itemPanel;
     }
 }

@@ -3,6 +3,7 @@ package logarlec.model.items.impl;
 import logarlec.model.room.IHasLocation;
 import logarlec.model.room.Room;
 import logarlec.view.panels.ItemPanel;
+import logarlec.view.panels.TransistorPanel;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
@@ -102,7 +103,9 @@ public class Transistor extends Item {
     }
 
     @Override
-    public ItemPanel createOwnView() {
-        return new ItemPanel(this, "transistor.png");
+    public TransistorPanel createOwnView() {
+        TransistorPanel itemPanel = new TransistorPanel(this, "transistor.png");
+        addListener(itemPanel);
+        return itemPanel;
     }
 }

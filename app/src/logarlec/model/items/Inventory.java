@@ -51,6 +51,7 @@ public class Inventory extends GameObject {
     public boolean addItem(Item item) {
         if (!isFull()) {
             items.add(item);
+            update();
         }
         return false;
     }
@@ -63,7 +64,9 @@ public class Inventory extends GameObject {
      */
     public Item removeItem(Item item) {
         if (items.remove(item)) {
-            return item;
+            Item re = item;
+            update();
+            return re;
         }
         return null;
     }
@@ -109,8 +112,12 @@ public class Inventory extends GameObject {
 
     @Override
     public InventoryPanel createOwnView() {
-        return new InventoryPanel(this);
+        InventoryPanel inventoryPanel = new InventoryPanel(this);
+        addListener(inventoryPanel);
+        return inventoryPanel;
     }
+
+    
 
     
 }

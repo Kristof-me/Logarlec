@@ -29,7 +29,7 @@ public class PlayerPanel extends View {
         c.gridx = 0;
         c.gridy = 0;
         c.anchor = GridBagConstraints.WEST;
-        this.setPreferredSize(new Dimension(800, 75));
+        this.setPreferredSize(new Dimension(800, 50));
 
         JLabel nameLabel = new JLabel(player.getName());
         nameLabel.setOpaque(true);
@@ -37,7 +37,7 @@ public class PlayerPanel extends View {
         nameLabel.setBorder(new LineBorder(Color.BLACK, 5));
         nameLabel.setAlignmentX(CENTER_ALIGNMENT);
         nameLabel.setForeground(ColorGenerator.getInstance().getForegroundColor(player.getColor()));
-        nameLabel.setPreferredSize(new Dimension(100, 75));
+        nameLabel.setPreferredSize(new Dimension(100, 50));
         
         this.add(nameLabel, c);
         
@@ -56,7 +56,7 @@ public class PlayerPanel extends View {
         c.fill = GridBagConstraints.VERTICAL;
         c.anchor = GridBagConstraints.EAST;
         CustomButton endTurnButton = new CustomButton("End Turn");
-        endTurnButton.setPreferredSize(new Dimension(100, 75));
+        endTurnButton.setPreferredSize(new Dimension(100, 50));
         this.add(endTurnButton, c);
     }
     

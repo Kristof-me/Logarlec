@@ -14,7 +14,7 @@ public class MenuFrame extends JFrame {
     private List<Player> players = new ArrayList<Player>();
 
     public MenuFrame() {
-        super("Logarlec");
+        super("Logarléc");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(300, 350);
         this.setLayout(new GridBagLayout());

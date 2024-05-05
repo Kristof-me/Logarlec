@@ -18,7 +18,7 @@ public abstract class GameObject {
         views.remove(view);
     }
 
-    protected void update() {
+    public void update() {
         for (View view : views) {
             view.updateView();
         }

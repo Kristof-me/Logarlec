@@ -51,6 +51,8 @@ public class Sponge extends Item {
 
     @Override
     public ItemPanel createOwnView() {
-        return new ItemPanel(this, "sponge.png");
+        ItemPanel itemPanel = new ItemPanel(this, "sponge.png");
+        addListener(itemPanel);
+        return itemPanel;
     }
 }

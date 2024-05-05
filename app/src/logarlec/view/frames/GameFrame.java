@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class GameFrame extends JFrame {
     public GameFrame() {
-        super();
+        super("Logarléc");
         this.setSize(800, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());

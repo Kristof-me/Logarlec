@@ -49,6 +49,8 @@ public class Tvsz extends Item {
 
     @Override
     public ItemPanel createOwnView() {
-        return new ItemPanel(this, "tvsz.png");
+        ItemPanel itemPanel = new ItemPanel(this, "tvsz.png");
+        addListener(itemPanel);
+        return itemPanel;
     }
 }

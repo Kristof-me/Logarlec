@@ -46,6 +46,8 @@ public class Cocktail extends Item {
 
     @Override
     public ItemPanel createOwnView() {
-        return new ItemPanel(this, "cocktail.png");
+        ItemPanel itemPanel = new ItemPanel(this, "cocktail.png");
+        addListener(itemPanel);
+        return itemPanel;
     }
 }

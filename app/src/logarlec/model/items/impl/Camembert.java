@@ -51,6 +51,8 @@ public class Camembert extends Item {
     }
     @Override
     public ItemPanel createOwnView() {
-        return new ItemPanel(this, "camembert.png");
+        ItemPanel itemPanel = new ItemPanel(this, "camembert.png");
+        addListener(itemPanel);
+        return itemPanel;
     }
 }
