@@ -37,12 +37,9 @@ public abstract class EffectPanel extends View {
     }
 
     protected void setTurnsLeft(int turnsLeft){
-        System.out.println("Setting turns left to " + turnsLeft + " for " + this.getClass().getName());
-        turnsLabel.setText("Turns left: " + turnsLeft + " " + this.getClass().getName());
-        System.out.println(turnsLabel.getText());
-        turnsLabel.repaint();
-        turnsLabel.revalidate();
+        turnsLabel.setText("Turns left: " + turnsLeft);
+        EffectsPanel.getInstance().revalidate();
         EffectsPanel.getInstance().repaint();
-        GameFrame.getInstance().repaint();
+
     }
 }

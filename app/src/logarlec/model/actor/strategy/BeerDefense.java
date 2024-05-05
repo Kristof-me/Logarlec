@@ -48,6 +48,6 @@ public class BeerDefense extends DefenseStrategy {
     public BeerDefensePanel createOwnView() {
         BeerDefensePanel panel = new BeerDefensePanel(this, "beer text", "beer.png");
         addListener(panel);
-        return new BeerDefensePanel(this, "Beer Defense", "beer.png");
+        return panel;
     }
 }

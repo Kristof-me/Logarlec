@@ -7,8 +7,10 @@ import logarlec.model.actor.Student;
 import logarlec.model.actor.actions.StunnedStep;
 import logarlec.model.actor.strategy.BeerDefense;
 import logarlec.model.items.impl.AirFreshener;
+import logarlec.model.items.impl.Beer;
 import logarlec.model.items.impl.Transistor;
 import logarlec.model.items.impl.Tvsz;
+import logarlec.model.room.Room;
 import logarlec.view.frames.GameFrame;
 import logarlec.view.frames.MenuFrame;
 import logarlec.view.panels.PlayerPanel;
@@ -34,19 +36,24 @@ public class App {
         s.getInventory().addItem(a);
         s.getInventory().addItem(new Transistor());
         s.use(a);
-        Transistor b = new Transistor();
-        s.getInventory().addItem(b);
-        s.getInventory().addItem(new Transistor());
-        s.use(b);
+        Room r = new Room(10);
+        Beer beer = new Beer();
+        
+        r.addItem(beer);
+        s.teleport(r, false);
+        s.pickUp(beer);
+        //s.setActionState(new StunnedStep(s));
         s.setDefenseStrategy(new BeerDefense(s));
-        s.setActionState(new StunnedStep(s));
         GameManager.getInstance().addPlayer(p);
+        
         gameFrame.setVisible(true);
         p.prepareTurn();
+        //s.use(beer);
         s.tick();
         s.tick();
         s.tick();
         s.tick();
+        s.use(beer);
         /* 
         while (!readyToExit) {
             ...

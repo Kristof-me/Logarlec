@@ -34,8 +34,8 @@ public abstract class Item extends GameObject {
     public void use(Actor invoker) {
         update();
         if (usesLeft <= 0 && inventory != null) {
-            inventory.update();
             inventory.removeItem(this);
+            inventory.update();
         }
     }
 

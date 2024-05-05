@@ -20,6 +20,7 @@ public class InventoryPanel extends View {
     }
 
     private void drawItems(){
+        System.out.println("Drawing items");
         this.removeAll();
         int size = inventory.getSize();
         if (size < 10) {

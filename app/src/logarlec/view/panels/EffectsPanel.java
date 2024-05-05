@@ -29,5 +29,7 @@ public class EffectsPanel extends JPanel {
     }
     public void removeEffect(EffectPanel effectPanel){
         this.remove(effectPanel);
+        revalidate();
+        repaint();
     }
 }

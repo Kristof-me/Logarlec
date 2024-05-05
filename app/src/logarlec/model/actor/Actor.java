@@ -153,6 +153,7 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
     @Override
     public void use(Item item) {
         if (!alive) return;
+        update();
         actionState.use(item);
 
     }
@@ -160,12 +161,14 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
     @Override
     public boolean pickUp(Item item) {
         if (!alive) return false;
+        update();
         return actionState.pickUp(item);
     }
 
     @Override
     public void drop(Item item) {
         if (!alive) return;
+        update();
         actionState.drop(item);
     }
 

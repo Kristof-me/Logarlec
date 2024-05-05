@@ -52,6 +52,7 @@ public class Inventory extends GameObject {
         if (!isFull()) {
             items.add(item);
             update();
+            return true;
         }
         return false;
     }
