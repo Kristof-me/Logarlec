@@ -15,20 +15,37 @@ import logarlec.control.GameManager;
 public class DoorPanel extends View {
 
     private Door door;
-    CustomButton btn;
-    public DoorPanel(Room from, Door door) {
+    private Room room;
+    private CustomButton btn;
+
+    public DoorPanel(Door door) {
         super();
-        this.setLayout(new GridLayout(1, 1));
-        btn = new CustomButton(IconLoader.getInstance().getIcon("door.png", 50), "Door", e ->{
-            GameManager.getInstance().getCurrentPlayer().move(door);
-        });
-        this.add(btn);
+        this.setLayout(new GridLayout(2, 1));
+        this.door = door;
+        setPreferredSize(new Dimension(75, 75));
+        setMaximumSize(new Dimension(75, 75));
+        //add label to second row
+        
     }
+
+    public void bindRoom(Room room) {
+        this.room = room;
+        updateView();
+    }
+
 	@Override
 	public void updateView() {
-        btn = new CustomButton(IconLoader.getInstance().getIcon("door.png", 50), "Door", e ->{
+        if (btn != null) remove(btn);
+        
+        btn = new CustomButton(IconLoader.getInstance().getIcon("door.png", 50), e ->{
             GameManager.getInstance().getCurrentPlayer().move(door);
         });
+        
+        add(btn);
+        add(new JLabel("Room #" + door.leadsTo(room).getId()));
+
+        revalidate();
+        repaint();
 	}
 
     

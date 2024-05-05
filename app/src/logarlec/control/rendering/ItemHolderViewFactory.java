@@ -2,7 +2,6 @@ package logarlec.control.rendering;
 
 import logarlec.model.room.Room;
 
-import java.awt.Component;
 import java.util.HashMap;
 
 import logarlec.model.actor.Janitor;
@@ -20,11 +19,11 @@ public class ItemHolderViewFactory {
     private HashMap<Student, PlayerPanel> studentViews = new HashMap<>(); 
     private HashMap<Room, RoomPanel> roomViews = new HashMap<>(); 
 
-    
-    private Component actorPanelTarget;
+    // todo  kristóf írta, -30 IMSc-s megoldás
+    private static RoomPanel autoPlaceTo = null;
 
-    public void setPlayerPanelTarget(Component target) {
-        actorPanelTarget = target;
+    public static void setAutoPlacement(RoomPanel target) {
+        autoPlaceTo = target;
     }
 
     public PlayerPanel createMenuPanel(Student student) {
@@ -39,19 +38,33 @@ public class ItemHolderViewFactory {
     }
 
     public ActorPanel createPanel(Student student) {
-       // ActorPanel panel = new ActorPanel(student, actorPanelTarget);
+       ActorPanel panel = new ActorPanel(student, "student.png");
 
-        if(actorPanelTarget != null)
+        if(autoPlaceTo != null) {
+            autoPlaceTo.AddStudentView(panel);
+        }
             
-        return new ActorPanel(student);
+        return panel;
     }
 
     public ActorPanel createPanel(Janitor janitor) {
-        return new ActorPanel(janitor);
+        ActorPanel panel = new ActorPanel(janitor, "janitor.png");
+
+        if(autoPlaceTo != null) {
+            autoPlaceTo.AddJanitorView(panel);
+        }
+            
+        return panel;
     }
 
     public ActorPanel createPanel(Professor professor) {
-        return new ActorPanel(professor);
+        ActorPanel panel = new ActorPanel(professor, "professor.png");
+
+        if(autoPlaceTo != null) {
+            autoPlaceTo.AddProfessorView(panel);
+        }
+            
+        return panel;
     }
 
     public RoomPanel createPanel(Room room) {

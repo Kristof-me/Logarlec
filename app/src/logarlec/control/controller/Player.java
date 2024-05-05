@@ -30,6 +30,7 @@ public class Player extends Controller<Student> {
         GameFrame.getInstance().setPlayerPanel(playerFrame);
     }
 
+    @Override
     public Student getActor() {
         return actor;
     }

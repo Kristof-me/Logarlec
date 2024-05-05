@@ -8,6 +8,7 @@ import logarlec.model.items.impl.AirFreshener;
 import logarlec.model.items.impl.Beer;
 import logarlec.model.items.impl.Transistor;
 import logarlec.model.items.impl.Tvsz;
+import logarlec.model.room.Door;
 import logarlec.model.room.Room;
 import logarlec.view.frames.GameFrame;
 import logarlec.view.frames.MenuFrame;
@@ -34,16 +35,20 @@ public class App {
         
         
         s.getInventory().addItem(new AirFreshener());
-        s.getInventory().addItem(new Tvsz());
+        //s.getInventory().addItem(new Tvsz());
         Transistor a = new Transistor();
         s.getInventory().addItem(a);
         s.getInventory().addItem(new Transistor());
         s.use(a);
         Room r = new Room(10);
         Beer beer = new Beer();
-        
+        Room r2 = new Room(10);
+        Door door = new Door(r, r2, false);
+
+
         r.addItem(beer);
         s.teleport(r, false);
+        s.attacked();
         s.pickUp(beer);
         //s.setActionState(new StunnedStep(s));
         GameManager.getInstance().addPlayer(p);

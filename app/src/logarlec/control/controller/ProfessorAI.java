@@ -12,6 +12,7 @@ public class ProfessorAI extends Controller<Professor> {
 
     }
 
+    @Override
     public Professor getActor() {
         return actor;
     }

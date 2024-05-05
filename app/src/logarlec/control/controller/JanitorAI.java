@@ -12,6 +12,7 @@ public class JanitorAI extends Controller<Janitor> {
         
     }
 
+    @Override
     public Janitor getActor() {
         return actor;
     }

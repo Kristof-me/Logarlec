@@ -15,7 +15,7 @@ public class GameFrame extends JFrame {
 
     protected GameFrame() {
         super("Logarléc");
-        this.setSize(800, 500);
+        this.setSize(1200, 750);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
         
