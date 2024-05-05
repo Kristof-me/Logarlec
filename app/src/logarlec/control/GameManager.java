@@ -2,18 +2,26 @@ package logarlec.control;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
-import logarlec.model.actor.*;
 import logarlec.model.room.*;
-
+import logarlec.control.controller.Controller;
+import logarlec.control.controller.JanitorAI;
+import logarlec.control.controller.Player;
+import logarlec.control.controller.ProfessorAI;
+import logarlec.model.actor.*;
+import java.util.Iterator;
 public class GameManager {
+    
+    private final int MERGE_PERCENT = 10;
+    private final int SLIT_PERCENT = 10;
     private static GameManager instance;
-    private boolean randomness = false;
+    private MapManager mapManager;
     private int currentTick = 0;
 
-    private List<Student> students = new ArrayList<>();
-    private List<Professor> professors = new ArrayList<>();
-    private List<Janitor> janitors = new ArrayList<>();
+    private ArrayList<Player> students = new ArrayList<>();
+    private List<ProfessorAI> professors = new ArrayList<>();
+    private List<JanitorAI> janitors = new ArrayList<>();
     private List<Room> rooms = new ArrayList<>();
 
     private boolean anySlideRulePickedUp = false;
@@ -25,6 +33,8 @@ public class GameManager {
 
         return instance;
     }
+
+    private Iterator<Player> playerIterator;
 
     private GameManager() { reset(); }
 
@@ -41,8 +51,8 @@ public class GameManager {
             return true;
         }
 
-        for (Student player : students) {
-            if(player.isAlive()) {
+        for (Player player : students) {
+            if(player.getActor().isAlive()) {
                 return false;
             }
         }
@@ -55,76 +65,104 @@ public class GameManager {
         professors.clear();
         janitors.clear();
         rooms.clear();
-
         anySlideRulePickedUp = false;
-        setRandomness(false);
+        playerIterator = students.iterator();
+        mapManager = new MapManager(50, 50);
+        currentTick = 0;
     }
 
-    public void addStudent(Student student) {
-        students.add(student);
+
+    public void addPlayer(Player player) {
+        students.add(player);
     }
-    
-    public void addProfessor(Professor professor) {
+    public void addProfessor(ProfessorAI professor) {
         professors.add(professor);
     }
-
-    public void addJanitor(Janitor janitor) {
+    public void addJanitor(JanitorAI janitor) {
         janitors.add(janitor);
     }
 
-    public void addRoom(Room room) {
-        rooms.add(room);
-    }
 
-    public void mergeRooms(Room room1, Room room2){
-        room2.merge(room1);
-        rooms.remove(room2);
-    }
+    // public void addStudent(Student student) {
+    //     students.add(student);
+    // }
+    
+    // public void addProfessor(Professor professor) {
+    //     professors.add(professor);
+    // }
 
-    public Room splitRoom(Room room){
-        Room newRoom = room.split();
-        addRoom(newRoom);
-        return newRoom;
-    }
-
-    public void setRandomness(boolean value) {
-        randomness = value;
-    }
-
-    public boolean isRandom() {
-        return randomness;
-    }
+    // public void addJanitor(Janitor janitor) {
+    //     janitors.add(janitor);
+    // }
 
     public void slideRulePickedUp() {
         anySlideRulePickedUp = true;
     }
+    
+    public void startGame() {
+        playerIterator = students.iterator();
+    }
+    
+    CountDownLatch turnLatch = new CountDownLatch(2);
 
-    public void simulateTurn() {
+    public long getStepCount() {
+        return turnLatch.getCount();
+    }
+
+    public void takeStep(){
+        turnLatch.countDown();
+    }
+    private Player currentPlayer;
+    public Player getCurrentPlayer(){
+        return currentPlayer;
+    }
+    public void playTurn() {
+        if (playerIterator.hasNext()) {
+            currentPlayer = playerIterator.next();
+            currentPlayer.getActor().tick();
+            if (currentPlayer.getActor().isAlive()){
+                currentPlayer.takeTurn();
+                try {
+                    turnLatch.await();
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            turnLatch = new CountDownLatch(2);
+        } else {
+            playerIterator = students.iterator();
+            aiTurn();
+        }
+    }
+
+
+    public void aiTurn() {
         // handling room and actor ticks
         currentTick++; 
         
         for (Room room : rooms) {
             room.tick();
         }
-
-        for (Professor professor : professors) {
-            professor.tick();
-            professor.tick();
-            // TODO ai move
+        //if random is 10 then merge
+        //if random is 10 then split
+        if (Math.random() * 100 < MERGE_PERCENT) {
+            mapManager.mergeRooms();
+        }
+        if (Math.random() * 100 < SLIT_PERCENT) {
+            mapManager.splitRoom();
         }
 
-        for (Janitor janitor : janitors) {
-            janitor.tick();
-            janitor.tick();
-            // TODO ai move
+        for (ProfessorAI professor : professors) {
+            professor.getActor().tick();
+            professor.takeTurn();
+            professor.takeTurn();
         }
 
-        for (Student student : students) {
-            student.tick();
-            // TODO give them control
-            student.tick();
-            // TODO give them control again 
-            // cause everyone has 2 actions
+        for (JanitorAI janitor : janitors) {
+            janitor.getActor().tick();
+            janitor.takeTurn();
+            janitor.takeTurn();
         }
     }
 

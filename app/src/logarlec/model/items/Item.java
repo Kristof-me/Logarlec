@@ -1,15 +1,18 @@
 package logarlec.model.items;
 
 
-import logarlec.model.actor.Actor;
 import logarlec.model.room.Room;
+import logarlec.view.panels.ItemPanel;
+import logarlec.control.rendering.ItemViewFactory;
+import logarlec.model.GameObject;
+import logarlec.model.actor.Actor;
 
 /**
  * Abstract super class for every item.
  */
-public abstract class Item {
+public abstract class Item extends GameObject {
     private Inventory inventory = null;
-
+    protected boolean isEquipped = false;
     protected Integer usesLeft = 1;
 
     protected Item() { }
@@ -30,8 +33,10 @@ public abstract class Item {
      * @param invoker The actor that uses the item.
      */
     public void use(Actor invoker) {
+        update();
         if (usesLeft <= 0 && inventory != null) {
             inventory.removeItem(this);
+            inventory.update();
         }
     }
 
@@ -40,7 +45,7 @@ public abstract class Item {
      * 
      * @return The uses left of the item.
      */
-    public int getUsesLeft() {
+    public Integer getUsesLeft() {
         return usesLeft;
     }
 
@@ -56,7 +61,7 @@ public abstract class Item {
      */
     public void onPickup(Actor actor) {
         inventory = actor.getInventory();
-        
+        isEquipped = true;
     }
 
     /**
@@ -66,12 +71,21 @@ public abstract class Item {
      */
     public void onDrop(Room location) {
         inventory = location.getInventory();
-        
+        isEquipped = false;
     }
 
     public abstract void accept(ItemVisitor visitor);
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public boolean isEquipped() {
+        return isEquipped;
+    }
+    
+    @Override
+    public ItemPanel<? extends Item> createOwnView() {
+        return new ItemViewFactory().createPanel(this);
     }
 }

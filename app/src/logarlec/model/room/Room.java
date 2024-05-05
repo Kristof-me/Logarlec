@@ -2,9 +2,14 @@ package logarlec.model.room;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import logarlec.control.rendering.ItemHolderViewFactory;
+import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
+import logarlec.view.observerviews.View;
+import logarlec.view.panels.RoomPanel;
 
 
 /**
@@ -14,15 +19,15 @@ import logarlec.model.items.Item;
  * 
  * @see IHasLocation
  */
-public class Room implements IHasLocation {
+public class Room extends GameObject implements IHasLocation {
+    private int id;
+    private static int nextId = 0;
     private Integer capacity = 10;
 
     private List<Actor> actors = new ArrayList<>();
     private ArrayList<Door> doors = new ArrayList<>();
     private List<RoomEffect> roomEffects = new ArrayList<>();
     private Inventory inventory;
-    private double posX;
-    private double posY;
 
     private boolean isSticky = false;
 
@@ -34,18 +39,13 @@ public class Room implements IHasLocation {
      */
     public Room(Integer capacity) {
         this.capacity = capacity;
-
-        inventory = new Inventory(this);
-        
+        this.id = nextId++;
+        inventory = new Inventory(this);   
     }
 
-    public Room(Integer capacity, double posX, double posY) {
-        this.capacity = capacity;
-        this.posX = posX;
-        this.posY = posY;
-
-        inventory = new Inventory(this);
-    } 
+    public int getId() {
+        return id;
+    }
 
     /**
      * Splits a room into two rooms with a door between them
@@ -378,5 +378,10 @@ public class Room implements IHasLocation {
      */
     public void setIsSticky(boolean isSticky) {
         this.isSticky = isSticky;
+    }
+
+    @Override
+    public RoomPanel createOwnView() {
+        return new ItemHolderViewFactory().createPanel(this);
     }
 }

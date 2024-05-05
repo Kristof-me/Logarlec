@@ -1,0 +1,43 @@
+@startuml Renderers
+title Renderers
+
+skinparam classAttributeIconSize 0
+
+package Model{
+    abstract class ItemVisitor{}
+}
+package View{
+    class ItemPanel <T extends Item>{}
+    class PlayerPanel{}
+}
+
+class EffectViewFactory{
+    + createPanel(defenseStrategy: DefenseStrategy): EffectPanel
+    + createPanel(gasEffect: GasEffect): EffectPanel
+    + createPanel(wetEffect: WetEffect): EffectPanel
+    + createPanel(stickyEffect: StickyEffect): EffectPanel
+    + createPanel(stunnedStep: StunnedStep): EffectPanel
+}
+ItemVisitor <|-- ItemViewFactory
+ItemViewFactory *--"1" ItemPanel: panel
+class ItemViewFactory {
+    +createPanel(Item): ItemPanel<? extends Item>
+    +visit(AirFreshener): void
+    +visit(Beer): void
+    +visit(Cocktail): void
+    +visit(Camembert): void
+    +visit(FakeItem): void
+    +visit(GasMask): void
+    +visit(SlideRule): void
+    +visit(Sponge): void
+    +visit(Transistor): void
+    +visit(Tvsz): void
+}
+StudentViewFactory *--"1" PlayerPanel: playerPanel
+class StudentViewFactory{
+    + createPanel(student: Student): PlayerPanel
+}
+
+
+
+@enduml

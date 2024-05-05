@@ -41,11 +41,8 @@ public class Beer extends Item {
         if(inventory.getItems().isEmpty()) {
             return;
         }
-        int selected = 0;
-        if(GameManager.getInstance().isRandom()) {
-            int max = inventory.getItems().size();
-            selected = new Random().nextInt(max);
-        }
+        int max = inventory.getItems().size();
+        int selected = new Random().nextInt(max);
         invoker.drop(inventory.getItems().get(selected));
     }
 
@@ -56,7 +53,6 @@ public class Beer extends Item {
      */
     @Override
     public void accept(ItemVisitor visitor) {
-        visitor.visit(this);
-        
+        visitor.visit(this);   
     }
 }

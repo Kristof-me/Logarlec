@@ -1,7 +1,7 @@
 package logarlec.model.actor.actions;
 
-import logarlec.model.items.Item;
 import logarlec.model.room.Door;
+import logarlec.model.items.Item;
 
 /**
  * <p>

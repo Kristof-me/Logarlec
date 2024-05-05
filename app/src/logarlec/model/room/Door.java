@@ -1,5 +1,4 @@
 package logarlec.model.room;
-
 import logarlec.model.actor.Actor;
 
 

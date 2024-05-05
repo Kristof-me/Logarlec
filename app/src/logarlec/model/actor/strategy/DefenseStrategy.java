@@ -1,13 +1,16 @@
 package logarlec.model.actor.strategy;
 
+import logarlec.control.rendering.EffectViewFactory;
+import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
+import logarlec.view.panels.EffectPanel;
 
 
 /**
  * Abstract class to defend an actor.
  */
-public abstract class DefenseStrategy {
+public abstract class DefenseStrategy extends GameObject {
     protected Actor actor;
 
     /**
@@ -34,5 +37,12 @@ public abstract class DefenseStrategy {
      */
     public boolean defend(Inventory inventory) {
         return false;
+    }
+
+    public abstract Integer getRemaining();
+
+    @Override
+    public EffectPanel createOwnView()  {
+        return new EffectViewFactory().createPanel(this);
     }
 }

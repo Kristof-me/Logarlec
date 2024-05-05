@@ -21,6 +21,7 @@ public class TransistorPairFinder extends ItemFinder<Transistor> {
     @Override
     public void visit(Transistor transistor) {
         if (transistor == caller || transistor.getPair() != null) {
+            System.out.println("already has pair");
             return;
         }
         

@@ -1,0 +1,8 @@
+@startuml MVC
+skinparam classAttributeIconSize 0
+
+interface GameObject {
+    + void Update()
+    + void Subscribe();
+    
+}
