@@ -1,19 +1,17 @@
 package logarlec.view.frames;
 import javax.swing.*;
 
-import logarlec.model.actor.strategy.BeerDefense;
 import logarlec.view.elements.ScrollUI;
-import logarlec.view.observerviews.View;
-import logarlec.view.panels.StunnedStrategyPanel;
-import logarlec.view.panels.DefenseStrategyPanel;
 import logarlec.view.panels.EffectListPanel;
-import logarlec.view.panels.EffectPanel;
 import logarlec.view.panels.PlayerPanel;
 
 import java.awt.*;
 
 public class GameFrame extends JFrame {
-    public GameFrame() {
+    static GameFrame instance;
+    private EffectListPanel effectListPanel;
+
+    protected GameFrame() {
         super("Logarléc");
         this.setSize(800, 500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,7 +25,9 @@ public class GameFrame extends JFrame {
         topPanel.add(roomLabel, BorderLayout.LINE_END);
 
         this.add(topPanel, BorderLayout.PAGE_START);
-        JScrollPane effectScroll = new JScrollPane(EffectListPanel.getInstance());
+
+        effectListPanel = new EffectListPanel();
+        JScrollPane effectScroll = new JScrollPane(effectListPanel);
         //create margin around the scrollpane
 
         effectScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -35,7 +35,7 @@ public class GameFrame extends JFrame {
         effectScroll.setPreferredSize(new Dimension(150, 350));
         this.add(effectScroll, BorderLayout.EAST);
     }
-    static GameFrame instance;
+
     public static GameFrame getInstance() {
         if (instance == null) {
             instance = new GameFrame();
@@ -44,29 +44,24 @@ public class GameFrame extends JFrame {
     }
 
     private PlayerPanel playerPanel;
+
     public void setPlayerPanel(PlayerPanel playerPanel) {
         if (this.playerPanel != null) {
             this.remove(this.playerPanel);
         }
+
         this.playerPanel = playerPanel;
         this.add(playerPanel, BorderLayout.SOUTH);
         
-        EffectListPanel effectsPanel = EffectListPanel.getInstance();
+        effectListPanel.reset();
+        // TODO add all effects to the effects panel
         
-        effectsPanel.reset();
-        
-        EffectPanel beerPanel = playerPanel.getViewedPlayer().getDefense().createOwnView();
-        if (beerPanel != null) {
-            effectsPanel.addEffect(beerPanel);
-        }
-        EffectPanel stunnedPanel = playerPanel.getViewedPlayer().getState().createOwnView();
-        if (stunnedPanel != null) {
-            effectsPanel.addEffect(stunnedPanel);
-        }
         
         this.revalidate();
         this.repaint();
-
     }
 
+    public EffectListPanel getEffectListPanel() {
+        return effectListPanel;
+    }
 }

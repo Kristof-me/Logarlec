@@ -46,7 +46,8 @@ public abstract class EffectPanel extends View {
     protected void setTurnsLeft(int turnsLeft){
         turnsLabel.setText("Turns left: " + turnsLeft);
         
-        EffectListPanel.getInstance().revalidate();
-        EffectListPanel.getInstance().repaint();
+        // if the container had to be resized revalidate its parent
+        turnsLabel.getParent().getParent().revalidate();
+        turnsLabel.getParent().getParent().repaint();;
     }
 }

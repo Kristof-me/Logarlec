@@ -3,6 +3,7 @@ package logarlec.view.panels;
 import java.awt.Color;
 
 import logarlec.model.actor.actions.StunnedStep;
+import logarlec.view.frames.GameFrame;
 import logarlec.view.utility.IconLoader;
 
 public class StunnedStrategyPanel extends EffectPanel {
@@ -16,8 +17,10 @@ public class StunnedStrategyPanel extends EffectPanel {
     @Override
     public void updateView() {
         int turnsLeft = stunnedStep.getRemaining();
+        
         if (turnsLeft == 0) {
-            EffectListPanel.getInstance().removeEffect(this);
+            EffectListPanel panel = GameFrame.getInstance().getEffectListPanel();
+            panel.removeEffect(this);
         }
         else {
             setTurnsLeft(turnsLeft);
