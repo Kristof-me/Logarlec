@@ -130,10 +130,10 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
         if (!actionState.tick()) {
             this.setDefaultActionState();
         }
-
         if (!defenseStrategy.tick()) {
             setDefenseStrategy(new DefaultDefense(this));
         }
+
 
     }
 

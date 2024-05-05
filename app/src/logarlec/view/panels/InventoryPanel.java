@@ -34,11 +34,9 @@ public class InventoryPanel extends View {
         for (int i = 0; i < inventory.getItems().size(); i++) {
             ItemPanel itemPanel = inventory.getItems().get(i).createOwnView();
             this.add(itemPanel);
-            System.out.println("Added item panel");
         }
         for (int i = inventory.getItems().size(); i < size; i++) {
             this.add(new EmptyItemPanel());
-            System.out.println("Added empty item panel");
         }
     }
     

@@ -18,8 +18,6 @@ public class MenuFrame extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(300, 350);
         this.setLayout(new GridBagLayout());
-        
-
         GridBagConstraints constraints = new GridBagConstraints(0, GridBagConstraints.RELATIVE, 3, 1, 1, 0, GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL, new Insets(10, 5, 20, 5), 0, 0);
 
         // Title label
@@ -40,7 +38,7 @@ public class MenuFrame extends JFrame {
 
         // Add the player panels to the scrollable panel
         for (Player player : players) {
-            playerPanel.add(new MenuPlayerPanel(player));
+            playerPanel.add(new MenuPlayerPanel(player, this));
         }
         // Add the scroll pane to the frame
         constraints.insets = new Insets(0, 5, 0, 5);
@@ -52,7 +50,7 @@ public class MenuFrame extends JFrame {
         JButton addPlayer = new JButton("Add Player");
         addPlayer.addActionListener(e -> {
             players.add(new Player());
-            playerPanel.add(new MenuPlayerPanel(players.get(players.size() - 1)));
+            playerPanel.add(new MenuPlayerPanel(players.get(players.size() - 1), this));
 
             playerPanel.revalidate();
             playerPanel.repaint();
@@ -86,7 +84,10 @@ public class MenuFrame extends JFrame {
         this.add(exit, constraints);
     }
 
-    public void deletePlayer(Player player) {
+    public void deletePlayer(Player player, MenuPlayerPanel panel) {
         players.remove(player);
+        this.remove(panel);
+        revalidate();
+        repaint();
     }
 }

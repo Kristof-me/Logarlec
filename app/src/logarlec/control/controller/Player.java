@@ -5,6 +5,7 @@ import logarlec.model.actor.Actor;
 import logarlec.model.actor.Student;
 import logarlec.view.frames.GameFrame;
 import logarlec.view.observerviews.View;
+import logarlec.view.panels.PlayerPanel;
 
 public class Player extends Controller {
     Student actor;
@@ -15,7 +16,8 @@ public class Player extends Controller {
 
     @Override
     public void prepareTurn() {
-        View playerFrame = actor.createOwnView();
+        PlayerPanel playerFrame = actor.createOwnView();
+        playerFrame.bindPlayer(this);
         GameFrame.getInstance().setPlayerPanel(playerFrame);
     }
 

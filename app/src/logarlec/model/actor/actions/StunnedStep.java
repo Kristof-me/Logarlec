@@ -1,6 +1,7 @@
 package logarlec.model.actor.actions;
 
 import logarlec.model.room.Door;
+import logarlec.view.panels.StunnedStrategyPanel;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 
@@ -18,6 +19,7 @@ public class StunnedStep extends ActionState {
      */  
     public StunnedStep(Actor owner) {
         super(owner);
+        remaining = 3;
     }
 
     @Override
@@ -79,6 +81,19 @@ public class StunnedStep extends ActionState {
     @Override
     public boolean tick() {
         remaining--;
+        update();
+        System.out.println("Stunned step remaining: " + remaining);
         return remaining > 0;
+    }
+
+    public Integer getRemaining() {
+        return remaining;
+    }
+
+    @Override
+    public StunnedStrategyPanel createOwnView() {
+        StunnedStrategyPanel panel = new StunnedStrategyPanel(this, "stunned", "stun.png");
+        addListener(panel);
+        return panel;
     }
 }

@@ -5,6 +5,7 @@ import logarlec.control.controller.Controller;
 import logarlec.control.controller.Player;
 import logarlec.model.actor.Student;
 import logarlec.view.elements.CustomButton;
+import logarlec.view.frames.GameFrame;
 import logarlec.view.observerviews.View;
 import logarlec.view.utility.ColorGenerator;
 
@@ -13,13 +14,16 @@ import javax.swing.border.*;
 import java.awt.*;
 
 public class PlayerPanel extends View {
-    Student viewedPlayer;
-    Controller player;
+    protected Student viewedPlayer;
+    public Student getViewedPlayer() {
+        return viewedPlayer;
+    }
+    protected Player player;
+    protected JLabel nameLabel;
 
     public PlayerPanel(Student student) {
         super();
         this.viewedPlayer = student;
-        player = GameManager.getInstance().getControllerForActor(viewedPlayer);
         this.setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
@@ -30,13 +34,10 @@ public class PlayerPanel extends View {
         c.gridy = 0;
         c.anchor = GridBagConstraints.WEST;
         this.setPreferredSize(new Dimension(800, 50));
-
-        JLabel nameLabel = new JLabel(player.getName());
+        nameLabel = new JLabel("placeholder");
         nameLabel.setOpaque(true);
-        nameLabel.setBackground(player.getColor()); 
         nameLabel.setBorder(new LineBorder(Color.BLACK, 5));
         nameLabel.setAlignmentX(CENTER_ALIGNMENT);
-        nameLabel.setForeground(ColorGenerator.getInstance().getForegroundColor(player.getColor()));
         nameLabel.setPreferredSize(new Dimension(100, 50));
         
         this.add(nameLabel, c);
@@ -60,8 +61,16 @@ public class PlayerPanel extends View {
         this.add(endTurnButton, c);
     }
     
+    public void bindPlayer(Player player) {
+        this.player = player;
+        nameLabel.setText(player.getName());
+        nameLabel.setBackground(player.getColor());
+        nameLabel.setForeground(ColorGenerator.getInstance().getForegroundColor(player.getColor()));
+        nameLabel.revalidate();
+        nameLabel.repaint();
+    }
     @Override
     public void updateView() {
-
+        
     }
 }

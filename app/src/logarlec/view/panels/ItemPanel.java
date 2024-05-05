@@ -12,6 +12,7 @@ public class ItemPanel extends View {
     protected String icon;
 
     protected JLabel usesLeft;
+    protected JLabel iconLabel;
     public ItemPanel(Item item, String icon){
         super();
         this.item = item;
@@ -20,7 +21,7 @@ public class ItemPanel extends View {
         this.setPreferredSize(new Dimension(50, 50));
         this.setMaximumSize(new Dimension(50, 50));
     
-        JLabel iconLabel = new JLabel(IconLoader.getInstance().getIcon(icon, 35));
+        iconLabel = new JLabel(IconLoader.getInstance().getIcon(icon, 35));
         iconLabel.setPreferredSize(new Dimension(50, 50));
         iconLabel.setForeground(Color.WHITE);
         GridBagConstraints gbc = new GridBagConstraints();

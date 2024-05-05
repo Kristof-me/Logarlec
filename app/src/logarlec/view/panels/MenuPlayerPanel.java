@@ -5,13 +5,18 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
 import logarlec.control.controller.Player;
+import logarlec.view.elements.CustomButton;
+import logarlec.view.frames.MenuFrame;
+import logarlec.view.utility.IconLoader;
 
 import java.awt.*;
 
 public class MenuPlayerPanel extends JPanel{
     private Player player;
-    public MenuPlayerPanel(Player player){
+    private MenuFrame menu;
+    public MenuPlayerPanel(Player player, MenuFrame menu){
         super();
+        this.menu = menu;
         this.player = player;
         this.setLayout(new GridBagLayout());
         this.setMaximumSize(new Dimension(300, 40));
@@ -26,21 +31,20 @@ public class MenuPlayerPanel extends JPanel{
 
         constraints.fill = GridBagConstraints.NONE;
         constraints.weightx = 0;
-        Button reset = new Button("R");
-        
-        //reset onclick
-        reset.addActionListener(e -> {
+        CustomButton reset = new CustomButton(IconLoader.getInstance().getIcon("refresh.png", 20), e -> {
             player.generateColor();
-            //redraw the border
             drawBorder();
         });
+
 
         reset.setPreferredSize(new Dimension(20, 20));
         this.add(reset, constraints);
 
         constraints.fill = GridBagConstraints.NONE;
-        Button delete = new Button("D");
-        // TODO delete player onclick
+        CustomButton delete = new CustomButton(IconLoader.getInstance().getIcon("close.png", 20), e -> {
+            menu.deletePlayer(player, this);
+            this.setVisible(false);
+        });
         delete.setPreferredSize(new Dimension(20, 20));
         this.add(delete, constraints);
 

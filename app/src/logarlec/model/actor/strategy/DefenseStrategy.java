@@ -1,13 +1,15 @@
 package logarlec.model.actor.strategy;
 
+import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
+import logarlec.view.panels.BeerDefensePanel;
 
 
 /**
  * Abstract class to defend an actor.
  */
-public abstract class DefenseStrategy {
+public abstract class DefenseStrategy extends GameObject {
     protected Actor actor;
 
     /**
@@ -34,5 +36,10 @@ public abstract class DefenseStrategy {
      */
     public boolean defend(Inventory inventory) {
         return false;
+    }
+
+    @Override
+    public BeerDefensePanel createOwnView() {
+        return null;
     }
 }
