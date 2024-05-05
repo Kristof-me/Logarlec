@@ -3,7 +3,7 @@ package logarlec.model.actor.strategy;
 import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
-import logarlec.view.panels.BeerDefensePanel;
+import logarlec.view.panels.EffectPanel;
 
 
 /**
@@ -39,7 +39,5 @@ public abstract class DefenseStrategy extends GameObject {
     }
 
     @Override
-    public BeerDefensePanel createOwnView() {
-        return null;
-    }
+    public abstract EffectPanel createOwnView();
 }

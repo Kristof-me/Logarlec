@@ -2,7 +2,6 @@ package logarlec.view.panels;
 
 import java.awt.Color;
 
-import logarlec.model.actor.strategy.BeerDefense;
 import logarlec.model.room.RoomEffect;
 import logarlec.view.utility.IconLoader;
 
@@ -17,7 +16,7 @@ public class RoomEffectPanel extends EffectPanel {
     public void updateView() {
         int turnsLeft = effect.getTimeLeft();
         if (turnsLeft == 0) {
-            EffectsPanel.getInstance().removeEffect(this);
+            EffectListPanel.getInstance().removeEffect(this);
         }
         else {
             setTurnsLeft(effect.getTimeLeft());

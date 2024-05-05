@@ -6,7 +6,7 @@ import logarlec.view.elements.ScrollUI;
 import logarlec.view.observerviews.View;
 import logarlec.view.panels.StunnedStrategyPanel;
 import logarlec.view.panels.BeerDefensePanel;
-import logarlec.view.panels.EffectsPanel;
+import logarlec.view.panels.EffectListPanel;
 import logarlec.view.panels.PlayerPanel;
 
 import java.awt.*;
@@ -26,7 +26,7 @@ public class GameFrame extends JFrame {
         topPanel.add(roomLabel, BorderLayout.LINE_END);
 
         this.add(topPanel, BorderLayout.PAGE_START);
-        JScrollPane effectScroll = new JScrollPane(EffectsPanel.getInstance());
+        JScrollPane effectScroll = new JScrollPane(EffectListPanel.getInstance());
         //create margin around the scrollpane
 
         effectScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -50,7 +50,7 @@ public class GameFrame extends JFrame {
         this.playerPanel = playerPanel;
         this.add(playerPanel, BorderLayout.SOUTH);
         
-        EffectsPanel effectsPanel = EffectsPanel.getInstance();
+        EffectListPanel effectsPanel = EffectListPanel.getInstance();
         
         effectsPanel.reset();
         BeerDefensePanel beerPanel = playerPanel.getViewedPlayer().getDefense().createOwnView();

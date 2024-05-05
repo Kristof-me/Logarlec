@@ -19,13 +19,10 @@ public class StunnedStrategyPanel extends EffectPanel {
     public void updateView() {
         int turnsLeft = stunnedStep.getRemaining();
         if (turnsLeft == 0) {
-            EffectsPanel.getInstance().removeEffect(this);
+            EffectListPanel.getInstance().removeEffect(this);
         }
         else {
             setTurnsLeft(turnsLeft);
         }
-
     }
-
-    
 }

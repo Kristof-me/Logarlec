@@ -2,7 +2,6 @@ package logarlec.view.panels;
 
 import java.awt.Color;
 
-import javax.swing.ImageIcon;
 import logarlec.model.actor.strategy.BeerDefense;
 import logarlec.view.utility.IconLoader;
 
@@ -19,14 +18,11 @@ public class BeerDefensePanel extends EffectPanel {
     public void updateView() {
         int turnsLeft = beerDefense.getRemaining();
         if (turnsLeft == 0) {
-            System.out.println("Removing beer defense");
-            EffectsPanel.getInstance().removeEffect(this);
+            EffectListPanel.getInstance().removeEffect(this);
         }
         else {
             setTurnsLeft(turnsLeft);
-            System.out.printf("Beer defense remaining: %d\n", turnsLeft);
         }
-
     }
 
     
