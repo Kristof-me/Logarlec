@@ -40,6 +40,7 @@ public class MenuFrame extends JFrame {
         for (Player player : players) {
             playerPanel.add(new MenuPlayerPanel(player, this));
         }
+        
         // Add the scroll pane to the frame
         constraints.insets = new Insets(0, 5, 0, 5);
         this.add(scrollPane, constraints);

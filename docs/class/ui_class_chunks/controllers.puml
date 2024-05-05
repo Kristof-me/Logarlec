@@ -1,0 +1,69 @@
+@startuml Game_controllers
+Title Game Controllers
+skinparam classAttributeIconSize 0
+
+package Model{
+    class Room{}
+    class Student{}
+    class Professor{}
+    class Janitor
+}
+
+MapManager *--"0..*" Room: rooms
+class MapManager{
+    - height: int
+    - width: int
+    + mergeRooms(): void
+    + splitRooms(): void
+    - generateMap(height: int, width: int): List<Room>
+    - BFS(map: Room[][], visited: boolean[][],x: int,y: int): void
+}
+GameManager *--"1" MapManager: mapManager
+GameManager *--"0..*" Player: students
+GameManager *--"0..*" ProfessorAI: professors
+GameManager *--"0..*" JanitorAI: janitors
+GameManager *--"0..*" Room: rooms
+class GameManager{
+    - MERGE_PERCENT: int
+    - SPLIT_PERCENT: int
+    - currentTick: int
+    - anySlidRulePickedUp: boolean
+    - playerIterator: Iterator<Player>
+    turnLatch: CountDownLatch
+    + isWon(): boolean
+    + isGameOver(): boolean
+    + reset(): void
+    + addPlayer(player: Player): void
+    + addPlayer(professor: ProfessorAI): void
+    + addPlayer(janitor: JanitorAI): void
+    + slideRulePickedUp(): void
+    + startGame(): void
+    + playTurn(): void
+    + aiTurn(): void
+}
+abstract class Controller{
+    # name: String
+    # color: Color
+    + generateColor(): void
+    + {abstract} prepareTurn(): void
+}
+Controller <|-- JanitorAI
+JanitorAI *--"1" Janitor: actor
+class JanitorAI{}
+Controller <|-- Player
+Player *--"1" Student: actor
+class Player{}
+Controller <|-- ProfessorAI
+ProfessorAI *--"1" Professor: actor
+class ProfessorAI{}
+
+
+
+
+
+
+
+
+
+
+@enduml

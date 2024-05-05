@@ -1,0 +1,38 @@
+@startuml Custom_panels
+title Custom Panels
+
+skinparam classAttributeIconSize 0
+
+package Controller{
+    class Player{}
+}
+
+JPanel <|-- View
+    abstract class View{
+        + {abstract} updateView(): void
+    }
+    JPanel <|-- EffectListPanel
+    class EffectListPanel{
+        scrollPane: JScrollPane
+        + addEffect(effectPanel: EffectPanel): void
+        + removeEffect(effectPanel: EffectPanel): void
+        + reset(): void
+        # redraw(): void
+    }
+    JPanel <|-- EmptyItemPanel
+    class EmptyItemPanel{}
+
+    JPanel <|-- MenuPlayerPanel
+    MenuPlayerPanel *--"1" Player: player
+    MenuPlayerPanel *--"1" MenuFrame: menu
+    class MenuPlayerPanel{
+        - drawBorder(): void
+    }
+
+
+
+
+
+
+
+@enduml

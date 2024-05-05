@@ -2,6 +2,8 @@ package logarlec.control.controller;
 
 import logarlec.model.actor.Janitor;
 import logarlec.model.actor.Professor;
+import logarlec.model.items.Item;
+import logarlec.model.room.Door;
 
 public class JanitorAI extends Controller{
     Janitor actor;
@@ -11,7 +13,7 @@ public class JanitorAI extends Controller{
         actor = new Janitor();
     }
     @Override
-    public void prepareTurn() {
+    public void takeTurn() {
         
     }
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import logarlec.model.room.RoomEffect;
 import logarlec.view.panels.PlayerPanel;
-import logarlec.control.rendering.StudentViewFactory;
+import logarlec.control.rendering.ItemHolderViewFactory;
 import logarlec.model.actor.actions.StudentActions;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemFinder;
@@ -66,6 +66,6 @@ public class Student extends Actor {
 
     @Override
     public PlayerPanel createOwnView() {
-        return new StudentViewFactory().createPanel(this);
+        return new ItemHolderViewFactory().createPanel(this);
     }
 }

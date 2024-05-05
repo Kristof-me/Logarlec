@@ -11,7 +11,9 @@ public abstract class GameObject {
     private List<View> views = new ArrayList<>();
 
     public void addListener(View view) {
-        views.add(view);
+        if(view != null && !views.contains(view)) {
+            views.add(view);
+        }
     }
 
     public void removeListener(View view) {

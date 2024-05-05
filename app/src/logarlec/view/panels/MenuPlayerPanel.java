@@ -32,7 +32,7 @@ public class MenuPlayerPanel extends JPanel{
         constraints.fill = GridBagConstraints.NONE;
         constraints.weightx = 0;
         CustomButton reset = new CustomButton(IconLoader.getInstance().getIcon("refresh.png", 20), e -> {
-            player.generateColor();
+            // player.generateColor();
             drawBorder();
         });
 

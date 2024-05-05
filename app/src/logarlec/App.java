@@ -24,9 +24,15 @@ public class App {
         // Game setup
         MenuFrame menuFrame = new MenuFrame();
         menuFrame.setVisible(true);
+
         GameFrame gameFrame = GameFrame.getInstance();
+        new Thread(() -> {
+            gameFrame.setVisible(true);
+        }).start();
+
         Student s = new Student();
         Player p = new Player();
+        GameManager.getInstance().addPlayer(p);
         p.setActor(s);
         p.setName("asd");
         
@@ -43,21 +49,21 @@ public class App {
         s.teleport(r, false);
         s.pickUp(beer);
         //s.setActionState(new StunnedStep(s));
-        s.setDefenseStrategy(new BeerDefense(s));
         GameManager.getInstance().addPlayer(p);
         
         gameFrame.setVisible(true);
-        p.prepareTurn();
+        p.takeTurn();
         //s.use(beer);
         s.tick();
         s.tick();
         s.tick();
         s.tick();
-        s.use(beer);
-        /* 
-        while (!readyToExit) {
-            ...
-        } 
-        */
+       // s.use(beer);
+        
+        GameManager.getInstance().startGame();
+
+        while (!GameManager.getInstance().isGameOver()) {
+            GameManager.getInstance().playTurn();
+        }
     }
 }

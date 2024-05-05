@@ -2,9 +2,14 @@ package logarlec.model.room;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import logarlec.control.rendering.ItemHolderViewFactory;
+import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
+import logarlec.view.observerviews.View;
+import logarlec.view.panels.RoomPanel;
 
 
 /**
@@ -14,7 +19,7 @@ import logarlec.model.items.Item;
  * 
  * @see IHasLocation
  */
-public class Room implements IHasLocation {
+public class Room extends GameObject implements IHasLocation {
     private Integer capacity = 10;
 
     private List<Actor> actors = new ArrayList<>();
@@ -378,5 +383,10 @@ public class Room implements IHasLocation {
      */
     public void setIsSticky(boolean isSticky) {
         this.isSticky = isSticky;
+    }
+
+    @Override
+    public RoomPanel createOwnView() {
+        return new ItemHolderViewFactory().createPanel(this);
     }
 }

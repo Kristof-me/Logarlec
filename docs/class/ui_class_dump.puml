@@ -1,0 +1,305 @@
+@startuml NewClassDiagram
+skinparam classAttributeIconSize 0
+
+' JUST FOR RENDERING PURPOSES. DON'T HAVE STRUCTURAL MEANING!!!!!!!!
+package View{
+    class ItemPanel{}
+    class PlayerPanel{}
+}
+
+
+/' 
+###############################################################
+########################---MODEL---#############################
+###############################################################
+ '/
+package Model{
+    class BeerDefense{}
+    class StunnedStep{}
+    class Inventory{}
+    class Student{}
+    class Professor{}
+    class Janitor{}
+    class RoomEffect{}
+    class Room{}
+    abstract class Item{}
+    class Transistor{}
+    abstract class ItemVisitor{}
+
+    GameObject *--"0..*" View: views
+    abstract class GameObject{
+        + addListener(view: View): void
+        + removeListener(view: View): void
+        + update(): void
+        + {abstract} createOwnView(): View
+    }
+
+    GameObject <|-- ActionState
+    GameObject <|-- DefenseStrategy
+    GameObject <|-- Actor
+    GameObject <|-- Inventory
+    GameObject <|-- Item
+    GameObject <|-- Room
+    GameObject <|-- RoomEffect
+}
+
+
+/' 
+###############################################################
+#####################---CONTROL---##########################
+###############################################################
+ '/
+package Controller{
+
+    MapManager *--"0..*" Room: rooms
+    class MapManager{
+        - height: int
+        - width: int
+        + mergeRooms(): void
+        + splitRooms(): void
+        - generateMap(height: int, width: int): List<Room>
+        - BFS(map: Room[][], visited: boolean[][],x: int,y: int): void
+    }
+
+    GameManager *--"1" MapManager: mapManager
+    GameManager *--"0..*" Player: students
+    GameManager *--"0..*" ProfessorAI: professors
+    GameManager *--"0..*" JanitorAI: janitors
+    GameManager *--"0..*" Room: rooms
+    class GameManager{
+        - MERGE_PERCENT: int
+        - SPLIT_PERCENT: int
+        - currentTick: int
+        - anySlidRulePickedUp: boolean
+        - playerIterator: Iterator<Player>
+        turnLatch: CountDownLatch
+
+        + isWon(): boolean
+        + isGameOver(): boolean
+        + reset(): void
+        + addPlayer(player: Player): void
+        + addPlayer(professor: ProfessorAI): void
+        + addPlayer(janitor: JanitorAI): void
+        + slideRulePickedUp(): void
+        + startGame(): void
+        + playTurn(): void
+        + aiTurn(): void
+    }
+
+    abstract class Controller{
+        # name: String
+        # color: Color
+        + generateColor(): void
+        + {abstract} prepareTurn(): void
+    }
+
+    Controller <|-- JanitorAI
+    JanitorAI *--"1" Janitor: actor
+    class JanitorAI{}
+
+    Controller <|-- Player
+    Player *--"1" Student: actor
+    class Player{}
+
+    Controller <|-- ProfessorAI
+    ProfessorAI *--"1" Professor: actor
+    class ProfessorAI{}
+
+    'rendering
+    package Rendering{
+        class EffectViewFactory{
+            + createPanel(defenseStrategy: DefenseStrategy): EffectPanel
+            + createPanel(gasEffect: GasEffect): EffectPanel
+            + createPanel(wetEffect: WetEffect): EffectPanel
+            + createPanel(stickyEffect: StickyEffect): EffectPanel
+            + createPanel(stunnedStep: StunnedStep): EffectPanel
+        }
+
+        ItemVisitor <|-- ItemViewFactory
+        ItemViewFactory *--"1" ItemPanel: panel
+        class ItemViewFactory {
+            +createPanel(Item): ItemPanel<? extends Item>
+            +visit(AirFreshener): void
+            +visit(Beer): void
+            +visit(Cocktail): void
+            +visit(Camembert): void
+            +visit(FakeItem): void
+            +visit(GasMask): void
+            +visit(SlideRule): void
+            +visit(Sponge): void
+            +visit(Transistor): void
+            +visit(Tvsz): void
+        }
+
+        StudentViewFactory *--"1" PlayerPanel: playerPanel
+        class StudentViewFactory{
+            + createPanel(student: Student): PlayerPanel
+        }
+
+    }
+
+}
+
+/' 
+###############################################################
+########################---VIEW---#############################
+###############################################################
+ '/
+package View{
+    'elements
+        JButton <|-- CustomButton
+        class CustomButton{
+            - action : Consumer<ActionEvent>
+            - background : Color
+            - highlightColor : Color
+            - hasAnimation : boolean
+
+            + setExpectedSize(size: Dimension): void
+            - onClickAnimation(event: ActionEvent): void
+            + setHighlight(highlight: boolean): void
+            + setHasAnimation(hasAnimation: boolean): void
+            + setBackground(color: Color): void
+            + setHighlightColor(color: Color): void
+        }
+
+        DefaultButtomModel <|-- CustomButtonState
+        class CustomButtonState {
+            +isPressed(): boolean
+            +isRollover(): boolean
+            +setRollover(b: boolean): void
+        }
+
+        BasicScrollBarUI <|-- ScrollUI
+        class ScrollUI {
+            #createDecreaseButton(orientation: int): JButton
+            #createIncreaseButton(orientation: int): JButton
+            -createZeroButton(): JButton
+        }
+    'frames
+
+    JFrame <|-- GameFrame
+    PlayerPanel *--"1" GameFrame: playerPanel
+    class GameFrame{
+        + setPlayerPanel(playerPanel: PlayerPanel): void
+    }
+
+    JFrame <|-- MenuFrame
+    MenuFrame *--"0..*" Player: player
+    class MenuFrame{
+        + deletePlayer(player: Player, panel: MenuPlayerPanel): void
+    }
+
+    'observerviews
+    JPanel <|-- View
+    abstract class View{
+        + {abstract} updateView(): void
+    }
+
+    'panels
+
+    EffectPanel <|-- BeerDefensePanel
+    BeerDefensePanel *--"1" BeerDefense: beerDefense
+    class BeerDefensePanel{
+    }
+
+    JPanel <|-- EffectListPanel
+    class EffectListPanel{
+        scrollPane: JScrollPane
+        + addEffect(effectPanel: EffectPanel): void
+        + removeEffect(effectPanel: EffectPanel): void
+        + reset(): void
+        # redraw(): void
+    }
+
+    View <|-- EffectPanel
+    abstract class EffectPanel{
+        - turnsLabel: JLabel
+        # setTurnsLeft(turnsleft: int): void
+    }
+
+    JPanel <|-- EmptyItemPanel
+    class EmptyItemPanel{}
+
+    View <|-- InventoryPanel
+    InventoryPanel *--"1" Inventory: inventory
+    class InventoryPanel{
+        - drawItems(): void
+    }
+
+    View <|-- ItemPanel
+    ItemPanel *--"1" Item: item: T
+    class ItemPanel <T extends Item>{
+        # icon: String
+        # usesLeft: JLabel
+        # iconLabel: JLabel
+    }
+
+    JPanel <|-- MenuPlayerPanel
+    MenuPlayerPanel *--"1" Player: player
+    MenuPlayerPanel *--"1" MenuFrame: menu
+    class MenuPlayerPanel{
+        - drawBorder(): void
+    }
+
+    View <|-- PlayerPanel
+    PlayerPanel *--"1" Student: viewedPlayer
+    PlayerPanel *--"1" Player: player
+    class PlayerPanel{
+        # nameLabel: JLabel
+        + bindPlayer(player: Player): void
+    }
+
+    EffectPanel <|-- RoomEffectPanel
+    RoomEffectPanel *--"1" RoomEffect: effect
+    class RoomEffectPanel{}
+
+    View <|-- RoomPanel
+    RoomPanel *--"1" Room: viewedRoom
+    class RoomPanel{}
+
+    EffectPanel <|-- StunnedStrategyPanel
+    StunnedStrategyPanel *--"1" StunnedStep: stunnedStep
+    class StunnedStrategyPanel{}
+
+    ItemPanel <|-- TransistorPanel
+    TransistorPanel *--"1" Transistor: transistor
+    class TransistorPanel{
+        # paintComponent(g: Graphics): void
+    }
+
+    'utility
+    class ColorGenerator{
+        + random(): Color
+        + fromHash(hash1: int, hash2: int): Color
+        + getForegroundColor(backgroundColor: Color): Color
+    }
+
+    class IconLoader{
+        icons: HashMap<Strint, Image>
+        - path: String
+        + getImage(name: String, scale: int): Image
+        + getIcon(name: String, scale: int): ImageIcon
+    }
+
+    class ThemeManager{
+        # PRIMARY: Color
+        # PRIMARY_LIGHT: Color
+        # ACCENT: Color
+        # BACKGROUND: Color
+        # SCROLL: Color
+        # TRACK: Color
+        # TEXT: Color
+        # TEXT_DARK: Color
+        # BUTTON: Color
+        # FONT: Font
+        # FONT_SIZE: int
+        - colorFrom(hex: String): Color
+        - setContainerStyle():
+        - setButtonStyle():
+        - setLabelStyle():
+        - setScrollStyle():
+        - setTextFieldStyle():
+        + loadTheme(): void
+    }
+}
+@enduml

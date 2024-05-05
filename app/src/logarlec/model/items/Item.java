@@ -12,7 +12,7 @@ import logarlec.model.actor.Actor;
  */
 public abstract class Item extends GameObject {
     private Inventory inventory = null;
-
+    protected boolean isEquipped = false;
     protected Integer usesLeft = 1;
 
     protected Item() { }
@@ -61,7 +61,7 @@ public abstract class Item extends GameObject {
      */
     public void onPickup(Actor actor) {
         inventory = actor.getInventory();
-        
+        isEquipped = true;
     }
 
     /**
@@ -71,13 +71,17 @@ public abstract class Item extends GameObject {
      */
     public void onDrop(Room location) {
         inventory = location.getInventory();
-        
+        isEquipped = false;
     }
 
     public abstract void accept(ItemVisitor visitor);
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public boolean isEquipped() {
+        return isEquipped;
     }
     
     @Override

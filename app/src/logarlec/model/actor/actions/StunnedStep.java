@@ -83,7 +83,6 @@ public class StunnedStep extends ActionState {
     public boolean tick() {
         remaining--;
         update();
-        System.out.println("Stunned step remaining: " + remaining);
         return remaining > 0;
     }
 

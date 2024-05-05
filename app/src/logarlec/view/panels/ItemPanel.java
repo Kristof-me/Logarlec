@@ -1,5 +1,6 @@
 package logarlec.view.panels;
 
+import logarlec.control.GameManager;
 import logarlec.model.items.Item;
 import logarlec.view.observerviews.View;
 import logarlec.view.utility.IconLoader;
@@ -12,7 +13,7 @@ public class ItemPanel <T extends Item> extends View {
 
     protected JLabel usesLeft;
     protected JLabel iconLabel;
-
+    protected JPopupMenu popupMenu;
     public ItemPanel(T item, String icon){
         super();
         this.item = item;
@@ -45,7 +46,15 @@ public class ItemPanel <T extends Item> extends View {
         this.add(usesLeft, gbc);
     
         this.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+
+        if (item.isEquipped()) {
+            setActorPopupMenu();
+        }
+        else {
+            setRoomPopupMenu();
+        }
     }
+    
     @Override
     public void updateView() {
         usesLeft.setText(item.getUsesLeft().toString());
@@ -53,6 +62,31 @@ public class ItemPanel <T extends Item> extends View {
 
     public String getIcon() {
         return icon;
+    }
+
+    protected void setActorPopupMenu(){
+        popupMenu = new JPopupMenu();
+        JMenuItem useItem = new JMenuItem("Use");
+        useItem.addActionListener(e -> {
+            GameManager.getInstance().getCurrentPlayer().use(item);
+        });
+        popupMenu.add(useItem);
+        JMenuItem dropItem = new JMenuItem("Drop");
+        dropItem.addActionListener(e -> {
+            GameManager.getInstance().getCurrentPlayer().drop(item);
+        });
+        popupMenu.add(dropItem);
+        this.setComponentPopupMenu(popupMenu);
+    }
+
+    protected void setRoomPopupMenu(){
+        popupMenu = new JPopupMenu();
+        JMenuItem pickupItem = new JMenuItem("Pick up");
+        pickupItem.addActionListener(e -> {
+            GameManager.getInstance().getCurrentPlayer().pickUp(item);
+        });
+        popupMenu.add(pickupItem);
+        this.setComponentPopupMenu(popupMenu);
     }
     
 }

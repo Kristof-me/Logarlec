@@ -10,7 +10,7 @@ public class ProfessorAI extends Controller{
         actor = new Professor();
     }
     @Override
-    public void prepareTurn() {
+    public void takeTurn() {
 
     }
 
