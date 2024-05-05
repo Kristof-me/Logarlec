@@ -32,6 +32,7 @@ public class RoomPanel extends View{
 
         roomInfo.add(leftPanel, BorderLayout.WEST);
         
+        
         // adding buttons to the left panel
         leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("student.png", 45), (e) -> {
             // TODO

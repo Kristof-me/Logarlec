@@ -43,7 +43,7 @@ public class MapManager {
         Room[][] map = new Room[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                map[i][j] = new Room(10, i*roomWidth, j*roomHeight);
+                map[i][j] = new Room(10);
             }
         }
         

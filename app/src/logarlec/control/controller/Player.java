@@ -1,6 +1,7 @@
 package logarlec.control.controller;
 
 import logarlec.control.GameManager;
+import logarlec.control.rendering.ItemHolderViewFactory;
 import logarlec.model.actor.Student;
 import logarlec.model.items.Item;
 import logarlec.model.room.Door;
@@ -24,7 +25,7 @@ public class Player extends Controller<Student> {
 
     @Override
     public void takeTurn() {
-        PlayerPanel playerFrame = actor.createOwnView();
+        PlayerPanel playerFrame = new ItemHolderViewFactory().createMenuPanel(actor);
         playerFrame.bindPlayer(this);
         GameFrame.getInstance().setPlayerPanel(playerFrame);
     }

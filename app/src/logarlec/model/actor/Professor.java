@@ -3,7 +3,8 @@ package logarlec.model.actor;
 import java.util.List;
 
 import logarlec.model.room.RoomEffect;
-import logarlec.view.observerviews.View;
+import logarlec.view.panels.ActorPanel;
+import logarlec.control.rendering.ItemHolderViewFactory;
 import logarlec.model.actor.actions.ProfessorActions;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemFinder;
@@ -48,7 +49,7 @@ public class Professor extends Actor {
 
 
     @Override
-    public View createOwnView() {
-        return null;
+    public ActorPanel createOwnView() {
+        return new ItemHolderViewFactory().createPanel(this);
     }
 }
