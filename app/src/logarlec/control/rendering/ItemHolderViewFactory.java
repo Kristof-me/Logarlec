@@ -7,7 +7,6 @@ import java.util.HashMap;
 import logarlec.model.actor.Student;
 import logarlec.view.panels.PlayerPanel;
 import logarlec.view.panels.RoomPanel;
-import logarlec.view.observerviews.View;
 
 /**
  * Item Holder View Factory

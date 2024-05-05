@@ -48,8 +48,8 @@ public class RoomPanel extends View{
         leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("chest.png", 45), (e) -> {
             ReplaceCenter(inventoryPanel);
         }));
-        
-        
+
+        // adding doors
         
     }
 

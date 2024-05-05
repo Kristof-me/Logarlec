@@ -4,6 +4,7 @@ import logarlec.model.actor.Actor;
 import logarlec.model.actor.Professor;
 import logarlec.model.actor.Janitor;
 import logarlec.model.actor.Student;
+import logarlec.view.panels.EffectPanel;
 import logarlec.model.GameObject;
 
 /**
@@ -99,4 +100,7 @@ public abstract class RoomEffect extends GameObject {
      * @return Deep copy of the effect
      */
     public abstract RoomEffect copy();
+
+    @Override
+    public abstract EffectPanel createOwnView();
 }

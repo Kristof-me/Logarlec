@@ -6,31 +6,15 @@ import logarlec.model.actor.Actor;
 import logarlec.model.actor.actions.IActions;
 import logarlec.model.items.Item;
 import logarlec.model.room.Door;
-import logarlec.view.utility.ColorGenerator;
 
-public abstract class Controller implements IActions {
-    protected String name;
-    protected Color color;
-
-    protected Controller() {
-        this.name = "";
-        //random color
-        this.color = ColorGenerator.getInstance().random();
+public abstract class Controller<T extends Actor> implements IActions {
+    protected T actor;
+    
+    protected Controller(T actor) {
+        this.actor = actor;
     }
     
     public abstract Actor getActor();
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public Color getColor() {
-        return this.color;
-    }
 
     public abstract void takeTurn();
 

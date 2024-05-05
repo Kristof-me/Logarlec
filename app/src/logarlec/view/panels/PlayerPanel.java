@@ -63,9 +63,11 @@ public class PlayerPanel extends View {
     
     public void bindPlayer(Player player) {
         this.player = player;
-        nameLabel.setText(player.getName());
-        nameLabel.setBackground(player.getColor());
-        nameLabel.setForeground(ColorGenerator.getInstance().getForegroundColor(player.getColor()));
+        Student student = player.getActor();
+        
+        nameLabel.setText(student.getName());
+        nameLabel.setBackground(student.getColor());
+        nameLabel.setForeground(ColorGenerator.getInstance().getForegroundColor(student.getColor()));
         nameLabel.revalidate();
         nameLabel.repaint();
     }

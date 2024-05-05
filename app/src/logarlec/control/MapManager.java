@@ -23,12 +23,9 @@ public class MapManager {
 
     public void mergeRooms(){
         int room1 = (int)(Math.random() * rooms.size());
-        int room2 = (int)(Math.random() * rooms.size());
-        while(room1 == room2){
-            room2 = (int)(Math.random() * rooms.size());
-        }
         Room r1 = rooms.get(room1);
-        Room r2 = rooms.get(room2);
+        int door = (int)(Math.random() * r1.getDoors().size());
+        Room r2 = r1.getDoors().get(door).leadsTo(r1);
         r2.merge(r1);
         rooms.remove(r1);
     }

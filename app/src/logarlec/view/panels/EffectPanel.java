@@ -4,6 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import logarlec.view.frames.GameFrame;
 import logarlec.view.observerviews.View;
 
 public abstract class EffectPanel extends View {
@@ -46,8 +47,7 @@ public abstract class EffectPanel extends View {
     protected void setTurnsLeft(int turnsLeft){
         turnsLabel.setText("Turns left: " + turnsLeft);
         
-        // if the container had to be resized revalidate its parent
-        turnsLabel.getParent().getParent().revalidate();
-        turnsLabel.getParent().getParent().repaint();;
+        GameFrame.getInstance().getEffectListPanel().revalidate();
+        GameFrame.getInstance().getEffectListPanel().repaint();
     }
 }

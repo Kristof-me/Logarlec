@@ -56,7 +56,7 @@ public class GameFrame extends JFrame {
         this.add(playerPanel, BorderLayout.SOUTH);
         
         // adding effects
-        effectListPanel.reset();
+        effectListPanel.bindStudent(playerPanel.getViewedPlayer());
         // TODO add all effects to the effects panel
         
         // displaying room

@@ -2,13 +2,11 @@ package logarlec.control.controller;
 
 import logarlec.model.actor.Professor;
 
-public class ProfessorAI extends Controller{
-    Professor actor;
+public class ProfessorAI extends Controller<Professor> {    
     public ProfessorAI() {
-        super();
-        name = "Professor Placeholder";
-        actor = new Professor();
+        super(new Professor());
     }
+
     @Override
     public void takeTurn() {
 

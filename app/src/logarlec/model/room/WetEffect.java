@@ -65,7 +65,7 @@ public class WetEffect extends RoomEffect {
     }
 
     @Override
-    public View createOwnView() {
+    public EffectPanel createOwnView() {
         return new EffectViewFactory().createPanel(this);
     }
 }

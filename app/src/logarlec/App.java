@@ -4,8 +4,6 @@ package logarlec;
 import logarlec.control.GameManager;
 import logarlec.control.controller.Player;
 import logarlec.model.actor.Student;
-import logarlec.model.actor.actions.StunnedStep;
-import logarlec.model.actor.strategy.BeerDefense;
 import logarlec.model.items.impl.AirFreshener;
 import logarlec.model.items.impl.Beer;
 import logarlec.model.items.impl.Transistor;
@@ -13,7 +11,6 @@ import logarlec.model.items.impl.Tvsz;
 import logarlec.model.room.Room;
 import logarlec.view.frames.GameFrame;
 import logarlec.view.frames.MenuFrame;
-import logarlec.view.panels.PlayerPanel;
 import logarlec.view.utility.ThemeManager;
 
 public class App {
@@ -31,10 +28,10 @@ public class App {
         }).start();
 
         Student s = new Student();
-        Player p = new Player();
+        Player p = new Player(s);
+        p.getActor().setName("asd");
         GameManager.getInstance().addPlayer(p);
-        p.setActor(s);
-        p.setName("asd");
+        
         
         s.getInventory().addItem(new AirFreshener());
         s.getInventory().addItem(new Tvsz());

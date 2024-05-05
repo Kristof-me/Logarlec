@@ -4,23 +4,29 @@ import javax.swing.*;
 
 import logarlec.model.actor.Student;
 import logarlec.model.room.Room;
+import logarlec.model.room.RoomEffect;
 import logarlec.view.observerviews.View;
 
 public class EffectListPanel extends View {
     private Student student;
     private Room room;
-    public EffectListPanel(Student student, Room room) {
+    
+
+    public EffectListPanel() {
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));   
+    }
+
+    public void bindStudent(Student student) {
         this.student = student;
-        this.room = room;
+        this.room = student.getLocation();
         student.addListener(this);
         room.addListener(this);
-        //create a new panel that will contain multiple effectpanels, and has a scrollpane if there are too many effects
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));   
+        updateView();
     }
 
     public void addEffect(EffectPanel effectPanel){
         this.add(effectPanel);
-        this.add(Box.createVerticalStrut(10)); // Add a 10 pixel gap
+        this.add(Box.createVerticalStrut(10));
         redraw();
     }
     
@@ -42,6 +48,21 @@ public class EffectListPanel extends View {
     @Override
     public void updateView() {
         reset();
-        B
+        EffectPanel defensePanel = student.getDefense().createOwnView();
+        if (defensePanel != null) {
+            addEffect(defensePanel);
+        }
+
+        EffectPanel actionPanel = student.getState().createOwnView();
+        if (actionPanel != null) {
+            addEffect(actionPanel);
+        }
+
+        for (RoomEffect effect : room.getRoomEffects()) {
+            addEffect(effect.createOwnView());
+        }
+
+        redraw();
+
     }
 }

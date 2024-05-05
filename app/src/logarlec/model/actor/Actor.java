@@ -6,6 +6,7 @@ import logarlec.model.room.Door;
 import logarlec.model.room.IHasLocation;
 import logarlec.model.room.Room;
 import logarlec.model.room.RoomEffect;
+import logarlec.view.utility.ColorGenerator;
 import logarlec.model.GameObject;
 import logarlec.model.actor.actions.ActionState;
 import logarlec.model.actor.actions.IActions;
@@ -14,17 +15,22 @@ import logarlec.model.actor.strategy.DefenseStrategy;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemFinder;
+import java.awt.Color;
 
 /**
  * Abstract class representing an actor in the game.<br>
  * Perfors actions with the help of the current action state.
  */
 public abstract class Actor extends GameObject implements IHasLocation, IActions {
+    private String name;
+    private Color color;
+
     protected Room room;
     protected boolean alive;
     protected ActionState actionState;
     protected DefenseStrategy defenseStrategy;
     protected Inventory inventory;
+
     /**
      * Creates a new actor
      */
@@ -32,7 +38,27 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
         this.alive = true;
         this.inventory = new Inventory(9, this);
         this.defenseStrategy = new DefaultDefense(this);
+
+        name = "";
+        color = ColorGenerator.getInstance().random();
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void newRandomColor() {
+        color = ColorGenerator.getInstance().random();
+    }
+
     /**
      * Called when the actor is attacked, by default, the actor does not die when attacked
      */
@@ -153,8 +179,8 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
     @Override
     public void use(Item item) {
         if (!alive) return;
-        update();
         actionState.use(item);
+        update();
 
     }
 
