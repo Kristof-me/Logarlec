@@ -6,10 +6,11 @@ import logarlec.view.panels.TransistorPanel;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ItemViewFactory extends ItemVisitor {
-    private ItemPanel panel;
+    private ItemPanel<? extends Item> panel;
 
-    public ItemPanel createPanel(Item item) {
+    public ItemPanel<? extends Item>  createPanel(Item item) {
         item.accept(this);
         return panel;
     }
@@ -18,7 +19,7 @@ public class ItemViewFactory extends ItemVisitor {
         panel = new ItemPanel(airFreshener, "air-freshener.png");
         airFreshener.addListener(panel);
     }
-
+   
     public void visit(Beer beer) {
         panel = new ItemPanel(beer, "beer.png");
         beer.addListener(panel);

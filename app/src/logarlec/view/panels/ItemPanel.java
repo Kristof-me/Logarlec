@@ -6,15 +6,14 @@ import logarlec.view.utility.IconLoader;
 
 import java.awt.*;
 import javax.swing.*;
-public class ItemPanel extends View {
-
-    protected Item item;
+public class ItemPanel <T extends Item> extends View {
+    protected T item;
     protected String icon;
 
     protected JLabel usesLeft;
     protected JLabel iconLabel;
 
-    public ItemPanel(Item item, String icon){
+    public ItemPanel(T item, String icon){
         super();
         this.item = item;
         this.icon = icon;

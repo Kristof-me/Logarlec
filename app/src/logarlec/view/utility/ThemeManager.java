@@ -19,6 +19,7 @@ public class ThemeManager {
     // todo setup properly
     final Color PRIMARY = colorFrom("#F00");
     final Color PRIMARY_LIGHT = colorFrom("#F00");
+    final Color ACCENT = colorFrom("#F00"); // todo backup color
 
     final Color BACKGROUND = colorFrom("#545454");
     

@@ -6,18 +6,15 @@ import java.awt.Graphics;
 import logarlec.model.items.impl.Transistor;
 import logarlec.view.utility.ColorGenerator;
 
-public class TransistorPanel extends ItemPanel {
-    private Transistor transistor;
-
+public class TransistorPanel extends ItemPanel<Transistor> {
     public TransistorPanel(Transistor item, String icon) {
         super(item, icon);
-        transistor = item;
     }
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (transistor.getPair() != null) {
-            Color c = ColorGenerator.getInstance().fromHash(transistor.hashCode(), transistor.getPair().hashCode());
+        if (item.getPair() != null) {
+            Color c = ColorGenerator.getInstance().fromHash(item.hashCode(), item.getPair().hashCode());
             this.setBackground(c);
             iconLabel.setBackground(c);
             iconLabel.setOpaque(true);

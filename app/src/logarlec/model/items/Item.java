@@ -81,8 +81,7 @@ public abstract class Item extends GameObject {
     }
     
     @Override
-    public ItemPanel createOwnView() {
-        ItemViewFactory drawer = new ItemViewFactory();
-        return drawer.createPanel(this);
+    public ItemPanel<? extends Item> createOwnView() {
+        return new ItemViewFactory().createPanel(this);
     }
 }

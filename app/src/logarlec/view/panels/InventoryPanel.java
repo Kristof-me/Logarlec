@@ -2,6 +2,7 @@ package logarlec.view.panels;
 import javax.swing.*;
 
 import logarlec.model.items.Inventory;
+import logarlec.model.items.Item;
 import logarlec.view.observerviews.View;
 
 import java.awt.*;
@@ -33,7 +34,7 @@ public class InventoryPanel extends View {
             this.setLayout(new GridLayout(5, 8));
         }
         for (int i = 0; i < inventory.getItems().size(); i++) {
-            ItemPanel itemPanel = inventory.getItems().get(i).createOwnView();
+            ItemPanel<? extends Item> itemPanel = inventory.getItems().get(i).createOwnView();
             this.add(itemPanel);
         }
         for (int i = inventory.getItems().size(); i < size; i++) {
