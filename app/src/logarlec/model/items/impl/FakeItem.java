@@ -3,7 +3,6 @@ package logarlec.model.items.impl;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
-import logarlec.view.panels.ItemPanel;
 
 /**
  * Camembert is a type of item that can be used to create a gas effect in a
@@ -35,11 +34,7 @@ public class FakeItem extends Item {
         visitor.visit(this);
     }
 
-    @Override
-    public ItemPanel createOwnView() {
-        ItemPanel original = itemToFake.createOwnView();
-        ItemPanel fake = new ItemPanel(this, original.getIcon());
-        addListener(fake);
-        return fake;
+    public Item getItemToFake() {
+        return itemToFake;
     }
 }

@@ -3,11 +3,6 @@ package logarlec.model.items.impl;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
-import logarlec.control.GameManager;
-import logarlec.model.room.Room;
-import logarlec.view.panels.ItemPanel;
-
-
 
 /**
  * A passive item (automatically used when attacked and no beer effect)<br>
@@ -45,12 +40,5 @@ public class Tvsz extends Item {
     @Override
     public void accept(ItemVisitor visitor) {
         visitor.visit(this);
-    }
-
-    @Override
-    public ItemPanel createOwnView() {
-        ItemPanel itemPanel = new ItemPanel(this, "tvsz.png");
-        addListener(itemPanel);
-        return itemPanel;
     }
 }

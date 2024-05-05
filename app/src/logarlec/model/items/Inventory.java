@@ -5,10 +5,8 @@ import java.util.ArrayList;
 
 import logarlec.model.room.IHasLocation;
 import logarlec.model.room.Room;
-import logarlec.view.observerviews.View;
 import logarlec.view.panels.InventoryPanel;
 import logarlec.model.GameObject;
-import logarlec.model.actor.Actor;
 
 /**
  * Inventory class that holds items. Both the actors and the rooms have an

@@ -7,7 +7,6 @@ import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
-import logarlec.view.panels.ItemPanel;
 import logarlec.model.actor.strategy.BeerDefense;
 
 
@@ -58,12 +57,5 @@ public class Beer extends Item {
     @Override
     public void accept(ItemVisitor visitor) {
         visitor.visit(this);   
-    }
-
-    @Override
-    public ItemPanel createOwnView() {
-        ItemPanel itemPanel = new ItemPanel(this, "beer.png");
-        addListener(itemPanel);
-        return itemPanel;
     }
 }

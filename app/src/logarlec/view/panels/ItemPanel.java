@@ -13,10 +13,12 @@ public class ItemPanel extends View {
 
     protected JLabel usesLeft;
     protected JLabel iconLabel;
+
     public ItemPanel(Item item, String icon){
         super();
         this.item = item;
         this.icon = icon;
+
         this.setLayout(new GridBagLayout());
         this.setPreferredSize(new Dimension(50, 50));
         this.setMaximumSize(new Dimension(50, 50));
@@ -24,6 +26,7 @@ public class ItemPanel extends View {
         iconLabel = new JLabel(IconLoader.getInstance().getIcon(icon, 35));
         iconLabel.setPreferredSize(new Dimension(50, 50));
         iconLabel.setForeground(Color.WHITE);
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -31,11 +34,12 @@ public class ItemPanel extends View {
         this.add(iconLabel, gbc);
     
         //add a number at bottom right corner
-        usesLeft = new JLabel(item.getUsesLeft() + "");
+        usesLeft = new JLabel(item.getUsesLeft().toString());
         usesLeft.setOpaque(false);
         usesLeft.setForeground(Color.WHITE);
         usesLeft.setHorizontalAlignment(SwingConstants.RIGHT);
         usesLeft.setVerticalAlignment(SwingConstants.BOTTOM);
+
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.SOUTHEAST;
@@ -45,7 +49,7 @@ public class ItemPanel extends View {
     }
     @Override
     public void updateView() {
-        usesLeft.setText(item.getUsesLeft() + "");
+        usesLeft.setText(item.getUsesLeft().toString());
     }
 
     public String getIcon() {

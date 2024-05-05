@@ -29,6 +29,7 @@ public class ColorGenerator {
         
         return new Color((hash1 + hash2) % 0x1000000);
     }
+    
     public Color getForegroundColor(Color backgroundColor) {
         double luminance = 0.299 * backgroundColor.getRed() + 0.587 * backgroundColor.getGreen() + 0.114 * backgroundColor.getBlue();
     

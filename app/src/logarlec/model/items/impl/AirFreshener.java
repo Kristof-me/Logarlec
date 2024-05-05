@@ -1,11 +1,8 @@
 package logarlec.model.items.impl;
 
-import logarlec.control.controller.Player;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
-import logarlec.view.observerviews.View;
-import logarlec.view.panels.ItemPanel;
 
 /**
  * The beer item defends the player from attacks from a certain amount of turns.
@@ -44,12 +41,5 @@ public class AirFreshener extends Item {
     public void accept(ItemVisitor visitor) {
         visitor.visit(this);
         
-    }
-
-    @Override
-    public ItemPanel createOwnView() {
-        ItemPanel itemPanel = new ItemPanel(this, "air-freshener.png");
-        addListener(itemPanel);
-        return itemPanel;
     }
 }

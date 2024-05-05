@@ -3,6 +3,7 @@ package logarlec.model.items;
 
 import logarlec.model.room.Room;
 import logarlec.view.panels.ItemPanel;
+import logarlec.view.rendering.ItemDrawer;
 import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 
@@ -44,7 +45,7 @@ public abstract class Item extends GameObject {
      * 
      * @return The uses left of the item.
      */
-    public int getUsesLeft() {
+    public Integer getUsesLeft() {
         return usesLeft;
     }
 
@@ -78,6 +79,12 @@ public abstract class Item extends GameObject {
     public Inventory getInventory() {
         return inventory;
     }
+    
     @Override
-    public abstract ItemPanel createOwnView();
+    public ItemPanel createOwnView() {
+        ItemDrawer drawer = new ItemDrawer();
+        drawer.createPanel(this);
+
+        return drawer.getPanel();
+    }
 }

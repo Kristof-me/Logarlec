@@ -3,9 +3,6 @@ package logarlec.model.items.impl;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
-import logarlec.view.panels.ItemPanel;
-
-
 
 /**
  * A gas mask that will protect the player if it steps into a gased room.
@@ -42,12 +39,4 @@ public class GasMask extends Item {
     public void accept(ItemVisitor visitor) {
         visitor.visit(this);
     }
-
-    @Override
-    public ItemPanel createOwnView() {
-        ItemPanel itemPanel = new ItemPanel(this, "gas-mask.png");
-        addListener(itemPanel);
-        return itemPanel;
-    }
-
 }
