@@ -30,10 +30,11 @@ public class IconLoader {
         if (icons.containsKey(name)) {
             return icons.get(name).getScaledInstance(scale, scale, Image.SCALE_SMOOTH);
         }
-
+        System.out.println(path + name);
         Image image = new ImageIcon(path + name).getImage();
         icons.put(name, image);
         return image.getScaledInstance(scale, scale, java.awt.Image.SCALE_SMOOTH);
+        
     }
 
     /**

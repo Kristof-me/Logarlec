@@ -65,7 +65,7 @@ public class Student extends Actor {
     }
 
     @Override
-    public View createOwnView() {
+    public PlayerPanel createOwnView() {
         return new PlayerPanel(this);
     }
 }

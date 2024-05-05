@@ -4,6 +4,7 @@ package logarlec;
 import logarlec.control.GameManager;
 import logarlec.control.controller.Player;
 import logarlec.model.actor.Student;
+import logarlec.model.items.impl.AirFreshener;
 import logarlec.view.frames.GameFrame;
 import logarlec.view.frames.MenuFrame;
 import logarlec.view.panels.PlayerPanel;
@@ -22,6 +23,7 @@ public class App {
         Player p = new Player();
         p.setActor(s);
         p.setName("asd");
+        s.getInventory().addItem(new AirFreshener());
         GameManager.getInstance().addPlayer(p);
         gameFrame.setVisible(true);
         gameFrame.setPlayerPanel(s.createOwnView());

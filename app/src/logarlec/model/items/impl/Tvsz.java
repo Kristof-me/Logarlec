@@ -5,6 +5,7 @@ import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
 import logarlec.control.GameManager;
 import logarlec.model.room.Room;
+import logarlec.view.panels.ItemPanel;
 
 
 
@@ -44,6 +45,10 @@ public class Tvsz extends Item {
     @Override
     public void accept(ItemVisitor visitor) {
         visitor.visit(this);
-        
+    }
+
+    @Override
+    public ItemPanel createOwnView() {
+        return new ItemPanel(this, "tvsz.png");
     }
 }

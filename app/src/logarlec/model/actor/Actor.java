@@ -30,7 +30,7 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
      */
     protected Actor() {
         this.alive = true;
-        this.inventory = new Inventory(this);
+        this.inventory = new Inventory(9, this);
         this.defenseStrategy = new DefaultDefense(this);
     }
     /**

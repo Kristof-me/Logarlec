@@ -2,12 +2,14 @@ package logarlec.model.items;
 
 
 import logarlec.model.room.Room;
+import logarlec.view.panels.ItemPanel;
+import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 
 /**
  * Abstract super class for every item.
  */
-public abstract class Item {
+public abstract class Item extends GameObject {
     private Inventory inventory = null;
 
     protected Integer usesLeft = 1;
@@ -74,4 +76,6 @@ public abstract class Item {
     public Inventory getInventory() {
         return inventory;
     }
+    @Override
+    public abstract ItemPanel createOwnView();
 }

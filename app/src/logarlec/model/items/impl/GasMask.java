@@ -3,6 +3,7 @@ package logarlec.model.items.impl;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
+import logarlec.view.panels.ItemPanel;
 
 
 
@@ -40,7 +41,11 @@ public class GasMask extends Item {
     @Override
     public void accept(ItemVisitor visitor) {
         visitor.visit(this);
-        
+    }
+
+    @Override
+    public ItemPanel createOwnView() {
+        return new ItemPanel(this, "gas-mask.png");
     }
 
 }

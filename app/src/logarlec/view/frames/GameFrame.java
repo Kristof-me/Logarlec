@@ -28,6 +28,8 @@ public class GameFrame extends JFrame {
         }
         this.playerPanel = playerPanel;
         this.add(playerPanel, BorderLayout.SOUTH);
+        this.revalidate();
+        this.repaint();
     }
 
 }

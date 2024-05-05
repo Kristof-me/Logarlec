@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import logarlec.model.room.IHasLocation;
 import logarlec.model.room.Room;
+import logarlec.view.observerviews.View;
+import logarlec.view.panels.InventoryPanel;
 import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 
@@ -93,6 +95,9 @@ public class Inventory extends GameObject {
     public void setSize(Integer size) {
         this.size = size;
     }
+    public int getSize() {
+        return size;
+    }
 
     public List<Item> getItems() {
         return items;
@@ -101,4 +106,11 @@ public class Inventory extends GameObject {
     public IHasLocation getOwner() {
         return owner;
     }
+
+    @Override
+    public InventoryPanel createOwnView() {
+        return new InventoryPanel(this);
+    }
+
+    
 }
