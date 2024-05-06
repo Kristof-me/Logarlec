@@ -142,10 +142,9 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
      * @param room the room to drop the items to
      */
     public void dropAllTo(Room room) {
-
         if (!alive) return;
         inventory.dropAll(room);
-
+        update();
     }
 
     /**
@@ -159,21 +158,20 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
         if (!defenseStrategy.tick()) {
             setDefenseStrategy(new DefaultDefense(this));
         }
-
-
     }
 
     @Override
     public void attack() {
         if (!alive) return;
         actionState.attack();
-
     }
 
     @Override
     public boolean move(Door door) {
         if (!alive) return false;
-        return actionState.move(door);
+        boolean result = actionState.move(door);
+        update();
+        return result;
     }
 
     @Override
@@ -181,21 +179,21 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
         if (!alive) return;
         actionState.use(item);
         update();
-
     }
 
     @Override
     public boolean pickUp(Item item) {
         if (!alive) return false;
+        boolean result = actionState.pickUp(item);
         update();
-        return actionState.pickUp(item);
+        return result;
     }
 
     @Override
     public void drop(Item item) {
         if (!alive) return;
-        update();
         actionState.drop(item);
+        update();
     }
 
     @Override

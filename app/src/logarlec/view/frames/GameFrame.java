@@ -6,12 +6,14 @@ import logarlec.view.elements.ScrollUI;
 import logarlec.view.panels.EffectListPanel;
 import logarlec.view.panels.PlayerPanel;
 import logarlec.view.panels.RoomPanel;
+import logarlec.control.GameManager;
 
 import java.awt.*;
 
 public class GameFrame extends JFrame {
     static GameFrame instance;
     private EffectListPanel effectListPanel;
+    private JLabel roomLabel;
 
     protected GameFrame() {
         super("Logarléc");
@@ -23,7 +25,7 @@ public class GameFrame extends JFrame {
         rightPanel.setPreferredSize(new Dimension(150, 500));
         this.add(rightPanel, BorderLayout.EAST);
         
-        JLabel roomLabel = new JLabel("Room Name");
+        roomLabel = new JLabel();
         roomLabel.setHorizontalAlignment(JLabel.RIGHT);
         rightPanel.add(roomLabel, BorderLayout.NORTH);        
         
@@ -52,15 +54,18 @@ public class GameFrame extends JFrame {
             this.remove(this.playerPanel);
         }
 
+        Student player = playerPanel.getViewedPlayer();
+
         // adding player panel
         this.add(playerPanel, BorderLayout.SOUTH);
         
+        roomLabel.setText("Room #" + player.getLocation().getId());
+
         // adding effects
         effectListPanel.bindStudent(playerPanel.getViewedPlayer());
         // TODO add all effects to the effects panel
         
         // displaying room
-        Student player = playerPanel.getViewedPlayer();
         roomPanel = player.getLocation().createOwnView();
         this.add(roomPanel, BorderLayout.CENTER);
         

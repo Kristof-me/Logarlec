@@ -13,6 +13,7 @@ public class InventoryPanel extends View {
         this.inventory = inventory;
         drawItems();
     }
+
     @Override
     public void updateView() {
         drawItems();
@@ -21,22 +22,22 @@ public class InventoryPanel extends View {
     }
 
     private void drawItems(){
-        System.out.println("Drawing items");
         this.removeAll();
         int size = inventory.getSize();
         if (size < 10) {
             this.setLayout(new GridLayout(1, 10));
         } else if (size <= 40) {
             this.setLayout(new GridLayout(inventory.getSize() / 8, 8));
-        }
-        else {
+        } else {
             size = 40;
             this.setLayout(new GridLayout(5, 8));
         }
+        
         for (int i = 0; i < inventory.getItems().size(); i++) {
             ItemPanel<? extends Item> itemPanel = inventory.getItems().get(i).createOwnView();
             this.add(itemPanel);
         }
+
         for (int i = inventory.getItems().size(); i < size; i++) {
             this.add(new EmptyItemPanel());
         }

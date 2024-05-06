@@ -42,7 +42,7 @@ public class Beer extends Item {
             return;
         }
         int max = inventory.getItems().size();
-        int selected = new Random().nextInt(max);
+        int selected = new Random().nextInt(0, max);
         invoker.drop(inventory.getItems().get(selected));
     }
 

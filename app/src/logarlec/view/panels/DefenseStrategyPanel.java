@@ -8,16 +8,16 @@ import logarlec.view.utility.IconLoader;
 
 public class DefenseStrategyPanel extends EffectPanel {
 
-    protected DefenseStrategy beerDefense;
+    protected DefenseStrategy defenseStrategy;
     public DefenseStrategyPanel(DefenseStrategy defense, String description, String icon) {
         super(new Color(0, 200, 0), description, IconLoader.getInstance().getIcon(icon, 30));
-        this.beerDefense = defense;
-        this.setTurnsLeft(beerDefense.getRemaining());
+        this.defenseStrategy = defense;
+        this.setTurnsLeft(defenseStrategy.getRemaining());
     }
 
     @Override
     public void updateView() {
-        int turnsLeft = beerDefense.getRemaining();
+        int turnsLeft = defenseStrategy.getRemaining();
 
         if (turnsLeft == 0) {
             EffectListPanel panel = GameFrame.getInstance().getEffectListPanel();

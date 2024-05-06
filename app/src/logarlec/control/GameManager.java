@@ -5,14 +5,11 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import logarlec.model.room.*;
-import logarlec.control.controller.Controller;
 import logarlec.control.controller.JanitorAI;
 import logarlec.control.controller.Player;
 import logarlec.control.controller.ProfessorAI;
-import logarlec.model.actor.*;
 import java.util.Iterator;
 public class GameManager {
-    
     private final int MERGE_PERCENT = 10;
     private final int SLIT_PERCENT = 10;
     private static GameManager instance;

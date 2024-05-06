@@ -13,10 +13,22 @@ MapManager *--"0..*" Room: rooms
 class MapManager{
     - height: int
     - width: int
+    - excessDoorChance: double
+    - oneWayDoorChance: double
+    - itemSpawnChance: double
+    - fakeItemChance: double
+    - rooms: List<Room>
+    - solution: Room
+    + getRooms(): List<Room>
     + mergeRooms(): void
     + splitRooms(): void
     - generateMap(height: int, width: int): List<Room>
     - BFS(map: Room[][], visited: boolean[][],x: int,y: int): void
+    - addExcessDoors(map: Room[][], x: int, y: int): void
+    - hasWay(a: Room, b: Room): boolean
+    - addItems(map: Room[][]): void
+    - spawnSlideRule(map: Room[][]): Room
+    + getSolution(): Room
 }
 GameManager *--"1" MapManager: mapManager
 GameManager *--"0..*" Player: students
@@ -34,8 +46,8 @@ class GameManager{
     + isGameOver(): boolean
     + reset(): void
     + addPlayer(player: Player): void
-    + addPlayer(professor: ProfessorAI): void
-    + addPlayer(janitor: JanitorAI): void
+    + addProfessor(professor: ProfessorAI): void
+    + addJanitor(janitor: JanitorAI): void
     + slideRulePickedUp(): void
     + startGame(): void
     + playTurn(): void

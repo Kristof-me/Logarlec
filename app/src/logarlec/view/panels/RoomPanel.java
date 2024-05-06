@@ -27,7 +27,8 @@ public class RoomPanel extends View{
     
     public RoomPanel(Room room) {
         this.viewedRoom = room;
-        inventoryPanel = new InventoryPanel(room.getInventory());
+
+        inventoryPanel = room.getInventory().createOwnView();
         
         this.setLayout(new BorderLayout());
         //setPreferredSize(new Dimension(500, 500));
@@ -65,7 +66,7 @@ public class RoomPanel extends View{
         });
 
         JPanel leftPanel = new JPanel();
-        leftPanel.setPreferredSize(new Dimension(65, 500));
+        leftPanel.setPreferredSize(new Dimension(85, 500));
         leftPanel.setLayout(new GridLayout(4, 2));
         
         roomInfo.add(leftPanel, BorderLayout.WEST);
@@ -74,18 +75,22 @@ public class RoomPanel extends View{
         leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("student.png", 45), (e) -> {
             ReplaceCenter(actors[0]);
         }));
+        leftPanel.add(new JLabel(" "+actors[0].getComponentCount()));
 
         leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("professor.png", 45), (e) -> {
             ReplaceCenter(actors[1]);
         }));
+        leftPanel.add(new JLabel(" "+actors[1].getComponentCount()));
 
         leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("janitor.png", 45), (e) -> {
             ReplaceCenter(actors[2]);
         }));
+        leftPanel.add(new JLabel(" "+actors[2].getComponentCount()));
 
         leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("chest.png", 45), (e) -> {
             ReplaceCenter(inventoryPanel);
         }));
+
 
         revalidate();
         repaint();
@@ -102,7 +107,7 @@ public class RoomPanel extends View{
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.getVerticalScrollBar().setUI(new ScrollUI());
         scrollPane.getHorizontalScrollBar().setUI(new ScrollUI());
-        scrollPane.setPreferredSize(i%2 == 0 ? new Dimension(300, 115) : new Dimension(115, 300));
+        scrollPane.setPreferredSize(i % 2 == 0 ? new Dimension(300, 115) : new Dimension(115, 300));
         return scrollPane;
     }
 

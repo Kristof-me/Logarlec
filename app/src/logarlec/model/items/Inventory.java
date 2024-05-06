@@ -80,7 +80,7 @@ public class Inventory extends GameObject {
             target.addItem(item);
         }
         items.clear();
-        
+        update();
     }
 
     /**
@@ -115,8 +115,4 @@ public class Inventory extends GameObject {
         addListener(inventoryPanel);
         return inventoryPanel;
     }
-
-    
-
-    
 }

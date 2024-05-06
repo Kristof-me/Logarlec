@@ -9,7 +9,7 @@ public class JanitorAI extends Controller<Janitor> {
     
     @Override
     public void takeTurn() {
-        
+        // ToDo
     }
 
     @Override

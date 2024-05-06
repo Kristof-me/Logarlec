@@ -15,8 +15,7 @@ public class ColorGenerator {
     }
 
     public Color random() {
-        return new Color(255, 255, 255);
-        //return new Color((int)(Math.random() * 0x1000000));
+        return new Color((int)(Math.random() * 0x1000000));
     }
 
     public Color fromHash(int hash1, int hash2) {

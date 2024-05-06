@@ -54,7 +54,7 @@ public class Player extends Controller<Student> {
 
     @Override
 	public boolean pickUp(Item item) {
-        boolean re = getActor().pickUp(item);
+        boolean re = actor.pickUp(item);
         if (re) GameManager.getInstance().takeStep();
         return re;
 	}

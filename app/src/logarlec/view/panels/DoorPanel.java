@@ -22,10 +22,9 @@ public class DoorPanel extends View {
         super();
         this.setLayout(new GridLayout(2, 1));
         this.door = door;
-        setPreferredSize(new Dimension(75, 75));
-        setMaximumSize(new Dimension(75, 75));
+        setPreferredSize(new Dimension(85, 85));
+        setMaximumSize(new Dimension(85, 85));
         //add label to second row
-        
     }
 
     public void bindRoom(Room room) {

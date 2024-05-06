@@ -62,6 +62,7 @@ public abstract class Item extends GameObject {
     public void onPickup(Actor actor) {
         inventory = actor.getInventory();
         isEquipped = true;
+        update();
     }
 
     /**
@@ -72,6 +73,7 @@ public abstract class Item extends GameObject {
     public void onDrop(Room location) {
         inventory = location.getInventory();
         isEquipped = false;
+        update();
     }
 
     public abstract void accept(ItemVisitor visitor);

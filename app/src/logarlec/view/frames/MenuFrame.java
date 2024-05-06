@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import logarlec.view.panels.MenuPlayerPanel;
 import logarlec.control.controller.Player;
+import logarlec.view.elements.CustomButton;
 import logarlec.view.elements.ScrollUI;
 
 import java.util.List;
@@ -48,8 +49,7 @@ public class MenuFrame extends JFrame {
         //create three new buttons below the scroll pane, each in a new row
         constraints.insets = new Insets(10, 5, 10, 5);
 
-        JButton addPlayer = new JButton("Add Player");
-        addPlayer.addActionListener(e -> {
+        CustomButton addPlayer = new CustomButton("Add Player", e -> {
             players.add(new Player());
             playerPanel.add(new MenuPlayerPanel(players.get(players.size() - 1), this));
 
@@ -67,8 +67,7 @@ public class MenuFrame extends JFrame {
         constraints.anchor = GridBagConstraints.SOUTH;
 
         
-        JButton startGame = new JButton("Start Game");
-        startGame.addActionListener(e -> {
+        CustomButton startGame = new CustomButton("Start Game", e -> {
             // todo start the game
         });
 
@@ -77,8 +76,7 @@ public class MenuFrame extends JFrame {
         // Add the "Exit" button
         constraints.insets = new Insets(0, 5, 10, 5);  // Remove top inset
         
-        JButton exit = new JButton("Exit");
-        exit.addActionListener(e -> {
+        CustomButton exit = new CustomButton("Exit", e -> {
             System.exit(0);
         });
 

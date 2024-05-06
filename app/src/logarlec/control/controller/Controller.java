@@ -13,26 +13,26 @@ public abstract class Controller<T extends Actor> implements IActions {
     protected Controller(T actor) {
         this.actor = actor;
     }
-    
+
     public abstract Actor getActor();
 
     public abstract void takeTurn();
 
     public void attack() { }
 
-	public boolean move(Door door) {
-        return getActor().move(door);
-	}
+    public boolean move(Door door) {
+        return actor.move(door);
+    }
 
-	public void use(Item item) {
-        getActor().use(item);
-	}
+    public void use(Item item) {
+        actor.use(item);
+    }
 
-	public boolean pickUp(Item item) {
-        return getActor().pickUp(item);
-	}
+    public boolean pickUp(Item item) {
+        return actor.pickUp(item);
+    }
 
-	public void drop(Item item) {
-        getActor().drop(item);
-	}
+    public void drop(Item item) {
+        actor.drop(item);
+    }
 }

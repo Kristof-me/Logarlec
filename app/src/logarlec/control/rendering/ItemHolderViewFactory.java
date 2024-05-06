@@ -16,8 +16,8 @@ import logarlec.view.panels.RoomPanel;
  */
 public class ItemHolderViewFactory {
     // these are separated for optimization purposes
-    private HashMap<Student, PlayerPanel> studentViews = new HashMap<>(); 
-    private HashMap<Room, RoomPanel> roomViews = new HashMap<>(); 
+    private static HashMap<Student, PlayerPanel> studentViews = new HashMap<>(); 
+    private static HashMap<Room, RoomPanel> roomViews = new HashMap<>(); 
 
     // todo  kristóf írta, -30 IMSc-s megoldás
     private static RoomPanel autoPlaceTo = null;

@@ -1,0 +1,42 @@
+@startuml Drop
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Drop
+hide footbox
+actor p as "Felhasználó"
+participant btn as "useItem : JMenuItem"
+p -> btn++ : kattintás
+
+participant gm as "gameManager : GameManager"
+btn -> gm++ : getCurrentPlayer()
+return currentPlayer
+
+participant player as "currentPlayer : Player"
+participant item as "item : Item"
+btn -> player++ : drop(item)
+
+participant a as "actor : Actor"
+player -> a++ : drop(item)
+
+opt alive == true
+    ' todo ez egy korábbi dokumentációból van
+    ref over a
+    Actor Drop Item
+    end ref
+
+    ref over a
+    Update Game Object
+    end ref
+end
+
+return
+
+player -> gm ++ : takeStep()
+return
+
+
+return 
+return
+
+@enduml

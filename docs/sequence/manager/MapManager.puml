@@ -1,0 +1,15 @@
+@startuml MapManager
+header MapManager
+hide footbox
+participant gm as "gameManager : GameManager"
+-> gm++
+create mm as "mapManager : MapManager"
+gm --> mm++ : <<create>>
+mm -> mm : generateMap(height, width)
+create rooms as "rooms : List<Room>"
+mm --> rooms : <<create>>
+return
+gm -> mm++ : getRooms()
+return  rooms
+
+@enduml

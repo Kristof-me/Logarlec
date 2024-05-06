@@ -1,11 +1,9 @@
 package logarlec.view.panels;
 
 import logarlec.control.GameManager;
-import logarlec.control.controller.Controller;
 import logarlec.control.controller.Player;
 import logarlec.model.actor.Student;
 import logarlec.view.elements.CustomButton;
-import logarlec.view.frames.GameFrame;
 import logarlec.view.observerviews.View;
 import logarlec.view.utility.ColorGenerator;
 
@@ -18,8 +16,10 @@ public class PlayerPanel extends View {
     public Student getViewedPlayer() {
         return viewedPlayer;
     }
+
     protected Player player;
     protected JLabel nameLabel;
+    protected InventoryPanel inventoryPanel;
 
     public PlayerPanel(Student student) {
         super();
@@ -48,7 +48,9 @@ public class PlayerPanel extends View {
         c.weighty = 1;
         c.fill = GridBagConstraints.CENTER;
         c.anchor = GridBagConstraints.CENTER;
-        this.add(viewedPlayer.getInventory().createOwnView(), c);
+
+        inventoryPanel = viewedPlayer.getInventory().createOwnView();
+        this.add(inventoryPanel, c);
 
         c.gridx = 2;
         c.gridy = 0;
@@ -56,7 +58,7 @@ public class PlayerPanel extends View {
         c.weighty = 1;
         c.fill = GridBagConstraints.VERTICAL;
         c.anchor = GridBagConstraints.EAST;
-        CustomButton endTurnButton = new CustomButton("End Turn");
+        CustomButton endTurnButton = new CustomButton("End Turn", e -> GameManager.getInstance().getCurrentPlayer().skipTurn());
         endTurnButton.setPreferredSize(new Dimension(100, 50));
         this.add(endTurnButton, c);
     }
@@ -73,6 +75,6 @@ public class PlayerPanel extends View {
     }
     @Override
     public void updateView() {
-        
+        System.out.println("hello from the other side");
     }
 }

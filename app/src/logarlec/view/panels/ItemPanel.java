@@ -14,6 +14,7 @@ public class ItemPanel <T extends Item> extends View {
     protected JLabel usesLeft;
     protected JLabel iconLabel;
     protected JPopupMenu popupMenu;
+
     public ItemPanel(T item, String icon){
         super();
         this.item = item;
@@ -46,6 +47,12 @@ public class ItemPanel <T extends Item> extends View {
         this.add(usesLeft, gbc);
     
         this.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+        updateView();
+    }
+    
+    @Override
+    public void updateView() {
+        usesLeft.setText(item.getUsesLeft().toString());
 
         if (item.isEquipped()) {
             setActorPopupMenu();
@@ -54,18 +61,14 @@ public class ItemPanel <T extends Item> extends View {
             setRoomPopupMenu();
         }
     }
-    
-    @Override
-    public void updateView() {
-        usesLeft.setText(item.getUsesLeft().toString());
-    }
 
     public String getIcon() {
         return icon;
     }
 
-    protected void setActorPopupMenu(){
+    protected void setActorPopupMenu() {
         popupMenu = new JPopupMenu();
+
         JMenuItem useItem = new JMenuItem("Use");
         useItem.addActionListener(e -> {
             GameManager.getInstance().getCurrentPlayer().use(item);
@@ -76,17 +79,23 @@ public class ItemPanel <T extends Item> extends View {
             GameManager.getInstance().getCurrentPlayer().drop(item);
         });
         popupMenu.add(dropItem);
+
         this.setComponentPopupMenu(popupMenu);
     }
 
-    protected void setRoomPopupMenu(){
+    protected void setRoomPopupMenu() {
         popupMenu = new JPopupMenu();
+
         JMenuItem pickupItem = new JMenuItem("Pick up");
         pickupItem.addActionListener(e -> {
             GameManager.getInstance().getCurrentPlayer().pickUp(item);
         });
         popupMenu.add(pickupItem);
+        
         this.setComponentPopupMenu(popupMenu);
+        // TODO remove this
+        // popupMenu.revalidate();
+        // popupMenu.repaint();
     }
     
 }

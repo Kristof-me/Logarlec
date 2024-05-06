@@ -93,10 +93,13 @@ public class Room extends GameObject implements IHasLocation {
         }
 
         // delete this, Door
-        for (Door door : doors) {
+        for (int i = 0; i < doors.size(); i++) {
+            Door door = doors.get(i);
+
             if (door.leadsTo(room) == this) {
                 doors.remove(door);
                 room.doors.remove(door);
+                i--;
             } else {
                 room.doors.add(door);
                 door.updateRoom(this, room);

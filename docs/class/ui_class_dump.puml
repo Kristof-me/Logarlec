@@ -78,8 +78,8 @@ package Controller{
         + isGameOver(): boolean
         + reset(): void
         + addPlayer(player: Player): void
-        + addPlayer(professor: ProfessorAI): void
-        + addPlayer(janitor: JanitorAI): void
+        + addProfessor(professor: ProfessorAI): void
+        + addJanitor(janitor: JanitorAI): void
         + slideRulePickedUp(): void
         + startGame(): void
         + playTurn(): void
