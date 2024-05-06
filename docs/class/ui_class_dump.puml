@@ -20,8 +20,15 @@ package Model{
     class Student{}
     class Professor{}
     class Janitor{}
-    class RoomEffect{}
-    class Room{}
+    interface IActions{}
+    abstract class ActionState{}
+    abstract class RoomEffect{}
+    abstract class DefenseStrategy{}
+    abstract class Actor{}
+    class Room{
+        - id: int
+        - {static} nextId: int
+        }
     abstract class Item{}
     class Transistor{}
     abstract class ItemVisitor{}
@@ -41,6 +48,8 @@ package Model{
     GameObject <|-- Item
     GameObject <|-- Room
     GameObject <|-- RoomEffect
+    GameObject <|-- Door
+
 }
 
 
@@ -52,13 +61,24 @@ package Model{
 package Controller{
 
     MapManager *--"0..*" Room: rooms
-    class MapManager{
-        - height: int
-        - width: int
-        + mergeRooms(): void
-        + splitRooms(): void
-        - generateMap(height: int, width: int): List<Room>
-        - BFS(map: Room[][], visited: boolean[][],x: int,y: int): void
+    MapManager *--"1" Room: solution
+    class MapManager {
+        -height: int
+        -width: int
+        -excessDoorChance: double
+        -oneWayDoorChance: double
+        -itemSpawnChance: double
+        -fakeItemChance: double
+        -constructors: Constructor[]
+        +MapManager(h: int, w: int)
+        +mergeRooms(): void
+        +splitRoom(): void
+        -generateMap(height: int, width: int): List<Room>
+        -BFS(map: Room[][], visited: boolean[][], x: int, y: int): void
+        -addExcessDoors(map: Room[][], x: int, y: int): void
+        -hasWay(a: Room, b: Room): boolean
+        -addItems(map: Room[][]): void
+        -spawnSliderule(map: Room[][]): Room
     }
 
     GameManager *--"1" MapManager: mapManager
@@ -82,15 +102,23 @@ package Controller{
         + addPlayer(janitor: JanitorAI): void
         + slideRulePickedUp(): void
         + startGame(): void
+        + getStepCount(): long
+        + takeStep(): void
         + playTurn(): void
         + aiTurn(): void
+        + getTick(): int
     }
 
-    abstract class Controller{
-        # name: String
-        # color: Color
-        + generateColor(): void
-        + {abstract} prepareTurn(): void
+    IActions <|-- Controller
+    Controller *--"1" Actor: actor: T
+    abstract class Controller<T extends Actor>{
+        + {abstract} getActor(): Actor
+        + {abstract} takeTurn(): void
+        + attack(): void
+        + move(door: Door): void
+        + use(item: Item): void
+        + pickUp(item: Item): boolean
+        + drop(item Item): void
     }
 
     Controller <|-- JanitorAI
@@ -99,7 +127,13 @@ package Controller{
 
     Controller <|-- Player
     Player *--"1" Student: actor
-    class Player{}
+    class Player{
+        + skipTurn(): void
+        + move(door: Door): void
+        + use(item: Item): void
+        + pickUp(item: Item): boolean
+        + drop(item Item): void
+    }
 
     Controller <|-- ProfessorAI
     ProfessorAI *--"1" Professor: actor
@@ -107,35 +141,45 @@ package Controller{
 
     'rendering
     package Rendering{
-        class EffectViewFactory{
-            + createPanel(defenseStrategy: DefenseStrategy): EffectPanel
-            + createPanel(gasEffect: GasEffect): EffectPanel
-            + createPanel(wetEffect: WetEffect): EffectPanel
-            + createPanel(stickyEffect: StickyEffect): EffectPanel
-            + createPanel(stunnedStep: StunnedStep): EffectPanel
+        class DoorViewFactory{
+            + createDoorView(door: Door): DoorPanel
+        }
+
+        class EffectViewFactory {
+            +createPanel(defenseStrategy: DefenseStrategy): EffectPanel
+            +createPanel(gasEffect: GasEffect): EffectPanel
+            +createPanel(wetEffect: WetEffect): EffectPanel
+            +createPanel(stickyEffect: StickyEffect): EffectPanel
+            +createPanel(stunnedStep: StunnedStep): EffectPanel
+        }
+
+        ItemHolderViewFactory *--"1" RoomPanel: autoPlaceTo
+        class ItemHolderViewFactory {
+            -studentViews: HashMap<Student, PlayerPanel>
+            -roomViews: HashMap<Room, RoomPanel>
+            +setAutoPlacement(target: RoomPanel): void
+            +createMenuPanel(student: Student): PlayerPanel
+            +createPanel(student: Student): ActorPanel
+            +createPanel(janitor: Janitor): ActorPanel
+            +createPanel(professor: Professor): ActorPanel
+            +createPanel(room: Room): RoomPanel
         }
 
         ItemVisitor <|-- ItemViewFactory
         ItemViewFactory *--"1" ItemPanel: panel
         class ItemViewFactory {
-            +createPanel(Item): ItemPanel<? extends Item>
-            +visit(AirFreshener): void
-            +visit(Beer): void
-            +visit(Cocktail): void
-            +visit(Camembert): void
-            +visit(FakeItem): void
-            +visit(GasMask): void
-            +visit(SlideRule): void
-            +visit(Sponge): void
-            +visit(Transistor): void
-            +visit(Tvsz): void
+            +createPanel(item: Item): ItemPanel<? extends Item>
+            +visit(airFreshener: AirFreshener): void
+            +visit(beer: Beer): void
+            +visit(cocktail: Cocktail): void
+            +visit(camembert: Camembert): void
+            +visit(fakeItem: FakeItem): void
+            +visit(gasMask: GasMask): void
+            +visit(slideRule: SlideRule): void
+            +visit(sponge: Sponge): void
+            +visit(transistor: Transistor): void
+            +visit(tvsz: Tvsz): void
         }
-
-        StudentViewFactory *--"1" PlayerPanel: playerPanel
-        class StudentViewFactory{
-            + createPanel(student: Student): PlayerPanel
-        }
-
     }
 
 }
@@ -179,12 +223,13 @@ package View{
 
     JFrame <|-- GameFrame
     PlayerPanel *--"1" GameFrame: playerPanel
+    RoomPanel *--"1" GameFrame: roomPanel
     class GameFrame{
         + setPlayerPanel(playerPanel: PlayerPanel): void
     }
 
     JFrame <|-- MenuFrame
-    MenuFrame *--"0..*" Player: player
+    MenuFrame *--"0..*" Player: players
     class MenuFrame{
         + deletePlayer(player: Player, panel: MenuPlayerPanel): void
     }
@@ -197,18 +242,36 @@ package View{
 
     'panels
 
-    EffectPanel <|-- BeerDefensePanel
-    BeerDefensePanel *--"1" BeerDefense: beerDefense
-    class BeerDefensePanel{
+    View <|-- ActorPanel
+    ActorPanel *--"1" Actor: actor
+    class ActorPanel{}
+
+    EffectPanel <|-- DefenseStrategyPanel
+    DefenseStrategyPanel *--"1" DefenseStrategy: beerDefense
+    class DefenseStrategyPanel{}
+
+    JPanel <|-- DoorListPanel
+    class DoorListPanel{
+        + addDoor(doorPanel: Jpanel): void
     }
 
-    JPanel <|-- EffectListPanel
+    View <|-- DoorPanel
+    DoorPanel *--"1" Door: door
+    DoorPanel *--"1" Room: room
+    DoorPanel *--"1" CustomButton: btn
+    class DoorPanel{
+        + bindRoom(room: Room): void
+    }
+
+    View <|-- EffectListPanel
+    EffectListPanel *--"1" Student: student
+    EffectListPanel *--"1" Room: room
     class EffectListPanel{
-        scrollPane: JScrollPane
+        + bindStudent(student: Student): void
         + addEffect(effectPanel: EffectPanel): void
         + removeEffect(effectPanel: EffectPanel): void
-        + reset(): void
-        # redraw(): void
+        + reset():void
+        + redraw():void
     }
 
     View <|-- EffectPanel
@@ -218,7 +281,6 @@ package View{
     }
 
     JPanel <|-- EmptyItemPanel
-    class EmptyItemPanel{}
 
     View <|-- InventoryPanel
     InventoryPanel *--"1" Inventory: inventory
@@ -228,10 +290,14 @@ package View{
 
     View <|-- ItemPanel
     ItemPanel *--"1" Item: item: T
-    class ItemPanel <T extends Item>{
+    class ItemPanel<T extends Item>{
+        # item: T
         # icon: String
         # usesLeft: JLabel
         # iconLabel: JLabel
+        # popupMenu: JPopupMenu
+        # setActorPopupMenu(): void
+        # setRoomPopupMenu(): void
     }
 
     JPanel <|-- MenuPlayerPanel
@@ -243,7 +309,7 @@ package View{
 
     View <|-- PlayerPanel
     PlayerPanel *--"1" Student: viewedPlayer
-    PlayerPanel *--"1" Player: player
+    PlayerPanel *--"1" Player: viewedPlayer
     class PlayerPanel{
         # nameLabel: JLabel
         + bindPlayer(player: Player): void
@@ -255,17 +321,29 @@ package View{
 
     View <|-- RoomPanel
     RoomPanel *--"1" Room: viewedRoom
-    class RoomPanel{}
+    RoomPanel *--"0..*" DoorListPanel: doorLists
+    class RoomPanel{
+        - layout: BorderLayout
+        - roomInfo: JPanel
+        - actors: JPanel[]
+        - scrollLists: JScrollPane[]
+        + addStudentView(studentPanel: ActorPanel): void
+        + addProfessorView(professorPanel: ActorPanel): void
+        + addJanitorView(janitorPanel: ActorPanel): void
+        - createDoorScrollPane(i: int): JScrollPane
+        - replaceCenter(panel: JPanel): void
+    }
 
     EffectPanel <|-- StunnedStrategyPanel
     StunnedStrategyPanel *--"1" StunnedStep: stunnedStep
     class StunnedStrategyPanel{}
 
     ItemPanel <|-- TransistorPanel
-    TransistorPanel *--"1" Transistor: transistor
     class TransistorPanel{
         # paintComponent(g: Graphics): void
     }
+
+
 
     'utility
     class ColorGenerator{

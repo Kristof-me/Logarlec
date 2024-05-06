@@ -1,0 +1,39 @@
+@startuml Player_panels
+title Player Panels
+
+skinparam classAttributeIconSize 0
+
+package Model{
+    abstract class Actor{}
+    class Student{}
+}
+package Controller{
+    class Player{}
+}
+
+abstract class View{}
+
+    View <|-- ActorPanel
+    ActorPanel *--"1" Actor: actor
+    class ActorPanel{}
+
+    View <|-- PlayerPanel
+    PlayerPanel *--"1" Student: viewedPlayer
+    PlayerPanel *--"1" Player: viewedPlayer
+    class PlayerPanel{
+        # nameLabel: JLabel
+        + bindPlayer(player: Player): void
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml

@@ -1,0 +1,37 @@
+@startuml Room_panels
+title Room Panels
+
+skinparam classAttributeIconSize 0
+
+package Model{
+    class Door{}
+    class Room{}
+}
+abstract class View{}
+
+    'panels
+
+    View <|-- DoorPanel
+    DoorPanel *--"1" Door: door
+    DoorPanel *--"1" Room: room
+    DoorPanel *--"1" CustomButton: btn
+    class DoorPanel{
+        + bindRoom(room: Room): void
+    }
+
+    View <|-- RoomPanel
+    RoomPanel *--"1" Room: viewedRoom
+    RoomPanel *--"0..*" DoorListPanel: doorLists
+    class RoomPanel{
+        - layout: BorderLayout
+        - roomInfo: JPanel
+        - actors: JPanel[]
+        - scrollLists: JScrollPane[]
+        + addStudentView(studentPanel: ActorPanel): void
+        + addProfessorView(professorPanel: ActorPanel): void
+        + addJanitorView(janitorPanel: ActorPanel): void
+        - createDoorScrollPane(i: int): JScrollPane
+        - replaceCenter(panel: JPanel): void
+    }
+
+@enduml

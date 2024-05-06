@@ -1,0 +1,43 @@
+@startuml Effect_panels
+title Effect Panels
+
+skinparam classAttributeIconSize 0
+
+package Model{
+    abstract class RoomEffect
+    class DefenseStrategy
+    class StunnedStep
+    class Student
+    class Room
+}
+
+abstract class View{}
+
+    EffectPanel <|-- DefenseStrategyPanel
+    DefenseStrategyPanel *--"1" DefenseStrategy: beerDefense
+    class DefenseStrategyPanel{}
+
+    View <|-- EffectListPanel
+    EffectListPanel *--"1" Student: student
+    EffectListPanel *--"1" Room: room
+    class EffectListPanel{
+        + bindStudent(student: Student): void
+        + addEffect(effectPanel: EffectPanel): void
+        + removeEffect(effectPanel: EffectPanel): void
+        + reset():void
+        + redraw():void
+    }
+    View <|-- EffectPanel
+    abstract class EffectPanel{
+        - turnsLabel: JLabel
+        # setTurnsLeft(turnsleft: int): void
+    }
+    EffectPanel <|-- RoomEffectPanel
+    RoomEffectPanel *--"1" RoomEffect: effect
+    class RoomEffectPanel{}
+
+    EffectPanel <|-- StunnedStrategyPanel
+    StunnedStrategyPanel *--"1" StunnedStep: stunnedStep
+    class StunnedStrategyPanel{}
+
+@enduml
