@@ -3,10 +3,12 @@ Title Game Controllers
 skinparam classAttributeIconSize 0
 
 package Model{
-    class Room{}
+    interface IActions{}
     class Student{}
+    class Janitor{}
     class Professor{}
-    class Janitor
+    class Room{}
+    abstract class Actor{}
 }
 
 MapManager *--"0..*" Room: rooms
@@ -68,14 +70,83 @@ class Player{}
 Controller <|-- ProfessorAI
 ProfessorAI *--"1" Professor: actor
 class ProfessorAI{}
+    MapManager *--"0..*" Room: rooms
+    MapManager *--"1" Room: solution
+    class MapManager {
+        -height: int
+        -width: int
+        -excessDoorChance: double
+        -oneWayDoorChance: double
+        -itemSpawnChance: double
+        -fakeItemChance: double
+        -constructors: Constructor[]
+        +MapManager(h: int, w: int)
+        +mergeRooms(): void
+        +splitRoom(): void
+        -generateMap(height: int, width: int): List<Room>
+        -BFS(map: Room[][], visited: boolean[][], x: int, y: int): void
+        -addExcessDoors(map: Room[][], x: int, y: int): void
+        -hasWay(a: Room, b: Room): boolean
+        -addItems(map: Room[][]): void
+        -spawnSliderule(map: Room[][]): Room
+    }
 
+    GameManager *--"1" MapManager: mapManager
+    GameManager *--"0..*" Player: students
+    GameManager *--"0..*" ProfessorAI: professors
+    GameManager *--"0..*" JanitorAI: janitors
+    GameManager *--"0..*" Room: rooms
+    class GameManager{
+        - MERGE_PERCENT: int
+        - SPLIT_PERCENT: int
+        - currentTick: int
+        - anySlidRulePickedUp: boolean
+        - playerIterator: Iterator<Player>
+        turnLatch: CountDownLatch
 
+        + isWon(): boolean
+        + isGameOver(): boolean
+        + reset(): void
+        + addPlayer(player: Player): void
+        + addPlayer(professor: ProfessorAI): void
+        + addPlayer(janitor: JanitorAI): void
+        + slideRulePickedUp(): void
+        + startGame(): void
+        + getStepCount(): long
+        + takeStep(): void
+        + playTurn(): void
+        + aiTurn(): void
+        + getTick(): int
+    }
 
+    IActions <|-- Controller
+    Controller *--"1" Actor: actor: T
+    abstract class Controller<T extends Actor>{
+        + {abstract} getActor(): Actor
+        + {abstract} takeTurn(): void
+        + attack(): void
+        + move(door: Door): void
+        + use(item: Item): void
+        + pickUp(item: Item): boolean
+        + drop(item Item): void
+    }
 
+    Controller <|-- JanitorAI
+    JanitorAI *--"1" Janitor: actor
+    class JanitorAI{}
 
+    Controller <|-- Player
+    Player *--"1" Student: actor
+    class Player{
+        + skipTurn(): void
+        + move(door: Door): void
+        + use(item: Item): void
+        + pickUp(item: Item): boolean
+        + drop(item Item): void
+    }
 
-
-
-
+    Controller <|-- ProfessorAI
+    ProfessorAI *--"1" Professor: actor
+    class ProfessorAI{}
 
 @enduml

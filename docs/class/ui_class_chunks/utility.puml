@@ -3,33 +3,17 @@ title Utilities
 
 skinparam classAttributeIconSize 0
              
-        JButton <|-- CustomButton
-        class CustomButton{
-            - action : Consumer<ActionEvent>
-            - background : Color
-            - highlightColor : Color
-            - hasAnimation : boolean
+    class ColorGenerator{
+        + random(): Color
+        + fromHash(hash1: int, hash2: int): Color
+        + getForegroundColor(backgroundColor: Color): Color
+    }
 
-            + setExpectedSize(size: Dimension): void
-            - onClickAnimation(event: ActionEvent): void
-            + setHighlight(highlight: boolean): void
-            + setHasAnimation(hasAnimation: boolean): void
-            + setBackground(color: Color): void
-            + setHighlightColor(color: Color): void
-        }
-
-        DefaultButtomModel <|-- CustomButtonState
-        class CustomButtonState {
-            +isPressed(): boolean
-            +isRollover(): boolean
-            +setRollover(b: boolean): void
-        }
-
-        BasicScrollBarUI <|-- ScrollUI
-        class ScrollUI {
-            #createDecreaseButton(orientation: int): JButton
-            #createIncreaseButton(orientation: int): JButton
-            -createZeroButton(): JButton
-        }
+    class IconLoader{
+        icons: HashMap<Strint, Image>
+        - path: String
+        + getImage(name: String, scale: int): Image
+        + getIcon(name: String, scale: int): ImageIcon
+    }
 
 @enduml

@@ -1,0 +1,39 @@
+@startuml Item_panels
+title Item Panels
+
+skinparam classAttributeIconSize 0
+
+package Model{
+    abstract class Item{}
+    class Inventory{}
+}
+abstract class View{}
+
+    View <|-- InventoryPanel
+    InventoryPanel *--"1" Inventory: inventory
+    class InventoryPanel{
+        - drawItems(): void
+    }
+
+    View <|-- ItemPanel
+    ItemPanel *--"1" Item: item: T
+    class ItemPanel<T extends Item>{
+        # item: T
+        # icon: String
+        # usesLeft: JLabel
+        # iconLabel: JLabel
+        # popupMenu: JPopupMenu
+        # setActorPopupMenu(): void
+        # setRoomPopupMenu(): void
+    }
+
+    ItemPanel <|-- TransistorPanel
+    class TransistorPanel{
+        # paintComponent(g: Graphics): void
+    }
+
+
+
+
+
+@enduml
