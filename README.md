@@ -20,10 +20,10 @@ Preview in VS Code: [Simple Viewer](https://marketplace.visualstudio.com/items?i
 | Week 6   | 20     | 2    |
 | Skeleton | * 0.3  | -    |
 | Week 7   | 17     | 0.5  |
-| Week 9   | ?/45   |      |
+| Week 9   | 45     | 2    |
 | Week 10  | ?/35   |      |
 | Proto    | * 0.5  | -    |
-| Week 12  | ?/30   |      |
+| Week 12  | 30     | 2    |
 | Week 13  | ?/40   |      |
 | Week 15  | ?/30   | -    |
 | Grafikus | * 0.2  | -    |
