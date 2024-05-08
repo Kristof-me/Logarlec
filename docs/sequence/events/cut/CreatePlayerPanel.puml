@@ -1,0 +1,25 @@
+@startuml CreatePlayerPanel
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Create Player Panel
+hide footbox
+autoactivate on
+participant pPanel as "pPanel : PlayerPanel"
+participant student as "student : Student"
+participant pFact as "pFact : ItemHolderViewFactory"
+participant pInv as "pInv : Inventory"
+participant item as "item : Item"
+participant iFact as "iFact : ItemViewFactory"
+-> pPanel : <<create>>
+pPanel -> student : getInventory()
+return inventory
+pPanel -> pInv : createOwnView(inventory)
+pInv -> pFact : createPanel(pInv)
+autoactivate off
+create invPanel as "invPanel : InventoryPanel"
+pFact --> invPanel ++: <<create>>
+ref over invPanel : Create Inventory Panel
+invPanel --> pFact --
+pFact --> pInv --: invPanel
+pInv --> pPanel-- : invPanel
+return

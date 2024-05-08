@@ -1,0 +1,15 @@
+@startuml GetIcon
+header Get icon
+hide footbox
+
+participant IC as "iconLoader : IconLoader"
+-> IC++ : getInstance()
+return iconLoader
+-> IC++ : getIcon(name, scale)
+IC -> IC++ : getImage(name, scale)
+create image as "image : Image"
+IC --> image : <<create>>
+return image
+return image
+
+@enduml

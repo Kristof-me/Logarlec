@@ -1,0 +1,70 @@
+@startuml UpdateEffectPanel
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Update Effect Panel
+hide footbox
+autoactivate on
+
+participant eList as "eList : EffectListPanel"
+participant student as "student : Student"
+
+participant beerDefense as "beerDefense : BeerDefense"
+participant eFact as "eFact : EffectViewFactory"
+participant stunnedStep as "stunnedStep : StunnedStep"
+participant effect as "effect : RoomEffect"
+participant room as "room : Room"
+
+autoactivate on
+-> eList : <<create>>
+eList -> eList : reset()
+autoactivate on
+
+eList -> student : getDefense()
+return beerDefense
+eList -> beerDefense : createOwnView()
+beerDefense -> eFact : createPanel(beerDefense)
+autoactivate off
+create defPanel as "defPanel : EffectPanel"
+eFact --> defPanel : <<create>>
+autoactivate on
+eFact --> beerDefense : defPanel
+return defPanel
+autoactivate off
+eList -> eList : addEffect(defPanel)
+autoactivate on
+
+eList -> student : getState()
+return stunnedStep
+eList -> stunnedStep : createOwnView()
+stunnedStep -> eFact : createPanel(stunnedStep)
+autoactivate off
+create statePanel as "statePanel : EffectPanel"
+eFact --> statePanel : <<create>>
+autoactivate on
+eFact --> stunnedStep : statePanel
+return statePanel
+autoactivate off
+eList -> eList : addEffect(statePanel)
+autoactivate on
+
+eList -> student : getLocation()
+return room
+eList -> room : getEffects()
+return effects
+loop for each effect in effects
+    eList -> effect : createOwnView()
+    effect -> eFact : createPanel(effect)
+    autoactivate off
+    create effectPanel as "effectPanel : EffectPanel"
+    eFact --> effectPanel : <<create>>
+    autoactivate on
+    eFact --> effect : effectPanel
+    return effectPanel
+    autoactivate off
+    eList -> eList : addEffect(effectPanel)
+    autoactivate on
+end
+
+return
+return
+@enduml

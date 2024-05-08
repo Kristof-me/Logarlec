@@ -1,0 +1,42 @@
+@startuml AddPlayer 
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header AddPlayer
+hide footbox
+
+actor p as "Felhasználó"
+participant btn as "addPlayerButton : JButton"
+p -> btn++ : kattintás
+    create player as "palayer : Player"
+    btn --> player++ : <<create>>
+    create student as "student : Student"
+    player --> student++ : <<create>>
+        create inventory as "inventory : Inventory"
+        student --> inventory++ : <<create>>
+        create strategy as "defenseStrategy : DefenseStrategy"
+        student -> strategy : <<create>>
+
+participant cg as "colorGenerator : ColorGenerator"
+        student -> cg++ : getInstance()
+        return colorGenerator
+
+        student -> cg++ : random()
+        return color
+
+        create state as "actionState : ActionState"
+        student -> state : <<create>>
+
+return 
+return 
+return 
+
+participant panel as "playerPanel : JPanel"
+create menuPanel as "menuPlayerPanel : MenuPlayerPanel"
+    btn -->  menuPanel : <<create>> 
+    btn -> panel++ : add(menuPlayerPanel)
+    return
+    
+return
+
+@enduml

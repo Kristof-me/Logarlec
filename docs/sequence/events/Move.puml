@@ -29,8 +29,9 @@ opt alive == true
     ref over a
     Update Game Object
     end ref
-    return success
 end
+
+return success
 
 opt success == true
     player -> gm ++ : takeStep()

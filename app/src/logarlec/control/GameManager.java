@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import logarlec.model.room.*;
+import logarlec.view.frames.GameFrame;
 import logarlec.control.controller.JanitorAI;
 import logarlec.control.controller.Player;
 import logarlec.control.controller.ProfessorAI;
@@ -61,9 +62,7 @@ public class GameManager {
         students.clear();
         professors.clear();
         janitors.clear();
-        rooms.clear();
         anySlideRulePickedUp = false;
-        playerIterator = students.iterator();
         mapManager = new MapManager(50, 50);
         currentTick = 0;
     }
@@ -97,7 +96,16 @@ public class GameManager {
     }
     
     public void startGame() {
+        reset();
+        //TODO: create profs and janitors based on number of players
         playerIterator = students.iterator();
+
+        GameFrame gf = GameFrame.getInstance();
+
+        gf.setVisible(false);
+        
+        GameFrame.getInstance().setVisible(true);
+        reset();
     }
     
     CountDownLatch turnLatch = new CountDownLatch(2);
@@ -113,6 +121,7 @@ public class GameManager {
     public Player getCurrentPlayer(){
         return currentPlayer;
     }
+
     public void playTurn() {
         if (playerIterator.hasNext()) {
             currentPlayer = playerIterator.next();
@@ -133,23 +142,7 @@ public class GameManager {
         }
     }
 
-
     public void aiTurn() {
-        // handling room and actor ticks
-        currentTick++; 
-        
-        for (Room room : rooms) {
-            room.tick();
-        }
-        //if random is 10 then merge
-        //if random is 10 then split
-        if (Math.random() * 100 < MERGE_PERCENT) {
-            mapManager.mergeRooms();
-        }
-        if (Math.random() * 100 < SLIT_PERCENT) {
-            mapManager.splitRoom();
-        }
-
         for (ProfessorAI professor : professors) {
             professor.getActor().tick();
             professor.takeTurn();
@@ -160,6 +153,22 @@ public class GameManager {
             janitor.getActor().tick();
             janitor.takeTurn();
             janitor.takeTurn();
+        }
+
+        //if random is 10 then merge
+        //if random is 10 then split
+        if (Math.random() * 100 < MERGE_PERCENT) {
+            mapManager.mergeRooms();
+        }
+        if (Math.random() * 100 < SLIT_PERCENT) {
+            mapManager.splitRoom();
+        }
+
+        // handling room and actor ticks
+        currentTick++; 
+        
+        for (Room room : rooms) {
+            room.tick();
         }
     }
 

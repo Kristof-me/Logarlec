@@ -1,0 +1,100 @@
+@startuml PlayAiRound
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Play AI Round
+hide footbox
+
+participant manager as "manager : GameManager"
+participant professor as "professor : ProfessorAI"
+participant prof as "prof : Professor"
+
+
+-> manager ++ : aiTurn()
+
+loop foreach professor in manager.professors 
+    manager -> professor ++ : getActor()
+    return prof
+
+    manager -> prof ++ : tick() 
+        ref over prof 
+          Actor Tick
+        end ref
+    return 
+
+    note over manager
+        Every playable character has 2 actions 
+    end note
+
+    manager -> professor ++ : takeTurn()
+    return 
+
+    manager -> professor ++ : takeTurn()
+    return 
+end 
+
+participant janitor as "janitor : JanitorAI"
+participant jan as "jan : Janitor"
+
+loop foreach janitor in manager.janitors 
+    manager -> janitor ++ : getActor()
+    return jan
+
+    manager -> jan ++ : tick() 
+        ref over jan 
+          Actor Tick
+        end ref
+    return 
+
+    manager -> janitor ++ : takeTurn()
+    return 
+
+    manager -> janitor ++ : takeTurn()
+    return 
+end 
+
+participant mapManager as "mapManager : MapManager"
+
+note right of manager
+    a körök végén a pálya és időbeli változások lesznek kezelve
+    a shouldMerge, shouldSplit meghatározása a függvényen belül történik
+end note
+
+participant rooms as "rooms : List<Room>"
+participant r1 as "room1 : Room"
+participant r2 as "room2 : Room"
+
+opt [shouldMerge]
+    manager -> mapManager ++ : mergeRooms()
+    mapManager -> r2 ++ : merge(room1)   
+    return 
+    mapManager -> rooms ++ : remove(room1)
+    return
+    return
+end
+
+participant r3 as "room3 : Room"
+opt [shouldSplit]
+    manager -> mapManager ++ : splitRoom()
+    mapManager -> r3 ++ : split()
+    create r4 as "room4 : Room"
+    r3 --> r4 : <<create>>
+    return room4
+
+    mapManager -> rooms ++ : add(room4)
+    return
+    return
+end
+
+participant room as "room : Room"
+loop foreach room in manager.rooms
+    manager -> room ++ : tick()
+        ref over room
+            Room Tick
+        end ref
+    return
+end
+
+return
+
+@enduml

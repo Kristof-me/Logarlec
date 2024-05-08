@@ -1,0 +1,33 @@
+@startuml CreateInventoryPanel
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Create Inventory Panel
+hide footbox
+autoactivate on
+participant invPanel as "invPanel : InventoryPanel"
+participant pInv as "pInv : Inventory"
+participant item as "item : Item"
+participant iFact as "iFact : ItemViewFactory"
+-> invPanel : <<create>>
+invPanel -> invPanel ++: drawItems()
+invPanel -> pInv ++: getItems()
+return items
+loop for each item in items
+    invPanel -> item ++: createOwnView()
+    item -> iFact ++: createPanel(item)
+    create itemPanel as "itemPanel : ItemPanel"
+    iFact --> itemPanel ++: <<create>>
+    ref over itemPanel : Create Item Panel
+    itemPanel --> iFact --
+    iFact --> item --: itemPanel
+    return itemPanel
+end
+return
+invPanel -> pInv ++: getSize()
+return size
+autoactivate off
+loop for i = 0 to size - items.size
+    create emptyPanel as "emptyPanel : EmptyItemPanel"
+    invPanel --> emptyPanel: <<create>>
+end
+<- invPanel

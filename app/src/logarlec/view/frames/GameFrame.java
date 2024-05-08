@@ -40,7 +40,7 @@ public class GameFrame extends JFrame {
     }
 
     public static GameFrame getInstance() {
-        if (instance == null) {
+        if (instance == null || instance.isVisible() == false) {
             instance = new GameFrame();
         }
         return instance;

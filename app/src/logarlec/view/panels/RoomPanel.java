@@ -3,6 +3,7 @@ package logarlec.view.panels;
 import javax.swing.*;
 
 import logarlec.control.rendering.ItemHolderViewFactory;
+import logarlec.model.actor.Student;
 import logarlec.model.room.Door;
 import logarlec.model.room.Room;
 import logarlec.view.elements.CustomButton;
@@ -96,10 +97,6 @@ public class RoomPanel extends View{
         repaint();
     }
 
-    public void AddStudentView(ActorPanel studentPanel) {
-        actors[0].add(studentPanel);
-    }
-
     private JScrollPane createDoorScrollPane(int i){
         doorLists[i] = new DoorListPanel(i%2 == 0 ? BoxLayout.X_AXIS : BoxLayout.Y_AXIS);
         JScrollPane scrollPane = new JScrollPane(doorLists[i]);
@@ -111,6 +108,10 @@ public class RoomPanel extends View{
         return scrollPane;
     }
 
+    public void AddStudentView(ActorPanel studentPanel) {
+        actors[0].add(studentPanel);
+    }
+
     public void AddProfessorView(ActorPanel professorPanel) {
         actors[1].add(professorPanel);
     }
@@ -119,9 +120,9 @@ public class RoomPanel extends View{
         actors[2].add(janitorPanel);
     }
 
-
     @Override
     public void updateView() {
+        System.out.println("hi");
         // TODO Auto-generated method stub
     }
 
@@ -131,7 +132,6 @@ public class RoomPanel extends View{
         if (center != null) {
             roomInfo.remove(center);
         }
-        
 
         roomInfo.add(panel, BorderLayout.CENTER);
 

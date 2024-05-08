@@ -49,6 +49,7 @@ public class MapManager {
     }
 
     public void mergeRooms(){
+        // TODO NO TYPE CAST PLEASEEEE
         int room1 = (int)(Math.random() * rooms.size());
         Room r1 = rooms.get(room1);
         int door = (int)(Math.random() * r1.getDoors().size());

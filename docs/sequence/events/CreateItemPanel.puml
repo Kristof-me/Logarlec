@@ -1,0 +1,28 @@
+@startuml CreateItemPanel
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Create Item Panel
+hide footbox
+
+participant panel as "itemPanel : ItemPanel"
+participant item as "item : Item"
+
+--> panel ++ : <<create>>
+    ref over panel : Get Icon
+
+    panel -> item ++ : getUsesLeft()
+    return usesLeft
+
+    panel -> item ++ : isEquipped()
+    return isEquipped
+
+    alt isEquipped
+        panel -> panel : setActorPopupMenu()     
+    else isEquipped == false
+        panel -> panel : setRoomPopupMenu()
+    end
+    
+    return
+
+
+@enduml

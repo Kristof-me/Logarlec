@@ -1,0 +1,44 @@
+@startuml UpdateInventoryPanel
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Update Inventory Panel
+hide footbox
+
+actor obj as "GameObject"
+participant panel as "inventoryPanel : InventoryPanel"
+participant inventory as "inventory : Inventory"
+participant factory as "factory : ItemViewFactory"
+participant item as "item : Item"
+
+obj -> panel++ : updateView()
+
+panel -> panel : removeAll()
+
+panel -> inventory++ : getItems()
+return items
+
+loop foreach item in items
+    panel -> item ++ : createOwnView()
+    item -> factory ++ : createPanel(item)
+    factory -> item ++ : accept(factory)
+    item -> factory ++ : visit(item)
+    return
+    return
+    create ip as "panel2 : ItemPanel"
+    factory --> ip : <<create>>
+
+    return panel2
+    return panel2
+
+    panel -> panel : add(panel2)
+end 
+
+loop for i = 0 to size - items.size
+    create empty as "panel3 : EmptyPanel"
+    panel --> empty : <<create>>
+    panel -> panel : add(panel3)
+end
+
+return
+
+@enduml

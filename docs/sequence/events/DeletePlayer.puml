@@ -1,0 +1,24 @@
+@startuml DeletePlayer 
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Delete Player
+hide footbox
+
+actor p as "Felhasználó"
+participant btn as "changeColor : JButton"
+p -> btn++ : kattintás
+
+participant menuPanel as "menuPanel : menuPlayerPanel"
+participant player as "palayer : Player"
+participant menu as "menu : MenuFrame"
+participant players as "players : List<Player>"
+
+btn -> menu++ : deletePlayer(player, menuPanel)
+menu -> players++ : remove(player)
+return
+
+menu -> menu : remove(menuPanel)
+return
+return
+@enduml

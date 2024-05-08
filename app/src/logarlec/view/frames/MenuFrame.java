@@ -3,6 +3,7 @@ package logarlec.view.frames;
 import javax.swing.*;
 
 import logarlec.view.panels.MenuPlayerPanel;
+import logarlec.control.GameManager;
 import logarlec.control.controller.Player;
 import logarlec.view.elements.CustomButton;
 import logarlec.view.elements.ScrollUI;
@@ -69,6 +70,10 @@ public class MenuFrame extends JFrame {
         
         CustomButton startGame = new CustomButton("Start Game", e -> {
             // todo start the game
+            for (Player player : players) {
+                GameManager.getInstance().addPlayer(player);
+            }
+            GameManager.getInstance().startGame();
         });
 
         this.add(startGame, constraints);

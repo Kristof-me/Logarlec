@@ -269,7 +269,6 @@ public class Room extends GameObject implements IHasLocation {
      * Ticks the doors and the room effects
      */
     public void tick() {
-
         // tick the doors
         for (Door door : doors) {
             door.tick();
@@ -287,8 +286,6 @@ public class Room extends GameObject implements IHasLocation {
                 }
             }
         }
-
-        
     }
 
     /**

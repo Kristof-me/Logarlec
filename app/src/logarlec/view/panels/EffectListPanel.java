@@ -63,6 +63,5 @@ public class EffectListPanel extends View {
         }
 
         redraw();
-
     }
 }

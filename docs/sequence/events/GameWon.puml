@@ -1,0 +1,26 @@
+@startuml GameWon
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Game Won
+hide footbox
+
+actor ll as "logarléc"
+participant manager as "gameManager : GameManager"
+participant frame as "gameFrame : GameFrame"
+
+ll -> manager++ : slideRulePickedUp()
+manager -> frame++ : getInstance()
+return gameFrame
+
+manager -> frame ++ : setVisible(false)
+return
+
+create end as "endFrame : EndFrame"
+manager --> end : <<create>>
+
+manager -> end++ : setVisible(true)
+return
+return
+
+@enduml

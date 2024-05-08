@@ -1,0 +1,13 @@
+@startuml Exit 
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Exit
+hide footbox
+
+actor p as "Felhasználó"
+participant btn as "exitButton : JButton"
+p -> btn++ : kattintás
+return 
+
+@enduml

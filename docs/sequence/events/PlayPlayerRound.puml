@@ -1,0 +1,71 @@
+@startuml PlayerRound
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Play Player Round
+hide footbox
+autoactivate on
+
+actor app as "app : App"
+participant iter as "playerIterator : Iterator<Player>"
+participant game as "gameManager : GameManager"
+participant player as "currentPlayer : Player"
+participant student as "student : Student"
+participant pFact as "pFact : ItemHolderViewFactory"
+participant frame as "gameFrame : GameFrame"
+participant eList as "eList : EffectListPanel"
+participant room as "room : Room"
+app -> game : playRound()
+game -> player : getActor()
+autoactivate off
+return student
+game -> student ++: tick()
+ref over student : Tick Actor
+return
+alt !student.isAlive
+    game --> app 
+    autoactivate on
+end
+game -> player : takeTurn()
+player -> pFact : createMenuPanel(student)
+create pPanel as "pPanel : PlayerPanel"
+autoactivate on
+pFact --> pPanel ++: <<create>>
+ref over pPanel : Create Player Panel
+pPanel --> pFact --
+pFact --> player --: pPanel
+autoactivate on
+player -> pPanel : bind(currentPlayer)
+return
+player -> frame : setPlayerPanel(pPanel)
+frame -> pPanel : getViewedPlayer()
+return student
+frame -> eList : bindStudent(student)
+eList -> eList : updateView()
+ref over eList : Update Effect Panel
+return
+return
+frame -> student : getLocation()
+return room
+frame -> room : createOwnView()
+room -> pFact : createPanel(room)
+create rPanel as "rPanel : RoomPanel"
+pFact --> rPanel ++: <<create>>
+ref over rPanel : Create Room Panel
+return
+return rPanel
+return rPanel
+
+
+return
+note over player : Játékos választ a végrehajtható akciók közül
+return
+opt playerIterator.hasNext()
+    game -> iter ++: next()
+    return nextPlayer
+    ref over game : Play Player Round
+    note over game : Következő játékos köre
+else
+    ref over game : Play AI Round
+end
+return
+@enduml

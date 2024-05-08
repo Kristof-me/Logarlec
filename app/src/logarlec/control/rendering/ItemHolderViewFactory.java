@@ -7,7 +7,9 @@ import java.util.HashMap;
 import logarlec.model.actor.Janitor;
 import logarlec.model.actor.Professor;
 import logarlec.model.actor.Student;
+import logarlec.model.items.Inventory;
 import logarlec.view.panels.ActorPanel;
+import logarlec.view.panels.InventoryPanel;
 import logarlec.view.panels.PlayerPanel;
 import logarlec.view.panels.RoomPanel;
 
@@ -77,5 +79,12 @@ public class ItemHolderViewFactory {
         roomViews.put(room, roomPanel);
         
         return roomPanel;
+    }
+
+    public InventoryPanel createPanel(Inventory inventory)
+    {
+        InventoryPanel panel = new InventoryPanel(inventory);
+        inventory.addListener(panel);
+        return panel;
     }
 }
