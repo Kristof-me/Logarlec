@@ -1,6 +1,13 @@
 package logarlec.model.actor;
 
 import java.util.List;
+
+import logarlec.model.room.Door;
+import logarlec.model.room.IHasLocation;
+import logarlec.model.room.Room;
+import logarlec.model.room.RoomEffect;
+import logarlec.view.utility.ColorGenerator;
+import logarlec.model.GameObject;
 import logarlec.model.actor.actions.ActionState;
 import logarlec.model.actor.actions.IActions;
 import logarlec.model.actor.strategy.DefaultDefense;
@@ -8,30 +15,50 @@ import logarlec.model.actor.strategy.DefenseStrategy;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemFinder;
-
-import logarlec.model.room.Door;
-import logarlec.model.room.IHasLocation;
-import logarlec.model.room.Room;
-import logarlec.model.room.RoomEffect;
+import java.awt.Color;
 
 /**
  * Abstract class representing an actor in the game.<br>
  * Perfors actions with the help of the current action state.
  */
-public abstract class Actor implements IHasLocation, IActions {
+public abstract class Actor extends GameObject implements IHasLocation, IActions {
+    private String name;
+    private Color color;
+
     protected Room room;
     protected boolean alive;
     protected ActionState actionState;
     protected DefenseStrategy defenseStrategy;
     protected Inventory inventory;
+
     /**
      * Creates a new actor
      */
     protected Actor() {
         this.alive = true;
-        this.inventory = new Inventory(this);
+        this.inventory = new Inventory(9, this);
         this.defenseStrategy = new DefaultDefense(this);
+
+        name = "";
+        color = ColorGenerator.getInstance().random();
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void newRandomColor() {
+        color = ColorGenerator.getInstance().random();
+    }
+
     /**
      * Called when the actor is attacked, by default, the actor does not die when attacked
      */
@@ -115,10 +142,9 @@ public abstract class Actor implements IHasLocation, IActions {
      * @param room the room to drop the items to
      */
     public void dropAllTo(Room room) {
-
         if (!alive) return;
         inventory.dropAll(room);
-
+        update();
     }
 
     /**
@@ -129,43 +155,45 @@ public abstract class Actor implements IHasLocation, IActions {
         if (!actionState.tick()) {
             this.setDefaultActionState();
         }
-
         if (!defenseStrategy.tick()) {
             setDefenseStrategy(new DefaultDefense(this));
         }
-
     }
 
     @Override
     public void attack() {
         if (!alive) return;
         actionState.attack();
-
     }
 
     @Override
     public boolean move(Door door) {
         if (!alive) return false;
-        return actionState.move(door);
+        boolean result = actionState.move(door);
+        update();
+        return result;
     }
 
     @Override
     public void use(Item item) {
         if (!alive) return;
         actionState.use(item);
-
+        update();
     }
 
     @Override
     public boolean pickUp(Item item) {
         if (!alive) return false;
-        return actionState.pickUp(item);
+        boolean result = actionState.pickUp(item);
+        update();
+        return result;
     }
 
     @Override
     public void drop(Item item) {
         if (!alive) return;
         actionState.drop(item);
+        update();
     }
 
     @Override

@@ -33,4 +33,8 @@ public class FakeItem extends Item {
     public void accept(ItemVisitor visitor) {
         visitor.visit(this);
     }
+
+    public Item getItemToFake() {
+        return itemToFake;
+    }
 }

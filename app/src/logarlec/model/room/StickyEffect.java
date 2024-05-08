@@ -2,10 +2,13 @@ package logarlec.model.room;
 
 import java.util.HashSet;
 
+import logarlec.control.rendering.EffectViewFactory;
 import logarlec.model.actor.Actor;
 import logarlec.model.actor.Janitor;
 import logarlec.model.actor.Professor;
 import logarlec.model.actor.Student;
+import logarlec.view.observerviews.View;
+import logarlec.view.panels.EffectPanel;
 
 public class StickyEffect extends RoomEffect {
     private Integer stickyLimit;
@@ -55,5 +58,10 @@ public class StickyEffect extends RoomEffect {
     @Override
     public RoomEffect copy() {
         return new StickyEffect(room);
+    }
+
+    @Override
+    public EffectPanel createOwnView() {
+        return new EffectViewFactory().createPanel(this);
     }
 }

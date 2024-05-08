@@ -1,0 +1,32 @@
+@startuml JPanels
+title JPanels
+
+skinparam classAttributeIconSize 0
+
+package Controller{
+    class Player{}
+}
+
+    JPanel <|-- DoorListPanel
+    class DoorListPanel{
+        + addDoor(doorPanel: Jpanel): void
+    }
+
+    JPanel <|-- View
+    abstract class View{
+        + {abstract} updateView(): void
+    }
+
+    JPanel <|-- EmptyItemPanel
+
+
+    JPanel <|-- MenuPlayerPanel
+    MenuPlayerPanel *--"1" Player: player
+    MenuPlayerPanel *--"1" MenuFrame: menu
+    class MenuPlayerPanel{
+        - drawBorder(): void
+    }
+
+
+
+@enduml

@@ -1,11 +1,11 @@
 package logarlec.model.items.impl;
 
-import logarlec.model.actor.Actor;
-import logarlec.model.items.Item;
-import logarlec.model.items.ItemVisitor;
 import logarlec.model.room.Room;
 import logarlec.model.room.RoomEffect;
 import logarlec.model.room.WetEffect;
+import logarlec.model.actor.Actor;
+import logarlec.model.items.Item;
+import logarlec.model.items.ItemVisitor;
 
 
 
@@ -46,6 +46,5 @@ public class Sponge extends Item {
     @Override
     public void accept(ItemVisitor visitor) {
         visitor.visit(this);
-        
     }
 }

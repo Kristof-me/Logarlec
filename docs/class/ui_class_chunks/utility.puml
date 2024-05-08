@@ -1,0 +1,19 @@
+@startuml Utilities
+title Utilities
+
+skinparam classAttributeIconSize 0
+             
+    class ColorGenerator{
+        + random(): Color
+        + fromHash(hash1: int, hash2: int): Color
+        + getForegroundColor(backgroundColor: Color): Color
+    }
+
+    class IconLoader{
+        icons: HashMap<Strint, Image>
+        - path: String
+        + getImage(name: String, scale: int): Image
+        + getIcon(name: String, scale: int): ImageIcon
+    }
+
+@enduml

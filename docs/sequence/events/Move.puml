@@ -1,0 +1,45 @@
+@startuml Move
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Move
+hide footbox
+
+actor p as "Felhasználó"
+participant btn as "doorPanel : DoorPanel"
+p -> btn++ : kattintás
+
+participant gm as "gameManager : GameManager"
+btn -> gm++ : getCurrentPlayer()
+return currentPlayer
+
+participant player as "currentPlayer : Player"
+participant door as "door : Door"
+btn -> player++ : move(door)
+
+participant a as "actor : Actor"
+player -> a++ : move(item)
+
+opt alive == true
+    ' todo ez egy korábbi dokumentációból van
+    ref over a
+    Actor Move
+    end ref
+
+    ref over a
+    Update Game Object
+    end ref
+end
+
+return success
+
+opt success == true
+    player -> gm ++ : takeStep()
+    return
+end
+
+return success
+
+return 
+
+@enduml

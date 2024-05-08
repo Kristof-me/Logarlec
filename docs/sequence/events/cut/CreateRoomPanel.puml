@@ -1,0 +1,62 @@
+@startuml CreateRoomPanel
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Create Room Panel
+hide footbox
+autoactivate on
+
+participant rPanel as "roomPanel : RoomPanel"
+
+participant pFact as "pFact : ItemHolderViewFactory"
+participant room as "room : Room"
+participant rInv as "rInv : Inventory"
+participant door as "door : Door"
+participant dFact as "dFact : DoorViewFactory"
+participant actor as "actor : Actor"
+
+
+
+
+
+-> rPanel : <<create>>
+rPanel -> room : getInventory()
+return inventory
+rPanel -> rInv : createOwnView(inventory)
+rInv -> pFact : createPanel(rInv)
+autoactivate off
+create invPanel as "invPanel : InventoryPanel"
+pFact --> invPanel ++: <<create>>
+ref over invPanel : Create Inventory Panel
+invPanel --> pFact --
+pFact --> rInv --: invPanel
+rInv --> rPanel-- : invPanel
+
+create dList as "doorList : DoorListPanel"
+rPanel --> dList : <<create>>
+rPanel -> room ++: getDoors()
+return doors
+loop for each door in doors
+    rPanel -> door ++: createOwnView()
+    door -> dFact ++: createDoorView(door)
+    create doorPanel as "doorPanel : DoorPanel"
+    dFact --> doorPanel : <<create>>
+    dFact --> door --: doorPanel
+    return doorPanel
+    rPanel -> doorPanel ++ : bindRoom(room)
+    return
+    rPanel -> dList ++: addDoor(doorPanel)
+    return
+end
+
+rPanel -> room ++: getActors()
+return actors
+loop for each actor in actors
+    rPanel -> actor ++: createOwnView()
+    actor -> pFact ++: createPanel(actor)
+    create actorPanel as "actorPanel : ActorPanel"
+    pFact --> actorPanel : <<create>>
+    pFact --> actor --: actorPanel
+    return actorPanel
+end
+return
+@enduml

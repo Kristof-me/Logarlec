@@ -1,0 +1,28 @@
+@startuml NextTurn
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Next turn
+hide footbox
+actor p as "Felhasználó"
+participant btn as "button : JButton"
+p -> btn++ : kattintás
+
+participant gm as "gameManager : GameManager"
+btn -> gm++ : getCurrentPlayer()
+return currentPlayer
+
+participant player as "currentPlayer : Player"
+btn -> player++ : skipTurn()
+player -> gm ++ : getStepCount()
+return stepCount
+
+loop for stepCount
+    player -> gm++ : takeStep()
+    return
+end
+
+return 
+return
+
+@enduml

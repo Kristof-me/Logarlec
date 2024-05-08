@@ -4,8 +4,6 @@ import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
 
-
-
 /**
  * A gas mask that will protect the player if it steps into a gased room.
  * Considered a passive item, so the player doesn't use it, it gets used
@@ -40,7 +38,5 @@ public class GasMask extends Item {
     @Override
     public void accept(ItemVisitor visitor) {
         visitor.visit(this);
-        
     }
-
 }

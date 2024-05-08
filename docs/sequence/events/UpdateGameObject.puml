@@ -1,0 +1,18 @@
+@startuml UpdateGameObject
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Update Game Object
+hide footbox
+
+participant obj as "gameObject : GameObject"
+participant view as "view : View"
+
+-> obj++ : update()
+    loop foreach view in gameObject.views
+        obj -> view++ : updateView()
+        return
+    end
+return
+
+@enduml

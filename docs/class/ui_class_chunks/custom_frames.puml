@@ -1,0 +1,24 @@
+@startuml Custom_frames
+title Custom Frames
+
+skinparam classAttributeIconSize 0
+
+package Controller{
+    class Player{}
+}
+
+    JFrame <|-- GameFrame
+    PlayerPanel *--"1" GameFrame: playerPanel
+    RoomPanel *--"1" GameFrame: roomPanel
+    class GameFrame{
+        + setPlayerPanel(playerPanel: PlayerPanel): void
+    }
+
+    JFrame <|-- MenuFrame
+    MenuFrame *--"0..*" Player: players
+    class MenuFrame{
+        + deletePlayer(player: Player, panel: MenuPlayerPanel): void
+    }
+
+
+@enduml

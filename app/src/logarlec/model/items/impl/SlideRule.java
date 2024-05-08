@@ -5,8 +5,6 @@ import logarlec.model.actor.Actor;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemVisitor;
 
-
-
 /**
  * A slide rule item, which needs to be picked up to win the game
  */

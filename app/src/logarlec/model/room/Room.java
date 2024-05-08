@@ -2,9 +2,14 @@ package logarlec.model.room;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import logarlec.control.rendering.ItemHolderViewFactory;
+import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
+import logarlec.view.observerviews.View;
+import logarlec.view.panels.RoomPanel;
 
 
 /**
@@ -14,7 +19,9 @@ import logarlec.model.items.Item;
  * 
  * @see IHasLocation
  */
-public class Room implements IHasLocation {
+public class Room extends GameObject implements IHasLocation {
+    private int id;
+    private static int nextId = 0;
     private Integer capacity = 10;
 
     private List<Actor> actors = new ArrayList<>();
@@ -32,9 +39,12 @@ public class Room implements IHasLocation {
      */
     public Room(Integer capacity) {
         this.capacity = capacity;
+        this.id = nextId++;
+        inventory = new Inventory(this);   
+    }
 
-        inventory = new Inventory(this);
-        
+    public int getId() {
+        return id;
     }
 
     /**
@@ -83,10 +93,13 @@ public class Room implements IHasLocation {
         }
 
         // delete this, Door
-        for (Door door : doors) {
+        for (int i = 0; i < doors.size(); i++) {
+            Door door = doors.get(i);
+
             if (door.leadsTo(room) == this) {
                 doors.remove(door);
                 room.doors.remove(door);
+                i--;
             } else {
                 room.doors.add(door);
                 door.updateRoom(this, room);
@@ -256,7 +269,6 @@ public class Room implements IHasLocation {
      * Ticks the doors and the room effects
      */
     public void tick() {
-
         // tick the doors
         for (Door door : doors) {
             door.tick();
@@ -274,8 +286,6 @@ public class Room implements IHasLocation {
                 }
             }
         }
-
-        
     }
 
     /**
@@ -368,5 +378,10 @@ public class Room implements IHasLocation {
      */
     public void setIsSticky(boolean isSticky) {
         this.isSticky = isSticky;
+    }
+
+    @Override
+    public RoomPanel createOwnView() {
+        return new ItemHolderViewFactory().createPanel(this);
     }
 }

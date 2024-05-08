@@ -1,0 +1,29 @@
+@startuml ChangeColor 
+skinparam headerFontSize 20
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Change Color
+hide footbox
+
+actor p as "Felhasználó"
+participant btn as "changeColor : JButton"
+p -> btn++ : kattintás
+
+participant player as "palayer : Player"
+participant actor as "actor : Student"
+btn -> player ++ : getActor()
+return actor
+
+btn -> actor++ : newRandomColor()
+
+participant cg as "colorGenerator : ColorGenerator"
+actor -> cg++ : getInstance()
+return colorGenerator
+
+actor -> cg++ : random()
+return color
+return color
+
+return
+
+@enduml

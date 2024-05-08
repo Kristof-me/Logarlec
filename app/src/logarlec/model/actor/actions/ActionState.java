@@ -3,8 +3,10 @@ package logarlec.model.actor.actions;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 import logarlec.model.room.Door;
+import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 import logarlec.model.room.Room;
+import logarlec.view.panels.EffectPanel;
 
 /**
  * <p>
@@ -16,7 +18,7 @@ import logarlec.model.room.Room;
  * @see IActions
  * @see Actor
  */
-public abstract class ActionState implements IActions {
+public abstract class ActionState extends GameObject implements IActions {
     protected Actor actor;
 
     /**
@@ -132,5 +134,10 @@ public abstract class ActionState implements IActions {
 
     protected boolean roomHasDoor(Room room, Door door) {
         return room.getDoors().contains(door);
+    }
+
+    @Override
+    public EffectPanel createOwnView() {
+        return null;
     }
 }

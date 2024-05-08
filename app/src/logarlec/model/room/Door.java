@@ -1,6 +1,8 @@
 package logarlec.model.room;
-
+import logarlec.control.rendering.DoorViewFactory;
+import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
+import logarlec.view.panels.DoorPanel;
 
 
 
@@ -11,7 +13,7 @@ import logarlec.model.actor.Actor;
  * Can also be invisible for a certain amount of time.
  * Can be one-way.
  */
-public class Door {
+public class Door extends GameObject {
     private Room[] rooms = new Room[2];
 
     private Integer remainingInvisibility = 0;
@@ -136,5 +138,9 @@ public class Door {
      */
     public Room[] getRooms() {
         return rooms;
+    }
+
+    public DoorPanel createOwnView() {
+        return new DoorViewFactory().createDoorView(this);
     }
 }

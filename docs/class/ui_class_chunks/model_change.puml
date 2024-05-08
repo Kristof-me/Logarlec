@@ -1,0 +1,32 @@
+@startuml Model_change
+title Model Changes
+
+skinparam classAttributeIconSize 0
+
+    abstract class ActionState{}
+    abstract class RoomEffect{}
+    abstract class DefenseStrategy{}
+    abstract class Actor{}
+    class Room{
+        - id: int
+        - {static} nextId: int
+        }
+    abstract class Item{}
+
+    GameObject *--"0..*" View: views
+    abstract class GameObject{
+        + addListener(view: View): void
+        + removeListener(view: View): void
+        + update(): void
+        + {abstract} createOwnView(): View
+    }
+
+    GameObject <|-- ActionState
+    GameObject <|-- DefenseStrategy
+    GameObject <|-- Actor
+    GameObject <|-- Inventory
+    GameObject <|-- Item
+    GameObject <|-- Room
+    GameObject <|-- RoomEffect
+    GameObject <|-- Door
+@enduml

@@ -1,0 +1,45 @@
+@startuml StartGame
+skinparam HeaderFontColor #000000
+skinparam HeaderFontStyle bold
+header Start Game
+hide footbox
+autoactivate on
+actor p as "Player"
+participant button as "startGame : JButton"
+participant menu as "menuFrame: MenuFrame"
+participant game as "gameManager : GameManager"
+p -> button : kattintás
+button -> menu : getPlayers()
+return players
+loop for each player
+    button -> game : addPlayer(player)
+    return
+end
+button -> game : startGame()
+game -> game : reset()
+create map as "mapManager : MapManager"
+game --> map ++: <<create>>
+map -> map : generateMap()
+return
+return
+autoactivate off
+loop for [professor count based on player count]
+    create prof as "professorAI : ProfessorAI"
+    game --> prof: <<create>>
+     game -> game : addProfessor(professorAI)
+end
+loop for [janitor count based on player count]
+    create janitor as "janitorAI : JanitorAI"
+    game --> janitor: <<create>>
+     game -> game : addJanitor(janitorAI)
+end
+autoactivate on
+return
+loop while gameOver == false 
+note over game : Körök lejátszása
+game -> game++ : isGameOver()
+return gameOver
+end
+return
+return
+@enduml

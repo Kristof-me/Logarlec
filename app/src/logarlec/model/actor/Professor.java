@@ -1,11 +1,13 @@
 package logarlec.model.actor;
 
 import java.util.List;
+
+import logarlec.model.room.RoomEffect;
+import logarlec.view.panels.ActorPanel;
+import logarlec.control.rendering.ItemHolderViewFactory;
 import logarlec.model.actor.actions.ProfessorActions;
 import logarlec.model.items.Item;
 import logarlec.model.items.ItemFinder;
-
-import logarlec.model.room.RoomEffect;
 
 /**
  * The professor actor in the game. The professor can attack other actors in the same room, but does not die when attacked by another professor.
@@ -43,5 +45,11 @@ public class Professor extends Actor {
     @Override
     public void setDefaultActionState() {
         actionState = new ProfessorActions(this);
+    }
+
+
+    @Override
+    public ActorPanel createOwnView() {
+        return new ItemHolderViewFactory().createPanel(this);
     }
 }

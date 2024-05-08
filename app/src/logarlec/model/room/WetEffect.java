@@ -1,10 +1,13 @@
 package logarlec.model.room;
 
+import logarlec.control.rendering.EffectViewFactory;
 import logarlec.model.actor.Actor;
 import logarlec.model.actor.Janitor;
 import logarlec.model.actor.Professor;
 import logarlec.model.actor.Student;
 import logarlec.model.actor.actions.StunnedStep;
+import logarlec.view.observerviews.View;
+import logarlec.view.panels.EffectPanel;
 
 
 
@@ -59,5 +62,10 @@ public class WetEffect extends RoomEffect {
     @Override
     public RoomEffect copy() {
         return new WetEffect(room);
+    }
+
+    @Override
+    public EffectPanel createOwnView() {
+        return new EffectViewFactory().createPanel(this);
     }
 }
