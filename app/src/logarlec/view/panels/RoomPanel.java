@@ -2,8 +2,8 @@ package logarlec.view.panels;
 
 import javax.swing.*;
 
+import logarlec.control.GameManager;
 import logarlec.control.rendering.ItemHolderViewFactory;
-import logarlec.model.actor.Student;
 import logarlec.model.room.Door;
 import logarlec.model.room.Room;
 import logarlec.view.elements.CustomButton;
@@ -28,6 +28,8 @@ public class RoomPanel extends View{
     
     public RoomPanel(Room room) {
         this.viewedRoom = room;
+        // TODO az a baj, hogy a RoomPanel nem figyel a játékosra, ezért nem tudja, hogy szoba váltás van
+        //GameManager.getInstance().getCurrentPlayer().getActor().addListener(this);
 
         inventoryPanel = room.getInventory().createOwnView();
         

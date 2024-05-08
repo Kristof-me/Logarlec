@@ -13,7 +13,6 @@ import logarlec.control.GameManager;
  * DoorPanel
  */
 public class DoorPanel extends View {
-
     private Door door;
     private Room room;
     private CustomButton btn;

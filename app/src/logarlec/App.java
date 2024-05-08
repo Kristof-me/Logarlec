@@ -41,12 +41,12 @@ public class App {
         r.getInventory().addItem(new AirFreshener());
         r.getInventory().addItem(new Tvsz());
         
-        /*
+        
         Transistor a = new Transistor();
         s.getInventory().addItem(a);
         s.getInventory().addItem(new Transistor());
         s.use(a);
-        */
+        
         
 
         Beer beer = new Beer();
@@ -54,7 +54,6 @@ public class App {
         s.teleport(r, false);
         s.pickUp(beer);
         //s.setActionState(new StunnedStep(s));
-        GameManager.getInstance().addPlayer(p);
         
         gameFrame.setVisible(true);
         p.takeTurn();

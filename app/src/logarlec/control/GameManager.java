@@ -96,16 +96,9 @@ public class GameManager {
     }
     
     public void startGame() {
-        reset();
+        // reset();
         //TODO: create profs and janitors based on number of players
         playerIterator = students.iterator();
-
-        GameFrame gf = GameFrame.getInstance();
-
-        gf.setVisible(false);
-        
-        GameFrame.getInstance().setVisible(true);
-        reset();
     }
     
     CountDownLatch turnLatch = new CountDownLatch(2);
