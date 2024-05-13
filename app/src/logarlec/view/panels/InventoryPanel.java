@@ -1,15 +1,20 @@
 package logarlec.view.panels;
+
 import javax.swing.*;
 
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 import logarlec.view.observerviews.View;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.*;
 
 public class InventoryPanel extends View {
     private Inventory inventory;
-    public InventoryPanel(Inventory inventory){
+    List<ItemPanel<? extends Item>> itemPanels = new ArrayList<ItemPanel<? extends Item>>();
+
+    public InventoryPanel(Inventory inventory) {
         this.inventory = inventory;
         drawItems();
     }
@@ -21,8 +26,9 @@ public class InventoryPanel extends View {
         repaint();
     }
 
-    private void drawItems(){
+    private void drawItems() {
         this.removeAll();
+        itemPanels.clear();
         int size = inventory.getSize();
         if (size < 10) {
             this.setLayout(new GridLayout(1, 10));
@@ -32,14 +38,24 @@ public class InventoryPanel extends View {
             size = 40;
             this.setLayout(new GridLayout(5, 8));
         }
-        
+
         for (int i = 0; i < inventory.getItems().size(); i++) {
             ItemPanel<? extends Item> itemPanel = inventory.getItems().get(i).createOwnView();
             this.add(itemPanel);
+            itemPanels.add(itemPanel);
         }
 
         for (int i = inventory.getItems().size(); i < size; i++) {
             this.add(new EmptyItemPanel());
         }
+    }
+
+    @Override
+    public View removeView() {
+        for (ItemPanel<? extends Item> itemPanel : itemPanels) {
+            remove(itemPanel.removeView());
+        }
+        inventory.removeListener(this);
+        return this;
     }
 }

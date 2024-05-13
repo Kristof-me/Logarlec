@@ -12,10 +12,7 @@ import javax.swing.JLabel;
 import logarlec.model.actor.Actor;
 
 public class ActorPanel extends View {
-    private Actor actor;
-
     public ActorPanel(Actor actor, String icon) {
-        this.actor = actor;
         setLayout(new FlowLayout(FlowLayout.LEFT, 0, 10));
 
         JLabel label = new JLabel(IconLoader.getInstance().getIcon(icon, 30));
@@ -23,8 +20,8 @@ public class ActorPanel extends View {
 
         JLabel nameLabel = new JLabel(actor.getName());
         nameLabel.setFont(ThemeManager.getInstance().getFont(20));
-        
-        if(actor.isAlive()) {
+
+        if (actor.isAlive()) {
             nameLabel.setForeground(actor.getColor());
         } else {
             nameLabel.setForeground(Color.WHITE);
@@ -36,6 +33,10 @@ public class ActorPanel extends View {
     }
 
     public void updateView() {
-        // TODO
+        // NOOP: the name and color of the actor won't change during the game
+    }
+
+    public View removeView() {
+        return this;
     }
 }

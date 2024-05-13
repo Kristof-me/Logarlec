@@ -26,46 +26,40 @@ public class MapManager {
     private final double oneWayDoorChance = 0.5;
     private final double itemSpawnChance = 0.5;
     private final double fakeItemChance = 0.5;
-    private final Constructor[] constructors = new Constructor[] {
-            SlideRule.class.getConstructors()[0],
-            AirFreshener.class.getConstructors()[0],
-            Beer.class.getConstructors()[0],
-            Camembert.class.getConstructors()[0],
-            Cocktail.class.getConstructors()[0],
-            GasMask.class.getConstructors()[0],
-            Sponge.class.getConstructors()[0],
-            Transistor.class.getConstructors()[0],
-            Tvsz.class.getConstructors()[0],
-    };
+    private final Constructor[] constructors = new Constructor[] {SlideRule.class.getConstructors()[0],
+            AirFreshener.class.getConstructors()[0], Beer.class.getConstructors()[0], Camembert.class.getConstructors()[0],
+            Cocktail.class.getConstructors()[0], GasMask.class.getConstructors()[0], Sponge.class.getConstructors()[0],
+            Transistor.class.getConstructors()[0], Tvsz.class.getConstructors()[0],};
     private List<Room> rooms;
     private Room solution;
+
     public List<Room> getRooms() {
         return rooms;
     }
-    public MapManager(int h, int w){
+
+    public MapManager(int h, int w) {
         height = h;
         width = w;
         rooms = generateMap(height, width);
     }
 
-    public void mergeRooms(){
-        // TODO NO TYPE CAST PLEASEEEE
-        int room1 = (int)(Math.random() * rooms.size());
+    public void mergeRooms() {
+        int room1 = (int) (Math.random() * rooms.size());
         Room r1 = rooms.get(room1);
-        int door = (int)(Math.random() * r1.getDoors().size());
+        int door = (int) (Math.random() * r1.getDoors().size());
         Room r2 = r1.getDoors().get(door).leadsTo(r1);
         r2.merge(r1);
         rooms.remove(r1);
     }
 
-    public void splitRoom(){
-        int room = (int)(Math.random() * rooms.size());
+    public void splitRoom() {
+        int room = (int) (Math.random() * rooms.size());
         Room r = rooms.get(room);
         rooms.add(r.split());
     }
 
 
-    private  List<Room> generateMap(int height, int width) {
+    private List<Room> generateMap(int height, int width) {
         this.height = height;
         this.width = width;
         Room[][] map = new Room[width][height];
@@ -74,12 +68,12 @@ public class MapManager {
                 map[i][j] = new Room(10);
             }
         }
-        
+
         boolean[][] visited = new boolean[width][height];
         BFS(map, visited, 0, 0);
         addItems(map);
         solution = spawnSliderule(map);
-        //DrawMap(map);
+        // DrawMap(map);
 
         List<Room> rooms = new ArrayList<Room>(height * width);
         for (int i = 0; i < width; i++) {
@@ -92,13 +86,13 @@ public class MapManager {
 
     private void BFS(Room[][] map, boolean[][] visited, int x, int y) {
         visited[x][y] = true;
-        //0 = right, 1 = left, 2 = up, 3 = down
+        // 0 = right, 1 = left, 2 = up, 3 = down
         List<Integer> dirs = new ArrayList<Integer>(4);
         for (int k = 0; k < 4; k++) {
             dirs.add(k);
         }
         Collections.shuffle(dirs);
-        
+
         for (int dir : dirs) {
             int nx = x;
             int ny = y;
@@ -116,8 +110,8 @@ public class MapManager {
                     ny = y - 1;
                     break;
             }
-            
-            //safeguard
+
+            // safeguard
             if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
                 Room next = map[nx][ny];
                 if (!visited[nx][ny]) {
@@ -130,19 +124,20 @@ public class MapManager {
             }
         }
     }
+
     private void addExcessDoors(Room[][] map, int x, int y) {
         List<Room> adjacent = new ArrayList();
         if (x > 0) {
-            adjacent.add(map[x-1][y]);
+            adjacent.add(map[x - 1][y]);
         }
         if (y > 0) {
-            adjacent.add(map[x][y-1]);
+            adjacent.add(map[x][y - 1]);
         }
         if (x < width - 1) {
-            adjacent.add(map[x+1][y]);
+            adjacent.add(map[x + 1][y]);
         }
         if (y < height - 1) {
-            adjacent.add(map[x][y+1]);
+            adjacent.add(map[x][y + 1]);
         }
         Collections.shuffle(adjacent);
         for (Room room : adjacent) {
@@ -198,55 +193,4 @@ public class MapManager {
     public Room getSolution() {
         return solution;
     }
-
-    //TODO: remove before prod
-    // private void DrawMap(Room[][] map) {
-    //     for(int i = 0; i < width; i++) {
-    //         System.out.print(" _ ");
-    //     }
-    //     System.out.println();
-    //     for(int i = 0; i <height; i++) {
-    //         for(int j = 0; j < width; j++) {
-    //             boolean leads = false;
-    //             if (j > 0) {
-    //                 for (Door door : map[j][i].getDoors()) {
-    //                     if (door.leadsTo(map[j][i]) == map[j-1][i]) {
-    //                         leads = true;
-    //                         break;
-    //                     }
-    //                 }
-    //                 System.out.print(leads ? " " : "|");
-    //             }
-    //             else {
-    //                 System.out.print("|");
-    //             }
-    //             leads = false;
-    //             if (i < height -1) {
-    //                 for (Door door : map[j][i].getDoors()) {
-    //                     if (door.leadsTo(map[j][i]) == map[j][i+1]) {
-    //                         leads = true;
-    //                         break;
-    //                     }
-    //                 }
-    //                 System.out.print(leads ? " " : "_");
-    //             }
-    //             else {
-    //                 System.out.print("_");
-    //             }
-    //             leads = false;
-    //             if (j < width -1) {
-    //                 for (Door door : map[j][i].getDoors()) {
-    //                     if (door.leadsTo(map[j][i]) == map[j + 1][i]) {
-    //                         leads = true;
-    //                         break;
-    //                     }
-    //                 }
-    //                 System.out.print(leads ? " " : "|");
-    //             }
-    //             else {
-    //                 System.out.println("|");
-    //             }
-    //         }
-    //     }
-    // }
 }

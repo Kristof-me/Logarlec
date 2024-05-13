@@ -7,7 +7,8 @@ import logarlec.view.utility.IconLoader;
 
 import java.awt.*;
 import javax.swing.*;
-public class ItemPanel <T extends Item> extends View {
+
+public class ItemPanel<T extends Item> extends View {
     protected T item;
     protected String icon;
 
@@ -15,7 +16,7 @@ public class ItemPanel <T extends Item> extends View {
     protected JLabel iconLabel;
     protected JPopupMenu popupMenu;
 
-    public ItemPanel(T item, String icon){
+    public ItemPanel(T item, String icon) {
         super();
         this.item = item;
         this.icon = icon;
@@ -23,7 +24,7 @@ public class ItemPanel <T extends Item> extends View {
         this.setLayout(new GridBagLayout());
         this.setPreferredSize(new Dimension(50, 50));
         this.setMaximumSize(new Dimension(50, 50));
-    
+
         iconLabel = new JLabel(IconLoader.getInstance().getIcon(icon, 35));
         iconLabel.setPreferredSize(new Dimension(50, 50));
         iconLabel.setForeground(Color.WHITE);
@@ -33,8 +34,8 @@ public class ItemPanel <T extends Item> extends View {
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
         this.add(iconLabel, gbc);
-    
-        //add a number at bottom right corner
+
+        // add a number at bottom right corner
         usesLeft = new JLabel(item.getUsesLeft().toString());
         usesLeft.setOpaque(false);
         usesLeft.setForeground(Color.WHITE);
@@ -45,19 +46,18 @@ public class ItemPanel <T extends Item> extends View {
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.SOUTHEAST;
         this.add(usesLeft, gbc);
-    
+
         this.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         updateView();
     }
-    
+
     @Override
     public void updateView() {
         usesLeft.setText(item.getUsesLeft().toString());
 
         if (item.isEquipped()) {
             setActorPopupMenu();
-        }
-        else {
+        } else {
             setRoomPopupMenu();
         }
     }
@@ -91,11 +91,17 @@ public class ItemPanel <T extends Item> extends View {
             GameManager.getInstance().getCurrentPlayer().pickUp(item);
         });
         popupMenu.add(pickupItem);
-        
+
         this.setComponentPopupMenu(popupMenu);
         // TODO remove this
         // popupMenu.revalidate();
         // popupMenu.repaint();
     }
-    
+
+    @Override
+    public View removeView() {
+        item.removeListener(this);
+        return this;
+    }
+
 }

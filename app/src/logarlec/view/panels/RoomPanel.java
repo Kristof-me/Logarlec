@@ -2,7 +2,6 @@ package logarlec.view.panels;
 
 import javax.swing.*;
 
-import logarlec.control.GameManager;
 import logarlec.control.rendering.ItemHolderViewFactory;
 import logarlec.model.room.Door;
 import logarlec.model.room.Room;
@@ -10,32 +9,42 @@ import logarlec.view.elements.CustomButton;
 import logarlec.view.observerviews.View;
 import logarlec.view.utility.IconLoader;
 import logarlec.view.elements.ScrollUI;
+import java.util.ArrayList;
 
 import java.awt.*;
 
-public class RoomPanel extends View{
+public class RoomPanel extends View {
     private Room viewedRoom;
+
+    public Room getRoom() {
+        return viewedRoom;
+    }
 
     // the center
     private BorderLayout layout = new BorderLayout();
     private JPanel roomInfo = new JPanel();
-    private JPanel[] actors = new JPanel[3];
+    private JPanel actorList = new JPanel();
+
+    private ArrayList<ActorPanel> students = new ArrayList<>();
+    private ArrayList<ActorPanel> professors = new ArrayList<>();
+    private ArrayList<ActorPanel> janitors = new ArrayList<>();
+
     private JScrollPane[] scrollLists = new JScrollPane[4];
     private DoorListPanel[] doorLists = new DoorListPanel[4];
-    
+
     // content in the center
     private InventoryPanel inventoryPanel;
-    
+
     public RoomPanel(Room room) {
         this.viewedRoom = room;
         // TODO az a baj, hogy a RoomPanel nem figyel a játékosra, ezért nem tudja, hogy szoba váltás van
-        //GameManager.getInstance().getCurrentPlayer().getActor().addListener(this);
+        // GameManager.getInstance().getCurrentPlayer().getActor().addListener(this);
 
         inventoryPanel = room.getInventory().createOwnView();
-        
+
         this.setLayout(new BorderLayout());
-        //setPreferredSize(new Dimension(500, 500));
-        
+        // setPreferredSize(new Dimension(500, 500));
+
         scrollLists[0] = createDoorScrollPane(0);
         scrollLists[1] = createDoorScrollPane(1);
         scrollLists[2] = createDoorScrollPane(2);
@@ -50,6 +59,7 @@ public class RoomPanel extends View{
         for (Door door : room.getDoors()) {
             DoorPanel doorPanel = door.createOwnView();
             doorPanel.bindRoom(room);
+
             doorLists[i++ % 4].addDoor(doorPanel);
         }
 
@@ -57,10 +67,8 @@ public class RoomPanel extends View{
         roomInfo.setLayout(layout);
         add(roomInfo, BorderLayout.CENTER);
 
-        for (int j = 0; j < actors.length; j++) {
-            actors[j] = new JPanel();
-            actors[j].setLayout(new BoxLayout(actors[j], BoxLayout.Y_AXIS));
-        }
+        // setup actor list panel
+        actorList.setLayout(new BoxLayout(actorList, BoxLayout.Y_AXIS));
 
         // add actors
         ItemHolderViewFactory.setAutoPlacement(this);
@@ -71,25 +79,31 @@ public class RoomPanel extends View{
         JPanel leftPanel = new JPanel();
         leftPanel.setPreferredSize(new Dimension(85, 500));
         leftPanel.setLayout(new GridLayout(4, 2));
-        
+
         roomInfo.add(leftPanel, BorderLayout.WEST);
-        
-        // adding buttons to the left panel
+
+        // Student button
         leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("student.png", 45), (e) -> {
-            ReplaceCenter(actors[0]);
+            setDisplayedActors(students);
         }));
-        leftPanel.add(new JLabel(" "+actors[0].getComponentCount()));
 
+        leftPanel.add(new JLabel(" " + students.size()));
+
+        // Professor button
         leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("professor.png", 45), (e) -> {
-            ReplaceCenter(actors[1]);
+            setDisplayedActors(professors);
         }));
-        leftPanel.add(new JLabel(" "+actors[1].getComponentCount()));
 
+        leftPanel.add(new JLabel(" " + professors.size()));
+
+        // Janitor button
         leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("janitor.png", 45), (e) -> {
-            ReplaceCenter(actors[2]);
+            setDisplayedActors(janitors);
         }));
-        leftPanel.add(new JLabel(" "+actors[2].getComponentCount()));
 
+        leftPanel.add(new JLabel(" " + janitors.size()));
+
+        // Inventory button
         leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("chest.png", 45), (e) -> {
             ReplaceCenter(inventoryPanel);
         }));
@@ -99,8 +113,8 @@ public class RoomPanel extends View{
         repaint();
     }
 
-    private JScrollPane createDoorScrollPane(int i){
-        doorLists[i] = new DoorListPanel(i%2 == 0 ? BoxLayout.X_AXIS : BoxLayout.Y_AXIS);
+    private JScrollPane createDoorScrollPane(int i) {
+        doorLists[i] = new DoorListPanel(i % 2 == 0 ? BoxLayout.X_AXIS : BoxLayout.Y_AXIS);
         JScrollPane scrollPane = new JScrollPane(doorLists[i]);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -111,26 +125,30 @@ public class RoomPanel extends View{
     }
 
     public void AddStudentView(ActorPanel studentPanel) {
-        actors[0].add(studentPanel);
+        students.add(studentPanel);
     }
 
     public void AddProfessorView(ActorPanel professorPanel) {
-        actors[1].add(professorPanel);
+        professors.add(professorPanel);
     }
 
     public void AddJanitorView(ActorPanel janitorPanel) {
-        actors[2].add(janitorPanel);
+        janitors.add(janitorPanel);
     }
 
-    @Override
-    public void updateView() {
-        System.out.println("hi");
-        // TODO Auto-generated method stub
+    private void setDisplayedActors(ArrayList<ActorPanel> actors) {
+        actorList.removeAll();
+
+        actors.forEach(actor -> {
+            actorList.add(actor);
+        });
+
+        ReplaceCenter(actorList);
     }
 
     private void ReplaceCenter(JPanel panel) {
         Component center = layout.getLayoutComponent(BorderLayout.CENTER);
-        
+
         if (center != null) {
             roomInfo.remove(center);
         }
@@ -139,5 +157,18 @@ public class RoomPanel extends View{
 
         revalidate();
         repaint();
+    }
+
+    @Override
+    public void updateView() {
+        System.out.println("hi");
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public View removeView() {
+        viewedRoom.removeListener(this);
+        inventoryPanel.removeView();
+        return this;
     }
 }

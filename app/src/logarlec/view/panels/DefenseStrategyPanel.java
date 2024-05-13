@@ -4,11 +4,13 @@ import java.awt.Color;
 
 import logarlec.model.actor.strategy.DefenseStrategy;
 import logarlec.view.frames.GameFrame;
+import logarlec.view.observerviews.View;
 import logarlec.view.utility.IconLoader;
 
 public class DefenseStrategyPanel extends EffectPanel {
 
     protected DefenseStrategy defenseStrategy;
+
     public DefenseStrategyPanel(DefenseStrategy defense, String description, String icon) {
         super(new Color(0, 200, 0), description, IconLoader.getInstance().getIcon(icon, 30));
         this.defenseStrategy = defense;
@@ -22,9 +24,14 @@ public class DefenseStrategyPanel extends EffectPanel {
         if (turnsLeft == 0) {
             EffectListPanel panel = GameFrame.getInstance().getEffectListPanel();
             panel.removeEffect(this);
-        }
-        else {
+        } else {
             setTurnsLeft(turnsLeft);
         }
+    }
+
+    @Override
+    public View removeView() {
+        defenseStrategy.removeListener(this);
+        return this;
     }
 }

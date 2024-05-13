@@ -10,39 +10,39 @@ import logarlec.view.observerviews.View;
 public class EffectListPanel extends View {
     private Student student;
     private Room room;
-    
 
     public EffectListPanel() {
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));   
-    }
-
-    public void bindStudent(Student student) {
-        this.student = student;
-        this.room = student.getLocation();
-        student.addListener(this);
-        room.addListener(this);
-        updateView();
-    }
-
-    public void addEffect(EffectPanel effectPanel){
-        this.add(effectPanel);
-        this.add(Box.createVerticalStrut(10));
-        redraw();
-    }
-    
-    public void removeEffect(EffectPanel effectPanel){
-        this.remove(effectPanel);
-        redraw();
-    }
-
-    public void reset(){
-        this.removeAll();
-        redraw();
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
     protected void redraw() {
         revalidate();
         repaint();
+    }
+
+    public void bindStudent(Student student) {
+        this.student = student;
+        this.room = student.getLocation();
+
+        student.addListener(this);
+        room.addListener(this);
+        updateView();
+    }
+
+    public void addEffect(EffectPanel effectPanel) {
+        this.add(effectPanel);
+        this.add(Box.createVerticalStrut(10));
+        redraw();
+    }
+
+    public void removeEffect(EffectPanel effectPanel) {
+        this.remove(effectPanel);
+        redraw();
+    }
+
+    public void reset() {
+        this.removeAll();
+        redraw();
     }
 
     @Override
@@ -63,5 +63,12 @@ public class EffectListPanel extends View {
         }
 
         redraw();
+    }
+
+    @Override
+    public View removeView() {
+        student.removeListener(this);
+        room.removeListener(this);
+        return this;
     }
 }

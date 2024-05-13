@@ -18,15 +18,18 @@ public class Player extends Controller<Student> {
     }
 
     public void skipTurn() {
-        for (long i = 0; i < GameManager.getInstance().getStepCount(); i++) {
+        long count = GameManager.getInstance().getStepCount();
+        for (long i = 0; i < count; i++) {
+            System.out.println("Skipping turn");
             GameManager.getInstance().takeStep();
         }
     }
 
     @Override
     public void takeTurn() {
-        PlayerPanel playerFrame = new ItemHolderViewFactory().createMenuPanel(actor);
-        playerFrame.bindPlayer(this);
+        // creates a new playerPanel if needed
+        PlayerPanel playerFrame = new ItemHolderViewFactory().createMenuPanel(actor);        
+
         GameFrame.getInstance().setPlayerPanel(playerFrame);
     }
 
