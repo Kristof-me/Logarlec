@@ -10,17 +10,19 @@ import logarlec.control.controller.JanitorAI;
 import logarlec.control.controller.Player;
 import logarlec.control.controller.ProfessorAI;
 import java.util.Iterator;
+
 public class GameManager {
     private final int MERGE_PERCENT = 10;
     private final int SLIT_PERCENT = 10;
     private static GameManager instance;
     private MapManager mapManager;
     private int currentTick = 0;
+    private int lastMapChange = 0;
 
     private ArrayList<Player> students = new ArrayList<>();
-    private List<ProfessorAI> professors = new ArrayList<>();
-    private List<JanitorAI> janitors = new ArrayList<>();
-    private List<Room> rooms = new ArrayList<>();
+    private ArrayList<ProfessorAI> professors = new ArrayList<>();
+    private ArrayList<JanitorAI> janitors = new ArrayList<>();
+    private ArrayList<Room> rooms = new ArrayList<>();
 
     private boolean anySlideRulePickedUp = false;
 
@@ -155,9 +157,11 @@ public class GameManager {
         //if random is 10 then split
         if (Math.random() * 100 < MERGE_PERCENT) {
             mapManager.mergeRooms();
+            lastMapChange = currentTick;
         }
         if (Math.random() * 100 < SLIT_PERCENT) {
             mapManager.splitRoom();
+            lastMapChange = currentTick;
         }
 
         // handling room and actor ticks
@@ -170,5 +174,13 @@ public class GameManager {
 
     public int getTick() {
         return currentTick;
-    }    
+    }
+
+    public ArrayList<Room> getRooms(){
+        return rooms;
+    }
+
+    public int getLastMapChange() {
+        return lastMapChange;
+    }
 }
