@@ -1,9 +1,9 @@
 package logarlec.view.panels;
 
 import logarlec.control.GameManager;
-import logarlec.control.controller.Player;
 import logarlec.model.actor.Student;
 import logarlec.view.elements.CustomButton;
+import logarlec.view.frames.GameFrame;
 import logarlec.view.observerviews.View;
 import logarlec.view.utility.ColorGenerator;
 
@@ -13,11 +13,11 @@ import java.awt.*;
 
 public class PlayerPanel extends View {
     protected Student viewedPlayer;
+
     public Student getViewedPlayer() {
         return viewedPlayer;
     }
 
-    protected Player player;
     protected JLabel nameLabel;
     protected InventoryPanel inventoryPanel;
 
@@ -33,15 +33,16 @@ public class PlayerPanel extends View {
         c.gridx = 0;
         c.gridy = 0;
         c.anchor = GridBagConstraints.WEST;
+
         this.setPreferredSize(new Dimension(800, 50));
         nameLabel = new JLabel("placeholder");
         nameLabel.setOpaque(true);
         nameLabel.setBorder(new LineBorder(Color.BLACK, 5));
         nameLabel.setAlignmentX(CENTER_ALIGNMENT);
         nameLabel.setPreferredSize(new Dimension(100, 50));
-        
+
         this.add(nameLabel, c);
-        
+
         c.gridx = 1;
         c.gridy = 0;
         c.weightx = 2;
@@ -58,23 +59,28 @@ public class PlayerPanel extends View {
         c.weighty = 1;
         c.fill = GridBagConstraints.VERTICAL;
         c.anchor = GridBagConstraints.EAST;
-        CustomButton endTurnButton = new CustomButton("End Turn", e -> GameManager.getInstance().getCurrentPlayer().skipTurn());
+
+        CustomButton endTurnButton =
+                new CustomButton("End Turn", e -> GameManager.getInstance().getCurrentPlayer().skipTurn());
+
         endTurnButton.setPreferredSize(new Dimension(100, 50));
         this.add(endTurnButton, c);
-    }
-    
-    public void bindPlayer(Player player) {
-        this.player = player;
-        Student student = player.getActor();
-        
+
         nameLabel.setText(student.getName());
         nameLabel.setBackground(student.getColor());
         nameLabel.setForeground(ColorGenerator.getInstance().getForegroundColor(student.getColor()));
-        nameLabel.revalidate();
-        nameLabel.repaint();
     }
+
     @Override
     public void updateView() {
-        System.out.println("hello from the other side");
+        GameFrame.getInstance().updateStudent();
+    }
+
+    @Override
+    public View removeView() {
+        if (inventoryPanel != null)
+            remove(inventoryPanel.removeView());
+        viewedPlayer.removeListener(this);
+        return this;
     }
 }

@@ -1,6 +1,14 @@
 package logarlec.view.observerviews;
+
 import javax.swing.JPanel;
 
 public abstract class View extends JPanel {
     public abstract void updateView();
+
+    /**
+     * Unsubscribes from everything it knows about
+     * 
+     * @return the view being removed
+     */
+    public abstract View removeView();
 }

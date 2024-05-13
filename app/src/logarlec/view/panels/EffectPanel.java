@@ -27,14 +27,14 @@ public abstract class EffectPanel extends View {
         c.gridy = 0;
         c.anchor = GridBagConstraints.CENTER;
 
-        turnsLabel = new JLabel("");
+        turnsLabel = new JLabel("ASD");
         this.add(turnsLabel, c);
-        
+
         c.anchor = GridBagConstraints.EAST;
         c.gridx = 1;
         JLabel iconLabel = new JLabel(icon);
         this.add(iconLabel, c);
-        
+
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 2;
@@ -44,9 +44,9 @@ public abstract class EffectPanel extends View {
         this.add(descriptionLabel, c);
     }
 
-    protected void setTurnsLeft(int turnsLeft){
+    protected void setTurnsLeft(int turnsLeft) {
         turnsLabel.setText("Turns left: " + turnsLeft);
-        
+
         GameFrame.getInstance().getEffectListPanel().revalidate();
         GameFrame.getInstance().getEffectListPanel().repaint();
     }

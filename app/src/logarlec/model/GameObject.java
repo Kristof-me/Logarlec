@@ -18,8 +18,8 @@ public abstract class GameObject {
     }
 
     public void update() {
-        for (View view : views) {
-            view.updateView();
+        for (int i = 0; i < views.size(); i++) {
+            views.get(i).updateView();   
         }
     }
 

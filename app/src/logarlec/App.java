@@ -36,11 +36,14 @@ public class App {
         Player p = new Player(s);
         p.getActor().setName("asd");
         GameManager.getInstance().addPlayer(p);
-        
+
+        Student s2 = new Student();
+        Player p2 = new Player(s2);
+        p2.getActor().setName("bsd");
+        GameManager.getInstance().addPlayer(p2);
         
         r.getInventory().addItem(new AirFreshener());
         r.getInventory().addItem(new Tvsz());
-        
         
         Transistor a = new Transistor();
         s.getInventory().addItem(a);
@@ -52,6 +55,7 @@ public class App {
         Beer beer = new Beer();
         r.addItem(beer);
         s.teleport(r, false);
+        s2.teleport(r, false);
         s.pickUp(beer);
         //s.setActionState(new StunnedStep(s));
         

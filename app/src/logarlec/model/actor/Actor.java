@@ -62,12 +62,13 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
     /**
      * Called when the actor is attacked, by default, the actor does not die when attacked
      */
-    public void attacked(){
-        //By default, the actor does not die when attacked
+    public void attacked() {
+        // By default, the actor does not die when attacked
     }
-    
+
     /**
      * Revives the actor, by default, the actor does not revive
+     * 
      * @return true if the actor is revived, false otherwise
      */
     public boolean revive() {
@@ -76,6 +77,7 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
 
     /**
      * Accepts an effect and applies it to the actor, unless the actor has an item that protects them from the effect
+     * 
      * @param effect the effect to apply
      * @param unless the list of items that protect the actor from the effect
      */
@@ -88,24 +90,28 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
 
     /**
      * Sets the action state of the actor to the higher priority between the current action state and the new state
+     * 
      * @param state the new action state
      */
     public void setActionState(ActionState state) {
         actionState = actionState.setNextState(state);
+        update();
     }
 
     /**
      * Sets the defense strategy of the actor
+     * 
      * @param strategy the new defense strategy
      */
     public void setDefenseStrategy(DefenseStrategy strategy) {
         defenseStrategy = strategy;
+        update();
     }
 
     /**
-     * Teleports the actor to a new room, without moving through a door
-     * If the actor is forced to move, the actor dies if the room is full
-     * If the actor is not forced to move, the actor does not move if the room is full
+     * Teleports the actor to a new room, without moving through a door If the actor is forced to move, the actor dies if
+     * the room is full If the actor is not forced to move, the actor does not move if the room is full
+     * 
      * @param room the room to teleport to
      * @param isForced if the actor is forced to move
      * @return true if the actor gets to stay alive / enter the room, false if actor has to die / or no space in the room
@@ -126,11 +132,13 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
                 prevRoom.leave(this);
             }
         }
+        update();
         return staysAlive;
     }
 
     /**
      * Gets the inventory of the actor
+     * 
      * @return the inventory of the actor
      */
     public Inventory getInventory() {
@@ -139,17 +147,19 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
 
     /**
      * Drops all items in the inventory to the room
+     * 
      * @param room the room to drop the items to
      */
     public void dropAllTo(Room room) {
-        if (!alive) return;
+        if (!alive)
+            return;
         inventory.dropAll(room);
         update();
     }
 
     /**
-     * Ticks the actor, which in turn ticks the action state and the defense strategy
-     * If either one of them expires (their tick returns false), the actor sets the default action state/denfense strategy
+     * Ticks the actor, which in turn ticks the action state and the defense strategy If either one of them expires (their
+     * tick returns false), the actor sets the default action state/denfense strategy
      */
     public void tick() {
         if (!actionState.tick()) {
@@ -162,13 +172,15 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
 
     @Override
     public void attack() {
-        if (!alive) return;
+        if (!alive)
+            return;
         actionState.attack();
     }
 
     @Override
     public boolean move(Door door) {
-        if (!alive) return false;
+        if (!alive)
+            return false;
         boolean result = actionState.move(door);
         update();
         return result;
@@ -176,14 +188,16 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
 
     @Override
     public void use(Item item) {
-        if (!alive) return;
+        if (!alive)
+            return;
         actionState.use(item);
         update();
     }
 
     @Override
     public boolean pickUp(Item item) {
-        if (!alive) return false;
+        if (!alive)
+            return false;
         boolean result = actionState.pickUp(item);
         update();
         return result;
@@ -191,7 +205,8 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
 
     @Override
     public void drop(Item item) {
-        if (!alive) return;
+        if (!alive)
+            return;
         actionState.drop(item);
         update();
     }
@@ -203,6 +218,7 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
 
     /**
      * Checks if the actor is alive
+     * 
      * @return true if the actor is alive, false otherwise
      */
     public Boolean isAlive() {
@@ -211,6 +227,7 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
 
     /**
      * Sets the location of the actor
+     * 
      * @param location the new location of the actor
      */
     public void setLocation(Room location) {
@@ -219,6 +236,7 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
 
     /**
      * Gets the defense strategy of the actor
+     * 
      * @return the defense strategy of the actor
      */
     public DefenseStrategy getDefense() {
@@ -227,6 +245,7 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
 
     /**
      * Gets the action state of the actor
+     * 
      * @return the action state of the actor
      */
     public ActionState getState() {
