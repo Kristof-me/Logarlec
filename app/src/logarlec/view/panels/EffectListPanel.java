@@ -21,6 +21,10 @@ public class EffectListPanel extends View {
     }
 
     public void bindStudent(Student student) {
+        if (this.student != null) {
+            this.student.removeListener(this);
+            this.student.getLocation().removeListener(this);
+        }
         this.student = student;
         this.room = student.getLocation();
 

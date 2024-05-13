@@ -51,27 +51,43 @@ public class GameFrame extends JFrame {
         return instance;
     }
 
+    /**
+     * If the player has changed rooms, recreate RoomPanel and EffectListPanel
+     */
     public void updateStudent() {
-        // todo
+        // todo - im doing it mom
+        if (playerPanel == null) return;
+        if (playerPanel.getViewedPlayer().getLocation() != roomPanel.getRoom()) {
+            remove(roomPanel.removeView());
+            roomPanel = playerPanel.getViewedPlayer().getLocation().createOwnView();
+            add(roomPanel, BorderLayout.CENTER);
+            roomLabel.setText("KA" + playerPanel.getViewedPlayer().getLocation().getId());
+            effectListPanel.bindStudent(playerPanel.getViewedPlayer());
+            this.repaint();
+            this.revalidate();
+        }
     }
 
     public void setPlayerPanel(PlayerPanel playerPanel) {
         if (this.playerPanel != null) {
             this.remove(this.playerPanel);
         }
-
+        System.out.println("Setting player panel");
+        this.playerPanel = playerPanel;
         Student player = playerPanel.getViewedPlayer();
 
         // adding player panel
         this.add(playerPanel, BorderLayout.SOUTH);
 
-        roomLabel.setText("Room #" + player.getLocation().getId());
+        roomLabel.setText("KA" + player.getLocation().getId());
 
         // adding effects
         effectListPanel.bindStudent(playerPanel.getViewedPlayer());
-        // TODO add all effects to the effects panel
 
         // displaying room
+        if (roomPanel != null) {
+            this.remove(roomPanel.removeView());
+        }
         roomPanel = player.getLocation().createOwnView();
         this.add(roomPanel, BorderLayout.CENTER);
 

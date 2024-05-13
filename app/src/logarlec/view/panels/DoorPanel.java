@@ -34,7 +34,7 @@ public class DoorPanel extends View {
         });
 
         add(button);
-        add(new JLabel("Room #" + door.leadsTo(room).getId()));
+        add(new JLabel("KA" + door.leadsTo(room).getId()));
 
         revalidate();
         repaint();

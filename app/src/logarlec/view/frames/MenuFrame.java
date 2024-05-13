@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.awt.*;
 
+
 public class MenuFrame extends JFrame {
     private List<Player> players = new ArrayList<Player>();
 
@@ -24,14 +25,15 @@ public class MenuFrame extends JFrame {
 
         // Title label
         JLabel titleLabel = new JLabel("Logarléc", JLabel.CENTER);
+        
         // TODO set font
-        this.add(titleLabel, constraints);
 
+        this.add(titleLabel, constraints);
 
         // Create a scrollable panel to hold the player panels in a vertical layout and has a vertical scrollbar, with a maximum height of 300 pixels
         JPanel playerPanel = new JPanel();
         playerPanel.setLayout(new BoxLayout(playerPanel, BoxLayout.Y_AXIS));
-        playerPanel.add(Box.createVerticalGlue());
+        //playerPanel.add(Box.createVerticalGlue());
 
         JScrollPane scrollPane = new JScrollPane(playerPanel);
         scrollPane.getVerticalScrollBar().setUI(new ScrollUI());
@@ -54,6 +56,7 @@ public class MenuFrame extends JFrame {
             players.add(new Player());
             playerPanel.add(new MenuPlayerPanel(players.get(players.size() - 1), this));
 
+            revalidate();
             playerPanel.revalidate();
             playerPanel.repaint();
 

@@ -132,6 +132,7 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
                 prevRoom.leave(this);
             }
         }
+        update();
         return staysAlive;
     }
 

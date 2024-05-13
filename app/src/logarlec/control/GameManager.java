@@ -104,6 +104,7 @@ public class GameManager {
     CountDownLatch turnLatch = new CountDownLatch(2);
 
     public long getStepCount() {
+        System.out.println("latch: " + turnLatch.getCount());
         return turnLatch.getCount();
     }
 
@@ -119,6 +120,7 @@ public class GameManager {
         if (playerIterator.hasNext()) {
             currentPlayer = playerIterator.next();
             currentPlayer.getActor().tick();
+            System.out.println("Player " + currentPlayer.getActor().getName() + "'s turn");
             if (currentPlayer.getActor().isAlive()){
                 currentPlayer.takeTurn();
                 try {
@@ -129,6 +131,7 @@ public class GameManager {
                 }
             }
             turnLatch = new CountDownLatch(2);
+            System.out.println("Turn ended");
         } else {
             playerIterator = students.iterator();
             aiTurn();

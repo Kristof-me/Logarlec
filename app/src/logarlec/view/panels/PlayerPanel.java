@@ -71,12 +71,10 @@ public class PlayerPanel extends View {
         nameLabel.setForeground(ColorGenerator.getInstance().getForegroundColor(student.getColor()));
     }
 
-
     @Override
     public void updateView() {
         GameFrame.getInstance().updateStudent();
     }
-
 
     @Override
     public View removeView() {
@@ -85,6 +83,4 @@ public class PlayerPanel extends View {
         viewedPlayer.removeListener(this);
         return this;
     }
-
-
 }

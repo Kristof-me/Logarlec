@@ -1,7 +1,5 @@
 package logarlec.control.controller;
 
-import java.awt.Color;
-
 import logarlec.model.actor.Actor;
 import logarlec.model.actor.actions.IActions;
 import logarlec.model.items.Item;

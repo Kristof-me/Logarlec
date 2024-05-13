@@ -17,9 +17,6 @@ import logarlec.view.panels.RoomPanel;
  * Item Holder View Factory
  */
 public class ItemHolderViewFactory {
-    // these are separated for optimization purposes
-    private static HashMap<Student, PlayerPanel> studentViews = new HashMap<>(); 
-    private static HashMap<Room, RoomPanel> roomViews = new HashMap<>(); 
 
     // todo  kristóf írta, -30 IMSc-s megoldás
     private static RoomPanel autoPlaceTo = null;
@@ -29,13 +26,9 @@ public class ItemHolderViewFactory {
     }
 
     public PlayerPanel createMenuPanel(Student student) {
-        if (studentViews.containsKey(student)) {
-            return studentViews.get(student);
-        }
-
         PlayerPanel playerPanel = new PlayerPanel(student);
         student.addListener(playerPanel);
-        studentViews.put(student, playerPanel);
+
         return playerPanel;
     }
 
@@ -70,13 +63,8 @@ public class ItemHolderViewFactory {
     }
 
     public RoomPanel createPanel(Room room) {
-        if (roomViews.containsKey(room)) {
-            return roomViews.get(room);
-        }
-
         RoomPanel roomPanel = new RoomPanel(room);
         room.addListener(roomPanel);
-        roomViews.put(room, roomPanel);
         
         return roomPanel;
     }
