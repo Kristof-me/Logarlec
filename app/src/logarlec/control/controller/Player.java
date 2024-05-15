@@ -46,6 +46,7 @@ public class Player extends Controller<Student> {
     public boolean move(Door door) {
         boolean re = super.move(door);
         if (re) GameManager.getInstance().takeStep();
+        actor.update();
         return re;
 	}
 
@@ -53,18 +54,21 @@ public class Player extends Controller<Student> {
 	public void use(Item item) {
         super.use(item);
         GameManager.getInstance().takeStep();
+        actor.update();
 	}
 
     @Override
 	public boolean pickUp(Item item) {
         boolean re = actor.pickUp(item);
         if (re) GameManager.getInstance().takeStep();
+        actor.update();
         return re;
 	}
-
+    
     @Override
 	public void drop(Item item) {
         super.drop(item);
         GameManager.getInstance().takeStep();
+        actor.update();
     }
 }

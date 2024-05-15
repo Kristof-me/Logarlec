@@ -74,9 +74,7 @@ public class PlayerPanel extends View {
 
     @Override
     public void updateView() {
-        //Should set count to one less than the current step count, as the step count is decremented after the update
-        //Since the update is only called with a player action, this should not show incorrent information
-        endTurnButton.setText("End Turn (" + (GameManager.getInstance().getStepCount() -1) + ")");
+        endTurnButton.setText("End Turn (" + GameManager.getInstance().getStepCount() + ")");
         GameFrame.getInstance().updateStudent();
     }
 

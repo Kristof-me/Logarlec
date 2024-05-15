@@ -199,7 +199,7 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
         if (!alive)
             return false;
         boolean result = actionState.pickUp(item);
-        if (result) update();
+        update();
         return result;
     }
 
