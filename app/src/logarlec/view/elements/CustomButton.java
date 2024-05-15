@@ -31,9 +31,6 @@ public class CustomButton extends JButton {
         this.highlightColor = getBackground().darker();
     }
 
-    public void setText(String text) {
-        super.setText(text);
-    }
     public CustomButton(Icon icon, Consumer<ActionEvent> action) {
         this(icon, "", action);
     }
