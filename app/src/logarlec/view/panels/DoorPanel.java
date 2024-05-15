@@ -26,6 +26,7 @@ public class DoorPanel extends View {
     }
 
     public void bindRoom(Room room) {
+        if (door.leadsTo(room) == null) return;
         if (button != null)
             remove(button);
 
@@ -34,7 +35,7 @@ public class DoorPanel extends View {
         });
 
         add(button);
-        add(new JLabel("KA" + door.leadsTo(room).getId()));
+        add(new JLabel("KA-" + door.leadsTo(room).getId()));
 
         revalidate();
         repaint();

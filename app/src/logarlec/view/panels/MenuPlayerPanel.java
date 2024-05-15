@@ -3,6 +3,7 @@ package logarlec.view.panels;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentListener;
 
 import logarlec.control.controller.Player;
 import logarlec.view.elements.CustomButton;
@@ -25,6 +26,22 @@ public class MenuPlayerPanel extends JPanel{
 
         //create a row that has a border with the players color, the players name in an editable field, and two buttons to the right
         JTextField name = new JTextField(player.getActor().getName());
+        name.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                player.getActor().setName(name.getText());
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                player.getActor().setName(name.getText());
+            }
+
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                player.getActor().setName(name.getText());
+            }
+        });
         
         name.setBackground(new Color(238, 238, 238));
         name.setBorder(new EmptyBorder(0, 0, 0, 0));

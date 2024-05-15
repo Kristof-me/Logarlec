@@ -21,7 +21,7 @@ import logarlec.view.panels.RoomPanel;
  */
 public class Room extends GameObject implements IHasLocation {
     private int id;
-    private static int nextId = 111;
+    private static int nextId = 1111;
     private Integer capacity = 10;
 
     private List<Actor> actors = new ArrayList<>();
@@ -40,7 +40,8 @@ public class Room extends GameObject implements IHasLocation {
     public Room(Integer capacity) {
         this.capacity = capacity;
         this.id = nextId++;
-        inventory = new Inventory(this);   
+        System.out.println("Room created with id: " + id);
+        inventory = new Inventory(this);
     }
 
     public int getId() {

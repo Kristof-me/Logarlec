@@ -47,7 +47,10 @@ public class RoomPanel extends View {
 
         int i = 0;
         for (Door door : room.getDoors()) {
+            //Do not create door if it is one-way in the other direction, or it is invisible
+            if (door.leadsTo(room) == null || door.getRemainingInvisibility() > 0) continue;
             DoorPanel doorPanel = door.createOwnView();
+            
             doorPanel.bindRoom(room);
 
             doorLists[i++ % 4].addDoor(doorPanel);

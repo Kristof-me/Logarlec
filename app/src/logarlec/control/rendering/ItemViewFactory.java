@@ -37,6 +37,7 @@ public class ItemViewFactory extends ItemVisitor {
 
     public void visit(FakeItem fakeItem) {
         fakeItem.getItemToFake().accept(this);
+        panel = new ItemPanel<FakeItem>(fakeItem, panel.getIcon());
         fakeItem.addListener(panel);
     }
 

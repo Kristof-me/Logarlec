@@ -72,11 +72,27 @@ public class MenuFrame extends JFrame {
 
         
         CustomButton startGame = new CustomButton("Start Game", e -> {
-            // todo start the game
+            if (players.size() < 1) {
+                JOptionPane.showMessageDialog(this, "You must have at least one player to start the game.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            boolean hasEmptyName = false;
+            for (Player player : players) {
+                if (player.getActor().getName().isBlank()) {
+                    hasEmptyName = true;
+                    break;
+                }
+            }
+            if (hasEmptyName) {
+                JOptionPane.showMessageDialog(this, "All players must have a name to start the game.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            GameManager.getInstance().reset();
             for (Player player : players) {
                 GameManager.getInstance().addPlayer(player);
             }
             GameManager.getInstance().startGame();
+            
         });
 
         this.add(startGame, constraints);

@@ -61,7 +61,7 @@ public class GameFrame extends JFrame {
             remove(roomPanel.removeView());
             roomPanel = playerPanel.getViewedPlayer().getLocation().createOwnView();
             add(roomPanel, BorderLayout.CENTER);
-            roomLabel.setText("KA" + playerPanel.getViewedPlayer().getLocation().getId());
+            roomLabel.setText("KA-" + playerPanel.getViewedPlayer().getLocation().getId());
             effectListPanel.bindStudent(playerPanel.getViewedPlayer());
             this.repaint();
             this.revalidate();
@@ -79,7 +79,7 @@ public class GameFrame extends JFrame {
         // adding player panel
         this.add(playerPanel, BorderLayout.SOUTH);
 
-        roomLabel.setText("KA" + player.getLocation().getId());
+        roomLabel.setText("KA-" + player.getLocation().getId());
 
         // adding effects
         effectListPanel.bindStudent(playerPanel.getViewedPlayer());

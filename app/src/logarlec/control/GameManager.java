@@ -12,8 +12,8 @@ import logarlec.control.controller.ProfessorAI;
 import java.util.Iterator;
 
 public class GameManager {
-    private final int MERGE_PERCENT = 10;
-    private final int SLIT_PERCENT = 10;
+    private final static int MERGE_PERCENT = 10;
+    private final static int SLIT_PERCENT = 10;
     private static GameManager instance;
     private MapManager mapManager;
     private int currentTick = 0;
@@ -80,27 +80,24 @@ public class GameManager {
         janitors.add(janitor);
     }
 
-
-    // public void addStudent(Student student) {
-    //     students.add(student);
-    // }
-    
-    // public void addProfessor(Professor professor) {
-    //     professors.add(professor);
-    // }
-
-    // public void addJanitor(Janitor janitor) {
-    //     janitors.add(janitor);
-    // }
-
     public void slideRulePickedUp() {
         anySlideRulePickedUp = true;
     }
     
     public void startGame() {
-        // reset();
+        //Todo: real random placement
+        for (int i = 0; i < students.size(); i++) {
+            students.get(i).getActor().teleport(mapManager.getRooms().get(i), false);
+        }
         //TODO: create profs and janitors based on number of players
         playerIterator = students.iterator();
+        GameFrame gameFrame = GameFrame.getInstance();
+        new Thread(() -> {
+            gameFrame.setVisible(true);
+        }).start();
+        while (!isGameOver()) {
+            playTurn();
+        }
     }
     
     CountDownLatch turnLatch = new CountDownLatch(2);
