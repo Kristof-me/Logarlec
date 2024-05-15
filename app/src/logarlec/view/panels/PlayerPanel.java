@@ -20,7 +20,7 @@ public class PlayerPanel extends View {
 
     protected JLabel nameLabel;
     protected InventoryPanel inventoryPanel;
-
+    CustomButton endTurnButton;
     public PlayerPanel(Student student) {
         super();
         this.viewedPlayer = student;
@@ -60,8 +60,9 @@ public class PlayerPanel extends View {
         c.fill = GridBagConstraints.VERTICAL;
         c.anchor = GridBagConstraints.EAST;
 
-        CustomButton endTurnButton =
-                new CustomButton("End Turn", e -> GameManager.getInstance().getCurrentPlayer().skipTurn());
+        endTurnButton =
+                new CustomButton("End Turn (" + GameManager.getInstance().getStepCount() + ")",
+                 e -> GameManager.getInstance().getCurrentPlayer().skipTurn());
 
         endTurnButton.setPreferredSize(new Dimension(100, 50));
         this.add(endTurnButton, c);
@@ -73,6 +74,9 @@ public class PlayerPanel extends View {
 
     @Override
     public void updateView() {
+        //Should set count to one less than the current step count, as the step count is decremented after the update
+        //Since the update is only called with a player action, this should not show incorrent information
+        endTurnButton.setText("End Turn (" + (GameManager.getInstance().getStepCount() -1) + ")");
         GameFrame.getInstance().updateStudent();
     }
 
