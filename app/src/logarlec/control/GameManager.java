@@ -103,7 +103,6 @@ public class GameManager {
     CountDownLatch turnLatch = new CountDownLatch(2);
 
     public long getStepCount() {
-        System.out.println("latch: " + turnLatch.getCount());
         return turnLatch.getCount();
     }
 

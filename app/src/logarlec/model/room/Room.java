@@ -40,7 +40,6 @@ public class Room extends GameObject implements IHasLocation {
     public Room(Integer capacity) {
         this.capacity = capacity;
         this.id = nextId++;
-        System.out.println("Room created with id: " + id);
         inventory = new Inventory(this);
     }
 

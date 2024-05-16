@@ -45,15 +45,26 @@ public class RoomPanel extends View {
             scrollLists[i] = createDoorScrollPane(i);
         }
 
-        int i = 0;
         for (Door door : room.getDoors()) {
+            Room other = door.leadsTo(room);
             //Do not create door if it is one-way in the other direction, or it is invisible
-            if (door.leadsTo(room) == null || door.getRemainingInvisibility() > 0) continue;
+            if (other == null || door.getRemainingInvisibility() > 0) continue;
             DoorPanel doorPanel = door.createOwnView();
-            
-            doorPanel.bindRoom(room);
 
-            doorLists[i++ % 4].addDoor(doorPanel);
+            int idXor = room.getId() ^ other.getId();
+            int c = 0;
+            while (idXor > 0) {
+                c += idXor & 1;
+                idXor >>= 1;
+            }
+            int side = c % 4;
+
+            if (room.getId() < other.getId()){
+                side = (side + 2) % 4;
+            }
+
+            doorLists[side].addDoor(doorPanel);
+            doorPanel.bindRoom(room);
         }
 
         // add door lists
