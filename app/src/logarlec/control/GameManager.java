@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+import logarlec.model.items.impl.SlideRule;
 import logarlec.model.room.*;
 import logarlec.view.frames.GameFrame;
 import logarlec.control.controller.JanitorAI;
@@ -14,6 +15,8 @@ import java.util.Iterator;
 public class GameManager {
     private final static int MERGE_PERCENT = 10;
     private final static int SLIT_PERCENT = 10;
+    private final static float PROFESSOR_TO_STUDENT_RATIO = 0.5f;
+    private final static float JANITOR_TO_STUDENT_RATIO = 0.3f;
     private static GameManager instance;
     private MapManager mapManager;
     private int currentTick = 0;
@@ -65,7 +68,7 @@ public class GameManager {
         professors.clear();
         janitors.clear();
         anySlideRulePickedUp = false;
-        mapManager = new MapManager(50, 50);
+        mapManager = new MapManager(10, 10);
         currentTick = 0;
     }
 
@@ -87,9 +90,21 @@ public class GameManager {
     public void startGame() {
         //Todo: real random placement
         for (int i = 0; i < students.size(); i++) {
-            students.get(i).getActor().teleport(mapManager.getRooms().get(i), false);
+            students.get(i).getActor().teleport(mapManager.getRandomEmptyRoom(), false);
         }
-        //TODO: create profs and janitors based on number of players
+        for (int i = 0; i < students.size() * PROFESSOR_TO_STUDENT_RATIO; i++) {
+            ProfessorAI professor = new ProfessorAI();
+            //addProfessor(professor);
+            //professor.getActor().teleport(mapManager.getRandomEmptyRoom(), false);
+        }
+        for (int i = 0; i < students.size() * JANITOR_TO_STUDENT_RATIO; i++) {
+            JanitorAI janitor = new JanitorAI();
+            //addJanitor(janitor);
+            //janitor.getActor().teleport(mapManager.getRandomEmptyRoom(), false);
+        }
+        Room room = mapManager.getRandomEmptyRoom();
+        room.addItem(new SlideRule());
+        System.out.println("Sliderule in " + room.getId());
         playerIterator = students.iterator();
         GameFrame gameFrame = GameFrame.getInstance();
         new Thread(() -> {
@@ -129,9 +144,9 @@ public class GameManager {
                 }
             }
             turnLatch = new CountDownLatch(2);
-            System.out.println("Turn ended");
         } else {
             playerIterator = students.iterator();
+            turnLatch = new CountDownLatch(2);
             aiTurn();
         }
     }

@@ -33,11 +33,11 @@ public abstract class Item extends GameObject {
      * @param invoker The actor that uses the item.
      */
     public void use(Actor invoker) {
-        update();
         if (usesLeft <= 0 && inventory != null) {
             inventory.removeItem(this);
             inventory.update();
         }
+        update();
     }
 
     /**

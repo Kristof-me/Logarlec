@@ -48,6 +48,9 @@ public class MapManager {
         Room r1 = rooms.get(room1);
         int door = (int) (Math.random() * r1.getDoors().size());
         Room r2 = r1.getDoors().get(door).leadsTo(r1);
+        if (r2 == null) {
+            return;
+        }
         r2.merge(r1);
         rooms.remove(r1);
     }
@@ -192,5 +195,13 @@ public class MapManager {
 
     public Room getSolution() {
         return solution;
+    }
+
+    public Room getRandomEmptyRoom() {
+        Room room = null;
+        do {
+            room = rooms.get((int) (Math.random() * rooms.size()));
+        } while (room == null || room.getActors().size() > 0);
+        return room;
     }
 }

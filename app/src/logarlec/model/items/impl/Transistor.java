@@ -91,6 +91,7 @@ public class Transistor extends Item {
      */
     public void pairWith(Transistor pair) {
         this.pair = pair;
+        update();
         
     }
 
