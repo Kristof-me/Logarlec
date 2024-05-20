@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 
 import javax.swing.JButton;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import java.awt.Color;
 
@@ -136,6 +137,16 @@ public class CustomButton extends JButton {
      */
     public void setHighlightColor(Color color) {
         this.highlightColor = color;  
+    }
+
+    /** 
+     * Makes the button opaque.
+     */
+    public void MakeOpaque() {
+        setBackground(new Color(0, 0, 0, 0));
+        setOpaque(true);
+        setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+        repaint();
     }
 }
 

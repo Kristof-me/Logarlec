@@ -17,18 +17,18 @@ public class ThemeManager {
 
     // COLORS
     // todo setup properly
-    final Color PRIMARY = colorFrom("#F00");
-    final Color PRIMARY_LIGHT = colorFrom("#F00");
-    final Color ACCENT = colorFrom("#F00"); // todo backup color
+    public final Color PRIMARY = colorFrom("#F00");
+    public final Color PRIMARY_LIGHT = colorFrom("#F00");
+    public final Color ACCENT = colorFrom("#F00"); // todo backup color
 
-    final Color BACKGROUND = colorFrom("#545454");
+    public final Color BACKGROUND = colorFrom("#808080");
     
-    final Color SCROLL = colorFrom("#AAA");
-    final Color TRACK = colorFrom("#777");
+    public final Color SCROLL = colorFrom("#FFF");
+    public final Color TRACK = colorFrom("#434343");
     
-    final Color TEXT = colorFrom("#EEE");
-    final Color TEXT_DARK = colorFrom("#000");
-    final Color BUTTON = PRIMARY;
+    public final Color TEXT = colorFrom("#FFF");
+    public final Color TEXT_DARK = colorFrom("#000");
+    public final Color BUTTON = colorFrom("#1A1A1A");
 
     Font FONT;
     final int FONT_SIZE = 14;
@@ -68,7 +68,7 @@ public class ThemeManager {
      * @param hex - the hex string (starts with # and has 3 to 8 digits for rgb and rgba)
      * @return the color, NULL if the string is invalid
      */
-    private Color colorFrom(String hex) {
+    public Color colorFrom(String hex) {
         int[] rgba = {0, 0, 0, 255};
 
         if (hex.isEmpty() || hex.charAt(0) != '#' || hex.length() < 4 || hex.length() > 9) {
@@ -110,7 +110,7 @@ public class ThemeManager {
     }
     
     private void setButtonStyle() {
-        int BUTTON_BORDER = 2;
+        int BUTTON_BORDER = 3;
 
         UIManager.put("Button.background", BUTTON);
         UIManager.put("Button.foreground", TEXT);

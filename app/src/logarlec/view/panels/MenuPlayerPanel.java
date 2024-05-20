@@ -9,23 +9,29 @@ import logarlec.control.controller.Player;
 import logarlec.view.elements.CustomButton;
 import logarlec.view.frames.MenuFrame;
 import logarlec.view.utility.IconLoader;
+import logarlec.view.utility.ThemeManager;
 
 import java.awt.*;
 
 public class MenuPlayerPanel extends JPanel{
     private Player player;
-    private MenuFrame menu;
     
     public MenuPlayerPanel(Player player, MenuFrame menu){
         super();
-        this.menu = menu;
+        Color panelColor = new Color(217, 217, 217);
+        
         this.player = player;
         this.setLayout(new GridBagLayout());
         this.setMaximumSize(new Dimension(300, 40));
+        this.setBackground(panelColor);
+
         GridBagConstraints constraints = new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 1, 0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0);
 
         //create a row that has a border with the players color, the players name in an editable field, and two buttons to the right
         JTextField name = new JTextField(player.getActor().getName());
+        name.setBackground(panelColor);
+        name.setBorder(new EmptyBorder(0, 0, 0, 0));
+
         name.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(javax.swing.event.DocumentEvent e) {
@@ -36,15 +42,13 @@ public class MenuPlayerPanel extends JPanel{
             public void removeUpdate(javax.swing.event.DocumentEvent e) {
                 player.getActor().setName(name.getText());
             }
-
+            
             @Override
             public void changedUpdate(javax.swing.event.DocumentEvent e) {
                 player.getActor().setName(name.getText());
             }
         });
         
-        name.setBackground(new Color(238, 238, 238));
-        name.setBorder(new EmptyBorder(0, 0, 0, 0));
         this.add(name, constraints);
 
         constraints.fill = GridBagConstraints.NONE;
@@ -55,6 +59,7 @@ public class MenuPlayerPanel extends JPanel{
         });
 
         reset.setPreferredSize(new Dimension(20, 20));
+        reset.MakeOpaque();
         this.add(reset, constraints);
 
         constraints.fill = GridBagConstraints.NONE;
@@ -63,12 +68,15 @@ public class MenuPlayerPanel extends JPanel{
             this.setVisible(false);
         });
         delete.setPreferredSize(new Dimension(20, 20));
+        delete.MakeOpaque();
         this.add(delete, constraints);
 
         drawBorder();
     }
 
     private void drawBorder() {
-        setBorder(new CompoundBorder(new EmptyBorder(5, 5, 5, 5), BorderFactory.createLineBorder(player.getActor().getColor(), 2)));
+        setBorder(new CompoundBorder(BorderFactory.createLineBorder(ThemeManager.getInstance().TRACK, 3), BorderFactory.createLineBorder(player.getActor().getColor(), 3)));
+        revalidate();
+        repaint();
     }
 }
