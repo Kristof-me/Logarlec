@@ -45,7 +45,7 @@ public abstract class EffectPanel extends View {
     }
 
     protected void setTurnsLeft(int turnsLeft) {
-        turnsLabel.setText("Turns left: " + turnsLeft);
+        turnsLabel.setText("Turns left: " + turnsLeft); // ! TODO FIX THIS
 
         GameFrame.getInstance().getEffectListPanel().revalidate();
         GameFrame.getInstance().getEffectListPanel().repaint();

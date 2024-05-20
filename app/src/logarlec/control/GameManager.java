@@ -6,6 +6,7 @@ import java.util.concurrent.CountDownLatch;
 
 import logarlec.model.items.impl.SlideRule;
 import logarlec.model.room.*;
+import logarlec.view.frames.GameEndFrame;
 import logarlec.view.frames.GameFrame;
 import logarlec.view.frames.MenuFrame;
 import logarlec.control.controller.JanitorAI;
@@ -28,7 +29,6 @@ public class GameManager {
     private ArrayList<ProfessorAI> professors = new ArrayList<>();
     private ArrayList<JanitorAI> janitors = new ArrayList<>();
     private List<Room> rooms;
-    private MenuFrame menuFrame;
 
     private boolean anySlideRulePickedUp = false;
 
@@ -92,9 +92,8 @@ public class GameManager {
         anySlideRulePickedUp = true;
     }
     
-    public void startGame(MenuFrame fromSetup) {
-        menuFrame = fromSetup;
-        fromSetup.setVisible(false);
+    public void startGame(MenuFrame menuFrame) {
+        menuFrame.setVisible(false);
 
         // calculating the map size (about 280 students max)
         float x = (float) students.size();
@@ -120,11 +119,13 @@ public class GameManager {
 
             int n = (int) (Math.random() * professorNames.length);
             professor.getActor().setName(professorNames[n]);
-            professor.getActor().teleport(mapManager.getRandomEmptyRoom(), false);
+            Room t = mapManager.getRandomEmptyRoom();
+            System.out.println("Professor " + professor.getActor().getName() + " in " + t.getId());
+            professor.getActor().teleport(t, false);
         }
 
         String[] janitorNames = { "Mária", "Erzsébet", "Katalin", "Éva", "Ilona", "László", "István", "József", "Zoltán", "János" };
-        String[] janitorLocations = { "Library", "Hallways", "Cafeteria", "Gym", "Storage", "Courtyard", "Roof" };
+        String[] janitorLocations = { "Library", "Hallways", "Cafeteria", "Gym", "Storage Rooms", "Courtyard", "Rooftop" };
 
         for (int i = 0; i < janitorCount; i++) {
             JanitorAI janitor = new JanitorAI();
@@ -151,8 +152,9 @@ public class GameManager {
         }
 
         System.out.println("Game over");
+        GameEndFrame gameEndFrame = new GameEndFrame(menuFrame, isWon());
+        gameEndFrame.setVisible(true);
         gameFrame.setVisible(false);
-        menuFrame.setVisible(true);
     }
     
     CountDownLatch turnLatch = new CountDownLatch(2);
@@ -161,9 +163,11 @@ public class GameManager {
         return turnLatch.getCount();
     }
 
-    public void takeStep(){
+    public void takeStep() {
+        System.out.println("Step taken");
         turnLatch.countDown();
     }
+
     private Player currentPlayer;
     public Player getCurrentPlayer(){
         return currentPlayer;

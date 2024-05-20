@@ -17,6 +17,10 @@ public class Player extends Controller<Student> {
         super(student);
     }
 
+    public void reset() {
+        actor = new Student();
+    }
+
     public void skipTurn() {
         long count = GameManager.getInstance().getStepCount();
         for (long i = 0; i < count; i++) {
