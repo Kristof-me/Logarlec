@@ -97,12 +97,7 @@ public class MenuFrame extends JFrame {
                 return;
             }
 
-            GameManager.getInstance().reset();
-            for (Player player : players) {
-                GameManager.getInstance().addPlayer(player);
-            }
-
-            GameManager.getInstance().startGame(this);
+            createGame(false);
         });
 
         startGame.setFont(ThemeManager.getInstance().getFont(Font.BOLD, 18));
@@ -119,6 +114,17 @@ public class MenuFrame extends JFrame {
 
         exit.setFont(ThemeManager.getInstance().getFont(Font.BOLD, 18));
         this.add(exit, constraints);
+    }
+
+    public void createGame(boolean resetPlayers) {
+        GameManager.getInstance().reset();
+            for (Player player : players) {
+                if (resetPlayers) player.reset();
+
+                GameManager.getInstance().addPlayer(player);
+            }
+
+            GameManager.getInstance().startGame(this);
     }
 
     public void deletePlayer(Player player, MenuPlayerPanel panel) {
