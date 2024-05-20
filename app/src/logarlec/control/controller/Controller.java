@@ -1,6 +1,5 @@
 package logarlec.control.controller;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import logarlec.model.actor.Actor;
@@ -39,9 +38,9 @@ public abstract class Controller<T extends Actor> implements IActions {
 
     public class DijkstraResult {
         public ArrayList<Integer> distances;
-        public ArrayList<Integer> reachedFrom;
+        public Integer[] reachedFrom;
 
-        public DijkstraResult(ArrayList<Integer> distances, ArrayList<Integer> reachedFrom){
+        public DijkstraResult(ArrayList<Integer> distances, Integer[] reachedFrom){
             this.distances = distances;
             this.reachedFrom = reachedFrom;
         }
@@ -49,10 +48,9 @@ public abstract class Controller<T extends Actor> implements IActions {
 
     // do a dijkstra on the matrix
     protected DijkstraResult getDistances(ArrayList<ArrayList<Integer>> mtx, int start){
-        ArrayList<Integer> distances = new ArrayList<>();
-        
-        ArrayList<Integer> reachedFrom = new ArrayList<>();
-        
+        ArrayList<Integer> distances = new ArrayList<>(mtx.size());
+        Integer[] reachedFrom = new Integer[mtx.size()];
+    
         for(int i = 0; i < mtx.size(); i++){
             if(i == start){
                 distances.add(0);
@@ -64,7 +62,7 @@ public abstract class Controller<T extends Actor> implements IActions {
                 distances.add(Integer.MAX_VALUE);
             }
         }
-
+        
         ArrayList<Integer> visited = new ArrayList<>();
 
         int prevMinIndex = start;
@@ -80,7 +78,7 @@ public abstract class Controller<T extends Actor> implements IActions {
             }
 
             visited.add(minIndex);
-            reachedFrom.set(minIndex, prevMinIndex);
+            reachedFrom[minIndex] = prevMinIndex;
             prevMinIndex = minIndex;
 
             for(int i = 0; i < mtx.get(minIndex).size(); i++){
@@ -95,10 +93,10 @@ public abstract class Controller<T extends Actor> implements IActions {
         return new DijkstraResult(distances, reachedFrom);
     }
 
-    protected int firstStepTo(int from, int to, ArrayList<Integer> reachedFrom){
+    protected int firstStepTo(int from, int to, Integer[] reachedFrom){
         int current = to;
-        while(reachedFrom.get(current) != from){
-            current = reachedFrom.get(current);
+        while(reachedFrom[current] != from){
+            current = reachedFrom[current];
         }
         return current;
     }

@@ -96,12 +96,13 @@ public class MenuFrame extends JFrame {
                 JOptionPane.showMessageDialog(this, "All players must have a name to start the game.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
             GameManager.getInstance().reset();
             for (Player player : players) {
                 GameManager.getInstance().addPlayer(player);
             }
-            GameManager.getInstance().startGame();
-            
+
+            GameManager.getInstance().startGame(this);
         });
 
         startGame.setFont(ThemeManager.getInstance().getFont(Font.BOLD, 18));

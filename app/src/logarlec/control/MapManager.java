@@ -22,10 +22,10 @@ import logarlec.model.room.Room;
 public class MapManager {
     private int height;
     private int width;
-    private final double excessDoorChance = 0.5;
+    private final double excessDoorChance = 0.1;
     private final double oneWayDoorChance = 0.5;
-    private final double itemSpawnChance = 0.5;
-    private final double fakeItemChance = 0.5;
+    private final double itemSpawnChance = 0.6;
+    private final double fakeItemChance = 0.15;  
     private final Constructor[] constructors = new Constructor[] {SlideRule.class.getConstructors()[0],
             AirFreshener.class.getConstructors()[0], Beer.class.getConstructors()[0], Camembert.class.getConstructors()[0],
             Cocktail.class.getConstructors()[0], GasMask.class.getConstructors()[0], Sponge.class.getConstructors()[0],
@@ -60,7 +60,6 @@ public class MapManager {
         Room r = rooms.get(room);
         rooms.add(r.split());
     }
-
 
     private List<Room> generateMap(int height, int width) {
         this.height = height;

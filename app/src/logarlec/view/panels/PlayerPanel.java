@@ -78,11 +78,6 @@ public class PlayerPanel extends View {
 
     @Override
     public void updateView() {
-        long stepCount = GameManager.getInstance().getStepCount();
-        if(stepCount == 0) {
-            System.out.println("it's 0");
-        }
-        
         endTurnButton.setText("End Turn (" + GameManager.getInstance().getStepCount() + ")");
         GameFrame.getInstance().updateStudent();
     }
