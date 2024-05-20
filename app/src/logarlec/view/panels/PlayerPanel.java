@@ -35,7 +35,7 @@ public class PlayerPanel extends View {
         c.anchor = GridBagConstraints.WEST;
 
         this.setPreferredSize(new Dimension(800, 50));
-        nameLabel = new JLabel("placeholder");
+        nameLabel = new JLabel("-");
         nameLabel.setOpaque(true);
         nameLabel.setBorder(new LineBorder(Color.BLACK, 5));
         nameLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -74,6 +74,11 @@ public class PlayerPanel extends View {
 
     @Override
     public void updateView() {
+        long stepCount = GameManager.getInstance().getStepCount();
+        if(stepCount == 0) {
+            System.out.println("it's 0");
+        }
+        
         endTurnButton.setText("End Turn (" + GameManager.getInstance().getStepCount() + ")");
         GameFrame.getInstance().updateStudent();
     }

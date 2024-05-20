@@ -142,11 +142,24 @@ public class CustomButton extends JButton {
     /** 
      * Makes the button opaque.
      */
-    public void MakeOpaque() {
-        setBackground(new Color(0, 0, 0, 0));
-        setOpaque(true);
-        setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+    public void makeOpaque(boolean trulyOpaque) {
+        removeBorder();
+        
+        if(trulyOpaque) {
+            setBackground(new Color(0, 0, 0, 0));
+            setOpaque(true);
+        } else if(getParent() != null) {
+            setBackground(getParent().getBackground());
+        }
+        
         repaint();
+    }
+
+    /**
+     * Removes the border.
+     */
+    public void removeBorder() {
+        setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
     }
 }
 

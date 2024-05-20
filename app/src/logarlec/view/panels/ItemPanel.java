@@ -4,9 +4,13 @@ import logarlec.control.GameManager;
 import logarlec.model.items.Item;
 import logarlec.view.observerviews.View;
 import logarlec.view.utility.IconLoader;
+import logarlec.view.utility.ThemeManager;
 
 import java.awt.*;
+
 import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 public class ItemPanel<T extends Item> extends View {
     protected T item;
@@ -15,6 +19,7 @@ public class ItemPanel<T extends Item> extends View {
     protected JLabel usesLeft;
     protected JLabel iconLabel;
     protected JPopupMenu popupMenu;
+    boolean isSelected = false;
 
     public ItemPanel(T item, String icon) {
         super();
@@ -47,19 +52,40 @@ public class ItemPanel<T extends Item> extends View {
         gbc.anchor = GridBagConstraints.SOUTHEAST;
         this.add(usesLeft, gbc);
 
-        this.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+        popupMenu = new JPopupMenu();
+        addPopupmenuListener(popupMenu);
+        popupMenu.setBackground(ThemeManager.BACKGROUND);
+        popupMenu.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+
+        this.setComponentPopupMenu(popupMenu);
+
         updateView();
     }
 
     @Override
     public void updateView() {
         usesLeft.setText(item.getUsesLeft().toString());
-
+        
         if (item.isEquipped()) {
             setActorPopupMenu();
         } else {
             setRoomPopupMenu();
         }
+
+        setColors();
+    }
+
+    protected void setColors() {
+        boolean darkBackground = !item.isEquipped();
+
+        if(isSelected) {
+            this.setBackground(ThemeManager.TRACK);
+        } else {
+            this.setBackground(darkBackground ? ThemeManager.BACKGROUND_DARK : ThemeManager.BACKGROUND);
+        }
+
+        this.setBorder(BorderFactory.createLineBorder(darkBackground ? ThemeManager.BACKGROUND : ThemeManager.BUTTON, 2));
+        repaint();
     }
 
     public String getIcon() {
@@ -67,35 +93,60 @@ public class ItemPanel<T extends Item> extends View {
     }
 
     protected void setActorPopupMenu() {
-        popupMenu = new JPopupMenu();
+        popupMenu.removeAll();
 
         JMenuItem useItem = new JMenuItem("Use");
         useItem.addActionListener(e -> {
             GameManager.getInstance().getCurrentPlayer().use(item);
         });
+
+        useItem.setBackground(ThemeManager.BACKGROUND);
         popupMenu.add(useItem);
+        
         JMenuItem dropItem = new JMenuItem("Drop");
         dropItem.addActionListener(e -> {
             GameManager.getInstance().getCurrentPlayer().drop(item);
         });
-        popupMenu.add(dropItem);
 
-        this.setComponentPopupMenu(popupMenu);
+        dropItem.setBackground(ThemeManager.BACKGROUND);
+        popupMenu.add(dropItem);
     }
 
     protected void setRoomPopupMenu() {
-        popupMenu = new JPopupMenu();
+        popupMenu.removeAll();
 
         JMenuItem pickupItem = new JMenuItem("Pick up");
         pickupItem.addActionListener(e -> {
             GameManager.getInstance().getCurrentPlayer().pickUp(item);
+            System.out.println("Picked up " + item.getClass().getSimpleName());
         });
-        popupMenu.add(pickupItem);
 
-        this.setComponentPopupMenu(popupMenu);
-        // TODO remove this
-        // popupMenu.revalidate();
-        // popupMenu.repaint();
+        pickupItem.setBackground(ThemeManager.BACKGROUND);
+        popupMenu.add(pickupItem);
+    }
+
+    void addPopupmenuListener(JPopupMenu popupMenu) {
+        popupMenu.addPopupMenuListener(new PopupMenuListener() {
+
+            @Override
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                isSelected = true;
+                setColors();
+            }
+
+            @Override
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+                isSelected = false;
+                setColors();
+            }
+
+            @Override
+            public void popupMenuCanceled(PopupMenuEvent e) {
+                isSelected = false;
+                setColors();
+            }
+            
+        });
     }
 
     @Override

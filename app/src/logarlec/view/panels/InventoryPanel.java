@@ -1,7 +1,5 @@
 package logarlec.view.panels;
 
-import javax.swing.*;
-
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
 import logarlec.view.observerviews.View;
@@ -12,10 +10,12 @@ import java.awt.*;
 
 public class InventoryPanel extends View {
     private Inventory inventory;
+    private boolean isDark;
     List<ItemPanel<? extends Item>> itemPanels = new ArrayList<ItemPanel<? extends Item>>();
 
     public InventoryPanel(Inventory inventory) {
         this.inventory = inventory;
+        this.isDark = inventory.getSize() == Integer.MAX_VALUE;
         drawItems();
     }
 
@@ -46,7 +46,7 @@ public class InventoryPanel extends View {
         }
 
         for (int i = inventory.getItems().size(); i < size; i++) {
-            this.add(new EmptyItemPanel());
+            this.add(new EmptyItemPanel(isDark));
         }
     }
 

@@ -36,13 +36,13 @@ public class MenuFrame extends JFrame {
         // Create a scrollable panel to hold the player panels in a vertical layout and has a vertical scrollbar, with a maximum height of 300 pixels
         JPanel playerList = new JPanel();
         playerList.setLayout(new BoxLayout(playerList, BoxLayout.Y_AXIS));
-        playerList.setBackground(ThemeManager.getInstance().TRACK);
+        playerList.setBackground(ThemeManager.TRACK);
 
         JScrollPane scrollPane = new JScrollPane(playerList);
         scrollPane.getVerticalScrollBar().setUI(new ScrollUI());
         scrollPane.setMinimumSize(new Dimension(300, 140));
         scrollPane.setPreferredSize(new Dimension(300, 140));
-        scrollPane.setBackground(ThemeManager.getInstance().TRACK);
+        scrollPane.setBackground(ThemeManager.TRACK);
         scrollPane.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
 
         // Add the player panels to the scrollable panel
@@ -62,8 +62,7 @@ public class MenuFrame extends JFrame {
             playerList.add(new MenuPlayerPanel(players.get(players.size() - 1), this));
 
             revalidate();
-            playerList.revalidate();
-            playerList.repaint();
+            repaint();
 
             super.paintComponents(getGraphics());
         });
@@ -71,7 +70,6 @@ public class MenuFrame extends JFrame {
         constraints.fill = GridBagConstraints.VERTICAL;
         addPlayer.setExpectedSize(new Dimension(240, 21));
         addPlayer.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
-        addPlayer.setBackground(ThemeManager.getInstance().TRACK);
         this.add(addPlayer, constraints);
         
         
@@ -81,7 +79,6 @@ public class MenuFrame extends JFrame {
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.insets = new Insets(0, 5, 0, 5);  // Remove bottom inset
         constraints.anchor = GridBagConstraints.SOUTH;
-
         
         CustomButton startGame = new CustomButton("Start", e -> {
             if (players.size() < 1) {
@@ -108,7 +105,7 @@ public class MenuFrame extends JFrame {
         });
 
         startGame.setFont(ThemeManager.getInstance().getFont(Font.BOLD, 18));
-        startGame.setBackground(new Color(12, 167, 137));
+        startGame.setBackground(ThemeManager.ACCENT);
         startGame.setBorder(BorderFactory.createLineBorder(new Color(12, 167, 137), 4));
         this.add(startGame, constraints);
 

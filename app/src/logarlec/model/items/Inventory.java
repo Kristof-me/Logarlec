@@ -97,7 +97,7 @@ public class Inventory extends GameObject {
     public void setSize(Integer size) {
         this.size = size;
     }
-    public int getSize() {
+    public Integer getSize() {
         return size;
     }
 

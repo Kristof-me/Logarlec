@@ -18,7 +18,7 @@ public class MenuPlayerPanel extends JPanel{
     
     public MenuPlayerPanel(Player player, MenuFrame menu){
         super();
-        Color panelColor = new Color(217, 217, 217);
+        Color panelColor = new Color(180, 180, 180);
         
         this.player = player;
         this.setLayout(new GridBagLayout());
@@ -59,8 +59,8 @@ public class MenuPlayerPanel extends JPanel{
         });
 
         reset.setPreferredSize(new Dimension(20, 20));
-        reset.MakeOpaque();
         this.add(reset, constraints);
+        reset.makeOpaque(false);
 
         constraints.fill = GridBagConstraints.NONE;
         CustomButton delete = new CustomButton(IconLoader.getInstance().getIcon("close.png", 20), e -> {
@@ -68,15 +68,16 @@ public class MenuPlayerPanel extends JPanel{
             this.setVisible(false);
         });
         delete.setPreferredSize(new Dimension(20, 20));
-        delete.MakeOpaque();
         this.add(delete, constraints);
+        delete.makeOpaque(false);
 
         drawBorder();
     }
 
     private void drawBorder() {
-        setBorder(new CompoundBorder(BorderFactory.createLineBorder(ThemeManager.getInstance().TRACK, 3), BorderFactory.createLineBorder(player.getActor().getColor(), 3)));
-        revalidate();
-        repaint();
+        setBorder(new CompoundBorder(
+            BorderFactory.createLineBorder(ThemeManager.TRACK, 2), 
+            BorderFactory.createLineBorder(player.getActor().getColor(), 4))
+        );
     }
 }

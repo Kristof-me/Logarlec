@@ -27,7 +27,7 @@ public abstract class EffectPanel extends View {
         c.gridy = 0;
         c.anchor = GridBagConstraints.CENTER;
 
-        turnsLabel = new JLabel("ASD");
+        turnsLabel = new JLabel("Turns left: ");
         this.add(turnsLabel, c);
 
         c.anchor = GridBagConstraints.EAST;

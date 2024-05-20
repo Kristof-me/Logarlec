@@ -20,9 +20,10 @@ public class DoorPanel extends View {
     public DoorPanel(Door door) {
         this.setLayout(new GridLayout(2, 1));
         this.door = door;
-
+        
         setPreferredSize(new Dimension(85, 85));
         setMaximumSize(new Dimension(85, 85));
+        setBackground(ThemeManager.BUTTON);
     }
 
     public void bindRoom(Room room) {
@@ -35,7 +36,8 @@ public class DoorPanel extends View {
         });
 
         add(button);
-        add(new JLabel("KA-" + door.leadsTo(room).getId()));
+
+        add(new JLabel("KA-" + door.leadsTo(room).getId(), SwingConstants.CENTER)); 
 
         revalidate();
         repaint();

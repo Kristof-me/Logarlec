@@ -4,9 +4,7 @@ import logarlec.model.room.Room;
 
 import java.util.HashMap;
 
-import logarlec.model.actor.Janitor;
-import logarlec.model.actor.Professor;
-import logarlec.model.actor.Student;
+import logarlec.model.actor.*;
 import logarlec.model.items.Inventory;
 import logarlec.view.panels.ActorPanel;
 import logarlec.view.panels.InventoryPanel;
@@ -17,17 +15,22 @@ import logarlec.view.panels.RoomPanel;
  * Item Holder View Factory
  */
 public class ItemHolderViewFactory {
-
-    // todo  kristóf írta, -30 IMSc-s megoldás
     private static RoomPanel autoPlaceTo = null;
+
+    HashMap<Student, PlayerPanel> playerPanels = new HashMap<>();
 
     public static void setAutoPlacement(RoomPanel target) {
         autoPlaceTo = target;
     }
 
     public PlayerPanel createMenuPanel(Student student) {
+        if(playerPanels.containsKey(student)) {
+            return playerPanels.get(student);
+        }
+
         PlayerPanel playerPanel = new PlayerPanel(student);
         student.addListener(playerPanel);
+        playerPanels.put(student, playerPanel);
 
         return playerPanel;
     }
@@ -69,8 +72,7 @@ public class ItemHolderViewFactory {
         return roomPanel;
     }
 
-    public InventoryPanel createPanel(Inventory inventory)
-    {
+    public InventoryPanel createPanel(Inventory inventory) {
         InventoryPanel panel = new InventoryPanel(inventory);
         inventory.addListener(panel);
         return panel;

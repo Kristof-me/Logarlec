@@ -1,18 +1,17 @@
 package logarlec.view.panels;
 
-import java.awt.Color;
-
 import logarlec.model.actor.strategy.DefenseStrategy;
 import logarlec.view.frames.GameFrame;
 import logarlec.view.observerviews.View;
 import logarlec.view.utility.IconLoader;
+import logarlec.view.utility.ThemeManager;
 
 public class DefenseStrategyPanel extends EffectPanel {
 
     protected DefenseStrategy defenseStrategy;
 
     public DefenseStrategyPanel(DefenseStrategy defense, String description, String icon) {
-        super(new Color(0, 200, 0), description, IconLoader.getInstance().getIcon(icon, 30));
+        super(ThemeManager.ACCENT, description, IconLoader.getInstance().getIcon(icon, 30));
         this.defenseStrategy = defense;
         this.setTurnsLeft(defenseStrategy.getRemaining());
     }

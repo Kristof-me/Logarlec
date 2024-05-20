@@ -1,6 +1,9 @@
 package logarlec.view.panels;
 
 import javax.swing.*;
+
+import logarlec.view.utility.ThemeManager;
+
 import java.awt.*;
 /**
  * DoorsPanel
@@ -9,6 +12,9 @@ public class DoorListPanel extends JPanel {
 
     public DoorListPanel(int axis) {
         this.setLayout(new BoxLayout(this, axis));
+        setBackground(ThemeManager.BUTTON);
+        setBorder(BorderFactory.createEmptyBorder());
+
         if (axis == BoxLayout.Y_AXIS){
             this.setPreferredSize(new Dimension(100, 300));
         }

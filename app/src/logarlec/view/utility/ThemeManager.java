@@ -17,18 +17,19 @@ public class ThemeManager {
 
     // COLORS
     // todo setup properly
-    public final Color PRIMARY = colorFrom("#F00");
-    public final Color PRIMARY_LIGHT = colorFrom("#F00");
-    public final Color ACCENT = colorFrom("#F00"); // todo backup color
+    public static final Color PRIMARY = colorFrom("#F00");
+    public static final Color PRIMARY_LIGHT = colorFrom("#F00");
+    public static final Color ACCENT = new Color(12, 167, 137);
 
-    public final Color BACKGROUND = colorFrom("#808080");
+    public static final Color BACKGROUND = colorFrom("#808080");
+    public static final Color BACKGROUND_DARK = new Color(105, 105, 105);
     
-    public final Color SCROLL = colorFrom("#FFF");
-    public final Color TRACK = colorFrom("#434343");
+    public static final Color SCROLL = colorFrom("#FFF");
+    public static final Color TRACK = colorFrom("#434343");
     
-    public final Color TEXT = colorFrom("#FFF");
-    public final Color TEXT_DARK = colorFrom("#000");
-    public final Color BUTTON = colorFrom("#1A1A1A");
+    public static final Color TEXT = colorFrom("#FFF");
+    public static final Color TEXT_DARK = colorFrom("#000");
+    public static final Color BUTTON = colorFrom("#1A1A1A");
 
     Font FONT;
     final int FONT_SIZE = 14;
@@ -68,7 +69,7 @@ public class ThemeManager {
      * @param hex - the hex string (starts with # and has 3 to 8 digits for rgb and rgba)
      * @return the color, NULL if the string is invalid
      */
-    public Color colorFrom(String hex) {
+    public static Color colorFrom(String hex) {
         int[] rgba = {0, 0, 0, 255};
 
         if (hex.isEmpty() || hex.charAt(0) != '#' || hex.length() < 4 || hex.length() > 9) {
