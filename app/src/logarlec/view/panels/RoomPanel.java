@@ -39,6 +39,7 @@ public class RoomPanel extends View {
     public RoomPanel(Room room) {
         this.viewedRoom = room;
         this.setLayout(new BorderLayout());
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         inventoryPanel = room.getInventory().createOwnView();
 
@@ -89,7 +90,7 @@ public class RoomPanel extends View {
 
         JPanel leftPanel = new JPanel();
         leftPanel.setPreferredSize(new Dimension(85, 500));
-        leftPanel.setLayout(new GridLayout(4, 1));
+        leftPanel.setLayout(new GridLayout(5, 1));
 
         roomInfo.add(leftPanel, BorderLayout.WEST);
 
@@ -122,16 +123,21 @@ public class RoomPanel extends View {
                 setDisplayedActors("Janitors", janitors);
             }
         ).removeBorder());
+        
+        // Empty space
+        JPanel emptyPanel = new JPanel();
+        emptyPanel.setBackground(ThemeManager.BACKGROUND);
+        leftPanel.add(emptyPanel);
 
         // Inventory button
         leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("chest.png", 45), (e) -> {
-            setSelectedButton(leftPanel, 3);
+            setSelectedButton(leftPanel, 4);
             ReplaceCenter("Room Inventory", inventoryPanel);
         }).removeBorder());
 
         // by default, show inventory
         ReplaceCenter("Room Inventory", inventoryPanel);
-        setSelectedButton(leftPanel, 3);
+        setSelectedButton(leftPanel, 4);
 
         revalidate();
         repaint();
@@ -149,6 +155,8 @@ public class RoomPanel extends View {
         scrollPane.getHorizontalScrollBar().setUI(new ScrollUI());
 
         scrollPane.setPreferredSize(i % 2 == 0 ? new Dimension(300, 120) : new Dimension(120, 300));
+        scrollPane.setBorder(i % 2 == 0 ? BorderFactory.createEmptyBorder(0, 12, 0, 12) : null);
+        scrollPane.setBackground(ThemeManager.BUTTON);
         return scrollPane;
     }
 

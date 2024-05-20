@@ -20,13 +20,6 @@ public class TransistorPanel extends ItemPanel<Transistor> {
             iconLabel.setOpaque(true);
             iconLabel.setForeground(ColorGenerator.getInstance().getForegroundColor(c));
             
-            // g.setColor(c);
-            // //fill bottom right corner
-            // g.fillOval(getWidth() - 12, getHeight() - 17, 13, 13);
-            // //draw white border for the oval
-            // g.setColor(Color.WHITE);
-            // g.drawOval(getWidth() - 12, getHeight() - 17, 13, 13);
-            
             usesLeft.setForeground(ColorGenerator.getInstance().getForegroundColor(c));
         }
     }

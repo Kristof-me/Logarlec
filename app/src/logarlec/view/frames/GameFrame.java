@@ -44,6 +44,7 @@ public class GameFrame extends JFrame {
         // create margin around the scrollpane
         effectScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         effectScroll.getVerticalScrollBar().setUI(new ScrollUI());
+        effectScroll.setBorder(null);
 
         rightPanel.add(effectScroll, BorderLayout.CENTER);
 

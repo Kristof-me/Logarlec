@@ -13,7 +13,6 @@ public class DoorListPanel extends JPanel {
     public DoorListPanel(int axis) {
         this.setLayout(new BoxLayout(this, axis));
         setBackground(ThemeManager.BUTTON);
-        setBorder(BorderFactory.createEmptyBorder());
 
         if (axis == BoxLayout.Y_AXIS){
             this.setPreferredSize(new Dimension(100, 300));

@@ -35,12 +35,12 @@ public class PlayerPanel extends View {
         c.gridy = 0;
         c.anchor = GridBagConstraints.WEST;
 
-        this.setPreferredSize(new Dimension(800, 50));
+        this.setPreferredSize(new Dimension(800, 52));
         nameLabel = new JLabel("-");
         nameLabel.setOpaque(true);
         nameLabel.setBorder(new LineBorder(Color.BLACK, 5));
         nameLabel.setAlignmentX(CENTER_ALIGNMENT);
-        nameLabel.setPreferredSize(new Dimension(100, 50));
+        nameLabel.setPreferredSize(new Dimension(180, 52));
 
         this.add(nameLabel, c);
 
@@ -52,6 +52,7 @@ public class PlayerPanel extends View {
         c.anchor = GridBagConstraints.CENTER;
 
         inventoryPanel = viewedPlayer.getInventory().createOwnView();
+        inventoryPanel.setBorder(BorderFactory.createLineBorder(ThemeManager.TRACK, 1));
         this.add(inventoryPanel, c);
 
         c.gridx = 2;
@@ -65,13 +66,14 @@ public class PlayerPanel extends View {
                 new CustomButton("End Turn (" + GameManager.getInstance().getStepCount() + ")",
                  e -> GameManager.getInstance().getCurrentPlayer().skipTurn());
 
-        endTurnButton.setPreferredSize(new Dimension(100, 50));
+        endTurnButton.setPreferredSize(new Dimension(180, 50));
         endTurnButton.setBackground(ThemeManager.PRIMARY);
         this.add(endTurnButton, c);
 
-        nameLabel.setText(student.getName());
+        nameLabel.setText(" " + student.getName());
         nameLabel.setBackground(student.getColor());
         nameLabel.setForeground(ColorGenerator.getInstance().getForegroundColor(student.getColor()));
+        nameLabel.setFont(ThemeManager.getInstance().getFont(Font.ITALIC, 18));
     }
 
     @Override
