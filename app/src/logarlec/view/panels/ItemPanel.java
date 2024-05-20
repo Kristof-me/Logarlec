@@ -155,4 +155,10 @@ public class ItemPanel<T extends Item> extends View {
         return this;
     }
 
+    @Override
+    public Dimension getPreferredSize() {
+        Dimension original = super.getPreferredSize();
+        int minSize = Math.min(original.width, original.height);
+        return new Dimension(minSize, minSize);
+    }
 }

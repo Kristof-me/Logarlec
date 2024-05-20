@@ -6,6 +6,7 @@ import logarlec.view.elements.CustomButton;
 import logarlec.view.frames.GameFrame;
 import logarlec.view.observerviews.View;
 import logarlec.view.utility.ColorGenerator;
+import logarlec.view.utility.ThemeManager;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -65,6 +66,7 @@ public class PlayerPanel extends View {
                  e -> GameManager.getInstance().getCurrentPlayer().skipTurn());
 
         endTurnButton.setPreferredSize(new Dimension(100, 50));
+        endTurnButton.setBackground(ThemeManager.PRIMARY);
         this.add(endTurnButton, c);
 
         nameLabel.setText(student.getName());

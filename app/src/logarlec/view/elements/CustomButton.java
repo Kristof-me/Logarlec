@@ -158,8 +158,9 @@ public class CustomButton extends JButton {
     /**
      * Removes the border.
      */
-    public void removeBorder() {
+    public CustomButton removeBorder() {
         setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+        return this;
     }
 }
 

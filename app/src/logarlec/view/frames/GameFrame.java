@@ -7,6 +7,7 @@ import logarlec.view.elements.ScrollUI;
 import logarlec.view.panels.EffectListPanel;
 import logarlec.view.panels.PlayerPanel;
 import logarlec.view.panels.RoomPanel;
+import logarlec.view.utility.ThemeManager;
 
 import java.awt.*;
 
@@ -21,6 +22,7 @@ public class GameFrame extends JFrame {
 
     protected GameFrame() {
         super("Logarléc");
+        this.setMinimumSize(new Dimension(900, 600));
         this.setSize(1200, 750);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
@@ -31,6 +33,9 @@ public class GameFrame extends JFrame {
 
         roomLabel = new JLabel();
         roomLabel.setHorizontalAlignment(JLabel.RIGHT);
+        roomLabel.setFont(ThemeManager.getInstance().getFont(Font.BOLD, 28));
+        roomLabel.setBackground(ThemeManager.TRACK);
+        roomLabel.setHorizontalAlignment(JLabel.CENTER);
         rightPanel.add(roomLabel, BorderLayout.NORTH);
 
         effectListPanel = new EffectListPanel();

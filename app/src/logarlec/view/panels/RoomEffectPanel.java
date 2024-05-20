@@ -1,17 +1,16 @@
 package logarlec.view.panels;
 
-import java.awt.Color;
-
 import logarlec.model.room.RoomEffect;
 import logarlec.view.frames.GameFrame;
 import logarlec.view.observerviews.View;
 import logarlec.view.utility.IconLoader;
+import logarlec.view.utility.ThemeManager;
 
 public class RoomEffectPanel extends EffectPanel {
     protected RoomEffect effect;
 
     public RoomEffectPanel(RoomEffect defense, String description, String icon) {
-        super(Color.red, description, IconLoader.getInstance().getIcon(icon, 30));
+        super(ThemeManager.PRIMARY, description, IconLoader.getInstance().getIcon(icon, 30));
         this.effect = defense;
         this.setTurnsLeft(effect.getTimeLeft());
     }

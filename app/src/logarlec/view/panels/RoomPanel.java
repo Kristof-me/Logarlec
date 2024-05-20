@@ -8,6 +8,7 @@ import logarlec.model.room.Room;
 import logarlec.view.elements.CustomButton;
 import logarlec.view.observerviews.View;
 import logarlec.view.utility.IconLoader;
+import logarlec.view.utility.ThemeManager;
 import logarlec.view.elements.ScrollUI;
 import java.util.ArrayList;
 
@@ -88,37 +89,50 @@ public class RoomPanel extends View {
 
         JPanel leftPanel = new JPanel();
         leftPanel.setPreferredSize(new Dimension(85, 500));
-        leftPanel.setLayout(new GridLayout(4, 2));
+        leftPanel.setLayout(new GridLayout(4, 1));
 
         roomInfo.add(leftPanel, BorderLayout.WEST);
 
         // Student button
-        leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("student.png", 45), (e) -> {
-            setDisplayedActors(students);
-        }));
-
-        leftPanel.add(new JLabel(" " + students.size()));
+        leftPanel.add(new CustomButton(
+            IconLoader.getInstance().getIcon("student.png", 45), 
+            " " + students.size(), 
+            (e) -> {
+                setSelectedButton(leftPanel, 0);
+                setDisplayedActors("Students", students);
+            }
+        ).removeBorder());
 
         // Professor button
-        leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("professor.png", 45), (e) -> {
-            setDisplayedActors(professors);
-        }));
-
-        leftPanel.add(new JLabel(" " + professors.size()));
+        leftPanel.add(new CustomButton(
+            IconLoader.getInstance().getIcon("professor.png", 45), 
+            " " + professors.size(),
+            (e) -> {
+                setSelectedButton(leftPanel, 1);
+                setDisplayedActors("Professors", professors);
+            }
+        ).removeBorder());
 
         // Janitor button
-        leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("janitor.png", 45), (e) -> {
-            setDisplayedActors(janitors);
-        }));
-
-        leftPanel.add(new JLabel(" " + janitors.size()));
+        leftPanel.add(new CustomButton(
+            IconLoader.getInstance().getIcon("janitor.png", 45), 
+            " " + janitors.size(),
+            (e) -> {
+                setSelectedButton(leftPanel, 2);
+                setDisplayedActors("Janitors", janitors);
+            }
+        ).removeBorder());
 
         // Inventory button
         leftPanel.add(new CustomButton(IconLoader.getInstance().getIcon("chest.png", 45), (e) -> {
-            ReplaceCenter(inventoryPanel);
-        }));
+            setSelectedButton(leftPanel, 3);
+            ReplaceCenter("Room Inventory", inventoryPanel);
+        }).removeBorder());
 
-        ReplaceCenter(inventoryPanel);
+        // by default, show inventory
+        ReplaceCenter("Room Inventory", inventoryPanel);
+        setSelectedButton(leftPanel, 3);
+
         revalidate();
         repaint();
     }
@@ -134,7 +148,7 @@ public class RoomPanel extends View {
         scrollPane.getVerticalScrollBar().setUI(new ScrollUI());
         scrollPane.getHorizontalScrollBar().setUI(new ScrollUI());
 
-        scrollPane.setPreferredSize(i % 2 == 0 ? new Dimension(300, 115) : new Dimension(115, 300));
+        scrollPane.setPreferredSize(i % 2 == 0 ? new Dimension(300, 120) : new Dimension(120, 300));
         return scrollPane;
     }
 
@@ -150,27 +164,49 @@ public class RoomPanel extends View {
         janitors.add(janitorPanel);
     }
 
-    private void setDisplayedActors(ArrayList<ActorPanel> actors) {
+    private void setDisplayedActors(String title, ArrayList<ActorPanel> actors) {
         actorList.removeAll();
 
         actors.forEach(actor -> {
             actorList.add(actor);
         });
 
-        ReplaceCenter(actorList);
+        ReplaceCenter(title, actorList);
     }
 
-    private void ReplaceCenter(JPanel panel) {
+    private void ReplaceCenter(String title, JPanel panel) {
         Component center = layout.getLayoutComponent(BorderLayout.CENTER);
 
         if (center != null) {
             roomInfo.remove(center);
         }
 
-        roomInfo.add(panel, BorderLayout.CENTER);
+        JPanel container = new JPanel();
+        container.setLayout(new BorderLayout());
+
+        JLabel titleLablel = new JLabel(title, JLabel.CENTER);
+        titleLablel.setFont(ThemeManager.getInstance().getFont(Font.BOLD, 20));
+        titleLablel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
+
+        container.add(titleLablel, BorderLayout.NORTH);
+        container.add(panel, BorderLayout.CENTER);
+
+        roomInfo.add(container, BorderLayout.CENTER);
 
         revalidate();
         repaint();
+    }
+
+    private void setSelectedButton(JPanel holder, int index) {
+        for (int i = 0; i < holder.getComponentCount(); i++) {
+            Component component = holder.getComponent(i);
+            
+            if(index == i) {
+                component.setBackground(ThemeManager.BACKGROUND_DARK);
+            } else {
+                component.setBackground(ThemeManager.BACKGROUND);
+            }
+        }
     }
 
     @Override
