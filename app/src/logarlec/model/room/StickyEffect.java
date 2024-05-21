@@ -62,6 +62,17 @@ public class StickyEffect extends RoomEffect {
     }
 
     @Override
+    public void setRoom(Room room) {
+        this.room = room;
+        if (room.getIsSticky() == null) {
+            room.setIsSticky(false);
+        }
+        if (room.getIsSticky() == false){
+            room.setIsSticky(uniqueActors.size() >= stickyLimit);
+        }
+    }
+
+    @Override
     public EffectPanel createOwnView() {
         return new EffectViewFactory().createPanel(this);
     }

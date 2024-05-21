@@ -40,6 +40,9 @@ public class EffectViewFactory {
 
     public EffectPanel createPanel(StickyEffect stickyEffect) {
         EffectPanel panel;
+        if (stickyEffect.getRoom().getIsSticky() == null){
+            return null;
+        } 
         if (stickyEffect.getRoom().getIsSticky())
             panel = new RoomEffectPanel(stickyEffect, "Everything is stuck to the floor", "effect-sticky.png");
         else 

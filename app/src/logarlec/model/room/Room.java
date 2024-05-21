@@ -101,8 +101,8 @@ public class Room extends GameObject implements IHasLocation {
         // delete this, Door
         for (int i = 0; i < doors.size(); i++) {
             Door door = doors.get(i);
-
-            if (door.leadsTo(room) == this) {
+            //We need to check both sides in case of a one-way door
+            if (door.leadsTo(room) == this || door.leadsTo(this) == room){
                 doors.remove(door);
                 room.doors.remove(door);
                 i--;
