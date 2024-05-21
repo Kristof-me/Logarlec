@@ -35,16 +35,25 @@ public class MapManager {
     private List<Room> rooms;
     private Room solution;
 
+    /*
+     * Getter method for the rooms.
+     */
     public List<Room> getRooms() {
         return rooms;
     }
 
+    /*
+     * Constructor for the MapManager class.
+     */
     public MapManager(int h, int w) {
         height = h;
         width = w;
         rooms = generateMap(height, width);
     }
 
+    /*
+     * Merges two random rooms.
+     */
     public void mergeRooms() {
         int room1 = random.nextInt(rooms.size());
         Room r1 = rooms.get(room1);
@@ -53,8 +62,9 @@ public class MapManager {
         if (r2 == null) {
             return;
         }
+        // r2 will die here and will be merged into r1
         r2.merge(r1);
-        rooms.remove(r1);
+        rooms.remove(r2);
     }
 
     public void splitRoom() {
@@ -63,15 +73,25 @@ public class MapManager {
         rooms.add(r.split());
     }
 
+    /*
+     * Hides a random door in a random room.
+     */
     public void hideDoor() {
+        if(rooms.isEmpty())
+            return;
         int room = random.nextInt(rooms.size());
         Room r = rooms.get(room);
+        if (r.getDoors().isEmpty())
+            return;    
         int door = random.nextInt(r.getDoors().size());
         Door d = r.getDoors().get(door);
         if (d.getRemainingInvisibility() > 0) return;
         d.hide(random.nextInt(4));
     }
 
+    /*
+     * Main method to generate the map.
+     */
     private List<Room> generateMap(int height, int width) {
         this.height = height;
         this.width = width;
@@ -97,6 +117,9 @@ public class MapManager {
         return rooms;
     }
 
+    /*
+     * Breadth-first to assure that all the rooms will be connected on the map.
+     */
     private void BFS(Room[][] map, boolean[][] visited, int x, int y) {
         visited[x][y] = true;
         // 0 = right, 1 = left, 2 = up, 3 = down
@@ -138,6 +161,9 @@ public class MapManager {
         }
     }
 
+    /*
+     * Adds excess doors to a room.
+     */
     private void addExcessDoors(Room[][] map, int x, int y) {
         List<Room> adjacent = new ArrayList();
         if (x > 0) {
@@ -161,6 +187,9 @@ public class MapManager {
         }
     }
 
+    /*
+     * Checks if there is a way between two rooms.
+     */
     private boolean hasWay(Room a, Room b) {
         for (Door door : a.getDoors()) {
             if (door.leadsTo(a) == b) {
@@ -170,6 +199,9 @@ public class MapManager {
         return false;
     }
 
+    /*
+     * Adding random items to all of the rooms.
+     */
     private void addItems(Room[][] map) {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -196,6 +228,9 @@ public class MapManager {
         }
     }
 
+    /*
+     * Spawning the sliderule in a random room.
+     */
     private Room spawnSliderule(Room[][] map) {
         int x = random.nextInt(width);
         int y = random.nextInt(height);
@@ -203,10 +238,16 @@ public class MapManager {
         return map[x][y];
     }
 
+    /*
+     * Getter method for the solution room.
+     */
     public Room getSolution() {
         return solution;
     }
 
+    /*
+     * @return the first random room witch has no actors in it.
+     */
     public Room getRandomEmptyRoom() {
         Room room = null;
         do {

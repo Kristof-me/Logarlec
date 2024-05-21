@@ -1,6 +1,10 @@
 package logarlec.control.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import logarlec.model.actor.Actor;
 import logarlec.model.actor.actions.IActions;
@@ -47,57 +51,66 @@ public abstract class Controller<T extends Actor> implements IActions {
     }
 
     // do a dijkstra on the matrix
-    protected DijkstraResult getDistances(ArrayList<ArrayList<Integer>> mtx, int start){
-        ArrayList<Integer> distances = new ArrayList<>(mtx.size());
-        Integer[] reachedFrom = new Integer[mtx.size()];
-    
-        for(int i = 0; i < mtx.size(); i++){
-            if(i == start){
-                distances.add(0);
-            } 
-            else if(mtx.get(start).get(i) != 0){
-                distances.add(mtx.get(start).get(i));
-            } 
-            else {
-                distances.add(Integer.MAX_VALUE);
-            }
+    protected DijkstraResult getDistances(ArrayList<ArrayList<Integer>> mtx, int start) {
+        int size = mtx.size();
+        if (start < 0 || start >= size) {
+            throw new IllegalArgumentException("Start index out of bounds. start: " + start);
         }
-        
-        ArrayList<Integer> visited = new ArrayList<>();
-
-        int prevMinIndex = start;
-
-        while(visited.size() < mtx.size()){
+    
+        ArrayList<Integer> distances = new ArrayList<>(Collections.nCopies(size, Integer.MAX_VALUE));
+        distances.set(start, 0);
+        Integer[] reachedFrom = new Integer[size];
+        Set<Integer> visited = new HashSet<>();
+    
+        while (visited.size() < size) {
             int min = Integer.MAX_VALUE;
             int minIndex = -1;
-            for(int i = 0; i < distances.size(); i++){
-                if(!visited.contains(i) && distances.get(i) < min){
+    
+            for (int i = 0; i < size; i++) {
+                if (!visited.contains(i) && distances.get(i) < min) {
                     min = distances.get(i);
                     minIndex = i;
                 }
             }
-
+    
+            // Break if all remaining nodes are unreachable
+            if (minIndex == -1) {
+                break;
+            }
+    
             visited.add(minIndex);
-            reachedFrom[minIndex] = prevMinIndex;
-            prevMinIndex = minIndex;
-
-            for(int i = 0; i < mtx.get(minIndex).size(); i++){
-                if(mtx.get(minIndex).get(i) != 0 && !visited.contains(i)){
-                    if(distances.get(i) > distances.get(minIndex) + mtx.get(minIndex).get(i)){
-                        distances.set(i, distances.get(minIndex) + mtx.get(minIndex).get(i));
+    
+            for (int i = 0; i < size; i++) {
+                if (mtx.get(minIndex).get(i) != 0 && !visited.contains(i)) {
+                    int newDist = distances.get(minIndex) + mtx.get(minIndex).get(i);
+                    if (newDist < distances.get(i)) {
+                        distances.set(i, newDist);
+                        reachedFrom[i] = minIndex;
                     }
                 }
             }
         }
-
+    
         return new DijkstraResult(distances, reachedFrom);
     }
 
-    protected int firstStepTo(int from, int to, Integer[] reachedFrom){
-        int current = to;
-        while(reachedFrom[current] != from){
-            current = reachedFrom[current];
+    protected int firstStepTo(int from, int to, Integer[] reachedFrom) {
+        if (reachedFrom[to] == null) {
+            throw new IllegalArgumentException("No path exists from " + from + " to " + to);
         }
+        
+        Integer current = to;
+        while (reachedFrom[current] != null && !reachedFrom[current].equals(from)) {
+            current = reachedFrom[current];
+            if (current == null) {
+                throw new IllegalArgumentException("No path exists from " + from + " to " + to);
+            }
+        }
+        
+        if (reachedFrom[current] == null) {
+            throw new IllegalArgumentException("No path exists from " + from + " to " + to);
+        }
+        
         return current;
     }
 }

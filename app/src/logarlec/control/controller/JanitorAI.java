@@ -2,6 +2,7 @@ package logarlec.control.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import logarlec.control.GameManager;
 import logarlec.model.actor.Janitor;
@@ -16,18 +17,30 @@ public class JanitorAI extends Controller<Janitor> {
     Room targetedRoom = null;
     Integer[] reachedFrom;
     
+    /*
+     * Constructor for the JanitorAI class.
+     */
     public JanitorAI() {
         super(new Janitor());
     }
     
+    /*
+     * One turn of the Janitor, the Janitor moves closer to the targetedRoom.
+     */
     @Override
     public void takeTurn() {
         refreshTargetedRoom();
         Room nextRoom = getNextRoom();
         Door nextDoor = getDoor(nextRoom);
+        if(nextDoor == null){
+            // In this case tha janitor just skips the turn because there is a problem with the conncectivity of the rooms
+            System.err.println("No door leads to that room! Janitor could not move!");
+            return;
+        }
 
         boolean success = move(nextDoor);
-        System.err.println("Janitor move success: " + success);
+        System.err.println("Janitor move success: " + success + " to room: " + nextRoom.getName());
+        System.err.println("Janitor is headed to: " + targetedRoom.getName());
     }
 
     @Override
@@ -40,9 +53,11 @@ public class JanitorAI extends Controller<Janitor> {
      */
     private void refreshTargetedRoom(){
         // check if we acutally need to refresh the targeted room
-        if(targetedRoom == null || !actor.getLocation().equals(targetedRoom) 
-            || actor.getLocation().getRoomEffects().stream().anyMatch(effect -> effect instanceof GasEffect)
-            || GameManager.getInstance().getLastMapChange() - lastRefresh > 0){
+        if(targetedRoom == null || actor.getLocation().equals(targetedRoom) 
+            || !targetedRoom.getRoomEffects().stream().anyMatch(effect -> effect instanceof GasEffect)
+            || GameManager.getInstance().getLastMapChange() - lastRefresh > 0
+            || GameManager.getInstance().getRooms().contains(targetedRoom) == false)
+            {
             
             List<Room> rooms = GameManager.getInstance().getRooms();
 
@@ -63,7 +78,11 @@ public class JanitorAI extends Controller<Janitor> {
                 mtx.add(row);
             }
             
-            DijkstraResult result = getDistances(mtx, rooms.indexOf(actor.getLocation()));
+            int index = rooms.indexOf(actor.getLocation());
+            if(index == -1){
+                System.err.println("Actor is not in any room!");
+            }
+            DijkstraResult result = getDistances(mtx, index);
             reachedFrom = result.reachedFrom;
             
             // select the closest room with gas effect
@@ -77,7 +96,7 @@ public class JanitorAI extends Controller<Janitor> {
             }
 
             // if there is no room with gas effect, target a random room
-            if(targetedRoom == null){
+            while(targetedRoom == null || targetedRoom.equals(actor.getLocation())){
                 targetedRoom = rooms.get(random.nextInt(rooms.size()));
             }
             
@@ -85,14 +104,29 @@ public class JanitorAI extends Controller<Janitor> {
         }
     }
 
+    /*
+     * @return the next room the actor need to move into in order to reach the targeted room
+     */
     Room getNextRoom() {
         List<Room> rooms = GameManager.getInstance().getRooms();
         int index = rooms.indexOf(actor.getLocation());
+        if(index == -1 || rooms.indexOf(targetedRoom) == -1){
+            System.err.println("Actor is not in any room!");
+        }
         int nextIndex = firstStepTo(index, rooms.indexOf(targetedRoom), reachedFrom);
+
         return rooms.get(nextIndex);
     }
 
+    /*
+     * Returns the door that leads to the given room.
+     */
     Door getDoor(Room toRoom) {
-        return actor.getLocation().getDoors().stream().filter(door -> door.leadsTo(actor.getLocation()).equals(toRoom)).findFirst().get();
+        return actor.getLocation().getDoors().stream()
+            .filter(door -> Optional.ofNullable(door.leadsTo(actor.getLocation()))
+                                    .map(room -> room.equals(toRoom))
+                                    .orElse(false))
+            .findFirst()
+            .orElse(null); // or throw an exception, depending on your needs
     }
 }

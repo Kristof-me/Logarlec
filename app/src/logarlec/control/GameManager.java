@@ -138,8 +138,10 @@ public class GameManager {
             int n = random.nextInt(janitorNames.length);
             int l = random.nextInt(janitorLocations.length);
 
+            Room t = mapManager.getRandomEmptyRoom();
             janitor.getActor().setName(String.format("%s - Janitor of the %s", janitorNames[n], janitorLocations[l]));
-            janitor.getActor().teleport(mapManager.getRandomEmptyRoom(), false);
+            janitor.getActor().teleport(t, false);
+            System.out.println("Janitor " + janitor.getActor().getName() + " in " + t.getId());
         }
 
         playerIterator = students.iterator();
@@ -228,7 +230,7 @@ public class GameManager {
             professor.takeTurn();
             professor.takeTurn();
         }
-        System.out.println("1. AI ticked ?" + getStepCount());
+        System.out.println("1. AI ticked ? " + getStepCount());
         
         for (JanitorAI janitor : janitors) {
             janitor.getActor().tick();
@@ -236,7 +238,7 @@ public class GameManager {
             janitor.takeTurn();
         }
         
-        System.out.println("2. AI ticked ?" + getStepCount());
+        System.out.println("2. AI ticked ? " + getStepCount());
 
         
         //if random is 10 then merge

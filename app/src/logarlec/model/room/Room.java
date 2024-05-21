@@ -71,7 +71,7 @@ public class Room extends GameObject implements IHasLocation {
     }
 
     /**
-     * Merges this room with another room.<br>
+     * Merges this room into the given room (this room will "die").<br>
      * The new room keeps the room effects from both rooms<br>
      * Keeps the items from both rooms<br>
      * Keeps the actors from both rooms<br>
