@@ -3,14 +3,15 @@ package logarlec.control.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import logarlec.App;
 import logarlec.control.GameManager;
 import logarlec.model.actor.Janitor;
 import logarlec.model.room.Door;
 import logarlec.model.room.GasEffect;
 import logarlec.model.room.Room;
+import java.util.*;
 
 public class JanitorAI extends Controller<Janitor> {
+    private static Random random = new Random();
     private int lastRefresh = -1;
     Room targetedRoom = null;
     Integer[] reachedFrom;
@@ -77,7 +78,7 @@ public class JanitorAI extends Controller<Janitor> {
 
             // if there is no room with gas effect, target a random room
             if(targetedRoom == null){
-                targetedRoom = rooms.get((int)(App.random.nextDouble() * rooms.size()));
+                targetedRoom = rooms.get(random.nextInt(rooms.size()));
             }
             
             lastRefresh = GameManager.getInstance().getTick();

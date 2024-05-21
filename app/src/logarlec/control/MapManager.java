@@ -19,15 +19,16 @@ import logarlec.model.items.impl.Transistor;
 import logarlec.model.items.impl.Tvsz;
 import logarlec.model.room.Door;
 import logarlec.model.room.Room;
-
+import java.util.Random;
 public class MapManager {
+    private static Random random = new Random();
     private int height;
     private int width;
-    private final double excessDoorChance = 0.1;
-    private final double oneWayDoorChance = 0.5;
-    private final double itemSpawnChance = 0.6;
-    private final double fakeItemChance = 0.15;  
-    private final Constructor[] constructors = new Constructor[] {SlideRule.class.getConstructors()[0],
+    private static final double excessDoorChance = 0.1;
+    private static final double oneWayDoorChance = 0.5;
+    private static final double itemSpawnChance = 0.6;
+    private static final double fakeItemChance = 0.15;  
+    private static final Constructor[] constructors = new Constructor[] {SlideRule.class.getConstructors()[0],
             AirFreshener.class.getConstructors()[0], Beer.class.getConstructors()[0], Camembert.class.getConstructors()[0],
             Cocktail.class.getConstructors()[0], GasMask.class.getConstructors()[0], Sponge.class.getConstructors()[0],
             Transistor.class.getConstructors()[0], Tvsz.class.getConstructors()[0],};
@@ -45,9 +46,9 @@ public class MapManager {
     }
 
     public void mergeRooms() {
-        int room1 = (int) (App.random.nextDouble() * rooms.size());
+        int room1 = random.nextInt(rooms.size());
         Room r1 = rooms.get(room1);
-        int door = (int) (App.random.nextDouble() * r1.getDoors().size());
+        int door = random.nextInt(r1.getDoors().size());
         Room r2 = r1.getDoors().get(door).leadsTo(r1);
         if (r2 == null) {
             return;
@@ -57,7 +58,7 @@ public class MapManager {
     }
 
     public void splitRoom() {
-        int room = (int) (App.random.nextDouble() * rooms.size());
+        int room = random.nextInt(rooms.size());
         Room r = rooms.get(room);
         rooms.add(r.split());
     }
@@ -120,7 +121,7 @@ public class MapManager {
                 if (!visited[nx][ny]) {
                     new Door(map[x][y], next, false);
                     BFS(map, visited, nx, ny);
-                    if (App.random.nextDouble() < excessDoorChance) {
+                    if (random.nextDouble() < excessDoorChance) {
                         addExcessDoors(map, x, y);
                     }
                 }
@@ -145,7 +146,7 @@ public class MapManager {
         Collections.shuffle(adjacent);
         for (Room room : adjacent) {
             if (!hasWay(map[x][y], room)) {
-                new Door(map[x][y], room, App.random.nextDouble() < oneWayDoorChance);
+                new Door(map[x][y], room, random.nextDouble() < oneWayDoorChance);
                 return;
             }
         }
@@ -166,12 +167,12 @@ public class MapManager {
                 boolean spawned = false;
                 do {
                     spawned = false;
-                    if (App.random.nextDouble() < itemSpawnChance) {
+                    if (random.nextDouble() < itemSpawnChance) {
                         Item toAdd;
                         try {
-                            int roll = (int) (App.random.nextDouble() * constructors.length);
+                            int roll = (int) (random.nextDouble() * constructors.length);
                             toAdd = (Item) constructors[roll].newInstance();
-                            if (App.random.nextDouble() < fakeItemChance || roll == 0) {
+                            if (random.nextDouble() < fakeItemChance || roll == 0) {
                                 map[i][j].addItem(new FakeItem(toAdd));
                             } else {
                                 map[i][j].addItem(toAdd);
@@ -187,8 +188,8 @@ public class MapManager {
     }
 
     private Room spawnSliderule(Room[][] map) {
-        int x = (int) (App.random.nextDouble() * width);
-        int y = (int) (App.random.nextDouble() * height);
+        int x = random.nextInt(width);
+        int y = random.nextInt(height);
         map[x][y].addItem(new SlideRule());
         return map[x][y];
     }
@@ -200,8 +201,8 @@ public class MapManager {
     public Room getRandomEmptyRoom() {
         Room room = null;
         do {
-            room = rooms.get((int) (App.random.nextDouble() * rooms.size()));
-        } while (room == null || room.getActors().size() > 0);
+            room = rooms.get(random.nextInt(rooms.size()));
+        } while (room == null || !room.getActors().isEmpty());
         return room;
     }
 }

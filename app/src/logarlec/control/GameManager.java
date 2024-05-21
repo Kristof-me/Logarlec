@@ -6,23 +6,22 @@ import java.util.concurrent.CountDownLatch;
 
 import javax.swing.JOptionPane;
 
-import logarlec.model.items.impl.SlideRule;
 import logarlec.model.room.*;
 import logarlec.view.frames.GameEndFrame;
 import logarlec.view.frames.GameFrame;
 import logarlec.view.frames.MenuFrame;
-import logarlec.App;
 import logarlec.control.controller.JanitorAI;
 import logarlec.control.controller.Player;
 import logarlec.control.controller.ProfessorAI;
 import java.util.Iterator;
-
+import java.util.Random;
 public class GameManager {
-    private final static int MERGE_PERCENT = 10;
-    private final static int SLIT_PERCENT = 10;
-    private final static float PROFESSOR_TO_STUDENT_RATIO = 0.5f;
-    private final static float JANITOR_TO_STUDENT_RATIO = 0.3f;
-    private final static int MAX_TURNS = 24;
+    private static Random random = new Random();
+    private static final int MERGE_PERCENT = 10;
+    private static final int SLIT_PERCENT = 10;
+    private static final float PROFESSOR_TO_STUDENT_RATIO = 0.5f;
+    private static final float JANITOR_TO_STUDENT_RATIO = 0.3f;
+    private static final int MAX_TURNS = 24;
     private static GameManager instance;
     private MapManager mapManager;
     private int currentTick = 0;
@@ -48,11 +47,7 @@ public class GameManager {
     private GameManager() { reset(); }
 
     public boolean isWon() {
-        if(anySlideRulePickedUp) {
-            return true;
-        }
-
-        return false;
+        return anySlideRulePickedUp;
     }
     
     public boolean isGameOver() {
@@ -105,7 +100,7 @@ public class GameManager {
         menuFrame.setVisible(false);
 
         // calculating the map size (about 280 students max)
-        float x = (float) students.size();
+        float x = students.size();
         int r = 8; // approx. 8 rooms per student
         int s = (int) Math.floor(Math.sqrt(r * x) + 1); // map side
 
@@ -125,8 +120,8 @@ public class GameManager {
         for (int i = 0; i < professorCount; i++) {
             ProfessorAI professor = new ProfessorAI();
             addProfessor(professor);
-
-            int n = (int) (App.random.nextDouble() * professorNames.length);
+            
+            int n = (random.nextInt(professorNames.length));
             professor.getActor().setName(professorNames[n]);
             Room t = mapManager.getRandomEmptyRoom();
             System.out.println("Professor " + professor.getActor().getName() + " in " + t.getId());
@@ -140,21 +135,16 @@ public class GameManager {
             JanitorAI janitor = new JanitorAI();
             addJanitor(janitor);
 
-            int n = (int) (App.random.nextDouble() * janitorNames.length), l = (int) (App.random.nextDouble() * janitorLocations.length);
+            int n = random.nextInt(janitorNames.length);
+            int l = random.nextInt(janitorLocations.length);
 
             janitor.getActor().setName(String.format("%s - Janitor of the %s", janitorNames[n], janitorLocations[l]));
             janitor.getActor().teleport(mapManager.getRandomEmptyRoom(), false);
         }
 
-        Room room = mapManager.getRandomEmptyRoom();
-        room.addItem(new SlideRule());
-        System.out.println("Sliderule in " + room.getId());
-
         playerIterator = students.iterator();
         GameFrame gameFrame = GameFrame.getInstance();
-        new Thread(() -> {
-            gameFrame.setVisible(true);
-        }).start();
+        new Thread(() -> gameFrame.setVisible(true)).start();
         while (!isGameOver()) {
             System.out.println("Tick " + currentTick);
             playTurn();
@@ -251,11 +241,11 @@ public class GameManager {
         
         //if random is 10 then merge
         //if random is 10 then split
-        if (App.random.nextDouble() * 100 < MERGE_PERCENT) {
+        if (random.nextInt(101) < MERGE_PERCENT) {
             mapManager.mergeRooms();
             lastMapChange = currentTick;
         }
-        if (App.random.nextDouble() * 100 < SLIT_PERCENT) {
+        if (random.nextInt(101) < SLIT_PERCENT) {
             mapManager.splitRoom();
             lastMapChange = currentTick;
         }

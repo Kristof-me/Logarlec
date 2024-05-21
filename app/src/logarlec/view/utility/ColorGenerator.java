@@ -2,8 +2,9 @@ package logarlec.view.utility;
 
 import logarlec.App;
 import java.awt.Color;
-
+import java.util.*;
 public class ColorGenerator {
+    private static Random random = new Random();
     static private ColorGenerator instance;
     
     private ColorGenerator() {}
@@ -16,7 +17,7 @@ public class ColorGenerator {
     }
 
     public Color random() {
-        return new Color((int)(App.random.nextDouble() * 0x1000000));
+        return new Color(random.nextInt(0x1000000));
     }
 
     public Color fromHash(int hash1, int hash2) {

@@ -24,7 +24,7 @@ public class GameFrame extends JFrame {
         super("Logarléc");
         this.setMinimumSize(new Dimension(900, 600));
         this.setSize(1200, 750);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
 
         JPanel rightPanel = new JPanel(new BorderLayout());

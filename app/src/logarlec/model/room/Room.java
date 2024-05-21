@@ -8,7 +8,6 @@ import logarlec.model.GameObject;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;
-import logarlec.view.observerviews.View;
 import logarlec.view.panels.RoomPanel;
 
 

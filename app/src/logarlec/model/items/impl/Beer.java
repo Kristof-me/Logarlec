@@ -2,7 +2,6 @@ package logarlec.model.items.impl;
 
 import java.util.Random;
 
-import logarlec.control.GameManager;
 import logarlec.model.actor.Actor;
 import logarlec.model.items.Inventory;
 import logarlec.model.items.Item;

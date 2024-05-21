@@ -7,7 +7,6 @@ import logarlec.model.actor.Professor;
 import logarlec.model.actor.Student;
 import logarlec.model.actor.actions.StunnedStep;
 import logarlec.model.items.*;
-import logarlec.view.observerviews.View;
 import logarlec.view.panels.EffectPanel;
 
 import java.util.List;
