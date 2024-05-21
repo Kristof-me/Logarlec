@@ -249,6 +249,10 @@ public class GameManager {
             mapManager.splitRoom();
             lastMapChange = currentTick;
         }
+        int hideCount = random.nextInt(3);
+        for (int i = 0; i < hideCount; i++) {
+            mapManager.hideDoor();
+        }
 
         // handling room and actor ticks
         currentTick++; 

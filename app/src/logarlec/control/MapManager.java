@@ -63,6 +63,15 @@ public class MapManager {
         rooms.add(r.split());
     }
 
+    public void hideDoor() {
+        int room = random.nextInt(rooms.size());
+        Room r = rooms.get(room);
+        int door = random.nextInt(r.getDoors().size());
+        Door d = r.getDoors().get(door);
+        if (d.getRemainingInvisibility() > 0) return;
+        d.hide(random.nextInt(4));
+    }
+
     private List<Room> generateMap(int height, int width) {
         this.height = height;
         this.width = width;
