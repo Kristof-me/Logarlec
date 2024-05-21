@@ -62,9 +62,9 @@ public class PlayerPanel extends View {
         c.fill = GridBagConstraints.VERTICAL;
         c.anchor = GridBagConstraints.EAST;
 
-        endTurnButton =
-                new CustomButton("End Turn (" + GameManager.getInstance().getStepCount() + ")",
-                 e -> GameManager.getInstance().getCurrentPlayer().skipTurn());
+        endTurnButton = new CustomButton("End Turn (" + GameManager.getInstance().getStepCount() + ")", e -> {
+                 GameManager.getInstance().getCurrentPlayer().skipTurn();
+                });
 
         endTurnButton.setPreferredSize(new Dimension(180, 50));
         endTurnButton.setBackground(ThemeManager.PRIMARY);

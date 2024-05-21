@@ -1,5 +1,7 @@
 package logarlec.control.controller;
 
+import java.awt.Color;
+
 import logarlec.control.GameManager;
 import logarlec.control.rendering.ItemHolderViewFactory;
 import logarlec.model.actor.Student;
@@ -18,14 +20,24 @@ public class Player extends Controller<Student> {
     }
 
     public void reset() {
+        String name = actor.getName();
+        Color color = actor.getColor();
+
         actor = new Student();
+        actor.setName(name);
+        actor.setColor(color);
     }
 
     public void skipTurn() {
         long count = GameManager.getInstance().getStepCount();
-        for (long i = 0; i < count; i++) {
-            System.out.println("Skipping turn");
+        System.out.println("Skipping turn");
+
+        if(count == 0) { // sometimes this actually happens
             GameManager.getInstance().takeStep();
+        } else {
+            for (long i = 0; i < count; i++) {
+                GameManager.getInstance().takeStep();
+            }
         }
     }
 

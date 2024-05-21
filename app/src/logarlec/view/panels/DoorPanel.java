@@ -4,11 +4,13 @@ import logarlec.view.observerviews.View;
 import javax.swing.*;
 import java.awt.*;
 
+import logarlec.model.actor.Student;
 import logarlec.model.room.Door;
 import logarlec.model.room.Room;
 import logarlec.view.elements.*;
 import logarlec.view.utility.*;
 import logarlec.control.GameManager;
+import logarlec.control.controller.Player;
 
 /**
  * DoorPanel
@@ -32,12 +34,19 @@ public class DoorPanel extends View {
             remove(button);
 
         button = new CustomButton(IconLoader.getInstance().getIcon("door.png", 50), e -> {
-            GameManager.getInstance().getCurrentPlayer().move(door);
+            Player player = GameManager.getInstance().getCurrentPlayer();
+            boolean success = player.move(door);
+            
+            
+            Student student = player.getActor();
+            if(success && !student.isAlive()) {
+                JOptionPane.showMessageDialog(this, "\"" + student.getName() + "\" died in room " + student.getLocation().getName(), "Death", JOptionPane.PLAIN_MESSAGE);
+            }
         });
 
         add(button);
 
-        add(new JLabel("KA-" + door.leadsTo(room).getId(), SwingConstants.CENTER)); 
+        add(new JLabel(door.leadsTo(room).getName(), SwingConstants.CENTER)); 
 
         revalidate();
         repaint();

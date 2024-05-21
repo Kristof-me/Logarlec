@@ -9,6 +9,7 @@ import logarlec.model.room.*;
 import logarlec.view.frames.GameEndFrame;
 import logarlec.view.frames.GameFrame;
 import logarlec.view.frames.MenuFrame;
+import logarlec.App;
 import logarlec.control.controller.JanitorAI;
 import logarlec.control.controller.Player;
 import logarlec.control.controller.ProfessorAI;
@@ -53,8 +54,11 @@ public class GameManager {
     }
     
     public boolean isGameOver() {
-        // TODO check for MAX_TURNS
         if(isWon()){
+            return true;
+        }
+
+        if(currentTick > MAX_TURNS) {
             return true;
         }
 
@@ -74,6 +78,7 @@ public class GameManager {
         anySlideRulePickedUp = false;
         mapManager = null;
         currentTick = 0;
+        Room.nextId = 1111;
     }
 
     public void addPlayer(Player player) {
@@ -90,6 +95,8 @@ public class GameManager {
 
     public void slideRulePickedUp() {
         anySlideRulePickedUp = true;
+
+        currentPlayer.skipTurn();
     }
     
     public void startGame(MenuFrame menuFrame) {
@@ -117,7 +124,7 @@ public class GameManager {
             ProfessorAI professor = new ProfessorAI();
             addProfessor(professor);
 
-            int n = (int) (Math.random() * professorNames.length);
+            int n = (int) (App.random.nextDouble() * professorNames.length);
             professor.getActor().setName(professorNames[n]);
             Room t = mapManager.getRandomEmptyRoom();
             System.out.println("Professor " + professor.getActor().getName() + " in " + t.getId());
@@ -131,7 +138,7 @@ public class GameManager {
             JanitorAI janitor = new JanitorAI();
             addJanitor(janitor);
 
-            int n = (int) (Math.random() * janitorNames.length), l = (int) (Math.random() * janitorLocations.length);
+            int n = (int) (App.random.nextDouble() * janitorNames.length), l = (int) (App.random.nextDouble() * janitorLocations.length);
 
             janitor.getActor().setName(String.format("%s - Janitor of the %s", janitorNames[n], janitorLocations[l]));
             janitor.getActor().teleport(mapManager.getRandomEmptyRoom(), false);
@@ -147,8 +154,8 @@ public class GameManager {
             gameFrame.setVisible(true);
         }).start();
         while (!isGameOver()) {
-            playTurn();
             System.out.println("Tick " + currentTick);
+            playTurn();
         }
 
         System.out.println("Game over");
@@ -177,7 +184,7 @@ public class GameManager {
         if (playerIterator.hasNext()) {
             currentPlayer = playerIterator.next();
             currentPlayer.getActor().tick();
-            System.out.println("Player " + currentPlayer.getActor().getName() + "'s turn");
+
             if (currentPlayer.getActor().isAlive()){
                 currentPlayer.takeTurn();
                 try {
@@ -189,9 +196,10 @@ public class GameManager {
             }
             turnLatch = new CountDownLatch(2);
         } else {
+            aiTurn();
             playerIterator = students.iterator();
             turnLatch = new CountDownLatch(2);
-            aiTurn();
+            System.out.println("AI turn");
         }
     }
 
@@ -210,11 +218,11 @@ public class GameManager {
 
         //if random is 10 then merge
         //if random is 10 then split
-        if (Math.random() * 100 < MERGE_PERCENT) {
+        if (App.random.nextDouble() * 100 < MERGE_PERCENT) {
             mapManager.mergeRooms();
             lastMapChange = currentTick;
         }
-        if (Math.random() * 100 < SLIT_PERCENT) {
+        if (App.random.nextDouble() * 100 < SLIT_PERCENT) {
             mapManager.splitRoom();
             lastMapChange = currentTick;
         }

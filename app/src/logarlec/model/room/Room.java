@@ -21,7 +21,7 @@ import logarlec.view.panels.RoomPanel;
  */
 public class Room extends GameObject implements IHasLocation {
     private int id;
-    private static int nextId = 1111;
+    public static int nextId = 1111;
     private Integer capacity = 10;
 
     private List<Actor> actors = new ArrayList<>();
@@ -45,6 +45,10 @@ public class Room extends GameObject implements IHasLocation {
 
     public int getId() {
         return id;
+    }
+
+    public String getName() {
+        return "KA-" + id;
     }
 
     /**

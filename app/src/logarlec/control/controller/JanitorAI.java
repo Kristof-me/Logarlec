@@ -3,6 +3,7 @@ package logarlec.control.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import logarlec.App;
 import logarlec.control.GameManager;
 import logarlec.model.actor.Janitor;
 import logarlec.model.room.Door;
@@ -38,7 +39,7 @@ public class JanitorAI extends Controller<Janitor> {
     private void refreshTargetedRoom(){
         // check if we acutally need to refresh the targeted room
         if(targetedRoom == null || !actor.getLocation().equals(targetedRoom) 
-            || actor.getLocation().getRoomEffects().stream().anyMatch(effect -> effect instanceof GasEffect) // ToDo REMOVE THIS TYPECHECK
+            || actor.getLocation().getRoomEffects().stream().anyMatch(effect -> effect instanceof GasEffect)
             || GameManager.getInstance().getLastMapChange() - lastRefresh > 0){
             
             List<Room> rooms = GameManager.getInstance().getRooms();
@@ -59,6 +60,7 @@ public class JanitorAI extends Controller<Janitor> {
                 }
                 mtx.add(row);
             }
+            
             DijkstraResult result = getDistances(mtx, rooms.indexOf(actor.getLocation()));
             reachedFrom = result.reachedFrom;
             
@@ -74,7 +76,7 @@ public class JanitorAI extends Controller<Janitor> {
 
             // if there is no room with gas effect, target a random room
             if(targetedRoom == null){
-                targetedRoom = rooms.get((int)(Math.random() * rooms.size()));
+                targetedRoom = rooms.get((int)(App.random.nextDouble() * rooms.size()));
             }
             
             lastRefresh = GameManager.getInstance().getTick();

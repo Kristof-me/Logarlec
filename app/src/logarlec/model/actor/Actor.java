@@ -55,6 +55,10 @@ public abstract class Actor extends GameObject implements IHasLocation, IActions
         return color;
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     public void newRandomColor() {
         color = ColorGenerator.getInstance().random();
     }

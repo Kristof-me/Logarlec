@@ -16,7 +16,6 @@ public class ThemeManager {
     private static ThemeManager instance;
 
     // COLORS
-    // todo setup properly
     public static final Color PRIMARY = new Color(242, 71, 38);
     public static final Color PRIMARY_LIGHT = colorFrom("#F00");
     public static final Color ACCENT = new Color(12, 167, 137);

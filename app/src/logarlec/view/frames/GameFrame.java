@@ -67,7 +67,7 @@ public class GameFrame extends JFrame {
             remove(roomPanel.removeView());
             roomPanel = playerPanel.getViewedPlayer().getLocation().createOwnView();
             add(roomPanel, BorderLayout.CENTER);
-            roomLabel.setText("KA-" + playerPanel.getViewedPlayer().getLocation().getId());
+            roomLabel.setText(playerPanel.getViewedPlayer().getLocation().getName());
             effectListPanel.bindStudent(playerPanel.getViewedPlayer());
             this.repaint();
             this.revalidate();

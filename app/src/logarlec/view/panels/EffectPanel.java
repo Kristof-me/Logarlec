@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import logarlec.view.frames.GameFrame;
 import logarlec.view.observerviews.View;
+import logarlec.view.utility.ThemeManager;
 
 public abstract class EffectPanel extends View {
     private JLabel turnsLabel;
@@ -41,11 +42,12 @@ public abstract class EffectPanel extends View {
         c.anchor = GridBagConstraints.CENTER;
 
         JLabel descriptionLabel = new JLabel(description);
+        descriptionLabel.setFont(ThemeManager.getInstance().getFont(Font.ITALIC, 10));
         this.add(descriptionLabel, c);
     }
 
     protected void setTurnsLeft(int turnsLeft) {
-        turnsLabel.setText("Turns left: " + turnsLeft); // ! TODO FIX THIS
+        turnsLabel.setText("Turns left: " + turnsLeft); 
 
         GameFrame.getInstance().getEffectListPanel().revalidate();
         GameFrame.getInstance().getEffectListPanel().repaint();

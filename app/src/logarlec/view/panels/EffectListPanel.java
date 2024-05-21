@@ -62,7 +62,8 @@ public class EffectListPanel extends View {
             addEffect(actionPanel);
         }
 
-        for (RoomEffect effect : room.getRoomEffects()) {
+        for (int i = 0; i < room.getRoomEffects().size(); i++) {
+            RoomEffect effect = room.getRoomEffects().get(i);
             addEffect(effect.createOwnView());
         }
 

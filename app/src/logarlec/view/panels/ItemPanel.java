@@ -118,7 +118,6 @@ public class ItemPanel<T extends Item> extends View {
         JMenuItem pickupItem = new JMenuItem("Pick up");
         pickupItem.addActionListener(e -> {
             GameManager.getInstance().getCurrentPlayer().pickUp(item);
-            System.out.println("Picked up " + item.getClass().getSimpleName());
         });
 
         pickupItem.setBackground(ThemeManager.BACKGROUND);
