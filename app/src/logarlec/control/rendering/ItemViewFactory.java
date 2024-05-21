@@ -47,7 +47,7 @@ public class ItemViewFactory extends ItemVisitor {
     }
 
     public void visit(SlideRule slideRule) {
-        panel = new ItemPanel(slideRule, "slide-rule.png");
+        panel = new ItemPanel(slideRule, "ruler.png");
         slideRule.addListener(panel);
     }
 

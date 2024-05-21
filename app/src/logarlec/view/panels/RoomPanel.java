@@ -116,7 +116,7 @@ public class RoomPanel extends View {
 
         // Janitor button
         leftPanel.add(new CustomButton(
-            IconLoader.getInstance().getIcon("janitor.png", 45), 
+            IconLoader.getInstance().getIcon("cleaner.png", 45), 
             " " + janitors.size(),
             (e) -> {
                 setSelectedButton(leftPanel, 2);

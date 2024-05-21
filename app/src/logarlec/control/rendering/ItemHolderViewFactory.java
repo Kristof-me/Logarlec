@@ -46,7 +46,7 @@ public class ItemHolderViewFactory {
     }
 
     public ActorPanel createPanel(Janitor janitor) {
-        ActorPanel panel = new ActorPanel(janitor, "janitor.png");
+        ActorPanel panel = new ActorPanel(janitor, "cleaner.png");
 
         if(autoPlaceTo != null) {
             autoPlaceTo.AddJanitorView(panel);
