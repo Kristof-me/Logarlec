@@ -56,8 +56,10 @@ public class JanitorAI extends Controller<Janitor> {
         if(targetedRoom == null || actor.getLocation().equals(targetedRoom) 
             || !targetedRoom.getRoomEffects().stream().anyMatch(effect -> effect instanceof GasEffect)
             || GameManager.getInstance().getLastMapChange() - lastRefresh > 0
-            || GameManager.getInstance().getRooms().contains(targetedRoom) == false)
-            {
+            || !GameManager.getInstance().getRooms().contains(targetedRoom))
+        {
+            // Invalidate the current targetedRoom if it's not valid anymore
+            targetedRoom = null;
             
             List<Room> rooms = GameManager.getInstance().getRooms();
 
