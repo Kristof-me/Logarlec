@@ -3,3 +3,4 @@ app/bin/*
 output.puml
 out/*
 data/output/*
+.VSCodeCounter/*
