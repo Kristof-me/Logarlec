@@ -17,13 +17,12 @@ public class ProfessorAI extends Controller<Professor> {
     public void takeTurn() {
         Door nextDoor = getDoor();
         if(nextDoor == null){
-            // In this case tha janitor just skips the turn because there is a problem with the conncectivity of the rooms
+            // In this case the professor just skips the turn because there is a problem with the conncectivity of the rooms
             System.err.println("No door leads to that room! Professor could not move!");
             return;
         }
 
         boolean success = move(nextDoor);
-        System.err.println("Professor move success: " + success + " used door: " + nextDoor.toString());
     }
 
     @Override
