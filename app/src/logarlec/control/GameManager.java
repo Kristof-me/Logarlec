@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
+import javax.swing.JOptionPane;
+
 import logarlec.model.items.impl.SlideRule;
 import logarlec.model.room.*;
 import logarlec.view.frames.GameEndFrame;
@@ -180,42 +182,73 @@ public class GameManager {
         return currentPlayer;
     }
 
-    public void playTurn() {
+    public synchronized void playTurn() {
+        System.out.println("Playing turn (iterator has next?)" + playerIterator.hasNext());
         if (playerIterator.hasNext()) {
             currentPlayer = playerIterator.next();
             currentPlayer.getActor().tick();
 
-            if (currentPlayer.getActor().isAlive()){
+            if (currentPlayer.getActor().isAlive()) {
                 currentPlayer.takeTurn();
                 try {
+                    System.out.println("-- waiting --");
                     turnLatch.await();
+                    System.out.println("-- waiting ended --");
+                    turnLatch = new CountDownLatch(2);
                 }
                 catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-            turnLatch = new CountDownLatch(2);
         } else {
+            // counting the number of students alive
+            List<Player> playedLastRound = new ArrayList<>();
+
+            for (Player player : students) {
+                if (player.getActor().isAlive()) {
+                    playedLastRound.add(player);
+                }
+            }
+
+            // the ai turn
             aiTurn();
+            
+            // checking for deaths
+            String died = "";
+            
+            for (Player player : playedLastRound) {
+                if (!player.getActor().isAlive()) {
+                    died.concat(player.getActor().getName() + "(" + player.getActor().getLocation().getName() + ")\n");
+                }
+            }
+
+            if (died.length() > 0) {
+                died = died.substring(0, died.length() - 2);
+                JOptionPane.showMessageDialog(GameFrame.getInstance(), "The following students died\n: " + died, "Death", JOptionPane.PLAIN_MESSAGE);
+            }
+
             playerIterator = students.iterator();
             turnLatch = new CountDownLatch(2);
-            System.out.println("AI turn");
         }
     }
 
-    public void aiTurn() {
+    public synchronized void aiTurn() {
         for (ProfessorAI professor : professors) {
             professor.getActor().tick();
             professor.takeTurn();
             professor.takeTurn();
         }
-
+        System.out.println("1. AI ticked ?" + getStepCount());
+        
         for (JanitorAI janitor : janitors) {
             janitor.getActor().tick();
             janitor.takeTurn();
             janitor.takeTurn();
         }
+        
+        System.out.println("2. AI ticked ?" + getStepCount());
 
+        
         //if random is 10 then merge
         //if random is 10 then split
         if (App.random.nextDouble() * 100 < MERGE_PERCENT) {

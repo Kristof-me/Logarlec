@@ -39,7 +39,7 @@ public class EffectViewFactory {
     }
 
     public EffectPanel createPanel(StickyEffect stickyEffect) {
-        EffectPanel panel = new RoomEffectPanel(stickyEffect, "Everything stuck to the floor", "effect-sticky.png");
+        EffectPanel panel = new RoomEffectPanel(stickyEffect, "Everything stuck to the floor (after a visitor count)", "effect-sticky.png");
         stickyEffect.addListener(panel);
         return panel;
     }

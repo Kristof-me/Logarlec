@@ -28,7 +28,7 @@ public class Player extends Controller<Student> {
         actor.setColor(color);
     }
 
-    public void skipTurn() {
+    public synchronized void skipTurn() {
         long count = GameManager.getInstance().getStepCount();
         System.out.println("Skipping turn");
 

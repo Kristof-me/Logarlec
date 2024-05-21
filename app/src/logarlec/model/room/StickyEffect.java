@@ -7,7 +7,6 @@ import logarlec.model.actor.Actor;
 import logarlec.model.actor.Janitor;
 import logarlec.model.actor.Professor;
 import logarlec.model.actor.Student;
-import logarlec.view.observerviews.View;
 import logarlec.view.panels.EffectPanel;
 
 public class StickyEffect extends RoomEffect {
@@ -19,6 +18,7 @@ public class StickyEffect extends RoomEffect {
      */
     public StickyEffect(Room room) {
         super(room);
+        timeLeft = Integer.MAX_VALUE;
         stickyLimit = 5;
     }
 

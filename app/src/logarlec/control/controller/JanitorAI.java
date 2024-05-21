@@ -25,7 +25,8 @@ public class JanitorAI extends Controller<Janitor> {
         Room nextRoom = getNextRoom();
         Door nextDoor = getDoor(nextRoom);
 
-        move(nextDoor);
+        boolean success = move(nextDoor);
+        System.err.println("Janitor move success: " + success);
     }
 
     @Override

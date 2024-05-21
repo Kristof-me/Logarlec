@@ -46,8 +46,9 @@ public abstract class EffectPanel extends View {
         this.add(descriptionLabel, c);
     }
 
-    protected void setTurnsLeft(int turnsLeft) {
-        turnsLabel.setText("Turns left: " + turnsLeft); 
+    protected void setTurnsLeft(Integer turnsLeft) {
+        String displayed = turnsLeft == Integer.MAX_VALUE ? "∞" : turnsLeft.toString();
+        turnsLabel.setText("Turns left: " + displayed); 
 
         GameFrame.getInstance().getEffectListPanel().revalidate();
         GameFrame.getInstance().getEffectListPanel().repaint();
