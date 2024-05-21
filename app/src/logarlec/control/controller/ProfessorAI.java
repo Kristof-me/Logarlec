@@ -1,15 +1,29 @@
 package logarlec.control.controller;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import logarlec.model.actor.Professor;
+import logarlec.model.room.Door;
 
 public class ProfessorAI extends Controller<Professor> {    
+    private Random random = new Random();
+    
     public ProfessorAI() {
         super(new Professor());
     }
 
     @Override
     public void takeTurn() {
+        Door nextDoor = getDoor();
+        if(nextDoor == null){
+            // In this case tha janitor just skips the turn because there is a problem with the conncectivity of the rooms
+            System.err.println("No door leads to that room! Professor could not move!");
+            return;
+        }
 
+        boolean success = move(nextDoor);
+        System.err.println("Professor move success: " + success + " used door: " + nextDoor.toString());
     }
 
     @Override
@@ -17,4 +31,14 @@ public class ProfessorAI extends Controller<Professor> {
         return actor;
     }
     
+    /*
+     * Get a random door from the professors room
+     */
+    private Door getDoor(){
+        ArrayList<Door> allDoors = actor.getLocation().getDoors();
+        if (allDoors.isEmpty()) {
+            return null;
+        }
+        return allDoors.get(random.nextInt(allDoors.size()));
+    }
 }
