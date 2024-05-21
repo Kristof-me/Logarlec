@@ -22,6 +22,10 @@ public class MenuFrame extends JFrame {
      */
     private List<Player> players = new ArrayList<Player>();
     /**
+     * The panel that contains the player list.
+     */
+    private JPanel playerList;
+    /**
      * Creates a new menu frame.
      */
     public MenuFrame() {
@@ -40,7 +44,7 @@ public class MenuFrame extends JFrame {
         this.add(titleLabel, constraints);
 
         // Scrollpanel with player list
-        JPanel playerList = new JPanel();
+        playerList = new JPanel();
         playerList.setLayout(new BoxLayout(playerList, BoxLayout.Y_AXIS));
         playerList.setBackground(ThemeManager.TRACK);
         JScrollPane scrollPane = new JScrollPane(playerList);
@@ -143,5 +147,10 @@ public class MenuFrame extends JFrame {
         this.remove(panel);
         revalidate();
         repaint();
+    }
+
+    public void reset(){
+        players.clear();
+        playerList.removeAll();
     }
 }

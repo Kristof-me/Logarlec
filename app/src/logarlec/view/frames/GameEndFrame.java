@@ -55,6 +55,7 @@ public class GameEndFrame extends JFrame{
         // New game button
         CustomButton newGameButton = new CustomButton("New game", e -> {
             this.dispose();
+            returnToFrame.reset();
             returnToFrame.setVisible(true);
         });
         
