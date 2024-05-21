@@ -33,13 +33,17 @@ public class EffectViewFactory {
     }
 
     public EffectPanel createPanel(WetEffect wetEffect) {
-        EffectPanel panel = new RoomEffectPanel(wetEffect, "The professors are wet", "effect-wet.png");
+        EffectPanel panel = new RoomEffectPanel(wetEffect, "The board is wet", "effect-wet.png");
         wetEffect.addListener(panel);
         return panel;
     }
 
     public EffectPanel createPanel(StickyEffect stickyEffect) {
-        EffectPanel panel = new RoomEffectPanel(stickyEffect, "Everything stuck to the floor (after a visitor count)", "effect-sticky.png");
+        EffectPanel panel;
+        if (stickyEffect.getRoom().getIsSticky())
+            panel = new RoomEffectPanel(stickyEffect, "Everything is stuck to the floor", "effect-sticky.png");
+        else 
+            panel = new RoomEffectPanel(stickyEffect, "The floor is wet", "effect-sticky.png");    
         stickyEffect.addListener(panel);
         return panel;
     }

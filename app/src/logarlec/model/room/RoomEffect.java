@@ -21,6 +21,10 @@ public abstract class RoomEffect extends GameObject {
     protected Integer timeLeft = 10;
     protected Room room;
 
+    public Room getRoom() {
+        return room;
+    }
+
     /**
      * Decreases the time left for the effect. <br>
      * If the time left is zero or less, the effect has expired and <br>

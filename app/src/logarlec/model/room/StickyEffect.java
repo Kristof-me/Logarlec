@@ -18,6 +18,7 @@ public class StickyEffect extends RoomEffect {
      */
     public StickyEffect(Room room) {
         super(room);
+        room.setIsSticky(false);
         timeLeft = Integer.MAX_VALUE;
         stickyLimit = 5;
     }

@@ -28,7 +28,10 @@ public class Room extends GameObject implements IHasLocation {
     private List<RoomEffect> roomEffects = new ArrayList<>();
     private Inventory inventory;
 
-    private boolean isSticky = false;
+    //null means the room has not been cleaned, and the room is not sticky
+    //false means the room has been cleaned, but the room is not sticky yet
+    //true means the room has been cleaned, and the room is sticky
+    private Boolean isSticky = null;
 
     /**
      * Creates a new room with the given capacity (allowed players in the room at
@@ -241,7 +244,7 @@ public class Room extends GameObject implements IHasLocation {
      * @return the removed item
      */
     public Item removeItem(Item item) {
-        if(!isSticky){
+        if(isSticky == null || !isSticky){
             return inventory.removeItem(item);
         }
         return null;
@@ -371,7 +374,7 @@ public class Room extends GameObject implements IHasLocation {
      * Returns whether the room is sticky
      * @return whether the room is sticky
      */
-    public boolean getIsSticky() {
+    public Boolean getIsSticky() {
         return isSticky;
     }
 
@@ -379,7 +382,7 @@ public class Room extends GameObject implements IHasLocation {
      * Sets the room to be sticky
      * @param isSticky whether the room is sticky
      */
-    public void setIsSticky(boolean isSticky) {
+    public void setIsSticky(Boolean isSticky) {
         this.isSticky = isSticky;
     }
 

@@ -47,7 +47,7 @@ public class JanitorActions extends ActionState {
                         currentRoom.leave(actor);
                     }
                     newRoom.close(actor);
-                    newRoom.addEffect(new StickyEffect(newRoom));
+                    if (newRoom.getIsSticky() == null) newRoom.addEffect(new StickyEffect(newRoom));
                     return true;
                 }
         return false;
