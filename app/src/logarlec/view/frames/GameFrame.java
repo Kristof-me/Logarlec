@@ -11,15 +11,33 @@ import logarlec.view.utility.ThemeManager;
 
 import java.awt.*;
 
+/**
+ * The frame in which the game is displayed, singleton.
+ */
 public class GameFrame extends JFrame {
+    /**
+     * The singleton instance of the GameFrame.
+     */
     static GameFrame instance;
-
+    /**
+     * The label displaying the current room name.
+     */
     private JLabel roomLabel;
-
+    /**
+     * The panel displaying the effects on the player.
+     */
     private EffectListPanel effectListPanel;
+    /**
+     * The panel displaying the player.
+     */
     private PlayerPanel playerPanel;
+    /**
+     * The panel displaying the current room.
+     */
     private RoomPanel roomPanel;
-
+    /**
+     * Creates a new game frame.
+     */
     protected GameFrame() {
         super("Logarléc");
         this.setMinimumSize(new Dimension(900, 600));
@@ -49,7 +67,10 @@ public class GameFrame extends JFrame {
         rightPanel.add(effectScroll, BorderLayout.CENTER);
 
     }
-
+    /**
+     * Returns the singleton instance of the GameFrame.
+     * @return The singleton instance of the GameFrame.
+     */
     public static GameFrame getInstance() {
         if (instance == null) {
             instance = new GameFrame();
@@ -58,10 +79,10 @@ public class GameFrame extends JFrame {
     }
 
     /**
-     * If the player has changed rooms, recreate RoomPanel and EffectListPanel
+     * The PlayerPanel calls this method when the player is updated.
+     * If the player has moved, the room and effect list is updated.
      */
     public void updateStudent() {
-        // todo - im doing it mom
         if (playerPanel == null) return;
         if (playerPanel.getViewedPlayer().getLocation() != roomPanel.getRoom()) {
             remove(roomPanel.removeView());
@@ -73,7 +94,10 @@ public class GameFrame extends JFrame {
             this.revalidate();
         }
     }
-
+    /**
+     * Sets the player panel to the given player panel, and recreates the room panel and effect list based on the player.
+     * @param playerPanel - the player panel to set.
+     */
     public void setPlayerPanel(PlayerPanel playerPanel) {
         if (this.playerPanel != null) {
             this.remove(this.playerPanel);
@@ -101,6 +125,10 @@ public class GameFrame extends JFrame {
         this.repaint();
     }
 
+    /**
+     * Returns the effect list panel.
+     * @return The effect list panel.
+     */
     public EffectListPanel getEffectListPanel() {
         return effectListPanel;
     }

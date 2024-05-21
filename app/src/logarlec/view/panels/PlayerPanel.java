@@ -11,17 +11,37 @@ import logarlec.view.utility.ThemeManager;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
-
+/**
+ * A panel displaying the current player's name, inventory and an end turn button
+ */
 public class PlayerPanel extends View {
+    /**
+     * The student lof the player to display
+     */
     protected Student viewedPlayer;
-
+    /**
+     * Gets the student being displayed
+     * @return The student being displayed
+     */
     public Student getViewedPlayer() {
         return viewedPlayer;
     }
-
+    /**
+     * The label displaying the player's name
+     */
     protected JLabel nameLabel;
+    /**
+     * The panel displaying the player's inventory
+     */
     protected InventoryPanel inventoryPanel;
+    /**
+     * The button that allows the player to end their turn early
+     */
     CustomButton endTurnButton;
+    /**
+     * Creates a new player panel
+     * @param student The student to display
+     */
     public PlayerPanel(Student student) {
         super();
         this.viewedPlayer = student;
@@ -61,7 +81,7 @@ public class PlayerPanel extends View {
         c.weighty = 1;
         c.fill = GridBagConstraints.VERTICAL;
         c.anchor = GridBagConstraints.EAST;
-
+        //Create the end turn button
         endTurnButton = new CustomButton("End Turn (" + GameManager.getInstance().getStepCount() + ")", e -> {
                  GameManager.getInstance().getCurrentPlayer().skipTurn();
                 });
@@ -75,13 +95,16 @@ public class PlayerPanel extends View {
         nameLabel.setForeground(ColorGenerator.getInstance().getForegroundColor(student.getColor()));
         nameLabel.setFont(ThemeManager.getInstance().getFont(Font.ITALIC, 18));
     }
-
+    /**
+     * Updates the view to reflect the current state of the observed student, calls the updateStudent of the GameFrame.
+     * Also sets the text of the end turn button to reflect the current remaining step count.
+     */
     @Override
     public void updateView() {
         endTurnButton.setText("End Turn (" + GameManager.getInstance().getStepCount() + ")");
         GameFrame.getInstance().updateStudent();
     }
-
+    
     @Override
     public View removeView() {
         if (inventoryPanel != null)

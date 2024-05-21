@@ -14,8 +14,15 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
 import logarlec.model.actor.Actor;
-
+/**
+ * A panel displaying an actor in a room
+ */
 public class ActorPanel extends View {
+    /**
+     * Creates a new actor panel
+     * @param actor The actor to display
+     * @param icon The icon to display next to the actor
+     */
     public ActorPanel(Actor actor, String icon) {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints(GridBagConstraints.RELATIVE, 0, 1, 1, 0, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 0, 5), 0, 0);
@@ -29,6 +36,7 @@ public class ActorPanel extends View {
         nameLabel.setFont(ThemeManager.getInstance().getFont(20));
         nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 
+        //Dead actors are displayed with a strike-through
         if (actor.isAlive()) {
             nameLabel.setForeground(actor.getColor());
         } else {

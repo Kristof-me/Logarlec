@@ -12,10 +12,19 @@ import logarlec.view.utility.IconLoader;
 import logarlec.view.utility.ThemeManager;
 
 import java.awt.*;
-
+/**
+ * A panel displaying a player in the menu
+ */
 public class MenuPlayerPanel extends JPanel{
+    /**
+     * The player to display
+     */
     private Player player;
-    
+    /**
+     * Creates a new player panel
+     * @param player The player to display
+     * @param menu The menu frame that contains the player
+     */
     public MenuPlayerPanel(Player player, MenuFrame menu){
         super();
         Color panelColor = new Color(180, 180, 180);
@@ -50,7 +59,7 @@ public class MenuPlayerPanel extends JPanel{
         });
         
         this.add(name, constraints);
-
+        //Refresh button to generate a new color
         constraints.fill = GridBagConstraints.NONE;
         constraints.weightx = 0;
         CustomButton reset = new CustomButton(IconLoader.getInstance().getIcon("refresh.png", 20), e -> {
@@ -61,7 +70,7 @@ public class MenuPlayerPanel extends JPanel{
         reset.setPreferredSize(new Dimension(20, 20));
         this.add(reset, constraints);
         reset.makeOpaque(false);
-
+        //Delete button to remove the player
         constraints.fill = GridBagConstraints.NONE;
         CustomButton delete = new CustomButton(IconLoader.getInstance().getIcon("close.png", 20), e -> {
             menu.deletePlayer(player, this);
@@ -73,7 +82,9 @@ public class MenuPlayerPanel extends JPanel{
 
         drawBorder();
     }
-
+    /**
+     * Draws a border around the panel with the players color
+     */
     private void drawBorder() {
         setBorder(new CompoundBorder(
             BorderFactory.createLineBorder(ThemeManager.TRACK, 2), 

@@ -13,10 +13,17 @@ import java.util.List;
 import java.util.ArrayList;
 import java.awt.*;
 
-
+/**
+ * The frame in which the menu is displayed.
+ */
 public class MenuFrame extends JFrame {
+    /**
+     * The list of players added to play the game.
+     */
     private List<Player> players = new ArrayList<Player>();
-
+    /**
+     * Creates a new menu frame.
+     */
     public MenuFrame() {
         super("Logarléc");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -30,14 +37,12 @@ public class MenuFrame extends JFrame {
         // Title label
         JLabel titleLabel = new JLabel("LOGARLÉC", JLabel.CENTER);
         titleLabel.setFont(ThemeManager.getInstance().getFont(Font.BOLD, 28));
-
         this.add(titleLabel, constraints);
 
-        // Create a scrollable panel to hold the player panels in a vertical layout and has a vertical scrollbar, with a maximum height of 300 pixels
+        // Scrollpanel with player list
         JPanel playerList = new JPanel();
         playerList.setLayout(new BoxLayout(playerList, BoxLayout.Y_AXIS));
         playerList.setBackground(ThemeManager.TRACK);
-
         JScrollPane scrollPane = new JScrollPane(playerList);
         scrollPane.getVerticalScrollBar().setUI(new ScrollUI());
         scrollPane.setMinimumSize(new Dimension(300, 140));
@@ -50,13 +55,12 @@ public class MenuFrame extends JFrame {
             playerList.add(new MenuPlayerPanel(player, this));
         }
         
-        // Add the scroll pane to the frame
         constraints.insets = new Insets(0, 5, 0, 5);
         this.add(scrollPane, constraints);
 
-        //create three new buttons below the scroll pane, each in a new row
+        //Buttons
         constraints.insets = new Insets(10, 5, 10, 5);
-
+        //Add player button
         CustomButton addPlayer = new CustomButton("Add Player", e -> {
             players.add(new Player());
             playerList.add(new MenuPlayerPanel(players.get(players.size() - 1), this));
@@ -66,25 +70,26 @@ public class MenuFrame extends JFrame {
 
             super.paintComponents(getGraphics());
         });
-        
+
+        // Filler to follow UI design
         constraints.fill = GridBagConstraints.VERTICAL;
         addPlayer.setExpectedSize(new Dimension(240, 21));
         addPlayer.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
         this.add(addPlayer, constraints);
+        this.add(new JPanel(), constraints);  
         
-        
-        this.add(new JPanel(), constraints);  // Add a filler component
-        
-        // Add the "Start Game" button
+        // Start Game button
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.insets = new Insets(0, 5, 0, 5);  // Remove bottom inset
         constraints.anchor = GridBagConstraints.SOUTH;
         
         CustomButton startGame = new CustomButton("Start", e -> {
+            //No players should not be able to play
             if (players.size() < 1) {
                 JOptionPane.showMessageDialog(this, "You must have at least one player to start the game.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            //Everyone has to have a name
             boolean hasEmptyName = false;
             for (Player player : players) {
                 if (player.getActor().getName().isBlank()) {
@@ -96,16 +101,15 @@ public class MenuFrame extends JFrame {
                 JOptionPane.showMessageDialog(this, "All players must have a name to start the game.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
+            //If everything is fine, start the game
             createGame(false);
         });
-
         startGame.setFont(ThemeManager.getInstance().getFont(Font.BOLD, 18));
         startGame.setBackground(ThemeManager.ACCENT);
         startGame.setBorder(BorderFactory.createLineBorder(new Color(12, 167, 137), 4));
         this.add(startGame, constraints);
 
-        // Add the "Exit" button
+        //Exit button
         constraints.insets = new Insets(10, 5, 5, 5);  // Remove top inset
         
         CustomButton exit = new CustomButton("Exit", e -> {
@@ -115,7 +119,10 @@ public class MenuFrame extends JFrame {
         exit.setFont(ThemeManager.getInstance().getFont(Font.BOLD, 18));
         this.add(exit, constraints);
     }
-
+    /**
+     * Creates a new game with the players added to the menu.
+     * @param resetPlayers - whether the players should be reset.
+     */
     public void createGame(boolean resetPlayers) {
         GameManager.getInstance().reset();
             for (Player player : players) {
@@ -126,7 +133,11 @@ public class MenuFrame extends JFrame {
 
             GameManager.getInstance().startGame(this);
     }
-
+    /**
+     * Deletes a player from the menu.
+     * @param player - the player to delete.
+     * @param panel - the panel to remove.
+     */
     public void deletePlayer(Player player, MenuPlayerPanel panel) {
         players.remove(player);
         this.remove(panel);

@@ -13,12 +13,21 @@ import logarlec.control.GameManager;
 import logarlec.control.controller.Player;
 
 /**
- * DoorPanel
+ * A panel displaying a door
  */
 public class DoorPanel extends View {
+    /**
+     * The door to display
+     */
     private Door door;
+    /**
+     * The button that allows the player to move through the door
+     */
     private CustomButton button;
-
+    /**
+     * Creates a new door panel
+     * @param door The door to display
+     */
     public DoorPanel(Door door) {
         this.setLayout(new GridLayout(2, 1));
         this.door = door;
@@ -27,9 +36,12 @@ public class DoorPanel extends View {
         setMaximumSize(new Dimension(85, 85));
         setBackground(ThemeManager.BUTTON);
     }
-
+    /**
+     * Binds the room to the panel, allowing us to display the opposite room name below the icon
+     * @param room The room to bind, which is the room from which the door is viewed
+     */
     public void bindRoom(Room room) {
-        if (door.leadsTo(room) == null) return;
+        if (door.leadsTo(room) == null) return; //If the door leads to nowhere, don't display it (it's a one-way door)
         if (button != null)
             remove(button);
 
@@ -37,7 +49,7 @@ public class DoorPanel extends View {
             Player player = GameManager.getInstance().getCurrentPlayer();
             boolean success = player.move(door);
             
-            
+            //If the player moved successfully and a student died, display a message
             Student student = player.getActor();
             if(success && !student.isAlive()) {
                 JOptionPane.showMessageDialog(this, "\"" + student.getName() + "\" died in room " + student.getLocation().getName(), "Death", JOptionPane.PLAIN_MESSAGE);

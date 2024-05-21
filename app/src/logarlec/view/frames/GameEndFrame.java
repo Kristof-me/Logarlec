@@ -14,7 +14,15 @@ import javax.swing.JLabel;
 import logarlec.view.elements.CustomButton;
 import logarlec.view.utility.ThemeManager;
 
+/**
+ * A frame that is displayed when the game ends.
+ */
 public class GameEndFrame extends JFrame{
+    /**
+     * Creates a new game end frame.
+     * @param returnToFrame The menu frame to return to, used either to restart the game, return to the menu or close on exit.
+     * @param isWon Whether the game was won or lost.
+     */
     public GameEndFrame(MenuFrame returnToFrame, boolean isWon) {
         super("Game Over");
         this.setSize(400, 280);
@@ -65,6 +73,11 @@ public class GameEndFrame extends JFrame{
         this.add(exitButton, gbc);
     }
 
+    /**
+     * Customizes the button with the given color.
+     * @param button The button to customize.
+     * @param color The color to apply to the button.
+     */
     private void customizeButton (CustomButton button, Color color) {
         button.setBackground(color);
         button.setBorder(BorderFactory.createLineBorder(color, 3));

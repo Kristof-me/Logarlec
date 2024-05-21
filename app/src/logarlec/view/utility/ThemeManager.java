@@ -11,8 +11,13 @@ import java.util.Arrays;
 
 import logarlec.view.elements.ScrollUI;
 
-
+/**
+ * A class that manages the theme of the application, singleton
+ */
 public class ThemeManager {
+    /**
+     * The singleton instance of the theme manager
+     */
     private static ThemeManager instance;
 
     // COLORS
