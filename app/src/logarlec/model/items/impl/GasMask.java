@@ -11,7 +11,9 @@ import logarlec.model.items.ItemVisitor;
  */
 public class GasMask extends Item {
 
-    public GasMask() { }
+    public GasMask() { 
+        super(5);
+    }
 
     public GasMask(Integer usesLeft){
         super(usesLeft);

@@ -34,13 +34,10 @@ public class JanitorAI extends Controller<Janitor> {
         Door nextDoor = getDoor(nextRoom);
         if(nextDoor == null){
             // In this case tha janitor just skips the turn because there is a problem with the conncectivity of the rooms
-            System.err.println("No door leads to that room! Janitor could not move!");
             return;
         }
 
         boolean success = move(nextDoor);
-        System.err.println("Janitor move success: " + success + " to room: " + nextRoom.getName());
-        System.err.println("Janitor is headed to: " + targetedRoom.getName());
     }
 
     @Override
@@ -81,9 +78,6 @@ public class JanitorAI extends Controller<Janitor> {
             }
             
             int index = rooms.indexOf(actor.getLocation());
-            if(index == -1){
-                System.err.println("Actor is not in any room!");
-            }
             DijkstraResult result = getDistances(mtx, index);
             reachedFrom = result.reachedFrom;
             
@@ -112,9 +106,6 @@ public class JanitorAI extends Controller<Janitor> {
     Room getNextRoom() {
         List<Room> rooms = GameManager.getInstance().getRooms();
         int index = rooms.indexOf(actor.getLocation());
-        if(index == -1 || rooms.indexOf(targetedRoom) == -1){
-            System.err.println("Actor is not in any room!");
-        }
         int nextIndex = firstStepTo(index, rooms.indexOf(targetedRoom), reachedFrom);
 
         return rooms.get(nextIndex);

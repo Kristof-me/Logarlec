@@ -102,7 +102,6 @@ public class GameFrame extends JFrame {
         if (this.playerPanel != null) {
             this.remove(this.playerPanel);
         }
-        System.out.println("Setting player panel");
         this.playerPanel = playerPanel;
         Student player = playerPanel.getViewedPlayer();
 

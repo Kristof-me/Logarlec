@@ -30,7 +30,6 @@ public class Player extends Controller<Student> {
 
     public synchronized void skipTurn() {
         long count = GameManager.getInstance().getStepCount();
-        System.out.println("Skipping turn");
 
         if(count == 0) { // sometimes this actually happens
             GameManager.getInstance().takeStep();

@@ -35,7 +35,6 @@ public class BeerDefense extends DefenseStrategy {
     public boolean tick() {
         remaining--;
         update();
-        System.out.println("Beer defense remaining: " + remaining);
         return remaining > 0;
     }
 

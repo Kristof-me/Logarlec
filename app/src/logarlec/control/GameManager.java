@@ -124,7 +124,6 @@ public class GameManager {
             int n = (random.nextInt(professorNames.length));
             professor.getActor().setName(professorNames[n]);
             Room t = mapManager.getRandomEmptyRoom();
-            System.out.println("Professor " + professor.getActor().getName() + " in " + t.getId());
             professor.getActor().teleport(t, false);
         }
 
@@ -141,18 +140,15 @@ public class GameManager {
             Room t = mapManager.getRandomEmptyRoom();
             janitor.getActor().setName(String.format("%s - Janitor of the %s", janitorNames[n], janitorLocations[l]));
             janitor.getActor().teleport(t, false);
-            System.out.println("Janitor " + janitor.getActor().getName() + " in " + t.getId());
         }
 
         playerIterator = students.iterator();
         GameFrame gameFrame = GameFrame.getInstance();
         new Thread(() -> gameFrame.setVisible(true)).start();
         while (!isGameOver()) {
-            System.out.println("Tick " + currentTick);
             playTurn();
         }
 
-        System.out.println("Game over");
         GameEndFrame gameEndFrame = new GameEndFrame(menuFrame, isWon());
         gameEndFrame.setVisible(true);
         gameFrame.setVisible(false);
@@ -165,7 +161,6 @@ public class GameManager {
     }
 
     public void takeStep() {
-        System.out.println("Step taken");
         turnLatch.countDown();
     }
 
@@ -175,7 +170,6 @@ public class GameManager {
     }
 
     public synchronized void playTurn() {
-        System.out.println("Playing turn (iterator has next?)" + playerIterator.hasNext());
         if (playerIterator.hasNext()) {
             currentPlayer = playerIterator.next();
             currentPlayer.getActor().tick();
@@ -183,9 +177,7 @@ public class GameManager {
             if (currentPlayer.getActor().isAlive()) {
                 currentPlayer.takeTurn();
                 try {
-                    System.out.println("-- waiting --");
                     turnLatch.await();
-                    System.out.println("-- waiting ended --");
                     turnLatch = new CountDownLatch(2);
                 }
                 catch (InterruptedException e) {
@@ -230,7 +222,6 @@ public class GameManager {
             professor.takeTurn();
             professor.takeTurn();
         }
-        System.out.println("1. AI ticked ? " + getStepCount());
         
         for (JanitorAI janitor : janitors) {
             janitor.getActor().tick();
@@ -238,7 +229,6 @@ public class GameManager {
             janitor.takeTurn();
         }
         
-        System.out.println("2. AI ticked ? " + getStepCount());
 
         
         //if random is 10 then merge
